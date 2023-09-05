@@ -285,7 +285,7 @@
                             <li class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span
-                                ><span class="mtext">Document Manager</span>
+                                ><span class="mtext">Documents Manager</span>
                                 </a>
                                 <ul class="submenu">
                                     <li><a href="manage_documents.php?doc=assign_doc">Assigned Documents</a></li>
