@@ -238,21 +238,21 @@ if(isset($_POST['loan_application'])){
                 }
                 $_SESSION['error'] = "Failed. Please try again, ".$val;
                 audits($_SESSION['userid'], "Client Loan Application failed", $_SESSION['branch']);
-                header('location: create_new_loan.php');
+                header('location: loan_applications.php?state=apply');
                 break;
             case 401: # Unauthorixed - Bad credientials
                 $_SESSION['error'] = 'Application failed.. Please try again!';
                 audits($_SESSION['userid'], "Client Loan Application failed", $_SESSION['branch']);
-                header('location: create_new_loan.php');
+                header('location: loan_applications.php?state=apply');
                 break;
             default:
                 $_SESSION['error'] = 'Not able to send application'. "\n";
-                header('location: create_new_loan.php');
+                header('location: loan_applications.php?state=apply');
         }
     } else {
         $_SESSION['error'] = 'Application failed.. Please try again!'. "\n";
         audits($_SESSION['userid'], "Client Loan Application failed", $_SESSION['branch']);
-        header('location: create_new_loan.php');
+        header('location: loan_applications.php?state=apply');
     }
 //    curl_close($ch);
     $decoded = json_decode($resp, true);
@@ -1814,5 +1814,280 @@ if(isset($_POST['fin_sign_ticket'])) {
         endforeach;
     }
 }
+
+// ######################  Get ALL REQUISITIONS #################################
+
+function requisitions($url){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/requisitions'.$url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $loans_response = curl_exec($ch);
+    curl_close($ch);
+    $requisitions = json_decode($loans_response, true);
+    return $requisitions;
+}
+
+// ######################  Get Transactions for a REQUISITION #################################
+
+function req_trans($url){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/poTransactions'.$url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $loans_response = curl_exec($ch);
+    curl_close($ch);
+    $req_trans = json_decode($loans_response, true);
+    return $req_trans;
+}
+
+// ######################  Add Transaction to a REQUISITION #################################
+
+if(isset($_POST['add_req_trans'])) {
+    $url = "http://localhost:7878/api/utg/poTransactions";
+    $data_array = array(
+        'poItem' => $_POST['item'],
+        'poSupplier' => $_POST['supplier'],
+        'poCategory' => $_POST['category'],
+        'poQuantity' => $_POST['quantity'],
+        'poAmount' => $_POST['amount'],
+        'poRequisitionId' => $_POST['req_id']
+    );
+
+    $data = json_encode($data_array);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+    $resp = curl_exec($ch);
+
+    // convert headers to array
+    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($resp, 0, $headerSize);
+    $bodyStr = substr($resp, $headerSize);
+    $headers = headersToArray( $headerStr );
+
+    // Check HTTP status code
+    if (!curl_errno($ch)) {
+        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+            case 200:
+                $_SESSION['info'] = "Purchase Order Transaction created Successfully";
+                audit($_SESSION['userid'], "Purchase Order Transaction created Successfully", $_SESSION['branch']);
+                header('location: req_info.php?menu=req&req_id='.$_POST['req_id']);
+                break;
+            default:
+                $_SESSION['error'] = 'Failed to create PO Transaction.';
+                audit($_SESSION['userid'], "Failed to create Purchase Order Transaction", $_SESSION['branch']);
+                header('location: req_info.php?menu=req&req_id='.$_POST['req_id']);
+        }
+    } else {
+        $_SESSION['error'] = 'Failed to Add Purchase Order Transaction.. Please try again!';
+        audit($_SESSION['userid'], "Failed to create Purchase Order Transaction", $_SESSION['branch']);
+        header('location: req_info.php?menu=req&req_id='.$_POST['req_id']);
+    }
+    curl_close($ch);
+
+}
+
+// ######################  Add Transaction to a REQUISITION #################################
+
+function save_requisition(){
+        // Gather form data
+    $requisitionId = $_POST['req_id'];
+    $notes = $_POST['notes'];
+    $approvers = $_POST['approvers']; // $approvers will be an array of selected values
+
+    // Initialize an array to store attachment file names
+    $attachmentFiles = array();
+
+    // Loop through the uploaded files
+    foreach ($_FILES['attachments']['tmp_name'] as $key => $tmp_name) {
+        $file_name = $_FILES['attachments']['name'][$key];
+        $file_tmp = $_FILES['attachments']['tmp_name'][$key];
+
+        // Check if a file was uploaded successfully
+        if ($file_name != "") {
+            $temp = explode(".", $file_name);
+            $attachment = pathinfo($file_name, PATHINFO_FILENAME) . '_' . date('Y.m.d') . '.' . end($temp);
+            $uploadfile = '../includes/file_uploads/purchase_order/' . $attachment;
+
+            // Move the uploaded file to the destination folder
+            if (move_uploaded_file($file_tmp, $uploadfile)) {
+                $attachmentFiles[] = $uploadfile;
+            }
+        }
+    }
+
+    // Print the paths of the moved files
+    $systemOut = "Attachments: " . $attachmentFiles;
+    $systemOuts = "Approvers: " . $approvers;
+
+    // Build the data array with attachment file names
+    $data_array = array(
+        'notes' => $notes,
+        'approvers' => $approvers,
+        'attachments' => $attachmentFiles
+    );
+
+    // Convert the data array to JSON
+    $data = json_encode($data_array);
+
+    $url = "http://localhost:7878/api/utg/requisitions/" . $requisitionId;
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HEADER, true);
+
+    // Execute cURL request
+    $response = curl_exec($curl);
+    $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($response, 0, $headerSize);
+    $bodyStr = substr($response, $headerSize);
+    $headers = headersToArray($headerStr);
+
+    // Check for errors
+    if (!curl_errno($curl)) {
+        switch ($http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE)) {
+            case 200:
+//                echo "<script>alert('$systemOut')</script>";
+                $_SESSION['info'] = "Purchase Order Transaction updated Successfully";
+                audit($_SESSION['userid'], "Purchase Order Transaction updated Successfully", $_SESSION['branch']);
+                header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+                break;
+            default:
+                $_SESSION['error'] = 'Failed to update PO Transaction.';
+                audit($_SESSION['userid'], "Failed to update Purchase Order Transaction", $_SESSION['branch']);
+                header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+        }
+    } else {
+        $_SESSION['error'] = 'Failed to update Purchase Order Transaction.. Please try again!';
+        audit($_SESSION['userid'], "Failed to update Purchase Order Transaction", $_SESSION['branch']);
+        header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+    }
+    curl_close($curl);
+}
+
+if (isset($_POST['save_requisition'])) {
+    save_requisition();
+}
+
+function send_requisition(){
+    // Gather form data
+    $requisitionId = $_POST['req_id'];
+    $notes = $_POST['notes'];
+    $approvers = $_POST['approvers']; // $approvers will be an array of selected values
+    $po_number = $_POST['poNumber'];
+
+    // Initialize an array to store attachment file names
+    $attachmentFiles = array();
+
+    // Loop through the uploaded files
+    foreach ($_FILES['attachments']['tmp_name'] as $key => $tmp_name) {
+        $file_name = $_FILES['attachments']['name'][$key];
+        $file_tmp = $_FILES['attachments']['tmp_name'][$key];
+
+        // Check if a file was uploaded successfully
+        if ($file_name != "") {
+            $temp = explode(".", $file_name);
+            $attachment = pathinfo($file_name, PATHINFO_FILENAME) . '_' . date('Y.m.d') . '.' . end($temp);
+            $uploadfile = '../includes/file_uploads/purchase_order/' . $attachment;
+
+            // Move the uploaded file to the destination folder
+            if (move_uploaded_file($file_tmp, $uploadfile)) {
+                $attachmentFiles[] = $uploadfile;
+            }
+        }
+    }
+
+    // Print the paths of the moved files
+    $systemOut = "Attachments: " . $attachmentFiles;
+    $systemOuts = "Approvers: " . $approvers;
+
+    // Build the data array with attachment file names
+    $data_array = array(
+        'notes' => $notes,
+        'approvers' => $approvers,
+        'attachments' => $attachmentFiles
+    );
+
+    // Convert the data array to JSON
+    $data = json_encode($data_array);
+
+    $url = "http://localhost:7878/api/utg/requisitions/" . $requisitionId;
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HEADER, true);
+
+    // Execute cURL request
+    $response = curl_exec($curl);
+    $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($response, 0, $headerSize);
+    $bodyStr = substr($response, $headerSize);
+    $headers = headersToArray($headerStr);
+
+    // Check for errors
+    if (!curl_errno($curl)) {
+        switch ($http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE)) {
+            case 200:
+
+                $user_email = []; // Initialize an empty array to store email addresses
+
+                foreach ($approvers as $user_id){
+                    $user = user($user_id);
+                    $user_email[] = $user['contactDetail']['emailAddress']; // Append each email address to the array
+                }
+
+                $url = "http://localhost:7878/api/utg/credit_application/sendBulkEmail";
+                $data_array = array(
+                    'recipients' => $user_email,
+                    'subject' => "Purchase Order Request: $po_number",
+                    'message' => "A Purchase Order requiring your approval is currently pending for your approval. Please log in to the CMS and access the Purchase Order section on the sidebar to review it. We value your prompt consideration of this request."
+                );
+
+
+                $data = json_encode($data_array);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HEADER, true );
+                $resp = curl_exec($ch);
+
+
+
+
+                $_SESSION['info'] = "Purchase Order Transaction updated Successfully";
+                audit($_SESSION['userid'], "Purchase Order Transaction updated Successfully", $_SESSION['branch']);
+                header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+                break;
+            default:
+                $_SESSION['error'] = 'Failed to update PO Transaction.';
+                audit($_SESSION['userid'], "Failed to update Purchase Order Transaction", $_SESSION['branch']);
+                header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+        }
+    } else {
+        $_SESSION['error'] = 'Failed to update Purchase Order Transaction.. Please try again!';
+        audit($_SESSION['userid'], "Failed to update Purchase Order Transaction", $_SESSION['branch']);
+        header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+    }
+    curl_close($curl);
+}
+
+if (isset($_POST['send_requisition'])) {
+    send_requisition();
+}
+
 
 ?>

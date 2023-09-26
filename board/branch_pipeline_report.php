@@ -1,32 +1,13 @@
 <?php
-    include('../session/session.php');
-    include('../includes/fpdf/fpdf.php');
-    include('../includes/controllers.php')
-?>
+	include('../session/session.php');
+	include('charts_data.php');
 
-<?php
-	$nav_header = "Tickets Signing";
+	$nav_header = "Dashboard";
+    $bp_title = "Branch Loan Book Movement";
+    $lop_title = "Loan Officer Productivity";
 
-    if(isset($_POST['submit'])){
-        if(!empty($_POST['checkArr'])){
-            foreach($_POST['checkArr'] as $checked){
-                echo $checked."</br>";
-            }
-        }
-    }
-
-	// small widgets titles
-	$widget_title = ["4", "3", "2", "1", "2", "12"];
-
-	// small widgets descriptions
-	$widget_descr = ["Tickets to be signed: Harare", "Tickets to be signed: HarareA", "Tickets to be signed: Bulawayo", "Tickets to be signed: Gweru", "Tickets to be signed: Gokwe", "Total Tickets to be signed"];
-
-    $sign_ticket = '/bmSignature/Signed/'.$_SESSION['branch'];
-    $signature = 'bmSignature';
-    $decline_ticket = 'Declined';
-    $ca_decline_ticket = '/caSignature/Declined';
-
-
+	include('../includes/controllers.php');	
+	
 ?>
 
 <!DOCTYPE html>
@@ -51,12 +32,17 @@
 
 		<div class="main-container">
 			<div class="pd-ltr-20">
-					
 				<?php include('../includes/dashboard/topbar_widget.php'); ?>
 					
-				<?php include('../includes/dashboard/lead_summary_widget.php'); ?>
+				<?php include('../includes/forms/pipeline_report_date_range.php'); ?>
 
-				<?php include('../includes/tables/signed_tickets_table.php'); ?>
+				<?php //include('../includes/dashboard/branches_productivity_widget.php'); ?>
+
+		        <?php //include('../includes/tables/pipeline_summary_table.php'); ?>
+					
+				<?php include('../includes/dashboard/lo_productivity_bar_graph.php'); ?>
+				
+				<?php include('../includes/tables/pipeline_branch_table.php'); ?>
 
 				<?php include('../includes/footer.php');?>
 			</div>
@@ -72,7 +58,24 @@
 		<script src="../src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
 		<script src="../src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 		<script src="../src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
-		<script src="../vendors/scripts/dashboard.js"></script>
+		<script>
+			var branch = <?php echo json_encode($branches); ?>
+			var color = <?php echo json_encode($colors); ?>
+			var data = <?php echo json_encode($dataJson); ?>
+		</script>
+		<script src="../src/plugins/jQuery-Knob-master/jquery.knob.min.js"></script>
+		<script src="../src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
+		<script src="../src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
+
+        <script src="../src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
+		<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+		<script src="../src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
+		<script src="../vendors/scripts/highchart-setting.js"></script>
+
+        <script src="../src/plugins/jvectormap/jquery-jvectormap-2.0.3.min.js"></script>
+		<script src="../src/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+		<script src="../vendors/scripts/dashboard2.js"></script>
+		<script src="../vendors/scripts/dashboard3.js"></script>
 
 		<!-- buttons for Export datatable -->
 		<script src="../src/plugins/datatables/js/dataTables.buttons.min.js"></script>
@@ -84,6 +87,8 @@
 		<script src="../src/plugins/datatables/js/vfs_fonts.js"></script>
 		<!-- Datatable Setting js -->
 		<script src="../vendors/scripts/datatable-setting.js"></script>
+		
+
 		
 		<!-- Google Tag Manager (noscript) -->
 		<noscript

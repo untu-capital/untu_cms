@@ -1,32 +1,17 @@
 <?php
-    include('../session/session.php');
-    include('../includes/fpdf/fpdf.php');
-    include('../includes/controllers.php')
-?>
-
-<?php
-	$nav_header = "Tickets Signing";
-
-    if(isset($_POST['submit'])){
-        if(!empty($_POST['checkArr'])){
-            foreach($_POST['checkArr'] as $checked){
-                echo $checked."</br>";
-            }
-        }
-    }
+	include('../session/session.php');
+	include('../includes/controllers.php');
+	$nav_header = "PreDisbursed Ticket(s) Signing";
 
 	// small widgets titles
 	$widget_title = ["4", "3", "2", "1", "2", "12"];
 
 	// small widgets descriptions
-	$widget_descr = ["Tickets to be signed: Harare", "Tickets to be signed: HarareA", "Tickets to be signed: Bulawayo", "Tickets to be signed: Gweru", "Tickets to be signed: Gokwe", "Total Tickets to be signed"];
+	$widget_descr = ["Tickets Signed: Harare", "Tickets Signed: HarareA", "Tickets Signed: Bulawayo", "Tickets Signed: Gweru", "Tickets Signed: Gokwe", "Total Tickets Signed"];
 
-    $sign_ticket = '/bmSignature/Signed/'.$_SESSION['branch'];
-    $signature = 'bmSignature';
-    $decline_ticket = 'Declined';
-    $ca_decline_ticket = '/caSignature/Declined';
-
-
+    $sign_ticket = '/cmTicketNotSigned/ACCEPTED/completed/Signed/Unsigned';
+    $xxSignature = 'cmSignature';
+    $xx_sign_ticket = 'cm_sign_ticket';
 ?>
 
 <!DOCTYPE html>
@@ -56,7 +41,7 @@
 					
 				<?php include('../includes/dashboard/lead_summary_widget.php'); ?>
 
-				<?php include('../includes/tables/signed_tickets_table.php'); ?>
+				<?php include('../includes/tables/ticket_signing_table.php'); ?>
 
 				<?php include('../includes/footer.php');?>
 			</div>

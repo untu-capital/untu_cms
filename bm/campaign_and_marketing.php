@@ -40,7 +40,7 @@ include('../includes/header.php');
         <?php } elseif ($_GET['menu'] == "add_campaign") {?>
             <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
                 <div class="pd-20 card-box">
-                    <?php include('../includes/forms/create_campaign.php'); ?>
+                    <?php include('../includes/forms/edit_requisition.php'); ?>
                 </div>
             </div>
         <?php } ?>

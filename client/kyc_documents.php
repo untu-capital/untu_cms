@@ -12,10 +12,7 @@ include('../includes/header.php');
 ?>
 	<!-- HTML HEAD -->
 	<?php
-
-
-
-		$resp = "";
+        $resp = "";
 		if (isset($_POST['Upload'])) {
 			if(isset($_FILES['file']['name'])){
 				$uploadfile = '../includes/file_uploads/clients/'.basename($_FILES['file']['name']);
@@ -45,10 +42,6 @@ include('../includes/header.php');
 				}
 			}
 		}
-
-
-
-
 	?>
 
 	<!-- /HTML HEAD -->

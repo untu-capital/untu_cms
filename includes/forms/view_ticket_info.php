@@ -360,31 +360,53 @@
 
                                     <div class="col-md-4">
                                         <a class="list-group-item"><b>Prepared By </b>: <?php echo $boco_signature; ?></a>
-                                        <a class="list-group-item"><b style="padding-right: 5px;">Signed by Branch Manager</b>:  <?php if ($loans['bmSignature'] == "Signed") {
+                                        <a class="list-group-item"><b style="padding-right: 5px;">Signed by Branch Manager</b>:
+                                            <?php if ($loans['bmSignature'] == "Signed") {
                                                 echo $bm_signature;
-                                            } else {
+                                            } elseif ($loans['caSignature'] == "Declined"){
+                                                echo "<label style='padding: 7px;' class='badge badge-danger'>Subject to review.</label>";
+                                            }
+                                            else {
                                                 echo "<label style='padding: 7px;' class='badge badge-warning'>Not Signed Yet.</label>";
                                             }
                                             ?></a>
 
                                         <a class="list-group-item"><b style="padding-right: 20px;">Credit Checked By</b>: <?php if ($loans['caSignature'] == "Signed") {
                                                 echo $ca_signature;
-                                            } else {
+                                            } elseif ($loans['cmSignature'] == "Declined"){
+                                                echo "<label style='padding: 7px;' class='badge badge-danger'>Subject to review.</label>";
+                                            }
+                                            else {
                                                 echo "<label style='padding: 7px;' class='badge badge-warning'>Not Signed Yet.</label>";
                                             }
                                             ?></a>
                                         <a class="list-group-item"><b style="padding-right: 15px;">Confirmed By</b>: <?php if ($loans['cmSignature'] == "Signed") {
                                                 echo $cm_signature;
-                                            } else {
+                                            } elseif ($loans['finSignature'] == "Declined"){
+                                                echo "<label style='padding: 7px;' class='badge badge-danger'>Subject to review.</label>";
+                                            }
+                                            else {
                                                 echo "<label style='padding: 7px;' class='badge badge-warning'>Not Signed Yet.</label>";
                                             }
                                             ?></a>
                                         <a class="list-group-item"><b>Finance Authorised By</b>: <?php if ($loans['finSignature'] == "Signed") {
                                                 echo $fin_signature;
-                                            } else {
+                                            } elseif ($loans['boardSignature'] == "Declined"){
+                                                echo "<label style='padding: 7px;' class='badge badge-danger'>Subject to review.</label>";
+                                            }
+                                            else {
                                                 echo "<label style='padding: 7px;' class='badge badge-warning'>Not Signed Yet.</label>";
                                             }
                                             ?></a>
+                                        <?php if ($loans['meetingLoanAmount'] >= 30000 ){ ?>
+                                            <a class="list-group-item"><b>Board Authorised By</b>: <?php if ($loans['boardSignature'] == "Signed") {
+                                                    echo $board_signature;
+                                                } else {
+                                                    echo "<label style='padding: 7px;' class='badge badge-warning'>Not Signed Yet.</label>";
+                                                }
+                                                ?>
+                                            </a>
+                                        <?php } ?>
                                     </div>
                                 </div>
                                 <br>
@@ -426,7 +448,7 @@
                                                 </div>
                                                 <div>
                                                     <input class="custom-control-input" type="radio" id="decline" name="<?php echo $xxSignature ?>" value="Declined" onclick="enableButton()">
-                                                    <label class="custom-control-label" for="decline">Decline</label>
+                                                    <label class="custom-control-label" for="decline">Unauthorize</label>
                                                 </div>
                                             </div>
                                             <br>

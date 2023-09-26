@@ -1,9 +1,10 @@
 <?php
 include('../session/session.php');
-//include('charts_data.php');
+include('charts_data.php');
 include('../includes/controllers.php');
 $nav_header = "MCC Meeting(s)";
-$final_meeting = '/loanAwaitingDecision/ACCEPTED/bm_scheduled_meeting/management';
+$final_meeting = '/loanAwaitingDecision/ACCEPTED/cc_final_meeting';
+//$escalated_meeting = 'loanAwaitingDecision/ACCEPTED/bm_scheduled_meeting/management'
 
 ?>
 

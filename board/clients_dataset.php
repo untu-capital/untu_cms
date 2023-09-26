@@ -1,12 +1,9 @@
 <?php
+//session_start() ;
 include('../session/session.php');
-//include('charts_data.php');
+$nav_header = "Clients Datasets";
 include('../includes/controllers.php');
-$nav_header = "MCC Meeting(s)";
-$final_meeting = '/loanAwaitingDecision/ACCEPTED/bm_scheduled_meeting/management';
-
 ?>
-
 <!DOCTYPE html>
 <html>
 <!-- HTML HEAD -->
@@ -15,6 +12,18 @@ include('../includes/header.php');
 ?>
 <!-- /HTML HEAD -->
 <body>
+<!-- <div class="pre-loader">
+    <div class="pre-loader-box">
+        <div class="loader-logo">
+            <img src="../vendors/images/deskapp-logo.svg" alt="" />
+        </div>
+        <div class="loader-progress" id="progress_div">
+            <div class="bar" id="bar1"></div>
+        </div>
+        <div class="percent" id="percent1">0%</div>
+        <div class="loading-text">Loading...</div>
+    </div>
+</div> -->
 
 <!-- Top NavBar -->
 <?php include('../includes/top-nav-bar.php'); ?>
@@ -30,11 +39,9 @@ include('../includes/header.php');
 <div class="main-container">
     <div class="pd-ltr-20">
 
-        <?php include('../includes/dashboard/topbar_widget.php'); ?>
 
-        <?php //include('../includes/dashboard/cms_loans_graph.php'); ?>
 
-        <?php include('../includes/tables/mcc_schedule_meeting_table.php'); ?>
+        <?php include('../includes/tables/old_clients_dataset.php'); ?>
 
         <?php include('../includes/footer.php');?>
     </div>
@@ -69,10 +76,6 @@ include('../includes/header.php');
 <script src="../src/plugins/datatables/js/vfs_fonts.js"></script>
 <!-- Datatable Setting js -->
 <script src="../vendors/scripts/datatable-setting.js"></script>
-
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 
 </body>
 </html>

@@ -138,37 +138,41 @@ if (isset($_POST['loanOfficerUploads'])) {
     $userId = $_POST['userid'];
 
     if(isset($_FILES['file']['name'])){
-        $uploadfile = '../includes/file_uploads/loan_officers/'.basename($_FILES['file']['name']);
-        $description ='Assessment-File';
-        //move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
-        $temp = explode(".", $_FILES["file"]["name"]);
-        $newfilename = basename($_FILES['file']['name']).date('Y.m.d').'.'.round(microtime(true)). '.' . end($temp) ;
+        $fileCount = count($_FILES['file']['name']); // Count of uploaded files
 
-        if(move_uploaded_file($_FILES["file"]["tmp_name"], "../includes/file_uploads/loan_officers/" . $newfilename)){
-            $url = "http://localhost:7878/api/utg/assessmentFileUpload/add";
-            $data_array = array(
-                'loanId'=> $id,
-                'userId' => $userId,
-                'fileName' => $newfilename,
+        for ($i = 0; $i < $fileCount; $i++) {
+            $uploadfile = '../includes/file_uploads/loan_officers/' . basename($_FILES['file']['name'][$i]);
+            $description = 'Assessment-File';
 
-            );
+            $temp = explode(".", $_FILES["file"]["name"][$i]);
+            $newfilename = basename($_FILES['file']['name'][$i]) . date('Y.m.d') . '.' . round(microtime(true)) . '.' . end($temp);
 
-            $data = json_encode($data_array);
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_HEADER, true );
-            $resp = curl_exec($ch);
+            if (move_uploaded_file($_FILES["file"]["tmp_name"][$i], "../includes/file_uploads/loan_officers/" . $newfilename)) {
+                $url = "http://localhost:7878/api/utg/assessmentFileUpload/add";
+                $data_array = array(
+                    'loanId' => $id,
+                    'userId' => $userId,
+                    'fileName' => $newfilename,
+                );
 
-            curl_close($ch);
+                $data = json_encode($data_array);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HEADER, true);
+                $resp = curl_exec($ch);
 
+                curl_close($ch);
+            }
         }
-        header('location:loan_info.php?menu=loan&loan_id='.$id.'&userid='.$userId);
+
+        header('location:loan_info.php?menu=loan&loan_id=' . $id . '&userid=' . $userId);
     }
 }
+
 ?>
 
 <?php

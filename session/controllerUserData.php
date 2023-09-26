@@ -94,10 +94,8 @@ function curlreg($firstname, $lastname, $username, $email, $mobile, $password) {
     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HEADER, true );
-
     $resp = curl_exec($ch);
 
-    
     // how big are the headers
     $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
     $headerStr = substr($resp, 0, $headerSize);
@@ -121,9 +119,9 @@ function curlreg($firstname, $lastname, $username, $email, $mobile, $password) {
             echo $key . ': ' . $val . '<br>';
          }
             // echo $val;
-            $_SESSION['info'] = $val.", We've sent a verification code to your email or phone number you provided.";
+            $_SESSION['info'] = $val.", We've sent a verification code to the phone number you provided.";
             audits($_SESSION['userid'], "User Registration Successful", $_SESSION['branch']);
-            header('location: user-otp.php');
+            header('location: ../login_signup/login.php');
         break;
         case 400:  # Bad Request
             $decoded = json_decode($bodyStr);
@@ -132,14 +130,14 @@ function curlreg($firstname, $lastname, $username, $email, $mobile, $password) {
          } 
         $_SESSION['errors'] = $val;
             audits($_SESSION['userid'], "User Registration Failed", $_SESSION['branch']);
-        header('location: login.php#signup');
+        header('location: ../login_signup/register.php');
          
         break;
 
         case 401: # Unauthorixed - Bad credientials
             $_SESSION['error'] = 'Registration failed.. Please try again!';
             audits($_SESSION['userid'], "User Registration Failed", $_SESSION['branch']);
-            // header('location: login.php#signup');
+             header('location: ../login_signup/register.php');
             
         break;
         default:
@@ -265,7 +263,7 @@ function curllogin($email, $password) {
             elseif($_SESSION['role'] == 'ROLE_OP'){
                 header('location: ../operations/index.php');
             }else{
-                header('location: index.php');
+                header('location: ../login_signup/login.php');
             }
 
         break;
@@ -287,7 +285,7 @@ function curllogin($email, $password) {
             // header('location: login.php');
            $_SESSION['error'] = ' Please enter OTP sent to your phone number to verify your account';
             audits($_SESSION['userid'], "User Login Failed", $_SESSION['branch']);
-            header('location: ../login_signup/user-otp.php');
+            header('location: ../login_signup/login.php');
         break;
         default:
             $_SESSION['error'] = 'Unexpected error, Please retry '. "\n";
@@ -581,7 +579,7 @@ function curlreset($token, $password){
         $lastname = $_POST['lastname'];
         $username = $_POST['username'];
         // $email = $_POST['email'];
-        $email = isset($_POST['email']) ? $_POST['email'] : "credit.application@untu-capital.com";
+        $email = isset($_POST['email']) ? $_POST['email'] : "credit.application@untucapital.co.zw";
         $mobile = $_POST['mobile'];
         $password = $_POST['password'];
         $cpassword = $_POST['cpassword'];
@@ -621,7 +619,6 @@ function curlreset($token, $password){
         $password = $_POST['password'];
         // Send HTTP REQUEST TO BACKEND
         curllogin($email, $password);
-
     }
 
 
@@ -629,7 +626,6 @@ function curlreset($token, $password){
     if(isset($_POST['check-mobile-number'])){
         $mobile = $_POST['mobile'];
         $_SESSION['mobile'] = $mobile;
-
         curlcheck_mobile($mobile);
     }
 
@@ -638,9 +634,7 @@ function curlreset($token, $password){
     if(isset($_POST['check-reset-otp'])){
         $_SESSION['info'] = "";
         $otp_code = $_POST['otp'];
-
         $email = $_SESSION['email'];
-        
     }
 
 

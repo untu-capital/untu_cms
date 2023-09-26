@@ -10,8 +10,7 @@
 	$widget_descr = ["Tickets to be signed: Harare", "Tickets to be signed: HarareA", "Tickets to be signed: Bulawayo", "Tickets to be signed: Gweru", "Tickets to be signed: Gokwe", "Total Tickets to be signed"];
 
     $sign_ticket = '/caSignature/Signed';
-//    $decline_ticket = '/caSignature/Declined';
-    $decline_ticket = 'Declined';
+    $decline_ticket = '/caSignature/Declined';
 
     $xxSignature = 'caSignature';
     $xx_sign_ticket = 'ca_sign_ticket';

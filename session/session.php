@@ -37,6 +37,10 @@ if($userid == false){
         $check_role = $_SESSION['role'];
 
         $_SESSION['audit'] = $audit;
+
+        $board_limit = 20000;
+        $credit_limit = 2000;
+        $operations_limit = 8001;
                 
     }
     curl_close($ch);

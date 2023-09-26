@@ -1,31 +1,13 @@
 <?php
-    include('../session/session.php');
-    include('../includes/fpdf/fpdf.php');
-    include('../includes/controllers.php')
-?>
-
-<?php
-	$nav_header = "Tickets Signing";
-
-    if(isset($_POST['submit'])){
-        if(!empty($_POST['checkArr'])){
-            foreach($_POST['checkArr'] as $checked){
-                echo $checked."</br>";
-            }
-        }
-    }
+	include('../session/session.php');
+	include('../includes/controllers.php');
+	$nav_header = "Client Retention";
 
 	// small widgets titles
 	$widget_title = ["4", "3", "2", "1", "2", "12"];
 
 	// small widgets descriptions
-	$widget_descr = ["Tickets to be signed: Harare", "Tickets to be signed: HarareA", "Tickets to be signed: Bulawayo", "Tickets to be signed: Gweru", "Tickets to be signed: Gokwe", "Total Tickets to be signed"];
-
-    $sign_ticket = '/bmSignature/Signed/'.$_SESSION['branch'];
-    $signature = 'bmSignature';
-    $decline_ticket = 'Declined';
-    $ca_decline_ticket = '/caSignature/Declined';
-
+	$widget_descr = ["Tickets Signed: Harare", "Tickets Signed: HarareA", "Tickets Signed: Bulawayo", "Tickets Signed: Gweru", "Tickets Signed: Gokwe", "Total Tickets Signed"];
 
 ?>
 
@@ -37,6 +19,18 @@
 	?>
 	<!-- /HTML HEAD -->
 	<body>
+        <div class="pre-loader">
+			<div class="pre-loader-box">
+				<div class="loader-logo">
+					<img src="vendors/images/deskapp-logo.svg" alt="" />
+				</div>
+				<div class="loader-progress" id="progress_div">
+					<div class="bar" id="bar1"></div>
+				</div>
+				<div class="percent" id="percent1">0%</div>
+				<div class="loading-text">Loading...</div>
+			</div>
+		</div>
 
 		<!-- Top NavBar -->
 			<?php include('../includes/top-nav-bar.php'); ?>
@@ -56,7 +50,7 @@
 					
 				<?php include('../includes/dashboard/lead_summary_widget.php'); ?>
 
-				<?php include('../includes/tables/signed_tickets_table.php'); ?>
+				<?php include('../includes/tables/mature_loans_table.php'); ?>
 
 				<?php include('../includes/footer.php');?>
 			</div>

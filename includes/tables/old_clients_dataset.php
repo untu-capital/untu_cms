@@ -1,7 +1,7 @@
 <!-- table widget -->
 
 <?php 
-
+//    TODO: change variables
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/credit_application_client_datasets/branchName/Harare");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

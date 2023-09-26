@@ -14,7 +14,7 @@
 		</h4>
 	</div>
 	<div class="pb-20">
-		<table class="data-table table stripe hover multiple-select-row nowrap">
+        <table class="table hover table stripe multiple-select-row data-table-export nowrap">
 			<thead>
 				<tr>
 					<th>Applied On</th>
@@ -22,10 +22,13 @@
 					<th>Bsn Sector</th>
 					<th>Loan Amount</th>
 					<th>Tenure</th>
+                    <?php if ($_SESSION['role'] != 'ROLE_CLIENT') { ?>
 					<th>Boco</th>
 					<th>Loan Officer</th>
-					<th>Status</th>	
-					<th>Stage</th>										
+                    <?php } ?>
+					<th>Status</th>
+                    <th>Branch</th>
+					<th>Stage</th>
 					<th class="datatable-nosort">Action</th>
 				</tr>
 			</thead>
@@ -39,11 +42,13 @@
 					<td><?php echo $data['industryCode']; ?></td>
 					<td><?php echo "$ ".$data['loanAmount'].".00"; ?></td>
 					<td><?php echo $data['tenure']." months"; ?></td>
+                    <?php if ($_SESSION['role'] != 'ROLE_CLIENT') { ?>
 					<td><?php $user = user($data['loanStatusAssigner']);
                         echo $user['firstName'].' '.$user['lastName'];?></td>
 					<td><?php $user = user(htmlspecialchars($data["assignTo"]));
                         echo $user['firstName'].' '.$user['lastName'];?>
 					</td>
+                    <?php } ?>
 					<td>
 						<span class="badge badge-pill" 
 							data-color="#fff"
@@ -57,23 +62,13 @@
 							<?php echo $data['loanStatus']; ?>
 						</span>
 					</td>
-
+                    <td><?php echo $data['branchName']; ?></td>
 					<td><?php echo $data['pipelineStatus']; ?></td>
 					<td>
 						<div class="dropdown">
-							<a
-								class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle"
-								href="#"
-								role="button"
-								data-toggle="dropdown"
-							>
-								<i class="dw dw-more"></i>
-							</a>
-							<div
-								class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"
-							>
+							<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a>
+							<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 								<a class="dropdown-item" href="loan_info.php?menu=loan&loan_id=<?php echo $data['id']; ?>&userid=<?php echo $data['userId'] ;?>"><i class="dw dw-eye"></i> View</a>
-								
 							</div>
 						</div>
 					</td>

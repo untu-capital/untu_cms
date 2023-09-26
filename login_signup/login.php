@@ -12,7 +12,7 @@
 			>
 				<div class="brand-logo">
 					<a href="login.php">
-						<img src="../vendors/images/deskapp-logo.svg" alt="" />
+						<img src="../vendors/images/untu_logo.png" alt="" />
 					</a>
 				</div>
 				<div class="login-menu">

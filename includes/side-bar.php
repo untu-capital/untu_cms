@@ -2,11 +2,7 @@
 			<div class="brand-logo">
 				<a href="index.php">
 					<img src="../vendors/images/untu-logo.png" alt="" class="dark-logo" />
-					<img
-						src="../vendors/images/untu-logo-white.png"
-						alt=""
-						class="light-logo"
-					/>
+					<img src="../vendors/images/untu-logo-white.png"alt="" class="light-logo"/>
 				</a>
 				<div class="close-sidebar" data-toggle="left-sidebar-close">
 					<i class="ion-close-round"></i>
@@ -60,9 +56,9 @@
                                 ><span class="mtext">Settings Page</span>
                                 </a>
                                 <ul class="submenu">
-                                    <li><a href="../faq.php">FAQ</a></li>
+                                    <!--                                    <li><a href="../faq.php">FAQ</a></li>-->
                                     <li><a href="../includes/profile.php">Profile</a></li>
-                                    <li><a href="../pricing-table.php">Pricing Tables</a></li>
+                                    <!--                                    <li><a href="../pricing-table.php">Pricing Tables</a></li>-->
                                 </ul>
                             </li>
                         </ul>
@@ -142,9 +138,96 @@
                                 ><span class="mtext">Settings Page</span>
                                 </a>
                                 <ul class="submenu">
-                                    <li><a href="../faq.php">FAQ</a></li>
+                                    <!--                                    <li><a href="../faq.php">FAQ</a></li>-->
                                     <li><a href="../includes/profile.php">Profile</a></li>
-                                    <li><a href="../pricing-table.php">Pricing Tables</a></li>
+                                    <!--                                    <li><a href="../pricing-table.php">Pricing Tables</a></li>-->
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <?php } elseif ($check_role == "ROLE_BOARD"){?>
+
+                        <ul id="accordion-menu">
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-house"></span
+                                ><span class="mtext">Home</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="index.php">Dashboard</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+		    						<span class="micon bi bi-file-earmark-text"></span><span class="mtext">Loan Applications</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="loan_applications.php?state=all">All Applications</a></li>
+                                    <li><a href="loan_applications.php?state=progress">Applications In Progress</a></li>
+                                    <li><a href="loan_applications.php?state=reject">Rejected Applications</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-layout-text-window-reverse"></span><span class="mtext">MCC Scheduling</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="schedule_meeting.php">Schedule MCC Meeting</a></li>
+                                    <li><a href="final_meeting.php">MCC Final Decision</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-table"></span><span class="mtext">Tickets</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="predisbursed_tickets.php">Ticket(s) Signing</a></li>
+                                    <li><a href="signed_tickets.php">Signed Ticket(s)</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-folder"></span
+                                ><span class="mtext">Pipeline Reporting</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="branch_pipeline_report.php">Branch Reports</a></li>
+                                    <li><a href="pipeline_report.php">Pipeline Summary Report</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-textarea-resize"></span
+                                ><span class="mtext">C.R.M</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="campaign_and_marketing.php?menu=main">Campaign and Marketing</a></li>
+                                    <li><a href="lead_management.php">Lead Management</a></li>
+                                    <li><a href="client_retention.php">Client Retention</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+                            <span class="micon bi bi-folder"></span><span class="mtext">Clients Database</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="clients_dataset.php?menu=main">Available List</a></li>
+                                    <li><a href="clients_dataset.php?menu=assigned">Assigned Clients</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="events_calendar.php" class="dropdown-toggle no-arrow">
+								<span class="micon bi bi-calendar4-week"></span><span class="mtext">Events Calendar</span>
+                                </a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-gear"></span><span class="mtext">Settings Page</span>
+                                </a>
+                                <ul class="submenu">
+                                    <!--                                    <li><a href="../faq.php">FAQ</a></li>-->
+                                    <li><a href="../includes/profile.php">Profile</a></li>
+                                    <!--                                    <li><a href="../pricing-table.php">Pricing Tables</a></li>-->
                                 </ul>
                             </li>
                         </ul>
@@ -235,9 +318,9 @@
 								><span class="mtext">Settings Page</span>
 							</a>
 							<ul class="submenu">
-								<li><a href="../faq.php">FAQ</a></li>
+								<!--                                    <li><a href="../faq.php">FAQ</a></li>-->
 								<li><a href="../includes/profile.php">Profile</a></li>
-								<li><a href="../pricing-table.php">Pricing Tables</a></li>
+								<!--                                    <li><a href="../pricing-table.php">Pricing Tables</a></li>-->
 							</ul>
 						</li>
 					</ul>
@@ -284,6 +367,15 @@
                             </li>
                             <li class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-cash-stack"></span
+                                ><span class="mtext">Purchase Order</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="requisitions.php?menu=main">Requisitions</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span
                                 ><span class="mtext">Documents Manager</span>
                                 </a>
@@ -306,7 +398,7 @@
                                 ><span class="mtext">Settings Page</span>
                                 </a>
                                 <ul class="submenu">
-                                    <li><a href="../faq.php">FAQ</a></li>
+                                    <!--                                    <li><a href="../faq.php">FAQ</a></li>-->
                                     <li><a href="../includes/profile.php">Profile</a></li>
                                     <li><a href="../pricing-table.php">Web Content</a></li>
                                 </ul>
@@ -389,9 +481,9 @@
                                 ><span class="mtext">Settings Page</span>
                                 </a>
                                 <ul class="submenu">
-                                    <li><a href="../faq.php">FAQ</a></li>
+                                    <!--                                    <li><a href="../faq.php">FAQ</a></li>-->
                                     <li><a href="../includes/profile.php">Profile</a></li>
-                                    <li><a href="../pricing-table.php">Pricing Tables</a></li>
+                                    <!--                                    <li><a href="../pricing-table.php">Pricing Tables</a></li>-->
                                 </ul>
                             </li>
                         </ul>
@@ -482,9 +574,9 @@
                                 ><span class="mtext">Settings Page</span>
                                 </a>
                                 <ul class="submenu">
-                                    <li><a href="../faq.php">FAQ</a></li>
+                                    <!--                                    <li><a href="../faq.php">FAQ</a></li>-->
                                     <li><a href="../includes/profile.php">Profile</a></li>
-                                    <li><a href="../pricing-table.php">Pricing Tables</a></li>
+                                    <!--                                    <li><a href="../pricing-table.php">Pricing Tables</a></li>-->
                                 </ul>
                             </li>
                         </ul>
@@ -565,9 +657,9 @@
 								><span class="mtext">Settings Page</span>
 							</a>
 							<ul class="submenu">
-								<li><a href="../faq.php">FAQ</a></li>
+								<!--                                    <li><a href="../faq.php">FAQ</a></li>-->
 								<li><a href="../includes/profile.php">Profile</a></li>
-								<li><a href="../pricing-table.php">Pricing Tables</a></li>
+								<!--                                    <li><a href="../pricing-table.php">Pricing Tables</a></li>-->
 							</ul>
 						</li>
 					</ul>
@@ -626,9 +718,9 @@
                                 ><span class="mtext">Settings Page</span>
                             </a>
                             <ul class="submenu">
-                                <li><a href="../faq.php">FAQ</a></li>
+                                <!--                                    <li><a href="../faq.php">FAQ</a></li>-->
                                 <li><a href="../includes/profile.php">Profile</a></li>
-                                <li><a href="../pricing-table.php">Pricing Tables</a></li>
+                                <!--                                    <li><a href="../pricing-table.php">Pricing Tables</a></li>-->
                             </ul>
                         </li>
                     </ul>
@@ -678,9 +770,9 @@
                                 ><span class="mtext">Settings Page</span>
                                 </a>
                                 <ul class="submenu">
-                                    <li><a href="../faq.php">FAQ</a></li>
+                                    <!--                                    <li><a href="../faq.php">FAQ</a></li>-->
                                     <li><a href="../includes/profile.php">Profile</a></li>
-                                    <li><a href="../pricing-table.php">Pricing Tables</a></li>
+                                    <!--                                    <li><a href="../pricing-table.php">Pricing Tables</a></li>-->
                                 </ul>
                             </li>
                         </ul>
@@ -819,10 +911,10 @@
 								<li><a href="../blog-detail.php">Blog Detail</a></li>
 								<li><a href="../product.php">Product</a></li>
 								<li><a href="../product-detail.php">Product Detail</a></li>
-								<li><a href="../faq.php">FAQ</a></li>
+								<!--                                    <li><a href="../faq.php">FAQ</a></li>-->
 								<li><a href="../includes/profile.php">Profile</a></li>
 								<li><a href="../gallery.php">Gallery</a></li>
-								<li><a href="../pricing-table.php">Pricing Tables</a></li>
+								<!--                                    <li><a href="../pricing-table.php">Pricing Tables</a></li>-->
 							</ul>
 						</li>
 						<li class="dropdown">

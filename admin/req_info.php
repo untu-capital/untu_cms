@@ -1,32 +1,7 @@
 <?php
-    include('../session/session.php');
-    include('../includes/fpdf/fpdf.php');
-    include('../includes/controllers.php')
-?>
-
-<?php
-	$nav_header = "Tickets Signing";
-
-    if(isset($_POST['submit'])){
-        if(!empty($_POST['checkArr'])){
-            foreach($_POST['checkArr'] as $checked){
-                echo $checked."</br>";
-            }
-        }
-    }
-
-	// small widgets titles
-	$widget_title = ["4", "3", "2", "1", "2", "12"];
-
-	// small widgets descriptions
-	$widget_descr = ["Tickets to be signed: Harare", "Tickets to be signed: HarareA", "Tickets to be signed: Bulawayo", "Tickets to be signed: Gweru", "Tickets to be signed: Gokwe", "Total Tickets to be signed"];
-
-    $sign_ticket = '/bmSignature/Signed/'.$_SESSION['branch'];
-    $signature = 'bmSignature';
-    $decline_ticket = 'Declined';
-    $ca_decline_ticket = '/caSignature/Declined';
-
-
+	include('../session/session.php');
+	include('../includes/controllers.php');
+	$nav_header = "Purchase Order Details";
 ?>
 
 <!DOCTYPE html>
@@ -53,10 +28,8 @@
 			<div class="pd-ltr-20">
 					
 				<?php include('../includes/dashboard/topbar_widget.php'); ?>
-					
-				<?php include('../includes/dashboard/lead_summary_widget.php'); ?>
 
-				<?php include('../includes/tables/signed_tickets_table.php'); ?>
+                <?php include('../includes/forms/view_req_info.php'); ?>
 
 				<?php include('../includes/footer.php');?>
 			</div>
@@ -84,16 +57,38 @@
 		<script src="../src/plugins/datatables/js/vfs_fonts.js"></script>
 		<!-- Datatable Setting js -->
 		<script src="../vendors/scripts/datatable-setting.js"></script>
-		
-		<!-- Google Tag Manager (noscript) -->
-		<noscript
-			><iframe
-				src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
-				height="0"
-				width="0"
-				style="display: none; visibility: hidden"
-			></iframe
-		></noscript>
+
+<!--        <script>-->
+<!--            $(document).ready(function() {-->
+<!--                $('#add_transaction').on('submit', function(event) {-->
+<!--                    event.preventDefault(); // Prevent the default form submission behavior-->
+<!---->
+<!--                    // Serialize the form data-->
+<!--                    var formData = $(this).serialize();-->
+<!---->
+<!--                    // Send the form data to the server using AJAX-->
+<!--                    $.ajax({-->
+<!--                        type: 'POST',-->
+<!--                        url: 'view_req_info.php', // Replace with the actual server-side script URL-->
+<!--                        data: formData,-->
+<!--                        success: function(response) {-->
+<!--                            // Handle the response from the server here (if needed)-->
+<!--                            // For example, you can update the page content without a full refresh-->
+<!--                            // You can also clear the form or provide a success message-->
+<!--                            console.log('Form submitted successfully');-->
+<!--                        },-->
+<!--                        error: function(error) {-->
+<!--                            // Handle any errors that occur during the AJAX request-->
+<!--                            console.error('Error:', error);-->
+<!--                        }-->
+<!--                    });-->
+<!--                });-->
+<!--            });-->
+<!--        </script>-->
+
+
+        <!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
 		<!-- End Google Tag Manager (noscript) -->
 		
 	</body>

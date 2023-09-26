@@ -66,7 +66,9 @@
 
 			gtag("config", "G-GBZ3SGGX85");
 		</script>
-		<!-- Google Tag Manager -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Google Tag Manager -->
 		<script>
 			(function (w, d, s, l, i) {
 				w[l] = w[l] || [];

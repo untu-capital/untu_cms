@@ -1,31 +1,16 @@
 <?php
-    include('../session/session.php');
-    include('../includes/fpdf/fpdf.php');
-    include('../includes/controllers.php')
-?>
+	include('../session/session.php');
+	include('charts_data.php');
+    include ('../includes/controllers.php');
+	$state = $_GET['state'];
+	$nav_header = "Loan Applications";
 
-<?php
-	$nav_header = "Tickets Signing";
-
-    if(isset($_POST['submit'])){
-        if(!empty($_POST['checkArr'])){
-            foreach($_POST['checkArr'] as $checked){
-                echo $checked."</br>";
-            }
-        }
-    }
-
-	// small widgets titles
-	$widget_title = ["4", "3", "2", "1", "2", "12"];
-
-	// small widgets descriptions
-	$widget_descr = ["Tickets to be signed: Harare", "Tickets to be signed: HarareA", "Tickets to be signed: Bulawayo", "Tickets to be signed: Gweru", "Tickets to be signed: Gokwe", "Total Tickets to be signed"];
-
-    $sign_ticket = '/bmSignature/Signed/'.$_SESSION['branch'];
-    $signature = 'bmSignature';
-    $decline_ticket = 'Declined';
-    $ca_decline_ticket = '/caSignature/Declined';
-
+	$url ='';
+	if ($state == 'progress'){$url = '/loanStatus/PENDING';}
+    elseif($state == 'accepted'){$url = '/loanStatus/ACCEPTED';}
+	elseif($state == 'reject'){$url = '/loanStatus/REJECTED';} 
+	else {$url;}
+    $caseloads = 'caseloads';
 
 ?>
 
@@ -53,10 +38,10 @@
 			<div class="pd-ltr-20">
 					
 				<?php include('../includes/dashboard/topbar_widget.php'); ?>
-					
-				<?php include('../includes/dashboard/lead_summary_widget.php'); ?>
 
-				<?php include('../includes/tables/signed_tickets_table.php'); ?>
+				<?php include('../includes/dashboard/cms_loans_graph.php'); ?>
+
+				<?php include('../includes/tables/loans_table_widget.php'); ?>
 
 				<?php include('../includes/footer.php');?>
 			</div>
@@ -68,6 +53,15 @@
 		<script src="../vendors/scripts/process.js"></script>
 		<script src="../vendors/scripts/layout-settings.js"></script>
 		<script src="../src/plugins/apexcharts/apexcharts.min.js"></script>
+        <script>
+            var caseloads = <?php echo json_encode($caseloads); ?>
+        </script>
+		<!-- js -->
+		<script src="../src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
+		<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+		<script src="../src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
+		<script src="../vendors/scripts/highchart-setting.js"></script>
+
 		<script src="../src/plugins/datatables/js/jquery.dataTables.min.js"></script>
 		<script src="../src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
 		<script src="../src/plugins/datatables/js/dataTables.responsive.min.js"></script>

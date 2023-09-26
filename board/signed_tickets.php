@@ -1,19 +1,7 @@
 <?php
-    include('../session/session.php');
-    include('../includes/fpdf/fpdf.php');
-    include('../includes/controllers.php')
-?>
-
-<?php
-	$nav_header = "Tickets Signing";
-
-    if(isset($_POST['submit'])){
-        if(!empty($_POST['checkArr'])){
-            foreach($_POST['checkArr'] as $checked){
-                echo $checked."</br>";
-            }
-        }
-    }
+	include('../session/session.php');
+	include('../includes/controllers.php');
+	$nav_header = "Signed Tickets";
 
 	// small widgets titles
 	$widget_title = ["4", "3", "2", "1", "2", "12"];
@@ -21,11 +9,12 @@
 	// small widgets descriptions
 	$widget_descr = ["Tickets to be signed: Harare", "Tickets to be signed: HarareA", "Tickets to be signed: Bulawayo", "Tickets to be signed: Gweru", "Tickets to be signed: Gokwe", "Total Tickets to be signed"];
 
-    $sign_ticket = '/bmSignature/Signed/'.$_SESSION['branch'];
-    $signature = 'bmSignature';
+    $sign_ticket = '/cmSignature/Signed';
+//    $decline_ticket = '/cmSignature/Declined';
     $decline_ticket = 'Declined';
-    $ca_decline_ticket = '/caSignature/Declined';
 
+    $xxSignature = 'cmSignature';
+    $xx_sign_ticket = 'cm_sign_ticket';
 
 ?>
 

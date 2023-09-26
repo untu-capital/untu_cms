@@ -6,7 +6,8 @@ $state = $_GET['state'];
 $nav_header = "Loan Applications";
 
 $url = '/byBranch/'.$_SESSION['branch'];
-if ($state == 'progress'){$url = '/loanStatus/ACCEPTED/'.$_SESSION['branch'];}
+if ($state == 'progress'){$url = '/loanStatus/PENDING/'.$_SESSION['branch'];}
+elseif($state == 'accepted'){$url = '/loanStatus/ACCEPTED/'.$_SESSION['branch'];}
 elseif($state == 'reject'){$url = '/loanStatus/REJECTED/'.$_SESSION['branch'];}
 else {$url;}
 

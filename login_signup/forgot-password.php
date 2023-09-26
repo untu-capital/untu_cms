@@ -34,21 +34,17 @@
 					<div class="col-md-6">
 						<div class="login-box bg-white box-shadow border-radius-10">
 							<div class="login-title">
-								<h2 class="text-center text-primary">Forgot Password</h2>
+								<h2 class="text-center text-primary">Verify Account</h2>
 							</div>
 							<h6 class="mb-20">
-								Enter your email address to reset your password
+								Enter your username or phone number to reset your password
 							</h6>
 							<form>
 								<div class="input-group custom">
-									<input
-										type="text"
-										class="form-control form-control-lg"
-										placeholder="Email"
-									/>
+									<input type="text" class="form-control form-control-lg" placeholder=""/>
 									<div class="input-group-append custom">
 										<span class="input-group-text"
-											><i class="fa fa-envelope-o" aria-hidden="true"></i
+											><i class="fa fa-user-o" aria-hidden="true"></i
 										></span>
 									</div>
 								</div>
@@ -59,11 +55,7 @@
 											use code for form submit
 											<input class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">
 										-->
-											<a
-												class="btn btn-primary btn-lg btn-block"
-												href="index.html"
-												>Submit</a
-											>
+                                            <a class="btn btn-primary btn-lg btn-block" href="index.html">Submit</a>
 										</div>
 									</div>
 									<div class="col-2">

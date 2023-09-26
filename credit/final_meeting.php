@@ -1,6 +1,6 @@
 <?php
 include('../session/session.php');
-include('charts_data.php');
+//include('charts_data.php');
 include('../includes/controllers.php');
 $nav_header = "MCC Meeting(s)";
 $final_meeting = '/loanAwaitingDecision/ACCEPTED/cc_final_meeting/head_office';

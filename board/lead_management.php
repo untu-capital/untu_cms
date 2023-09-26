@@ -1,31 +1,13 @@
 <?php
-    include('../session/session.php');
-    include('../includes/fpdf/fpdf.php');
-    include('../includes/controllers.php')
-?>
-
-<?php
-	$nav_header = "Tickets Signing";
-
-    if(isset($_POST['submit'])){
-        if(!empty($_POST['checkArr'])){
-            foreach($_POST['checkArr'] as $checked){
-                echo $checked."</br>";
-            }
-        }
-    }
+	include('../session/session.php');
+	$nav_header = "Lead Management";
+    include('../includes/controllers.php');
 
 	// small widgets titles
-	$widget_title = ["4", "3", "2", "1", "2", "12"];
+	$widget_title = ["200", "56", "14", "23", "40", "6", "8", "50"];
 
 	// small widgets descriptions
-	$widget_descr = ["Tickets to be signed: Harare", "Tickets to be signed: HarareA", "Tickets to be signed: Bulawayo", "Tickets to be signed: Gweru", "Tickets to be signed: Gokwe", "Total Tickets to be signed"];
-
-    $sign_ticket = '/bmSignature/Signed/'.$_SESSION['branch'];
-    $signature = 'bmSignature';
-    $decline_ticket = 'Declined';
-    $ca_decline_ticket = '/caSignature/Declined';
-
+	$widget_descr = ["Total Services/Products", "Total Business Type", "Total Leads", "Total New Leads", "Total Contacted Leads", "Total Qualified Leads", "Total Failed Leads", "Total Closed Leads"];
 
 ?>
 
@@ -56,7 +38,7 @@
 					
 				<?php include('../includes/dashboard/lead_summary_widget.php'); ?>
 
-				<?php include('../includes/tables/signed_tickets_table.php'); ?>
+                <?php include('../includes/tables/leads_table.php'); ?>
 
 				<?php include('../includes/footer.php');?>
 			</div>

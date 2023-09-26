@@ -224,7 +224,7 @@
 
         <div class="clearfix">
             <div class="pull-left">
-                <h4 class="text-blue h4">Next of Kin 1 Details (Optional)</h4>
+                <h4 class="text-blue h4">Next of Kin 2 Details (Optional)</h4>
                 <p class="mb-30">Fill in next of kin information</p>
             </div>
         </div>
@@ -244,7 +244,7 @@
             <div class="col-md-3 col-sm-12">
                 <div class="form-group">
                     <label>Relationship</label>
-                    <select class="custom-select2 form-control" name="next_of_kin_relationship2" style="width: 100%; height: 38px" required>
+                    <select class="custom-select2 form-control" name="next_of_kin_relationship2" style="width: 100%; height: 38px">
                         <option value="<?php echo $user_loans[0]['nextOfKinRelationship2'];?>"><?php echo $user_loans[0]['nextOfKinRelationship2'];?></option>
                         <option value=null>Select Option</option>
                         <option value="spouse">Spouse</option>

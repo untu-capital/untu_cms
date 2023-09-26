@@ -58,6 +58,44 @@
                     <td><a href = "ticket_info.php?menu=signing&loan_id=<?=$ticket["id"] ?>&userid=<?=$ticket["userId"] ?>" style="color: blue;">View</td>
                 </tr>
             <?php endforeach;?>
+            <?php
+            if ($_SESSION['role'] == 'ROLE_BM'){
+            $signed_tickets = loans($ca_decline_ticket);
+            foreach($signed_tickets as $ticket):
+                $date = htmlspecialchars ($ticket["createdAt"]);
+                $createDate = new DateTime($date);
+
+                ?>
+
+                <tr>
+                    <td><input type = "checkbox" name="checkArr[]" value="<?php echo $ticket['id'];?>"></td>
+                    <td><?= htmlspecialchars ($ticket["firstName"]).' '.htmlspecialchars ($ticket["middleName"]).' '.htmlspecialchars ($ticket["lastName"]) ?></td>
+
+                    <td><?= '$ '.htmlspecialchars ($ticket["meetingLoanAmount"] ).'.00'?></td>
+                    <td><?= htmlspecialchars($ticket["lessFees"])?></td>
+                    <td><?= htmlspecialchars($ticket["applicationFee"])?></td>
+                    <td><?= htmlspecialchars($ticket["meetingCashHandlingFee"])?></td>
+                    <td><?= htmlspecialchars($ticket["meetingInterestRate"]." %")?></td>
+                    <td><?= htmlspecialchars($ticket["meetingTenure"]).' months' ?></td>
+                    <?php if ($_SESSION['role'] =="ROLE_BOCO"){ ?>
+                        <td><?php if($ticket['bocoSignature'] != "Unsigned" && $ticket['finSignature'] != "Unsigned"){
+                                echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Ready</label>";}
+                            else if($ticket['bocoSignature'] != "Unsigned" && $ticket['finSignature'] == "Unsigned"){
+                                echo "<label style='padding: 7px;' class='badge badge-warning'>Waiting for Authorization</label>";}
+                            else{echo "<label style='padding: 7px;' class='badge badge-dark'>Updating Status</label>";}?>
+                        </td>
+                    <?php } else{?>
+                        <td><?php if($ticket[$xxSignature] == "Signed" ){
+                                echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Signed</label>";}
+                            elseif($ticket[$xxSignature] == "Declined") {echo "<label style='padding: 7px;' class='badge badge-primary'>Ticket Declined</label>";}
+                            else{echo "<label style='padding: 7px;' class='badge badge-warning'>Waiting for Signature</label>";}?>
+                        </td>
+                    <?php }?>
+                    <td><?php $loan_officer = user(htmlspecialchars ($ticket["assignTo"]));
+                        echo $loan_officer['firstName'].' '.$loan_officer['lastName'];?></td>
+                    <td><a href = "ticket_info.php?menu=signing&loan_id=<?=$ticket["id"] ?>&userid=<?=$ticket["userId"] ?>" style="color: blue;">View</td>
+                </tr>
+            <?php endforeach; }?>
             </tbody>
         </table>
         <form action="" method="post">
@@ -71,7 +109,7 @@
 
 <div class="card-box mb-30">
     <div class="pd-20">
-        <h4 class="text-blue h4">Declined Ticket(s)</h4>
+        <h4 class="text-blue h4">Unauthorised Ticket(s)</h4>
 
     </div>
     <div class="pb-20 mb-30">
@@ -120,7 +158,7 @@
                     <?php } else{?>
                         <td><?php if($ticket[$xxSignature] == "Signed" ){
                                 echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Signed</label>";}
-                            elseif($ticket[$xxSignature] == "Declined") {echo "<label style='padding: 7px;' class='badge badge-primary'>You Declined Ticket</label>";}
+                            elseif($ticket[$xxSignature] == "Declined") {echo "<label style='padding: 7px;' class='badge badge-primary'>Ticket Awaiting Corrections</label>";}
                             else{echo "<label style='padding: 7px;' class='badge badge-warning'>Waiting for Signature</label>";}?>
                         </td>
                     <?php }?>

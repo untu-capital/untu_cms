@@ -317,8 +317,6 @@
                             </div>
                         <?php }?>
 
-
-
                     </div>
 
                     <div class="tab-pane fade" id="kyc_docs" role="tabpanel">
@@ -419,7 +417,9 @@
                                                     <div class="mask no-caption"></div>
                                                 </div>
                                                 <div class="caption">
-                                                    <p><strong><a name="downloadfile" download="<?php echo $appraisal_files[0]['fileName'] ?>" href="../includes/file_uploads/loan_officers/<?php echo $appraisal_files[0]['fileName'] ?>" style="color: black;">Download</a></strong>
+                                                    <p>
+                                                        <?php echo current(explode('.', $appraisal_files[0]['fileName'])) ?>
+                                                        <strong><a name="downloadfile" download="<?php echo $appraisal_files[0]['fileName'] ?>" href="../includes/file_uploads/loan_officers/<?php echo $appraisal_files[0]['fileName'] ?>" style="color: black;">Download</a></strong>
                                                     </p>
                                                 </div>
                                             </div>
@@ -436,7 +436,7 @@
                                     <input type="hidden" name="userid" value="<?php echo $_GET['userid'];?>">
                                     <div class="form-group row">
                                         <div class="col-8">
-                                            <input type="file" name="file" id="file" class="form-control-file form-control height-auto" required />
+                                            <input type="file" name="file[]" id="file" class="form-control-file form-control height-auto" multiple required />
                                         </div>
                                         <div class="col-4">
                                             <input type="submit" value="Upload Assessment Files" name="loanOfficerUploads" class="btn btn-success btn-lg">
@@ -789,6 +789,14 @@
                             <?php
                             $client_id = $_GET['userid'];
                             include('../includes/forms/view_kyc.php');?>
+                        </div>
+
+                        <br><br>
+                        <b>Appraisal File (Excel Sheet)</b>
+                        <div class="row">
+                            <?php
+                            $loan_id = $_GET['loan_id'];
+                            include('../includes/forms/view_appraisal_file.php');?>
                         </div>
 
                         <br><br>
@@ -1172,6 +1180,15 @@
                             include('../includes/forms/view_kyc.php');?>
                         </div>
 
+
+                        <br><br>
+                        <b>Appraisal File (Excel Sheet)</b>
+                        <div class="row">
+                            <?php
+                            $loan_id = $_GET['loan_id'];
+                            include('../includes/forms/view_appraisal_file.php');?>
+                        </div>
+
                         <br><br>
                         <b>Assessment Files by Loan Officer</b>
                         <div class="row">
@@ -1309,8 +1326,16 @@
                             <input class="form-control" type="hidden" name="decisionBy" required value="<?php echo $_SESSION['userId'] ?>">
                             <input class="form-control" type="hidden" name="creditCommit" value="branch">
                             <input class="form-control" type="hidden" name="pipeline" value="cc_final_meeting">
-                            <button name= "final_predisbursement" class="btn btn-info btn-lg">Submit for Pre-disbursement (BOCO)</button>
+                            <button name="final_predisbursement" class="btn btn-info btn-lg" onclick="return confirmSubmit();">Submit for Pre-disbursement (BOCO)</button>
                         </form>
+
+                        <script>
+                            function confirmSubmit() {
+                                var confirmation = confirm("Are you sure the file is ready for Pre-Disbursement?");
+                                return confirmation;
+                            }
+                        </script>
+
 
                         <form method="post" id="insert_form" action="" style="display: none;">
                             <div class="text-blue"><b>Set Recommendation (Head Office)</b></div>
@@ -1327,6 +1352,9 @@
                                             foreach ($roles as $role) {echo "<option value='$role[id]'>$role[firstName] $role[lastName]</option>";} ?>
 
                                             <?php $roles = user_role("CreditAnalyst");
+                                            foreach ($roles as $role) { echo "<option value='$role[id]'>$role[firstName] $role[lastName]</option>";} ?>
+
+                                            <?php $roles = user_role("Board");
                                             foreach ($roles as $role) { echo "<option value='$role[id]'>$role[firstName] $role[lastName]</option>";} ?>
 
                                             <?php $roles = user_role("LoanOfficer");
@@ -1353,7 +1381,7 @@
                             <input class="form-control" type="hidden" name="loanId" required value="<?php echo $_GET['loan_id'] ?>">
                             <input class="form-control" type="hidden" name="userId" required value="<?php echo $_SESSION['userid'] ?>">
                             <input class="form-control" type="hidden" name="decisionBy" required value="<?php echo $_SESSION['userId'] ?>">
-                            <input class="form-control" type="hidden" name="creditCommit" required value="head_office">
+                            <input class="form-control" type="hidden" name="creditCommit" required value="management">
                             <input class="form-control" type="hidden" name="pipeline" value="bm_scheduled_meeting">
                             <button class="btn btn-info btn-lg" type = "submit" name= "final_meeting" >Submit for Recommendation (Head Office)</button>
                         </form>
@@ -1703,6 +1731,15 @@
                             <?php
                             $client_id = $_GET['userid'];
                             include('../includes/forms/view_kyc.php');?>
+                        </div>
+
+
+                        <br><br>
+                        <b>Appraisal File (Excel Sheet)</b>
+                        <div class="row">
+                            <?php
+                            $loan_id = $_GET['loan_id'];
+                            include('../includes/forms/view_appraisal_file.php');?>
                         </div>
 
                         <br><br>
@@ -2232,6 +2269,15 @@
                             <?php
                             $client_id = $_GET['userid'];
                             include('../includes/forms/view_kyc.php');?>
+                        </div>
+
+
+                        <br><br>
+                        <b>Appraisal File (Excel Sheet)</b>
+                        <div class="row">
+                            <?php
+                            $loan_id = $_GET['loan_id'];
+                            include('../includes/forms/view_appraisal_file.php');?>
                         </div>
 
                         <br><br>

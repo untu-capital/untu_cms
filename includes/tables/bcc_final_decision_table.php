@@ -32,8 +32,8 @@
 					<td><?php echo convertDateFormat($final['createdAt']); ?></td>
 					<td class="table-plus"><?php echo $final['firstName']; ?> <?php echo $final['lastName']; ?></td>
 					<td><?php echo $final['industryCode']; ?></td>
-					<td><?php echo "$ ".$final['meetingLoanAmount'].".00"; ?></td>
-					<td><?php echo $final['meetingTenure']." months"; ?></td>
+					<td><?php echo "$ ".$final['loanAmount'].".00"; ?></td>
+					<td><?php echo $final['tenure']." months"; ?></td>
 					<td><?php $boco = user($final['loanStatusAssigner']);
                             echo $boco['firstName'].' '.$boco['lastName'];
                         ?>
