@@ -147,7 +147,7 @@ include('../includes/header.php');
                 // Close cURL session
                 curl_close($ch);
 
-//                header("Location: list-suppliers.php");
+//                header("Location: list_vaults.php");
 //                exit;
             }
             ?>
@@ -251,7 +251,7 @@ include('../includes/header.php');
                 // Close cURL session
                 curl_close($ch);
 
-//                header("Location: list-suppliers.php");
+//                header("Location: list_vaults.php");
 //                exit;
             }
             ?>
@@ -416,7 +416,7 @@ include('../includes/header.php');
                 // Close cURL session
                 curl_close($ch);
 
-//                header("Location: list-department.php");
+//                header("Location: list-audit-trail.php");
 //                exit;
             }
             ?>
