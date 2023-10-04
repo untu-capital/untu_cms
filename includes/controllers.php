@@ -279,9 +279,19 @@ function staff(){
     return $staff;
 }
 
+function cms_user(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/users/cmsUser');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $cms_user_response = curl_exec($ch);
+    curl_close($ch);
+    $cms_user = json_decode($cms_user_response, true);
+    return $cms_user;
+}
+
     function user($userId){
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/users/getUser/'.$userId);
+        curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/users/'.$userId);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $user_response = curl_exec($ch);
         curl_close($ch);
@@ -314,7 +324,7 @@ function staff(){
     }
 
     // ######################   REPORTS for BUSINESS SECTORS from CMS #################################
-    
+
 	function zones(){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/zones');
@@ -361,7 +371,7 @@ function staff(){
         $files = json_decode($server_response, true);
         return $files;
     }
-    
+
 	// ######################   GET APPRAISAL KYC FILES from CMS #################################
 
     function kyc_files($userId){
@@ -470,7 +480,7 @@ function staff(){
             switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
             case 200:  # OK redirect to dashboard
 
-            
+
             $loan_officer = user($assignTo);;
 
 
@@ -485,10 +495,10 @@ function staff(){
                     'recipientName' => $recipientName,
                     'recipientEmail' => $recipientEmail
                 );
-            
+
                 $data = json_encode($data_array);
                 $ch = curl_init();
-            
+
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -498,7 +508,7 @@ function staff(){
                 $resp = curl_exec($ch);
 
                 curl_close($ch);
-                
+
             endforeach;
 
                 $_SESSION['info'] = "Assigned this application to". " successfully";
@@ -518,7 +528,7 @@ function staff(){
             case 401: # Unauthorixed - Bad credientials
                 $_SESSION['error'] = 'Update Status failed';
                 header('location: loan_info.php?menu=loan&loan_id='.$loanId.'&userid='.$userId);
-                
+
             break;
             default:
             $_SESSION['error'] = 'Could not update Loan status '. "\n";
@@ -527,10 +537,10 @@ function staff(){
         } else {
             $_SESSION['error'] = 'Update Status failed.. Please try again!'. "\n";
             header('location: loan_info.php?menu=loan&loan_id='.$loanId.'&userid='.$userId);
-            
+
         }
         curl_close($ch);
-        
+
         return "";
     }
 
@@ -590,6 +600,16 @@ function branches() {
     return $branch_data;
 }
 
+function branch() {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/branches');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $branches = json_decode($server_response, true);
+    return $branches;
+}
+
 
 
 function user_role($role){
@@ -611,6 +631,26 @@ function user_role($role){
         $roles_data = json_decode($server_response, true);
         return $roles_data;
     }
+
+function get_roles($roleId){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/roles/$roleId");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $get_roles = json_decode($server_response, true);
+    return $get_roles;
+}
+
+function cms_vault_permissions(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/cms/cms_vault_permission');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $cms_vault_permissions = json_decode($server_response, true);
+    return $cms_vault_permissions;
+}
 
     function untuStaff() {
         $ch = curl_init();
@@ -982,7 +1022,7 @@ function user_role($role){
         $bmDateMeeting = date("Y-m-d H:i:s");
         $pipelineStatus = "bm_scheduled_meeting";
         $commit = $_POST['commit'];
-    
+
         setMeeting($recipientEmail, $subject, $message, $loanId, $userId, $scheduledBy, $bmDateMeeting, $commit, $pipelineStatus);
     }
 
@@ -2089,5 +2129,182 @@ if (isset($_POST['send_requisition'])) {
     send_requisition();
 }
 
+if(isset($_POST['update_cms_role'])) {
+    $user = $_POST['user'];
+    $role = $_POST['role'];
+
+    $data_array = array(
+        'role' => $role
+    );
+    $data = json_encode($data_array);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/users/updateCmsUserRole/".$user);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    $resp = curl_exec($ch);
+    curl_close($ch);
+
+    audit($_SESSION['userid'], "Admin updated user ($user) Cash Management Sys Role", $_SESSION['branch']);
+}
+
+if(isset($_POST['add_vault_permissions'])) {
+    $user = $_POST['user'];
+    $vault_acc = $_POST['vault_acc'];
+    $vault_type = $_POST['vault_type'];
+
+    $data_array = array(
+        'role' => $role,
+        'userid' => $user,
+        'vault_acc_code' => $vault_acc,
+//        'vault_acc_name' => "vault_acc_name",
+        'vault_acc_type' => $vault_type
+    );
+    $data = json_encode($data_array);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/cms_vault_permission");
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+    $resp = curl_exec($ch);
+    curl_close($ch);
+    audit($_SESSION['userid'], "Admin added permission for user ($user) to have access to vault: ($vault_acc)", $_SESSION['branch']);
+}
+
+if(isset($_POST['revoke_permission'])) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/cms_vault_permission/".$_POST['id']);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    $resp = curl_exec($ch);
+    curl_close($ch);
+
+}
+
+function pastel_transaction($ToAccount, $FromAccount, $Reference, $Amount, $TransactionType, $Description){
+
+    $data_array = array(
+//        'APIPassword' => 'Admin',
+//        'APIUsername' => 'Admin',
+//        'ToAccount' => $ToAccount,
+//        'FromAccount' => $FromAccount,
+//        'Reference' => $Reference,
+//        'Amount' => $Amount,
+//        'TransactionType' => $TransactionType,
+//        'Description' => $Description,
+//        'Currency' => '001',
+//        'TransactionDate' => date('d-m-Y'),
+//        'ExchangeRate' => '1'
+
+        'APIPassword' => 'Admin',
+        'APIUsername' => 'Admin',
+        'ToAccount' => '8422/000/HRE/FCA',
+        'FromAccount' => '8000/000/HO/LR',
+        'Reference' => 'RP504797',
+        'Amount' => '4000.0',
+        'TransactionType' => 'LOA-REP',
+        'Description' => 'Repayment Transaction',
+        'Currency' => '001',
+        'TransactionDate' => date('d-m-Y'),
+        'ExchangeRate' => '1'
+    );
+    $data = json_encode($data_array);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://192.168.2.103:1335/api/PastelTeller/PostJournalTxn");
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+    $resp = curl_exec($ch);
+    curl_close($ch);
+    audit($_SESSION['userid'], "Created Pastel $Description ", $_SESSION['branch']);
+}
+
+if (isset($_POST['cms_transact'])){
+    $ToAccount = $_POST['ToAccount'];
+    $FromAccount = $_POST['FromAccount'];
+    $Reference = $_POST['Reference'];
+    $Amount = $_POST['Amount'];
+    $TransactionType = $_POST['TransactionType'];
+    $Description = $_POST['Description'];
+
+    pastel_transaction($ToAccount, $FromAccount, $Reference, $Amount, $TransactionType, $Description);
+}
+
+
+$account = "8000/000/HO/LR";
+function pastel_acc_balances($account){
+
+    $data_array = array(
+        'APIPassword' => "Admin",
+        'APIUsername' => "Admin",
+        'Account' => $account
+    );
+    $data = json_encode($data_array);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://192.168.2.103:1335/api/PastelTeller/PostJournalTxn");
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+    $resp = curl_exec($ch);
+    curl_close($ch);
+}
+
+if(isset($_POST['create_vault'])){
+    // API endpoint URL
+    $url ="http://localhost:7878/api/utg/cms/vault/save";
+
+    // Data to send in the POST request
+    $postData = array(
+        'account' => $_POST['account'],
+        'name' => $_POST['name'],
+        'type' => $_POST['type'],
+        'branchId' => $_POST['branch'],
+    );
+
+    $data = json_encode($postData);
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+
+    // Execute the POST request and store the response in a variable
+    $response = curl_exec($ch);
+
+    // Check for cURL errors
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+    }
+
+    // Close cURL session
+    curl_close($ch);
+    if($response){
+        echo '<script>window.location.href = "cash_management.php?menu=main&tabId=vaults";</script>';
+    }
+}
+
+function vaults($get) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/vault/get/$get");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $vaults = json_decode($server_response, true);
+    return $vaults;
+}
 
 ?>

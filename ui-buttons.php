@@ -380,10 +380,7 @@
 									parent—by adding <code>.btn-block</code>.
 								</p>
 								<div class="btn-list">
-									<button
-										type="button"
-										class="btn btn-success btn-lg btn-block"
-									>
+									<button type="button" class="btn btn-success btn-lg btn-block">
 										Block level button
 									</button>
 									<button
