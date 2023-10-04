@@ -29,13 +29,14 @@
             $permissions = cms_vault_permissions();
             foreach($permissions as $permission):
                 $user = user($permission["userid"]);
-                $cmsBranch = $user["cmsUser"]["role"]; ?>
+                $cmsBranch = $user["cmsUser"]["role"];
+                $vaults = vaults($permission["vault_acc_code"]); ?>
                 <tr>
                     <td><?php echo date('d-M-Y', strtotime($permission['createdAt'])) ;?></td>
                     <td><?= htmlspecialchars ($user["firstName"])." ".htmlspecialchars ($user["lastName"]) ?></td>
                     <td><?= htmlspecialchars ($user["username"]) ?></td>
-                    <td><?= htmlspecialchars ($permission['vault_acc_name']) ?></td>
-                    <td><?= htmlspecialchars ($permission["vault_acc_code"]) ?></td>
+                    <td><?= htmlspecialchars ($vaults['name']) ?></td>
+                    <td><?= htmlspecialchars ($vaults["account"]) ?></td>
                     <td><?= htmlspecialchars ($permission["vault_acc_type"]) ?></td>
                     <td><?= htmlspecialchars ($user["branch"]) ?></td>
                     <td>

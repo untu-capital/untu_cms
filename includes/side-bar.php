@@ -713,6 +713,16 @@
                                 <li><a href="signed_tickets.php">Ticket(s) Signing</a></li>
                             </ul>
                         </li>
+                        <?php if ($_SESSION['cmsUser'] != null){ ?>
+                        <li class="dropdown">
+                            <a href="javascript:;" class="dropdown-toggle">
+                                <span class="micon bi bi-cash-coin"></span><span class="mtext">Cash Management</span>
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="cash_management.php?menu=main">Dashboard</a></li>
+                            </ul>
+                        </li>
+                        <?php } ?>
                         <li>
                             <a href="events_calendar.php" class="dropdown-toggle no-arrow">
 								<span class="micon bi bi-calendar4-week"></span

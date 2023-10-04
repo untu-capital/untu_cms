@@ -600,6 +600,16 @@ function branches() {
     return $branch_data;
 }
 
+function branch() {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/branches');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $branches = json_decode($server_response, true);
+    return $branches;
+}
+
 
 
 function user_role($role){
@@ -2141,7 +2151,7 @@ if(isset($_POST['update_cms_role'])) {
 }
 
 if(isset($_POST['add_vault_permissions'])) {
-    $user = $_POST['userid'];
+    $user = $_POST['user'];
     $vault_acc = $_POST['vault_acc'];
     $vault_type = $_POST['vault_type'];
 
@@ -2149,7 +2159,7 @@ if(isset($_POST['add_vault_permissions'])) {
         'role' => $role,
         'userid' => $user,
         'vault_acc_code' => $vault_acc,
-        'vault_acc_name' => "vault_acc_name",
+//        'vault_acc_name' => "vault_acc_name",
         'vault_acc_type' => $vault_type
     );
     $data = json_encode($data_array);
@@ -2247,6 +2257,54 @@ function pastel_acc_balances($account){
     curl_setopt($ch, CURLOPT_HEADER, true );
     $resp = curl_exec($ch);
     curl_close($ch);
+}
+
+if(isset($_POST['create_vault'])){
+    // API endpoint URL
+    $url ="http://localhost:7878/api/utg/cms/vault/save";
+
+    // Data to send in the POST request
+    $postData = array(
+        'account' => $_POST['account'],
+        'name' => $_POST['name'],
+        'type' => $_POST['type'],
+        'branchId' => $_POST['branch'],
+    );
+
+    $data = json_encode($postData);
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+
+    // Execute the POST request and store the response in a variable
+    $response = curl_exec($ch);
+
+    // Check for cURL errors
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+    }
+
+    // Close cURL session
+    curl_close($ch);
+    if($response){
+        echo '<script>window.location.href = "cash_management.php?menu=main&tabId=vaults";</script>';
+    }
+}
+
+function vaults($get) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/vault/get/$get");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $vaults = json_decode($server_response, true);
+    return $vaults;
 }
 
 ?>

@@ -34,6 +34,7 @@ if($userid == false){
         $_SESSION['role'] = $decoded['roles'][0]['name'];
 //        $_SESSION['cms_role'] = $decoded['roles'][0]['name'];
         $_SESSION['musoniClientId'] = $decoded['musoniClientId'];
+        $_SESSION['cmsUser'] = $decoded['cmsUser'];
 
         $check_role = $_SESSION['role'];
 
