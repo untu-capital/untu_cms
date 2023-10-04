@@ -279,6 +279,28 @@ function staff(){
     return $staff;
 }
 
+function branch_by_id($id){
+    $ch = curl_init();
+    $id = $_GET["id"];
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/branches/$id");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $branches_by_id = json_decode($server_response, true);
+    return $branches_by_id;
+}
+
+function authorisation_by_id($id){
+    $ch = curl_init();
+    $id = $_GET["id"];
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms_authorisation/$id");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $authorisation_by_id = json_decode($server_response, true);
+    return $authorisation_by_id;
+}
+
     function user($userId){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/users/getUser/'.$userId);
@@ -288,6 +310,15 @@ function staff(){
         $user = json_decode($user_response, true);
         return $user;
     }
+function authbranch($id){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/branches/'.$id);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $user_response = curl_exec($ch);
+    curl_close($ch);
+    $authbranch = json_decode($user_response, true);
+    return $authbranch;
+}
 
 // ######################   REPORTS for PIPELINE APPLICANTS from CMS #################################
 
@@ -588,6 +619,25 @@ function branches() {
         $branch_data[] = $branch['branchName'];
     }
     return $branch_data;
+}
+
+function branch(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/branches');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $branches = json_decode($server_response, true);
+    return $branches;
+}
+function authorisation(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/cms_authorisation');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $authorisations = json_decode($server_response, true);
+    return $authorisations;
 }
 
 

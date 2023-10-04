@@ -373,14 +373,16 @@
                                     <li><a href="requisitions.php?menu=main">Requisitions</a></li>
                                 </ul>
                             </li>
+
                             <li class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle">
                                     <span class="micon bi bi-cash-stack"></span><span class="mtext">Cash Management</span>
                                 </a>
                                 <ul class="submenu">
-                                    <li><a href="requisitions.php?menu=main">Requisitions</a></li>
+                                    <li><a href="cash_management.php?menu=main">cash_management</a></li>
                                 </ul>
                             </li>
+
                             <li class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span
