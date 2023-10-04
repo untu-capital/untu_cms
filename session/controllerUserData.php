@@ -1,6 +1,6 @@
 
 
-<?php 
+<?php
 session_start();
 // require "connection.php";
 $audit = "";
@@ -26,7 +26,7 @@ function session($val){
         }
         else {
             $decoded = json_decode($resp, true);
-            
+
             $_SESSION['userId'] = $decoded['id'];
             $_SESSION['email'] = $decoded['contactDetail']['emailAddress'];
             $_SESSION['username'] = $decoded['username'];
@@ -34,7 +34,7 @@ function session($val){
             $_SESSION['role'] = $decoded['roles'][0]['name'];
             $_SESSION['branch'] = $decoded['branch'];
             $_SESSION['fullname'] =  $decoded['firstName'] ." ". $decoded['lastName'];
-            
+
         }
 
         curl_close($ch);
@@ -81,7 +81,8 @@ function curlreg($firstname, $lastname, $username, $email, $mobile, $password) {
         'username' => $username,
         'email' => $email,
         'mobileNumber' => $mobile,
-        'password' => $password
+        'password' => $password,
+        'role' => "false"
     );
 
     $data = json_encode($data_array);
@@ -127,18 +128,18 @@ function curlreg($firstname, $lastname, $username, $email, $mobile, $password) {
             $decoded = json_decode($bodyStr);
             foreach($decoded as $key => $val) {
             //echo $key . ': ' . $val . '<br>';
-         } 
+         }
         $_SESSION['errors'] = $val;
             audits($_SESSION['userid'], "User Registration Failed", $_SESSION['branch']);
         header('location: ../login_signup/register.php');
-         
+
         break;
 
         case 401: # Unauthorixed - Bad credientials
             $_SESSION['error'] = 'Registration failed.. Please try again!';
             audits($_SESSION['userid'], "User Registration Failed", $_SESSION['branch']);
              header('location: ../login_signup/register.php');
-            
+
         break;
         default:
             $decoded = json_decode($bodyStr);
@@ -153,7 +154,7 @@ function curlreg($firstname, $lastname, $username, $email, $mobile, $password) {
         $_SESSION['error'] = 'Login Failed'. "\n";
         audits($_SESSION['userid'], "User Registration Failed", $_SESSION['branch']);
         // header('location: login.php#signup');
-        
+
     }
     curl_close($ch);
 }
@@ -183,12 +184,12 @@ function curlreg($firstname, $lastname, $username, $email, $mobile, $password) {
 //#################------------------------------    HTTP login function: -----------------------------#####################//
 
 function curllogin($email, $password) {
-    
+
     $url = "http://localhost:7878/api/utg/auth/login";
     $email = trim($email);
 
     $data_array = array(
-        'username' => $email, 
+        'username' => $email,
         'password' => $password
     );
 
@@ -215,7 +216,7 @@ function curllogin($email, $password) {
 
     // Check HTTP status code
     if (!curl_errno($ch)) {
-        
+
         switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
         case 200:  # OK redirect to dashboard
             $decoded = json_decode($bodyStr);
@@ -226,7 +227,7 @@ function curllogin($email, $password) {
             session($val);
 
             audits($_SESSION['userid'], "User Login Successful", $_SESSION['branch']);
-            
+
             // $_SESSION['info'] = " Login Successful";
 
             if ($_SESSION['role'] == 'ROLE_CLIENT'){
@@ -333,7 +334,7 @@ function curlconfirm($otp_code, $username) {
 
    // Check HTTP status code
    if (!curl_errno($ch)) {
-       
+
        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
        case 200:  # OK redirect to dashboard
            $decoded = json_decode($bodyStr);
@@ -397,14 +398,14 @@ function curlcheck_mobile($mobile){
 
     // Check HTTP status code
     if (!curl_errno($ch)) {
-        
+
         $decoded = json_decode($bodyStr);
         switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
         case 200:  # OK redirect to dashboard
 
         // SEND AFORGOT PASSWORD RESET HERE!!!
 
-        curlsend_mail($mobile);  
+        curlsend_mail($mobile);
 
         // $_SESSION['info'] = "We've sent a verification code to the email you provideds : $email";
         // header('location: reset-code.php');
@@ -465,10 +466,10 @@ function curlsend_mail($mobile) {
 
    // Check HTTP status code
    if (!curl_errno($ch)) {
-       
+
     switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
 
-        case 200:  # OK redirect to dashboard 
+        case 200:  # OK redirect to dashboard
         $decoded = json_decode($bodyStr);
            foreach($decoded as $key => $val) {
             //    echo $key . ': ' . $val . '<br>';
@@ -486,7 +487,7 @@ function curlsend_mail($mobile) {
             $_SESSION['error'] = $val;
             //header('location: user-otp.php#signup');
        break;
-       
+
        default:
            $_SESSION['error'] = 'Unexpected error '. "\n";
            //header('location: user-otp.php#signup');
@@ -509,7 +510,7 @@ function curlreset($token, $password){
     $url = "http://localhost:7878/api/utg/auth/reset_password?token=" . $token . "&password=" . $password;
 
     $data_array = array(
-        'token' => $token, 
+        'token' => $token,
         'password' => $password
     );
 
@@ -538,7 +539,7 @@ function curlreset($token, $password){
 
     // Check HTTP status code
     if (!curl_errno($ch)) {
-        
+
         $decoded = json_decode($bodyStr);
         switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
         case 200:  # OK redirect to dashboard
@@ -583,7 +584,7 @@ function curlreset($token, $password){
         $mobile = $_POST['mobile'];
         $password = $_POST['password'];
         $cpassword = $_POST['cpassword'];
-        
+
         if($password !== $cpassword){
             $errors['password'] = "Confirm password not matched!";
         }
@@ -596,7 +597,7 @@ function curlreset($token, $password){
         $_SESSION['username'] = $username;
         // header('location: user-otp.php');
         exit();
-        
+
     }
 
     //if user click verification code submit button
@@ -649,15 +650,15 @@ function curlreset($token, $password){
                         window.alert('Confirm password not matched!.. Please make sure your passwords match');
                         window.location.href='new-password.php?token=$token';
                     </script>");
-            ?>      
+            ?>
             <?php
             // header('location: new-password.php?token='.$token);
         }else{
-           
+
             // getting this token using session
             curlreset($token, $password);
-            
+
         }
     }
-    
+
 ?>

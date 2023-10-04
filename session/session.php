@@ -12,7 +12,7 @@ if($userid == false){
     header('Location: ../login_signup/login.php');
 }else{
 
-    $url = "http://localhost:7878/api/utg/users/$userid";
+    $url = "http://localhost:7878/api/utg/users/getUser/$userid";
 
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -32,7 +32,9 @@ if($userid == false){
         $_SESSION['firstname'] = $decoded['firstName'];
         $_SESSION['lastname'] = $decoded['lastName'];
         $_SESSION['role'] = $decoded['roles'][0]['name'];
+//        $_SESSION['cms_role'] = $decoded['roles'][0]['name'];
         $_SESSION['musoniClientId'] = $decoded['musoniClientId'];
+        $_SESSION['cmsUser'] = $decoded['cmsUser'];
 
         $check_role = $_SESSION['role'];
 

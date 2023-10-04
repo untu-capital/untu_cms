@@ -60,22 +60,22 @@ include('../includes/header.php');
                             <a class="nav-link active" data-toggle="tab" href="#acc_balance" role="tab" aria-selected="true">Account Balances</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#assign_role" role="tab" aria-selected="false">Assign CMS Role</a>
+                            <a class="nav-link" data-toggle="tab" href="#assign_role" role="tab" aria-selected="false">Cash Transaction  Voucher</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#vault_auth" role="tab" aria-selected="false">Vaults Authorization</a>
+                            <a class="nav-link" data-toggle="tab" href="#vault_auth" role="tab" aria-selected="false">Petty Cash Payments</a>
                         </li>
 
 
 
                         <li class="nav-item">
                             <a class="nav-link text-blue" data-toggle="tab" href="#vaults" role="tab" aria-selected="false">
-                                Manage Vaults
+                                Cash Receipts
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-blue" data-toggle="tab" href="#auditTrail" role="tab" aria-selected="false" >
-                                Audit Trail
+                                Cash Reconciliation
                             </a>
                         </li>
                     </ul>

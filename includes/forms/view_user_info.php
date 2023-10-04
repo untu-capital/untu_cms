@@ -92,7 +92,7 @@
                                             <form method="post" action="">
                                                 <select id="userBranch" onchange="Status()" class="btn btn-clipboard" name="update_user_branch" autocomplete="off">
                                                     <option>Select Branch</option>
-                                                    <?php $branch_data = branches();
+                                                    <?php $branch_data = branch();
                                                     foreach ($branch_data as $branch) {
                                                         echo "<option value='$branch[branchName]'>$branch[branchName]</option>";} ?>
                                                 </select>

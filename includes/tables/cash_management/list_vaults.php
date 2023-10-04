@@ -1,19 +1,19 @@
 <?php
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/vault/get/all");
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$server_response = curl_exec($ch);
-
-curl_close($ch);
-$data = json_decode($server_response, true);
-// Check if the JSON decoding was successful
-if ($data !== null) {
-    $table = $data;
-
-} else {
-    echo "Error decoding JSON data";
-}
-?>
+//$ch = curl_init();
+//curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/vault/get/all");
+//curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//$server_response = curl_exec($ch);
+//
+//curl_close($ch);
+//$data = json_decode($server_response, true);
+//// Check if the JSON decoding was successful
+//if ($data !== null) {
+//    $table = $data;
+//
+//} else {
+//    echo "Error decoding JSON data";
+//}
+//?>
 
     <div class="pd-ltr-20 xs-pd-20-10">
         <div class="min-height-200px">
@@ -44,14 +44,16 @@ if ($data !== null) {
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($table as $row):?>
+                        <?php
+                            $vaults = vaults('all');
+                            foreach ($vaults as $row):?>
                         <tr>
                             <td class="table-plus"><?php echo $row['account']; ?></td>
                             <td><?php echo $row['type']; ?></td>
                             <td><?php echo $row['name']; ?></td>
                             <td><?php echo $row['branch']['branchName']; ?></td>
-                            <td><?php echo $row['maxAmount'] ? $row['maxAmount'] != null : 0.00; ?></td>
-                            <td><?php echo $row['currentAmount'] ? $row['currentAmount'] != null : 0.00; ?></td>
+                            <td><?php echo '$ ' . number_format($row['maxAmount'], 2, '.', ','); ?></td>
+                            <td><?php echo '$ ' . number_format($row['currentAmount'], 2, '.', ','); ?></td>
                             <td>
                                 <div class="dropdown">
                                     <a
