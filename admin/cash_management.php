@@ -172,12 +172,14 @@ if(isset($_POST['edit'])) {
 //update Authrities
 function updateAuthorities($id, $branch, $authlevel,$name){
 
-    $url = "http://localhost:7878/api/utg/cms_authorisation/update/".$id;
+    echo $id;
+    echo
+
+    $url = "http://localhost:7878/api/utg/cms/cms_authorisation/update/".$id;
     $data_array = array(
-        'branchName' => $branch,
+        'branchId' => $branch,
         'authLevel' => $authlevel,
         'userId' => $name,
-
 
     );
 
@@ -227,12 +229,11 @@ function updateAuthorities($id, $branch, $authlevel,$name){
     }
     curl_close($ch);
 }
-if(isset($_POST['auth'])) {
+if(isset($_POST['update_auth'])) {
     $id = $_POST['id'];
-    $branch = $_POST['branches'];
+    $branch = $_POST['update_branch'];
     $authlevel = $_POST['role'];
-    $name = $_POST['name'];
-
+    $name = $_POST['update_name'];
 
     updateAuthorities($id, $branch, $authlevel,$name);
 }
@@ -314,7 +315,7 @@ include('../includes/header.php');
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-blue" data-toggle="tab" href="#authorisers" role="tab" aria-selected="false">
-                                    Manage Authorizers
+                                    Branch Vault Approvers
                                 </a>
                             </li>
 
@@ -435,39 +436,6 @@ include('../includes/header.php');
                                             </div>
                                         </div>
 
-                                        <script>
-                                            // Function to fetch vaults based on user and vault type
-                                            function fetchVaults() {
-                                                var userId = $('#userSelect').val();
-                                                var vaultType = $('#vaultTypeSelect').val();
-
-                                                // Construct the API URL based on selected values
-                                                var apiUrl = `http://localhost:7878/api/utg/cms/vault/getVaultsByBranchAndType/Harare/Internal Vault}`;
-
-                                                // Make an AJAX request to fetch the vaults
-                                                $.ajax({
-                                                    url: apiUrl,
-                                                    method: 'GET',
-                                                    success: function(response) {
-                                                        // Populate the vault select options based on the fetched data
-                                                        var vaultSelect = $('#vaultSelect');
-                                                        vaultSelect.empty();
-
-                                                        $.each(response, function(index, vault) {
-                                                            vaultSelect.append(`<option value="${vault.id}">${vault.name} (${vault.account})</option>`);
-                                                        });
-                                                    },
-                                                    error: function(xhr, status, error) {
-                                                        console.error('Error fetching vaults:', error);
-                                                    }
-                                                });
-                                            }
-
-                                            // Attach event listeners to user and vault type selects
-                                            $('#userSelect, #vaultTypeSelect').change(function() {
-                                                fetchVaults(); // Fetch and update vaults when values change
-                                            });
-                                        </script>
 
                                         <div class="col-2 pd-20 form-group">
                                             <br>
@@ -719,8 +687,7 @@ include('../includes/header.php');
                         <div class="pd-20 card-box">
                             <div class="pd-20 card-box mb-30">
                                 <div class="clearfix">
-                                    <h4 class="text-blue h4">Edit Authority Level</h4>
-
+                                    <h4 class="text-blue h4">Edit Branch Vault Access</h4>
                                 </div>
                                 <div class="wizard-content">
 
@@ -730,32 +697,44 @@ include('../includes/header.php');
                                             <div class="col-md-4 col-sm-12">
                                                 <div class="form-group">
                                                     <label>Branch Name</label>
-                                                    <select class="custom-select form-control" name="branches">
-                                                        <option value="<?=$auth_by_id['branchName'] ?>"> <?=$auth_by_id['branchName'] ?></option>
-                                                        <option value="">Select Name</option>
+                                                    <select id="branch" class="custom-select form-control" name="update_branch">
                                                         <?php
-                                                        $branches = branch();
-                                                        foreach ($branches as $branch) {
-                                                            echo "<option value='$branch[branchName]'name='branches'>$branch[branchName] Branch</option>";
-                                                        }
+                                                            $branch = authbranch($auth_by_id['branchId']);
+                                                            echo "<option value='$branch[id]'>$branch[branchName] Branch</option>";
+                                                            $branches = branch();
+                                                            foreach ($branches as $branch) {
+                                                                echo "<option value='$branch[id]'>$branch[branchName] Branch</option>";
+                                                            }
                                                         ?>
-
-                                                    </select>                                                </div>
+                                                    </select>
+                                                </div>
                                             </div>
                                             <div class="col-md-4 col-sm-12">
                                                 <div class="form-group">
                                                     <label>Authentication Level <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
                                                     <select class="custom-select form-control" name="role">
                                                         <option value="<?=$auth_by_id['authLevel'] ?>"> <?=$auth_by_id['authLevel'] ?></option>
-                                                        <option value="Initiator"name="role" >Initiator</option>
-                                                        <option value="First Approver"name="role" >First Approver</option>
-                                                        <option value="Second Approver"name="role" >Second Approver</option>
+                                                        <option value="Initiator" name="role" >Initiator</option>
+                                                        <option value="First Approver" name="role" >First Approver</option>
+                                                        <option value="Second Approver" name="role" >Second Approver</option>
                                                     </select>                                                </div>
                                             </div>
                                             <div class="col-md-4 col-sm-12">
                                                 <div class="form-group">
                                                     <label>Name <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
-                                                    <input type="text" class="form-control" name="name" value="<?=$auth_by_id['userId'] ?>" id="name" required>
+<!--                                                    <input type="text" class="form-control" name="name" value="--><?php //$user = user($auth_by_id['userId']); echo $user['firstName'].' '.$user['lastName'] ?><!--" id="name" required>-->
+                                                    <select id="name" class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="update_name" style="width: 100%; height: 38px" required>
+                                                        <optgroup label="select user">
+                                                            <?php
+                                                                $user = user($auth_by_id['userId']);
+                                                                echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
+                                                                $users = untuStaff();
+                                                                foreach ($users as $user) {
+                                                                    echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
+                                                                }
+                                                                ?>
+                                                        </optgroup>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
@@ -763,20 +742,14 @@ include('../includes/header.php');
                                         <div class="row">
                                             <div class="col-md-6 col-sm-12">
                                                 <div class="form-group">
-
                                                     <input type="hidden" class="form-control" value="<?=$auth_by_id['id'] ?>" name="id" id="id" required>
                                                 </div>
                                             </div>
-
                                         </div>
 
                                         <div class="col-md-6 col-sm-12">
-
-                                            <?php
-
-                                            ?>
                                             <div class="form-group">
-                                                <button type="submit" class="btn btn-danger" value="auth" name="auth">Update</button>
+                                                <button type="submit" class="btn btn-danger" value="auth" name="update_auth">Update</button>
                                             </div>
                                         </div>
                                     </form>
@@ -863,7 +836,6 @@ include('../includes/header.php');
         <?php }elseif ($_GET['menu'] == 'update_vault'){ ?>
 
             <?php
-
             $id = $_GET['vaultId'];
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/vault/get/" . $id);

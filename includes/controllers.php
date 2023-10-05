@@ -303,7 +303,7 @@ function branch_by_id($id){
 function authorisation_by_id($id){
     $ch = curl_init();
     $id = $_GET["id"];
-    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms_authorisation/$id");
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/cms_authorisation/$id");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $server_response = curl_exec($ch);
     curl_close($ch);
@@ -642,7 +642,7 @@ function branch(){
 }
 function authorisation(){
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/cms_authorisation');
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/cms/cms_authorisation');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $server_response = curl_exec($ch);
     curl_close($ch);

@@ -59,7 +59,7 @@ if(isset($_POST['delete'])) {
 
 if(isset($_POST['deleteAuth'])) {
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms_authorisation/".$_POST['id']);
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/cms_authorisation/".$_POST['id']);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
