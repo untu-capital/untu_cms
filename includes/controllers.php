@@ -289,6 +289,28 @@ function cms_user(){
     return $cms_user;
 }
 
+function branch_by_id($id){
+    $ch = curl_init();
+    $id = $_GET["id"];
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/branches/$id");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $branches_by_id = json_decode($server_response, true);
+    return $branches_by_id;
+}
+
+function authorisation_by_id($id){
+    $ch = curl_init();
+    $id = $_GET["id"];
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms_authorisation/$id");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $authorisation_by_id = json_decode($server_response, true);
+    return $authorisation_by_id;
+}
+
     function user($userId){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/users/'.$userId);
@@ -298,6 +320,15 @@ function cms_user(){
         $user = json_decode($user_response, true);
         return $user;
     }
+function authbranch($id){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/branches/'.$id);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $user_response = curl_exec($ch);
+    curl_close($ch);
+    $authbranch = json_decode($user_response, true);
+    return $authbranch;
+}
 
 // ######################   REPORTS for PIPELINE APPLICANTS from CMS #################################
 
@@ -324,7 +355,7 @@ function cms_user(){
     }
 
     // ######################   REPORTS for BUSINESS SECTORS from CMS #################################
-
+    
 	function zones(){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/zones');
@@ -371,7 +402,7 @@ function cms_user(){
         $files = json_decode($server_response, true);
         return $files;
     }
-
+    
 	// ######################   GET APPRAISAL KYC FILES from CMS #################################
 
     function kyc_files($userId){
@@ -480,7 +511,7 @@ function cms_user(){
             switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
             case 200:  # OK redirect to dashboard
 
-
+            
             $loan_officer = user($assignTo);;
 
 
@@ -495,10 +526,10 @@ function cms_user(){
                     'recipientName' => $recipientName,
                     'recipientEmail' => $recipientEmail
                 );
-
+            
                 $data = json_encode($data_array);
                 $ch = curl_init();
-
+            
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -508,7 +539,7 @@ function cms_user(){
                 $resp = curl_exec($ch);
 
                 curl_close($ch);
-
+                
             endforeach;
 
                 $_SESSION['info'] = "Assigned this application to". " successfully";
@@ -528,7 +559,7 @@ function cms_user(){
             case 401: # Unauthorixed - Bad credientials
                 $_SESSION['error'] = 'Update Status failed';
                 header('location: loan_info.php?menu=loan&loan_id='.$loanId.'&userid='.$userId);
-
+                
             break;
             default:
             $_SESSION['error'] = 'Could not update Loan status '. "\n";
@@ -537,10 +568,10 @@ function cms_user(){
         } else {
             $_SESSION['error'] = 'Update Status failed.. Please try again!'. "\n";
             header('location: loan_info.php?menu=loan&loan_id='.$loanId.'&userid='.$userId);
-
+            
         }
         curl_close($ch);
-
+        
         return "";
     }
 
@@ -600,7 +631,7 @@ function branches() {
     return $branch_data;
 }
 
-function branch() {
+function branch(){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/branches');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -608,6 +639,15 @@ function branch() {
     curl_close($ch);
     $branches = json_decode($server_response, true);
     return $branches;
+}
+function authorisation(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/cms_authorisation');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $authorisations = json_decode($server_response, true);
+    return $authorisations;
 }
 
 
@@ -1022,7 +1062,7 @@ function cms_vault_permissions(){
         $bmDateMeeting = date("Y-m-d H:i:s");
         $pipelineStatus = "bm_scheduled_meeting";
         $commit = $_POST['commit'];
-
+    
         setMeeting($recipientEmail, $subject, $message, $loanId, $userId, $scheduledBy, $bmDateMeeting, $commit, $pipelineStatus);
     }
 
