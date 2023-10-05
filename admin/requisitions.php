@@ -592,9 +592,11 @@ include('../includes/header.php');
             </div>
             <!-- Default Basic Forms End -->
 
-        <?php } elseif ($_GET['menu'] == 'add_budget'){?>
+        <?php }
+        elseif ($_GET['menu'] == 'add_budget'){?>
 
-        <?php } elseif ($_GET['menu'] == 'add_department'){?>
+        <?php }
+        elseif ($_GET['menu'] == 'add_department'){?>
 
         <?php } ?>
 
