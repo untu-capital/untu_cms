@@ -98,13 +98,15 @@ include('../includes/header.php');
                                         </div>
                                     </div>
                                     <form method="POST" action="" id="withdrawalCashVoucherForm">
-                                        <input value="" name="initiator">
+                                        <label for="initiator" hidden="hidden"></label>
+                                        <input id="initiator" value="" name="initiator" hidden="hidden">
                                         <div class="row">
                                             <div class="col-md-6 col-sm-12">
                                                 <div class="form-group">
-                                                    <label>currency</label>
+                                                    <label for="currency">currency</label>
                                                     <select
                                                             class="custom-select2 form-control"
+                                                            id="currency"
                                                             name="currency"
                                                             style="width: 100%; height: 38px"
                                                     >
@@ -116,8 +118,9 @@ include('../includes/header.php');
                                             </div>
                                             <div class="col-md-6 col-sm-12">
                                                 <div class="form-group">
-                                                    <label>Amount</label>
+                                                    <label for="amount">Amount</label>
                                                     <input type="number" class="form-control" required name="amount"
+                                                           oninput="calculateValue()"
                                                            id="amount">
                                                 </div>
                                             </div>
@@ -125,26 +128,28 @@ include('../includes/header.php');
                                         <div class="row">
                                             <div class="col-md-6 col-sm-12">
                                                 <div class="form-group">
-                                                    <label>Withdrawal From</label>
+                                                    <label for="fromVault">Withdrawal From</label>
                                                     <select
                                                             class="custom-select2 form-control"
+                                                            id="fromVault"
                                                             name="fromVault"
                                                             style="width: 100%; height: 38px"
                                                     >
-                                                        <option value="">Please Select Category</option>
+                                                        <option value="">Please Select Vault</option>
                                                         <option value="">Please Select Category</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-12">
                                                 <div class="form-group">
-                                                    <label>Withdrawal To</label>
+                                                    <label for="toVault">Withdrawal To</label>
                                                     <select
                                                             class="custom-select2 form-control"
+                                                            id="toVault"
                                                             name="toVault"
                                                             style="width: 100%; height: 38px"
                                                     >
-                                                        <option value="">Please Select Category</option>
+                                                        <option value="">Please Select Vault</option>
                                                         <option value="">Please Select Category</option>
 
                                                     </select>
@@ -154,41 +159,48 @@ include('../includes/header.php');
                                         <div class="row">
                                             <div class="col-md-6 col-sm-12">
                                                 <div class="form-group">
-                                                    <label>Amount in Words</label>
+                                                    <label for="amountInWords">Amount in Words</label>
                                                     <input type="text" class="form-control" required
+                                                           id="amountInWords"
                                                            name="amountInWords">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-12">
-                                                <div class="form-group">
-                                                    <label>Withdrawal Purpose</label>
-                                                    <select
-                                                            class="custom-select2 form-control"
-                                                            name="withdrawalPurpose"
-                                                            style="width: 100%; height: 38px"
-                                                    >
-                                                        <option value="">Please Select Category</option>
-                                                        <option value="">Please Select Category</option>
-                                                    </select>
+                                                <div class="row">
+                                                    <div class="col-md-12 col-sm-10">
+                                                        <div class="form-group">
+                                                            <label for="transactionPurposeSelect">Withdrawal Purpose</label>
+                                                            <select
+                                                                    class="custom-select2 form-control"
+                                                                    name="withdrawalPurpose"
+                                                                    id="transactionPurposeSelect"
+                                                                    style="width: 100%; height: 38px"
+                                                            >
+                                                                <option value="">Please Select Transaction Purpose</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-<!--                                        <div class="row">-->
-<!--                                            <div class="col-md-6 col-sm-12">-->
-<!--                                                <div class="form-group">-->
-<!--                                                    <label>First Approver</label>-->
-<!--                                                    <input type="text" class="form-control" required-->
-<!--                                                           name="firstApprover">-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                            <div class="col-md-6 col-sm-12">-->
-<!--                                                <div class="form-group">-->
-<!--                                                    <label>Second Approver</label>-->
-<!--                                                    <input type="text" class="form-control" required-->
-<!--                                                           name="secondApprover">-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="firstApproverT">First Approver</label>
+                                                    <input type="text" class="form-control" required
+                                                           id="firstApproverT"
+                                                           name="firstApprover">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 col-sm-12">
+                                                <div class="form-group">
+                                                    <label for="secondApproverT">Second Approver</label>
+                                                    <input type="text" class="form-control" required
+                                                           id="secondApproverT"
+                                                           name="secondApprover">
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="row">
                                             <table class="table">
                                                 <thead>
@@ -201,96 +213,131 @@ include('../includes/header.php');
                                                 <tbody>
                                                 <tr>
                                                     <th scope="row">100</th>
-                                                    <th scope="row"><input type="number" class="form-control"
+                                                    <th scope="row">
+                                                        <label for="denomination100" hidden="hidden"></label>
+                                                        <input type="number" class="form-control"
                                                                            id="denomination100" required
                                                                            name="denomination100"
                                                                            oninput="calculateValue()"></th>
-                                                    <th scope="row"><input type="number" class="form-control"
+                                                    <th scope="row">
+                                                        <label for="denomination100T" hidden="hidden"></label>
+                                                        <input type="number" class="form-control"
                                                                            id="denomination100T" required
                                                                            name="denomination100T" readonly></th>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">50</th>
-                                                    <th scope="row"><input type="number" class="form-control"
+                                                    <th scope="row">
+                                                        <label for="denomination50" hidden="hidden"></label>
+                                                        <input type="number" class="form-control"
                                                                            id="denomination50" required
                                                                            name="denomination50"
                                                                            oninput="calculateValue()"></th>
-                                                    <th scope="row"><input type="number" class="form-control" required
+                                                    <th scope="row">
+                                                        <label for="denomination50T" hidden="hidden"></label>
+                                                        <input type="number" class="form-control" required
                                                                            id="denomination50T" name="denomination50T"
                                                                            readonly></th>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">20</th>
-                                                    <th scope="row"><input type="number" class="form-control"
+                                                    <th scope="row">
+                                                        <label for="denomination20" hidden="hidden"></label>
+                                                        <input type="number" class="form-control"
                                                                            id="denomination20" required
                                                                            name="denomination20"
                                                                            oninput="calculateValue()"></th>
-                                                    <th scope="row"><input type="number" class="form-control" required
+                                                    <th scope="row">
+                                                        <label for="denomination20T" hidden="hidden"></label>
+                                                        <input type="number" class="form-control" required
                                                                            id="denomination20T" name="denomination20T"
                                                                            readonly></th>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">10</th>
-                                                    <th scope="row"><input type="number" class="form-control"
+                                                    <th scope="row">
+                                                        <label for="denomination10" hidden="hidden"></label>
+                                                        <input type="number" class="form-control"
                                                                            id="denomination10" required
                                                                            name="denomination10"
                                                                            oninput="calculateValue()"></th>
-                                                    <th scope="row"><input type="number" class="form-control" required
+                                                    <th scope="row">
+                                                        <label for="denomination10T" hidden="hidden"></label>
+                                                        <input type="number" class="form-control" required
                                                                            id="denomination10T" name="denomination10T"
                                                                            readonly></th>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">5</th>
-                                                    <th scope="row"><input type="number" class="form-control"
+                                                    <th scope="row">
+                                                        <label for="denomination5" hidden="hidden"></label>
+                                                        <input type="number" class="form-control"
                                                                            id="denomination5" required
                                                                            name="denomination5"
                                                                            oninput="calculateValue()"></th>
-                                                    <th scope="row"><input type="number" class="form-control" required
+                                                    <th scope="row">
+                                                        <label for="denomination5T" hidden="hidden"></label>
+                                                        <input type="number" class="form-control" required
                                                                            id="denomination5T" name="denomination5T"
                                                                            readonly></th>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">2</th>
-                                                    <th scope="row"><input type="number" class="form-control"
+                                                    <th scope="row">
+                                                        <label for="denomination2" hidden="hidden"></label>
+                                                        <input type="number" class="form-control"
                                                                            id="denomination2" required
                                                                            name="denomination2"
                                                                            oninput="calculateValue()"></th>
-                                                    <th scope="row"><input type="number" class="form-control" required
+                                                    <th scope="row">
+                                                        <label for="denomination2T" hidden="hidden"></label>
+                                                        <input type="number" class="form-control" required
                                                                            id="denomination2T" name="denomination2T"
                                                                            readonly></th>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">1</th>
-                                                    <th scope="row"><input type="number" class="form-control"
+                                                    <th scope="row">
+                                                        <label for="denomination1" hidden="hidden"></label>
+                                                        <input type="number" class="form-control"
                                                                            id="denomination1" required
                                                                            name="denomination1"
                                                                            oninput="calculateValue()"></th>
-                                                    <th scope="row"><input type="number" class="form-control" required
+                                                    <th scope="row">
+                                                        <label for="denomination1T" hidden="hidden"></label>
+                                                        <input type="number" class="form-control" required
                                                                            id="denomination1T" name="denomination1T"
                                                                            readonly></th>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">0.01</th>
-                                                    <th scope="row"><input type="number" class="form-control"
+                                                    <th scope="row">
+                                                        <label for="denominationCents" hidden="hidden"></label>
+                                                        <input type="number" class="form-control"
                                                                            id="denominationCents" required
                                                                            name="denominationCents"
                                                                            oninput="calculateValue()"></th>
-                                                    <th scope="row"><input type="number" class="form-control" required
+                                                    <th scope="row">
+                                                        <label for="denominationCentsT" hidden="hidden"></label>
+                                                        <input type="number" class="form-control" required
                                                                            id="denominationCentsT"
                                                                            name="denominationCentsT" readonly></th>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Total</th>
-                                                    <th scope="row"><input type="number" id="totalDenominationsT"
+                                                    <th scope="row">
+                                                        <label for="totalDenominationsT" hidden="hidden"></label>
+                                                        <input type="number" id="totalDenominationsT"
                                                                            class="form-control" required
                                                                            name="totalDenominations" readonly></th>
-                                                    <th scope="row"><input type="number" id="totalSumT"
-                                                                           class="form-control" required name="totalSum"
+                                                    <th scope="row">
+                                                        <label for="totalSumT" hidden="hidden"></label>
+                                                        <input type="text" id="totalSumT"
+                                                                           class="form-control form-control-danger" required name="totalSum"
                                                                            readonly></th>
                                                 </tr>
                                                 </tbody>
                                             </table>
-
                                         </div>
                                         <div class="form-group row">
                                             <div class="col-sm-12 col-md-2 col-form-label">
@@ -299,16 +346,75 @@ include('../includes/header.php');
                                                 </button>
                                             </div>
                                             <div class="col-sm-12 col-md-2 col-form-label">
-                                                <a
-                                                        href="list-budget.php"
+                                                <button
                                                         class="btn btn-primary"
                                                 >
                                                     Cancel
-                                                </a>
+                                                </button>
                                             </div>
                                         </div>
                                         <!--                                    Javascript function to calculate the amount per denomination and total amount-->
                                         <script>
+                                            function getTransactions(){
+                                                const dataList = document.getElementById('transactionPurposeSelect');
+
+                                                // Fetch data from the API
+                                                fetch('http://localhost:7878/api/utg/cms/transaction-purpose/all')
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        // Loop through the data and create option elements
+                                                        console.log(data)
+                                                        data.forEach(item => {
+                                                            const option = document.createElement('option');
+                                                            option.value = item.id; // Set the value attribute of the option
+                                                            option.textContent = item.name; // Set the text content of the option
+                                                            dataList.appendChild(option); // Append the option to the select element
+                                                        });
+                                                    })
+                                                    .catch(error => {
+                                                        console.error('Error fetching data:', error);
+                                                    });
+                                            }
+
+
+                                            document.addEventListener('DOMContentLoaded', function() {
+                                                // Your JavaScript function here
+                                                getTransactions();
+                                            });
+
+                                            document.getElementById('transactionPurposeForm').addEventListener('submit', function (event) {
+                                                // Prevent the default form submission
+                                                event.preventDefault();
+
+                                                // Collect form data
+                                                const formData = new FormData(event.target);
+
+                                                const formDataObject = {};
+
+                                                formData.forEach((value, key) => {
+                                                    formDataObject[key] = value;
+                                                });
+
+                                                const jsonData = JSON.stringify(formDataObject);
+                                                console.log(jsonData);
+                                                // Send form data using Fetch API
+                                                fetch('http://localhost:7878/api/utg/cms/transaction-purpose/save', {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/json'
+                                                    },
+                                                    body: jsonData,
+                                                })
+                                                    .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
+                                                    .then(data => {
+                                                        // Handle the response data here if needed
+                                                        console.log(data);
+                                                    })
+                                                    .catch(error => {
+                                                        // Handle errors here
+                                                        console.error('Error:', error);
+                                                    });
+                                            });
 
                                             document.getElementById('withdrawalCashVoucherForm').addEventListener('submit', function (event) {
                                                 // Prevent the default form submission
@@ -341,7 +447,8 @@ include('../includes/header.php');
                                                     headers: {
                                                         'Content-Type': 'application/json'
                                                     },
-                                                    body: jsonData,                                               })
+                                                    body: jsonData,
+                                                })
                                                     .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
                                                     .then(data => {
                                                         // Handle the response data here if needed
@@ -355,6 +462,7 @@ include('../includes/header.php');
 
 
                                             function calculateValue() {
+
                                                 const denomination100 = parseInt(document.getElementById('denomination100').value) || 0;
                                                 const denomination50 = parseInt(document.getElementById('denomination50').value) || 0;
                                                 const denomination20 = parseInt(document.getElementById('denomination20').value) || 0;
@@ -383,7 +491,17 @@ include('../includes/header.php');
                                                 document.getElementById('denomination1T').value = total1;
                                                 document.getElementById('denominationCentsT').value = totalCents;
 
-                                                document.getElementById('totalSumT').value = total100 + total50 + total20 + total10 + total5 + total2 + total1 + totalCents;
+                                                const totalSum = total100 + total50 + total20 + total10 + total5 + total2 + total1 + totalCents;
+                                                const amount = parseInt(document.getElementById('amount').value) || 0;
+
+                                                if (totalSum !== amount){
+                                                    document.getElementById('totalSumT').value = "Check if the amount entered is correct";
+                                                }else {
+                                                    document.getElementById('totalSumT').value = totalSum;
+                                                }
+
+
+
                                                 document.getElementById('totalDenominationsT').value = denomination100 + denomination50 + denomination20 + denomination10 + denomination5 + denomination2 + denomination1 + denominationCents;
                                             }
                                         </script>
