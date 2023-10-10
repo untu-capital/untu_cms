@@ -64,9 +64,10 @@ include('../includes/header.php');
                 <input id="initiator" value="<?= $userId  ?>" name="initiator" hidden="hidden">
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
-                        <div class="form-group has-danger">
+                        <div class="form-group">
                             <label for="currency">currency</label>
                             <select
+                                    onselect="validateFormOnSelect()"
                                     class="custom-select2 form-control"
                                     id="currency"
                                     name="currency"
@@ -75,15 +76,18 @@ include('../includes/header.php');
 
                                 <option value="usd">USD</option>
                                 <option value="zwl">ZWL</option>
-
                             </select>
-                            <div id="currency" class="form-control-feedback">Sorry, that username's taken. Try another?</div>
+                            <div id="error-currency" class="none has-danger d-none">
+                                <div class="form-control-feedback">Please Select Currency!</div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="amount">Amount</label>
-                            <input type="number" class="form-control" required name="amount"
+                            <input type="number" class="form-control"
+                                   name="amount"
+                                   required
                                    oninput="calculateValue()"
                                    id="amount">
                         </div>
@@ -94,6 +98,7 @@ include('../includes/header.php');
                         <div class="form-group">
                             <label for="fromVault">Withdrawal From</label>
                             <select
+                                    onchange="validateFormOnSelect()"
                                     class="custom-select2 form-control"
                                     id="fromVault"
                                     name="fromVault"
@@ -106,12 +111,16 @@ include('../includes/header.php');
                                     <option value="<?= $row['vault_acc_code'] ?>"><?= htmlspecialchars($row["vault_acc_type"]) ?></option>
                                 <?php endforeach; ?>
                             </select>
+                            <div id="error-fromVault" class="has-danger d-none">
+                                <div class="form-control-feedback">Please Select Vault!</div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="toVault">Withdrawal To</label>
                             <select
+                                    onchange="validateFormOnSelect()"
                                     class="custom-select2 form-control"
                                     id="toVault"
                                     name="toVault"
@@ -124,6 +133,9 @@ include('../includes/header.php');
                                     <option value="<?= $row['vault_acc_code'] ?>"><?= htmlspecialchars($row["vault_acc_type"]) ?></option>
                                 <?php endforeach; ?>
                             </select>
+                            <div id="error-toVault" class="has-danger  d-none">
+                                <div class="form-control-feedback">Please Select Vault!</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -131,7 +143,8 @@ include('../includes/header.php');
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="amountInWords">Amount in Words</label>
-                            <input type="text" class="form-control" required
+                            <input type="text" class="form-control"
+                                   required
                                    id="amountInWords"
                                    name="amountInWords">
                         </div>
@@ -142,6 +155,7 @@ include('../includes/header.php');
                                 <div class="form-group">
                                     <label for="transactionPurposeSelect">Withdrawal Purpose</label>
                                     <select
+                                            onchange="validateFormOnSelect()"
                                             class="custom-select2 form-control"
                                             name="withdrawalPurpose"
                                             id="transactionPurposeSelect"
@@ -154,6 +168,9 @@ include('../includes/header.php');
                                             <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row["name"]) ?></option>
                                         <?php endforeach; ?>
                                     </select>
+                                    <div id="error-withdrawalPurpose" class="has-danger  d-none">
+                                        <div class="form-control-feedback">Please Select Withdrawal Purpose!</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -164,6 +181,7 @@ include('../includes/header.php');
                         <div class="form-group">
                             <label for="firstApprover">First Approver</label>
                             <select
+                                    onchange="validateFormOnSelect()"
                                     class="custom-select2 form-control"
                                     name="firstApprover"
                                     id="firstApprover"
@@ -171,12 +189,16 @@ include('../includes/header.php');
                             >
                                 <option value="">Select First Approver</option>
                             </select>
+                            <div id="error-firstApprover" class="has-danger  d-none">
+                                <div class="form-control-feedback">Please Select First Approver!</div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="secondApprover">Second Approver</label>
                             <select
+                                    onchange="validateFormOnSelect()"
                                     class="custom-select2 form-control"
                                     name="secondApprover"
                                     id="secondApprover"
@@ -184,6 +206,9 @@ include('../includes/header.php');
                             >
                                 <option value="">Select Second Approver</option>
                             </select>
+                            <div id="error-secondApprover" class="has-danger d-none">
+                                <div class="form-control-feedback">Please Select Second Aprrover!</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -202,9 +227,11 @@ include('../includes/header.php');
                             <th scope="row">
                                 <label for="denomination100" hidden="hidden"></label>
                                 <input type="number" class="form-control"
-                                       id="denomination100" required
+                                       id="denomination100"
+                                       required
                                        name="denomination100"
-                                       oninput="calculateValue()"></th>
+                                       oninput="calculateValue()">
+                            </th>
                             <th scope="row">
                                 <label for="denomination100T" hidden="hidden"></label>
                                 <input type="number" class="form-control"
@@ -218,7 +245,8 @@ include('../includes/header.php');
                                 <input type="number" class="form-control"
                                        id="denomination50" required
                                        name="denomination50"
-                                       oninput="calculateValue()"></th>
+                                       oninput="calculateValue()">
+                            </th>
                             <th scope="row">
                                 <label for="denomination50T" hidden="hidden"></label>
                                 <input type="number" class="form-control" required
@@ -232,7 +260,8 @@ include('../includes/header.php');
                                 <input type="number" class="form-control"
                                        id="denomination20" required
                                        name="denomination20"
-                                       oninput="calculateValue()"></th>
+                                       oninput="calculateValue()">
+                            </th>
                             <th scope="row">
                                 <label for="denomination20T" hidden="hidden"></label>
                                 <input type="number" class="form-control" required
@@ -246,7 +275,8 @@ include('../includes/header.php');
                                 <input type="number" class="form-control"
                                        id="denomination10" required
                                        name="denomination10"
-                                       oninput="calculateValue()"></th>
+                                       oninput="calculateValue()">
+                            </th>
                             <th scope="row">
                                 <label for="denomination10T" hidden="hidden"></label>
                                 <input type="number" class="form-control" required
@@ -260,7 +290,8 @@ include('../includes/header.php');
                                 <input type="number" class="form-control"
                                        id="denomination5" required
                                        name="denomination5"
-                                       oninput="calculateValue()"></th>
+                                       oninput="calculateValue()">
+                            </th>
                             <th scope="row">
                                 <label for="denomination5T" hidden="hidden"></label>
                                 <input type="number" class="form-control" required
@@ -274,7 +305,8 @@ include('../includes/header.php');
                                 <input type="number" class="form-control"
                                        id="denomination2" required
                                        name="denomination2"
-                                       oninput="calculateValue()"></th>
+                                       oninput="calculateValue()">
+                            </th>
                             <th scope="row">
                                 <label for="denomination2T" hidden="hidden"></label>
                                 <input type="number" class="form-control" required
@@ -288,7 +320,8 @@ include('../includes/header.php');
                                 <input type="number" class="form-control"
                                        id="denomination1" required
                                        name="denomination1"
-                                       oninput="calculateValue()"></th>
+                                       oninput="calculateValue()">
+                            </th>
                             <th scope="row">
                                 <label for="denomination1T" hidden="hidden"></label>
                                 <input type="number" class="form-control" required
@@ -302,7 +335,8 @@ include('../includes/header.php');
                                 <input type="number" class="form-control"
                                        id="denominationCents" required
                                        name="denominationCents"
-                                       oninput="calculateValue()"></th>
+                                       oninput="calculateValue()">
+                            </th>
                             <th scope="row">
                                 <label for="denominationCentsT" hidden="hidden"></label>
                                 <input type="number" class="form-control" required
@@ -415,9 +449,81 @@ include('../includes/header.php');
                         getAllTransactionsDefault();
                     });
 
+                    function validateFormOnSelect(){
+                        const currency = document.getElementById("currency").value;
+                        const error_currency = document.getElementById("error-currency");
+                        if (currency.trim() !== "") {
+                            error_currency.classList.add("d-none")
+                        }
+                        const fromVault = document.getElementById("fromVault").value;
+                        const errorFromVault = document.getElementById("error-fromVault");
+                        if (fromVault.trim() !== "") {
+                            errorFromVault.classList.add("d-none")
+                        }
+                        const toVault = document.getElementById("toVault").value;
+                        const error_toVault = document.getElementById("error-toVault");
+                        if (toVault.trim() !== "") {
+                            error_toVault.classList.add("d-none")
+                        }
+                        const withdrawalPurpose = document.getElementById("transactionPurposeSelect").value;
+                        const error_withdrawalPurpose = document.getElementById("error-withdrawalPurpose");
+                        if (withdrawalPurpose.trim() !== "") {
+                            error_withdrawalPurpose.classList.add("d-none")
+                        }
+                        const firstApprover = document.getElementById("firstApprover").value;
+                        const error_firstApprover = document.getElementById("error-firstApprover");
+                        if (firstApprover.trim() !== "") {
+                            error_firstApprover.classList.add("d-none")
+                        }
+                        const secondApprover = document.getElementById("secondApprover").value;
+                        const error_secondApprover = document.getElementById("error-secondApprover");
+                        if (secondApprover.trim() !== "") {
+                            error_secondApprover.classList.add("d-none")
+                        }
+                    }
+
+                    function validateForm(){
+                        const currency = document.getElementById("currency").value;
+                        const error_currency = document.getElementById("error-currency");
+                        if (currency.trim() === "") {
+                            error_currency.classList.remove("d-none")
+                        }
+                        const fromVault = document.getElementById("fromVault").value;
+                        const errorFromVault = document.getElementById("error-fromVault");
+                        if (fromVault.trim() === "") {
+                            errorFromVault.classList.remove("d-none")
+                        }
+                        const toVault = document.getElementById("toVault").value;
+                        const error_toVault = document.getElementById("error-toVault");
+                        if (toVault.trim() === "") {
+                            error_toVault.classList.remove("d-none")
+                        }
+                        const withdrawalPurpose = document.getElementById("transactionPurposeSelect").value;
+                        const error_withdrawalPurpose = document.getElementById("error-withdrawalPurpose");
+                        if (withdrawalPurpose.trim() === "") {
+                            error_withdrawalPurpose.classList.remove("d-none")
+                        }
+                        const firstApprover = document.getElementById("firstApprover").value;
+                        const error_firstApprover = document.getElementById("error-firstApprover");
+                        if (firstApprover.trim() === "") {
+                            error_firstApprover.classList.remove("d-none")
+                        }
+                        const secondApprover = document.getElementById("secondApprover").value;
+                        const error_secondApprover = document.getElementById("error-secondApprover");
+                        if (secondApprover.trim() === "") {
+                            error_secondApprover.classList.remove("d-none")
+                        }
+
+                        return !(currency.trim() === "" || fromVault.trim() === "" || toVault.trim() === ""
+                            || withdrawalPurpose.trim() === "" || firstApprover.trim() === "" || secondApprover.trim() === "");
+                    }
+
                     document.getElementById('withdrawalCashVoucherForm').addEventListener('submit', async function (event) {
+
                         // Prevent the default form submission
                         event.preventDefault();
+
+
 
                         // Collect form data
                         const formData = new FormData(event.target);
@@ -438,26 +544,27 @@ include('../includes/header.php');
                         });
 
                         const jsonData = JSON.stringify(formDataObject);
-                        console.log(jsonData);
-                        // Send form data using Fetch API
-                        await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/initiate', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: jsonData,
-                        })
-                            .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
-                            .then(data => {
-                                console.log(data);
-                                window.location.href = "http://localhost/untu-systems/boco/cash_management.php?menu=main";
-                            })
-                            .catch(error => {
-                                // Handle errors here
-                                console.error('Error:', error);
-                            });
-                    });
 
+                        if(validateForm()){
+                            // Send form data using Fetch API
+                            await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/initiate', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: jsonData,
+                            })
+                                .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
+                                .then(data => {
+                                    console.log(data);
+                                    window.location.href = "http://localhost/untu-systems/boco/cash_management.php?menu=main";
+                                })
+                                .catch(error => {
+                                    // Handle errors here
+                                    console.error('Error:', error);
+                                });
+                        }
+                    });
                     function calculateValue() {
 
                         const denomination100 = parseInt(document.getElementById('denomination100').value) || 0;
@@ -496,8 +603,6 @@ include('../includes/header.php');
                         }else {
                             document.getElementById('totalSumT').value = totalSum;
                         }
-
-
 
                         document.getElementById('totalDenominationsT').value = denomination100 + denomination50 + denomination20 + denomination10 + denomination5 + denomination2 + denomination1 + denominationCents;
                     }
