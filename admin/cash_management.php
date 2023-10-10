@@ -3,9 +3,6 @@ include('../session/session.php');
 include('../includes/controllers.php');
 $nav_header = "Cash Management Dashboard";
 
-
-
-
 if(isset($_POST['Branch'])){
     $name = $_POST['name'];
     $status = $_POST['status'];
@@ -16,10 +13,6 @@ if(isset($_POST['Branch'])){
     $address = $_POST['address'];
     $branchcode = $_POST['branchcode'];
     $vault = $_POST['vault'];
-
-
-
-
 
     $url = "http://localhost:7878/api/utg/branches/addBranch";
 

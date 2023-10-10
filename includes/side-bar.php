@@ -91,7 +91,7 @@
                                 ><span class="mtext">MCC Scheduling</span>
                                 </a>
                                 <ul class="submenu">
-                                    <li><a href="schedule_meeting.php">Schedule MCC Meeting</a></li>
+                                    <li><a href="schedule_meeting.php">Prep MCC Meeting</a></li>
                                     <li><a href="mcc_final_decision.php">MCC Final Decision</a></li>
                                 </ul>
                             </li>
@@ -105,6 +105,16 @@
                                     <li><a href="signed_tickets.php">Signed Ticket(s)</a></li>
                                 </ul>
                             </li>
+                            <?php if ($_SESSION['cmsUser'] != null){ ?>
+                                <li class="dropdown">
+                                    <a href="javascript:;" class="dropdown-toggle">
+                                        <span class="micon bi bi-cash-coin"></span><span class="mtext">Cash Management</span>
+                                    </a>
+                                    <ul class="submenu">
+                                        <li><a href="cash_management.php?menu=main">Dashboard</a></li>
+                                    </ul>
+                                </li>
+                            <?php } ?>
                             <li class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle">
 								<span class="micon bi bi-folder"></span
@@ -172,7 +182,7 @@
 								<span class="micon bi bi-layout-text-window-reverse"></span><span class="mtext">MCC Scheduling</span>
                                 </a>
                                 <ul class="submenu">
-                                    <li><a href="schedule_meeting.php">Schedule MCC Meeting</a></li>
+                                    <li><a href="schedule_meeting.php">Prep MCC Meeting</a></li>
                                     <li><a href="final_meeting.php">MCC Final Decision</a></li>
                                 </ul>
                             </li>
@@ -185,6 +195,16 @@
                                     <li><a href="signed_tickets.php">Signed Ticket(s)</a></li>
                                 </ul>
                             </li>
+                            <?php if ($_SESSION['cmsUser'] != null){ ?>
+                                <li class="dropdown">
+                                    <a href="javascript:;" class="dropdown-toggle">
+                                        <span class="micon bi bi-cash-coin"></span><span class="mtext">Cash Management</span>
+                                    </a>
+                                    <ul class="submenu">
+                                        <li><a href="cash_management.php?menu=main">Dashboard</a></li>
+                                    </ul>
+                                </li>
+                            <?php } ?>
                             <li class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle">
 								<span class="micon bi bi-folder"></span
@@ -261,7 +281,7 @@
                                 ><span class="mtext">MCC Scheduling</span>
                             </a>
                             <ul class="submenu">
-                                <li><a href="schedule_meeting.php">Schedule MCC Meeting</a></li>
+                                <li><a href="schedule_meeting.php">Prep MCC Meeting</a></li>
                                 <li><a href="final_meeting.php">MCC Final Decision</a></li>
                             </ul>
                         </li>
@@ -441,7 +461,7 @@
                                 ><span class="mtext">MCC Scheduling</span>
                                 </a>
                                 <ul class="submenu">
-                                    <li><a href="schedule_meeting.php">Schedule MCC Meeting</a></li>
+                                    <li><a href="schedule_meeting.php">Prep MCC Meeting</a></li>
                                     <li><a href="final_meeting.php">MCC Final Decision</a></li>
                                 </ul>
                             </li>
@@ -524,8 +544,8 @@
                                 ><span class="mtext">MCC Scheduling</span>
                                 </a>
                                 <ul class="submenu">
-                                    <li><a href="schedule_meeting.php">Schedule MCC Meeting</a></li>
-                                    <li><a href="final_meeting.php">Contacted MCCs</a></li>
+                                    <li><a href="schedule_meeting.php">Prep MCC Meeting</a></li>
+                                    <li><a href="final_meeting.php">Conducted MCCs</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">

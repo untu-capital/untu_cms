@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="pb-20">
-                    <table class="table hover multiple-select-row data-table-export nowrap">
+                    <table  class="table hover table stripe multiple-select-row data-table-export nowrap">
                         <thead>
                         <tr>
                             <th class="table-plus datatable-nosort">Account</th>

@@ -399,7 +399,7 @@
                                             }
                                             ?></a>
                                         <?php if ($loans['meetingLoanAmount'] >= 30000 ){ ?>
-                                            <a class="list-group-item"><b>Board Authorised By</b>: <?php if ($loans['boardSignature'] == "Signed") {
+                                            <a class="list-group-item"><b>CEO Authorization</b>: <?php if ($loans['boardSignature'] == "Signed") {
                                                     echo $board_signature;
                                                 } else {
                                                     echo "<label style='padding: 7px;' class='badge badge-warning'>Not Signed Yet.</label>";
@@ -414,7 +414,7 @@
                                     echo $loan_officer['firstName'].' '.$loan_officer['lastName'];?></h5>
 
                                 <div class="row">
-                                    <div class="col-md-10">
+                                    <div class="col-md-9">
                                         <!--                                        <a class="list-group-item"><b>Collateral</b>:-->
                                         <table class="table table-striped table-bordered hover nowrap">
                                             <thead>
@@ -437,7 +437,7 @@
                                         </table>
                                     </div>
 
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <input class="form-control" type="hidden" name="userId" required value="<?php echo $_SESSION['userid'] ?>">
                                         <input class="form-control" type="hidden" name="fullName" required value="<?php echo $_SESSION['fullname'] ?>">
                                         <div style="display: flex; justify-content: flex-end; margin-right: 5%">
@@ -448,7 +448,7 @@
                                                 </div>
                                                 <div>
                                                     <input class="custom-control-input" type="radio" id="decline" name="<?php echo $xxSignature ?>" value="Declined" onclick="enableButton()">
-                                                    <label class="custom-control-label" for="decline">Unauthorize</label>
+                                                    <label class="custom-control-label" for="decline">Revert Ticket</label>
                                                 </div>
                                             </div>
                                             <br>

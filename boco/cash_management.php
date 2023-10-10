@@ -1,6 +1,6 @@
 <?php
 include('../session/session.php');
-include('charts_data.php');
+//include('charts_data.php');
 $nav_header = "Cash Management Dashboard";
 
 include('../includes/controllers.php');
@@ -500,7 +500,7 @@ include('../includes/header.php');
 
 
                             <div class="tab-pane fade" id="vaults" role="tabpanel">
-                                <?php include('../includes/tables/cash_management/list_vaults.php'); ?>
+                                <?php include('../includes/tables/cash_management/cash_receipts.php'); ?>
                             </div>
                             <div class="tab-pane fade" id="auditTrail" role="tabpanel">
                                 <?php include('../includes/tables/cash_management/list-audit-trail.php'); ?>

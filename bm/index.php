@@ -4,7 +4,7 @@
 	$nav_header = "Dashboard";
 	include('../includes/controllers.php');
 
-    $fromGraphDate = date('Y-01-01');
+    $fromGraphDate = date('Y-10-09');
     $fromDate = date('Y-m-d');
     $toDate = date('Y-m-d');
     if (isset($_POST['pick_range'])) {

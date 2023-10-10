@@ -2347,4 +2347,14 @@ function vaults($get) {
     return $vaults;
 }
 
+function cash_receipts() {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/cash_receipts");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $cash_receipts = json_decode($server_response, true);
+    return $cash_receipts;
+}
+
 ?>

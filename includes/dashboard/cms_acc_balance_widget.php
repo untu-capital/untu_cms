@@ -1,5 +1,5 @@
 <?php
-    $vault_accs = vaults('all');
+    $vault_accs = vaults("all");
     $vaults = array_merge($vault_accs, ["Total Vaults Balances"]);
 
     if ($_SESSION['branch'] != "Head Office"){
@@ -27,7 +27,7 @@
 			</div>
             <br>
             <div class="pd-5 card-box">
-                <div class="weight-600 font-16">Available Bal : <?php echo '$ ' . number_format($vault['currentAmount'], 2, '.', ','); ?></div>
+                <div class="weight-600 font-16">Available Bal : <?php echo $_SESSION['branch']. '$ ' . number_format($vault['currentAmount'], 2, '.', ','); ?></div>
                 <div class="progress mb-20">
                     <?php if (($vault['currentAmount']/$vault['maxAmount'])*100 <= 60) {
                         $color = 'bg-success';

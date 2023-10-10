@@ -3,7 +3,7 @@
 <div class="card-box mb-30">
     <div class="pd-20">
         <h4 class="text-blue h4">
-            Contacted Meeting(s)
+            Conducted Meeting(s)
         </h4>
     </div>
     <div class="pb-20">

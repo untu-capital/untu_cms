@@ -295,7 +295,7 @@ include('../includes/header.php');
                                 <a class="nav-link active" data-toggle="tab" href="#acc_balance" role="tab" aria-selected="true">Account Balances</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#assign_role" role="tab" aria-selected="false">Assign CMS Role</a>
+                                <a class="nav-link" data-toggle="tab" href="#cash_receipts" role="tab" aria-selected="false">Cash Receipts</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#vault_auth" role="tab" aria-selected="false">Vaults Authorization</a>
@@ -329,54 +329,10 @@ include('../includes/header.php');
                                     <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
                                 </div>
                             </div>
-                            <div class="tab-pane fade row" id="assign_role" role="tabpanel">
+                            <div class="tab-pane fade row" id="cash_receipts" role="tabpanel">
 
-                                <form method="post" action="">
-                                    <div class="row">
-                                        <div class="pd-20 col-4">
-                                            <div class="form-group">
-                                                <br>
-                                                <label>Select User :</label>
-                                                <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="user" style="width: 100%; height: 38px">
-                                                    <optgroup label="Pick a user">
-                                                        <?php
-                                                        $users = untuStaff();
-                                                        foreach ($users as $user) {
-                                                            echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
-                                                        } ?>
-                                                    </optgroup>
-                                                </select>
-                                            </div>
-                                        </div>
 
-                                        <div class="pd-20 col-4">
-                                            <div class="form-group">
-                                                <br>
-                                                <label>Select CMS Role :</label>
-                                                <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="role" style="width: 100%; height: 38px">
-                                                    <optgroup label="Assign Role">
-                                                        <option value="">Unassign Role</option>;
-                                                        <?php
-                                                        $roles = roles();
-                                                        foreach ($roles as $role) {
-                                                            echo "<option value='$role[id]'>$role[description] ($role[name])</option>";
-                                                        } ?>
-                                                    </optgroup>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="pd-20 col-4">
-                                            <div class="form-group">
-                                                <br>
-                                                <label> .</label>
-                                                <button type="submit" name="update_cms_role" class="btn btn-success btn-lg btn-block">Update Role</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-
-                                <?php include('../includes/tables/cms_users_table.php'); ?>
+                                <?php include('../includes/tables/cash_management/cash_receipts.php'); ?>
                             </div>
 
                             <div class="tab-pane fade" id="vault_auth" role="tabpanel">
@@ -849,14 +805,10 @@ include('../includes/header.php');
 
             if (isset($_POST['vault'])) {
                 // API endpoint URL
-                $url = "http://localhost:7878/api/utg/cms/vault/update";
+                $url = "http://localhost:7878/api/utg/cms/vault/update/max-amount/$_POST[id]/$_POST[maxAmount]";
                 // Data to send in the POST request
                 $postData = array(
                     'id' => $_POST['id'],
-                    'account' => $_POST['account'],
-                    'name' => $_POST['vaultName'],
-                    'type' => $_POST['type'],
-                    'branchId' => $_POST['branch'],
                 );
 
                 $data = json_encode($postData);
@@ -897,13 +849,13 @@ include('../includes/header.php');
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Account</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="account" placeholder="Vault Account" value="<?php echo $table['account'] ?>" required/>
+                            <input class="form-control" type="text" name="account" placeholder="Vault Account" value="<?php echo $table['account'] ?>" disabled/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Name</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="vaultName" placeholder="Vault Account" value="<?php echo $table['name'] ?>" required/>
+                            <input class="form-control" type="text" name="vaultName" placeholder="Vault Account" value="<?php echo $table['name'] ?>" disabled/>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -913,6 +865,7 @@ include('../includes/header.php');
                                     class="custom-select2 form-control"
                                     name="type"
                                     style="width: 100%; height: 38px"
+                                    disabled
                             >
                                 <optgroup label="Types">
                                     <option value="<?php echo $table['type'] ?>" ><?php echo $table['type'] ?></option>
@@ -930,6 +883,7 @@ include('../includes/header.php');
                                     class="custom-select2 form-control"
                                     name="branch"
                                     style="width: 100%; height: 38px"
+                                    disabled
                             >
                                 <optgroup label="Branches">
                                     <option value="<?php echo $table['branch']['id'] ?>" ><?php echo $table['branch']['branchName'] ?></option>
@@ -938,6 +892,12 @@ include('../includes/header.php');
                                     <?php endforeach; ?>
                                 </optgroup>
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-md-2 col-form-label">Set Cash Limit</label>
+                        <div class="col-sm-12 col-md-10">
+                            <input class="form-control" type="number" name="maxAmount" placeholder="Enter Limit amount" value="<?php echo $table['maxAmount'] ?>" required/>
                         </div>
                     </div>
                     <div class="form-group row">
