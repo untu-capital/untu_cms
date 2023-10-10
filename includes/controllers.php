@@ -1,4 +1,47 @@
 <?php
+//===============================Start CMS Controller==========================================================================================
+function getTransactionVoucher($transactionId){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/cms/transaction-voucher/'.$transactionId);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $transaction_response = curl_exec($ch);
+    curl_close($ch);
+
+    return json_decode($transaction_response, true);
+}
+
+function getVaults($userId){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/cms/transaction-voucher/permissions/'.$userId);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $vault_response = curl_exec($ch);
+    curl_close($ch);
+
+    return json_decode($vault_response, true);
+}
+
+function getWithdrawal(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/cms/transaction-purpose/all');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $data_response = curl_exec($ch);
+    curl_close($ch);
+
+    return json_decode($data_response, true);
+}
+
+function deleteTransaction($id){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/cms/transaction-voucher/delete/'.$id);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    $resp = curl_exec($ch);
+    curl_close($ch);
+}
+
+//===============================End CMS Controller==========================================================================================
 
 error_reporting(0);
 
@@ -287,6 +330,15 @@ function cms_user(){
     curl_close($ch);
     $cms_user = json_decode($cms_user_response, true);
     return $cms_user;
+}
+
+function cms_withdrawal_voucher($userId){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/transaction-voucher/all-by-initiator/$userId");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $cms_withdrawal_voucher_response = curl_exec($ch);
+    curl_close($ch);
+    return json_decode($cms_withdrawal_voucher_response, true);
 }
 
 function branch_by_id($id){
