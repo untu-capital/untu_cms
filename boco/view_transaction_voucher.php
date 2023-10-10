@@ -30,7 +30,7 @@ $transactionVoucher = getTransactionVoucher($_GET['transactionId']);
 //?>
 
 <!DOCTYPE html>
-<html>
+<html lang="">
 <!-- HTML HEAD -->
 <?php
 include('../includes/header.php');
@@ -57,7 +57,7 @@ include('../includes/header.php');
             <div class="pd-20 card-box">
                 <h5 class="h4 text-blue mb-20">View Transaction voucher Details</h5>
                 <div class="pd-20 card-box mb-30">
-                    <form method="POST" action="" id="withdrawalCashVoucherForm"
+                    <form method="POST" action="" id="withdrawalCashVoucherForm">
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
@@ -114,7 +114,11 @@ include('../includes/header.php');
                             <div class="form-group">
                                 <label for="firstApprovalStatus">Approval Status</label>
                                 <input type="text" value="<?= $transactionVoucher['firstApprovalStatus'] ?>"
-                                       class="form-control" name="firstApprovalStatus" id="firstApprovalStatus"
+                                       class="form-control font-weight-bold
+                                        <?php echo ($transactionVoucher['firstApprovalStatus'] == "PENDING") ? "bg-warning" : " " ?>
+                                        <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? "bg-danger" : " " ?>
+                                        <?php echo ($transactionVoucher['firstApprovalStatus'] == "APPROVED") ? "bg-success" : " " ?>"
+                                       name="firstApprovalStatus" id="firstApprovalStatus"
                                        readonly>
                             </div>
                         </div>
@@ -140,7 +144,11 @@ include('../includes/header.php');
                             <div class="form-group">
                                 <label for="secondApprovalStatus">Second Approval Status</label>
                                 <input type="text" value="<?= $transactionVoucher['secondApprovalStatus'] ?>"
-                                       class="form-control" name="secondApprovalStatus" id="secondApprovalStatus"
+                                       class="form-control font-weight-bold
+                                        <?php echo ($transactionVoucher['secondApprovalStatus'] == "PENDING") ? "bg-warning" : " " ?>
+                                        <?php echo ($transactionVoucher['secondApprovalStatus'] == "REVISE") ? "bg-danger" : " " ?>
+                                       <?php echo ($transactionVoucher['secondApprovalStatus'] == "APPROVED") ? "bg-success" : " " ?>"
+                                       name="secondApprovalStatus" id="secondApprovalStatus"
                                        readonly>
                             </div>
                         </div>
