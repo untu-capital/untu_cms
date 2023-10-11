@@ -300,6 +300,17 @@ function branch_by_id($id){
     return $branches_by_id;
 }
 
+function petty_cash_payments_by_id($id){
+    $ch = curl_init();
+    $id = $_GET["id"];
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/petty-cash-payments/$id");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $petty_cash_payments_by_id = json_decode($server_response, true);
+    return $petty_cash_payments_by_id;
+}
+
 function authorisation_by_id($id){
     $ch = curl_init();
     $id = $_GET["id"];
@@ -690,6 +701,16 @@ function cms_vault_permissions(){
     curl_close($ch);
     $cms_vault_permissions = json_decode($server_response, true);
     return $cms_vault_permissions;
+}
+
+function cms_petty_cash_payments(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/cms/petty-cash-payments/all');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $cms_petty_cash_payments = json_decode($server_response, true);
+    return $cms_petty_cash_payments;
 }
 
     function untuStaff() {
