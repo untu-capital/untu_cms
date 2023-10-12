@@ -87,16 +87,6 @@
                             </li>
                             <li class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle">
-								<span class="micon bi bi-layout-text-window-reverse"></span
-                                ><span class="mtext">MCC Scheduling</span>
-                                </a>
-                                <ul class="submenu">
-                                    <li><a href="schedule_meeting.php">Prep MCC Meeting</a></li>
-                                    <li><a href="mcc_final_decision.php">MCC Final Decision</a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="javascript:;" class="dropdown-toggle">
 								<span class="micon bi bi-table"></span
                                 ><span class="mtext">Tickets</span>
                                 </a>

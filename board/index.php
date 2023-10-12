@@ -1,10 +1,11 @@
 <?php
 include('../session/session.php');
+include ('check_role.php');
 //	include('charts_data.php');
 $nav_header = "Dashboard";
 include('../includes/controllers.php');
 
-$fromGraphDate = date('Y-10-01');
+$fromGraphDate = date('Y-m-d');
 $fromDate = date('Y-m-d');
 $toDate = date('Y-m-d');
 if (isset($_POST['pick_range'])) {
@@ -48,18 +49,18 @@ include('../includes/header.php');
 ?>
 <!-- /HTML HEAD -->
 <body>
-<div class="pre-loader">
-    <div class="pre-loader-box">
-        <div class="loader-logo">
-            <img src="vendors/images/deskapp-logo.svg" alt="" />
-        </div>
-        <div class="loader-progress" id="progress_div">
-            <div class="bar" id="bar1"></div>
-        </div>
-        <div class="percent" id="percent1">0%</div>
-        <div class="loading-text">Loading...</div>
-    </div>
-</div>
+<!--<div class="pre-loader">-->
+<!--    <div class="pre-loader-box">-->
+<!--        <div class="loader-logo">-->
+<!--            <img src="vendors/images/deskapp-logo.svg" alt="" />-->
+<!--        </div>-->
+<!--        <div class="loader-progress" id="progress_div">-->
+<!--            <div class="bar" id="bar1"></div>-->
+<!--        </div>-->
+<!--        <div class="percent" id="percent1">0%</div>-->
+<!--        <div class="loading-text">Loading...</div>-->
+<!--    </div>-->
+<!--</div>-->
 
 <!-- Top NavBar -->
 <?php include('../includes/top-nav-bar.php'); ?>

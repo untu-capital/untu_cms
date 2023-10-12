@@ -512,7 +512,7 @@ function authbranch($id){
             case 200:  # OK redirect to dashboard
 
             
-            $loan_officer = user($assignTo);;
+            $loan_officer = user($assignTo);
 
 
             foreach ($loan_officer as $loan_officers):
@@ -2349,7 +2349,8 @@ function vaults($get) {
 
 function cash_receipts() {
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/cash_receipts");
+//    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/cash_receipts");
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/musoni_pastel");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $server_response = curl_exec($ch);
     curl_close($ch);

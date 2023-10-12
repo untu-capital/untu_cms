@@ -1,5 +1,6 @@
 <?php
 	include('../session/session.php');
+include ('check_role.php');
 	include('../includes/controllers.php');
 	$nav_header = "Events Calendar";
 

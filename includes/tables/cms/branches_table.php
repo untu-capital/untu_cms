@@ -156,29 +156,26 @@ if(isset($_POST['Branch'])){
 
                 <td>
                     <div class="dropdown">
-                        <a
-                            class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle"
-                            href="#"
-                            role="button"
-                            data-toggle="dropdown"
-                        >
+                        <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                             <i class="dw dw-more"></i>
                         </a>
-                        <div
-                            class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"
-                        >
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                             <a class="dropdown-item" href="cash_management.php">
-
-                            <a class="dropdown-item" type="submit" href="cash_management.php?menu=edit_branch&id=<?=$data["id"] ?>" ><i class="dw dw-edit2"></i> Edit</a>
-                                <form method="post" action="delete.php">
-                                    <input type="hidden" name="id" value="<?= $data["id"] ?>">
-                                    <button type="submit" name="delete" value="delete" class="dropdown-item"><i class="dw dw-edit2"></i> Delete</button>
-                                </form>
-
-                                <i class="dw dw-delete-3"></i></a>
+                                <!-- Add your first dropdown item here if needed -->
+                            </a>
+                            <a class="dropdown-item" href="cash_management.php?menu=edit_branch&id=<?= $data["id"] ?>">
+                                <i class="dw dw-edit2"></i> Edit
+                            </a>
+                            <form method="post" action="delete.php">
+                                <input type="hidden" name="id" value="<?= $data["id"] ?>">
+                                <button type="submit" name="delete" value="delete" class="dropdown-item">
+                                    <i class="dw dw-delete-3"></i> Delete
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </td>
+
             </tr>
         <?php endforeach; ?>
         </tbody>

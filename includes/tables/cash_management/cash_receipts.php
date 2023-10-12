@@ -49,14 +49,18 @@
                             $cash_receipts = cash_receipts('all');
                             foreach ($cash_receipts as $row):?>
                         <tr>
-                            <td class="table-plus"><?php echo $row['transDate']; ?></td>
+                            <td class="table-plus"><?php echo $row['transactionDate']; ?></td>
                             <td><?php echo $row['description']; ?></td>
                             <td><?php echo '$ ' . number_format($row['amount'], 2, '.', ','); ?></td>
                             <td><?php echo $row['currency']; ?></td>
                             <td><?php echo $row['reference']; ?></td>
                             <td><?php echo $row['toAccount']; ?></td>
                             <td><?php echo $row['fromAccount']; ?></td>
-                            <td><?php echo $row['status']; ?></td>
+                            <td><?php if ($row['synced'] == 1) {
+                                    echo "<label style='padding: 7px;' class='badge badge-success'>POSTED</label>";}
+                                else{echo "<label style='padding: 7px;' class='badge badge-warning'>QUEUED</label>";}?>
+                            </td>
+
 
                         </tr>
                         <?php endforeach; ?>

@@ -1,5 +1,6 @@
 <?php
 include('../session/session.php');
+include ('check_role.php');
 include('../includes/controllers.php');
 $nav_header = "Cash Management Dashboard";
 
@@ -297,18 +298,18 @@ include('../includes/header.php');
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#cash_receipts" role="tab" aria-selected="false">Cash Receipts</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#vault_auth" role="tab" aria-selected="false">Vaults Authorization</a>
-                            </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-blue" data-toggle="tab" href="#branches" role="tab" aria-selected="false">
-                                    Manage Branches
+                                <a class="nav-link text-blue" data-toggle="tab" href="#cash_trans_voucher" role="tab" aria-selected="false">
+                                    Cash Transactions Voucher
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#vault_auth" role="tab" aria-selected="false">Vaults Authorization</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link text-blue" data-toggle="tab" href="#authorisers" role="tab" aria-selected="false">
-                                    Branch Vault Approvers
+                                    Branch Authorizers
                                 </a>
                             </li>
 
@@ -333,6 +334,10 @@ include('../includes/header.php');
 
 
                                 <?php include('../includes/tables/cash_management/cash_receipts.php'); ?>
+                            </div>
+
+                            <div class="tab-pane fade" id="cash_trans_voucher" role="tabpanel">
+                                <?php include('../includes/tables/cms/cash_transactions.php'); ?>
                             </div>
 
                             <div class="tab-pane fade" id="vault_auth" role="tabpanel">
@@ -397,17 +402,11 @@ include('../includes/header.php');
                                 <?php include('../includes/tables/cms_permissions_table.php'); ?>
                             </div>
 
-
-
                             <div class="tab-pane fade" id="vaults" role="tabpanel">
                                 <?php include('../includes/tables/cash_management/list_vaults.php'); ?>
                             </div>
                             <div class="tab-pane fade" id="auditTrail" role="tabpanel">
                                 <?php include('../includes/tables/cash_management/list-audit-trail.php'); ?>
-                            </div>
-
-                            <div class="tab-pane fade" id="branches" role="tabpanel">
-                                <?php include('../includes/tables/cms/branches_table.php'); ?>
                             </div>
 
 
@@ -525,105 +524,57 @@ include('../includes/header.php');
         <?php }
 
         elseif ($_GET['menu'] == "edit_branch") {?>
-            <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
-                <div class="pd-20 card-box">
-                    <div class="pd-20 card-box mb-30">
-                        <div class="clearfix">
-                            <h4 class="text-blue h4">Edit Branch</h4>
+            <div class="tab-content">
+                <div class="tab-pane fade active show" id="personal_info" role="tabpanel">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="card card-box ">
+                                <div class="card-body"><h5 class="card-title text-blue" style="text-decoration: underline;">Personal Information</h5>
+                                    <p class="card-text">
+                                        <?php $loans = loans('/'.$_GET['loan_id']); ?>
+                                        <li><b>Fullname</b>: <?php echo $loans["firstName"] ?> <?php echo $loans["lastName"] ?></li>
+                                        <li><b>Marital Status</b>: <?php echo $loans["maritalStatus"] ?></li>
+                                        <li><b>Date of Birth</b>: <?php echo $loans["dateOfBirth"] ?></li>
+                                        <li><b>National ID:</b> <?php echo $loans["idNumber"] ?></li>
+                                        <li><b>Gender:</b> <?php echo $loans["gender"] ?></li>
 
+                                    </p>
+                                    <h5 class="card-title text-blue" style="text-decoration: underline;">Contact Information</h5>
+                                    <p class="card-text">
+                                        <li><b>Phone number:</b> <?php echo $loans["phoneNumber"] ?></li>
+                                        <li><b>Residential Address:</b> <?php echo $loans["streetNo"] ?> <?php echo $loans["streetName"] ?> <?php echo $loans["suburb"] ?> <?php echo $loans["city"] ?></li>
+
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="wizard-content">
 
-                            <form action="" method="POST">
-                                <?php  $branch_by_id = branch_by_id($_GET['id']); ?>
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-12">
-                                        <div class="form-group">
-                                            <label>Branch Name</label>
-                                            <input type="text" class="form-control" value="<?=$branch_by_id['branchName'] ?>" name="branchName" id="branchName" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-12">
-                                        <div class="form-group">
-                                            <label>Branch Address <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
-                                            <input type="text" class="form-control" name="branchAddress" value="<?=$branch_by_id['branchAddress'] ?>" id="branchAddress" required>
-                                        </div>
-                                    </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="card card-box ">
+                                <div class="card-body">
+                                    <h5 class="card-title text-blue" style="text-decoration: underline;">Business Information</h5>
+                                    <p class="card-text">
+                                        <li><b style="padding-right: 35px;">Name</b>: <?php echo $loans["businessName"] ?></li>
+                                        <li><b style="padding-right: 15px;">Address</b>: <?php echo  $loans["placeOfBusiness"] ?></li>
+                                        <li><b style="padding-right: 10px;">Start Date</b>: <?php echo  $loans["businessStartDate"] ?></li>
+                                        <li><b style="padding-right: 25px;">Type of Business</b>: <?php echo  $loans["industryCode"] ?></li>
+                                    </p>
+                                    <!-- </div>
+                                    <div class="card-body"> -->
+                                    <h5 class="card-title text-blue" style="text-decoration: underline;">Application Information</h5>
+                                    <p class="card-text">
+                                        <li><b>Loan Amount:</b> <?php echo "$ ".$loans["loanAmount"].".00" ?></li>
+                                        <li><b>Tenure:</b> <?php echo $loans["tenure"]." months" ?></li>
+                                        <li><b>Status</b>:
+                                            <?php if ($loans['loanStatus'] == "ACCEPTED") {
+                                                echo "<label style='padding: 10px;' class='badge badge-success'>Checked</label>";
+                                            } else if ($loans['loanStatus'] == "REJECTED") {
+                                                echo "<label style='padding: 6px;' class='badge badge-danger'>Rejected</label>";
+                                            } else { echo "<label style='padding: 6px;' class='badge badge-warning'>Pending</label>"; } ?>
+                                        </li>
+                                    </p>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-12">
-                                        <div class="form-group">
-                                            <label>Branch Phone</label>
-                                            <input type="text" class="form-control" value="<?=$branch_by_id['branchTellPhone'] ?>" name="branchTellPhone" id="branchTellPhone" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-12">
-                                        <div class="form-group">
-
-                                            <div class="form-group">
-                                                <label>Select Status :</label>
-                                                <select class="custom-select form-control">
-                                                    <option value="<?=$branch_by_id['branchStatus'] ?>"> <?=$branch_by_id['branchStatus'] ?></option>
-                                                    <option value="Active" name="status" id="status">Active</option>
-                                                    <option value="Disabled" name="status" id="status">Disabled</option>
-
-                                                </select>
-                                            </div>
-<!--                                            <input type="text" class="form-control" name="status" value="--><?php //=$branch_by_id['branchStatus'] ?><!--" id="status" required>-->
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-12">
-                                        <div class="form-group">
-                                            <label>Code Number</label>
-                                            <input type="number" class="form-control" name="code"value="<?=$branch_by_id['code'] ?>" id="code" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-12">
-                                        <div class="form-group">
-                                            <label>Branch Code</label>
-                                            <input type="text" class="form-control" name="branchcode"value="<?=$branch_by_id['branchCode'] ?>" id="branchcode" required>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-
-                                    <div class="col-md-6 col-sm-12">
-                                        <div class="form-group">
-                                            <label>Vault Acc Number</label>
-                                            <input type="text" class="form-control" value="<?=$branch_by_id['vaultAccountNumber'] ?>"name="vault" id="vault" required>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-12">
-                                        <div class="form-group">
-
-                                            <input type="hidden" class="form-control" value="<?=$branch_by_id['id'] ?>" name="id" id="id" required>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-
-
-
-                                <div class="col-md-6 col-sm-12">
-
-                                    <?php
-
-                                    ?>
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-danger" value="edit" name="edit">Update</button>
-                                    </div>
-                                </div>
-                            </form>
-
+                            </div>
                         </div>
                     </div>
                 </div>

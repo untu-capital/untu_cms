@@ -1,6 +1,7 @@
 <?php
 //session_start() ;
 include('../session/session.php');
+include ('check_role.php');
 $nav_header = "Clients Datasets";
 include('../includes/controllers.php');
 ?>

@@ -1,10 +1,11 @@
 <?php
 	include('../session/session.php');
-	include('charts_data.php');
+include ('check_role.php');
+//	include('charts_data.php');
 	$nav_header = "Dashboard";
     $state = "all";
     include('../includes/controllers.php');
-    $url = '/user/'.$_SESSION['userid'];
+    $url = '/user/'.$_SESSION['userId'];
 
 ?>
 
@@ -81,14 +82,7 @@
 
 		
 		<!-- Google Tag Manager (noscript) -->
-		<noscript
-			><iframe
-				src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
-				height="0"
-				width="0"
-				style="display: none; visibility: hidden"
-			></iframe
-		></noscript>
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
 		<!-- End Google Tag Manager (noscript) -->
 		
 	</body>

@@ -1,5 +1,6 @@
 <?php
     include('../session/session.php');
+include ('check_role.php');
     include "../includes/controllers.php";
     $market_campaign_by_id = market_campaign_by_id($_GET['id']);
 

@@ -1,5 +1,6 @@
 <?php
 	include('../session/session.php');
+include ('check_role.php');
 	$nav_header = "Lead Management";
     include('../includes/controllers.php');
 

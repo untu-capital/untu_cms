@@ -1,5 +1,6 @@
 <?php
 	include('../session/session.php');
+include ('check_role.php');
 //	include('charts_data.php');
     include ('../includes/controllers.php');
 	$state = $_GET['state'];

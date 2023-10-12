@@ -468,7 +468,9 @@
             </div>
         </div>
     </div>
-<?php } elseif ($_GET['menu'] == 'bcc_schedule'){ ?>
+<?php }elseif ($_GET['menu'] == 'edit_loan'){
+    include('../includes/forms/edit_loan.php');
+ } elseif ($_GET['menu'] == 'bcc_schedule'){ ?>
     <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
         <div class="pd-20 card-box">
             <?php $loans = loans('/'.$_GET['loan_id']); ?>

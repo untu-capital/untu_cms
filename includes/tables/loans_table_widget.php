@@ -37,8 +37,17 @@
 					$loans = loans($url);
 					foreach ($loans as $data): ?>
 				<tr>
-					<td><?php echo convertDateFormat($data['createdAt']); ?></td>
-					<td class="table-plus"><?php echo $data['firstName']; ?> <?php echo $data['lastName']; ?></td>
+                    <td>
+                        <?php
+                        if (isset($data['createdAt'])) {
+                            echo convertDateFormat($data['createdAt']);
+                        } else {
+                            echo "Invalid date";
+                        }
+                        ?>
+                    </td>
+
+                    <td class="table-plus"><?php echo $data['firstName']; ?> <?php echo $data['lastName']; ?></td>
 					<td><?php echo $data['industryCode']; ?></td>
 					<td><?php echo "$ ".$data['loanAmount'].".00"; ?></td>
 					<td><?php echo $data['tenure']." months"; ?></td>
@@ -69,7 +78,10 @@
 							<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a>
 							<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 								<a class="dropdown-item" href="loan_info.php?menu=loan&loan_id=<?php echo $data['id']; ?>&userid=<?php echo $data['userId'] ;?>"><i class="dw dw-eye"></i> View</a>
-							</div>
+                                <?php if ($_SESSION['role'] != 'ROLE_BOCO') { ?>
+                                    <a class="dropdown-item" href="loan_info.php?menu=edit_loan&loan_id=<?php echo $data['id']; ?>&userid=<?php echo $data['userId'] ;?>"><i class="dw dw-edit-file"></i> Edit Loan Info</a>
+                                <?php }?>
+                            </div>
 						</div>
 					</td>
 				</tr>

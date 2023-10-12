@@ -1,4 +1,5 @@
 <?php
+include ('check_role.php');
 
     $branches = ["Harare", "HarareA", "Bulawayo", "Gweru", "Gokwe"];
 	$colors = ["#00789c", "#236adc", "#ff686b", "#264653", "#4cb848", "#505b23", "#ee1d23"];

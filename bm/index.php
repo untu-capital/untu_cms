@@ -1,10 +1,11 @@
 <?php
 	include('../session/session.php');
+include ('check_role.php');
 //	include('charts_data.php');
 	$nav_header = "Dashboard";
 	include('../includes/controllers.php');
 
-    $fromGraphDate = date('Y-10-09');
+    $fromGraphDate = date('Y-m-d');
     $fromDate = date('Y-m-d');
     $toDate = date('Y-m-d');
     if (isset($_POST['pick_range'])) {

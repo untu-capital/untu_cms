@@ -1,5 +1,5 @@
 <?php 
-//  error_reporting(0);
+  error_reporting(0);
 
 require_once "controllerUserData.php"; 
 
@@ -43,7 +43,21 @@ if($userid == false){
         $board_limit = 20000;
         $credit_limit = 2000;
         $operations_limit = 8001;
-                
+
+        function restrictAccessToRole($requiredRole) {
+            if ($_SESSION['role'] !== $requiredRole) {
+                session_destroy();
+                header('Location: ../login_signup/login.php');
+                exit(); // Stop the script execution to prevent further processing.
+            }
+        }
+
+//        session_start();
+// Check if the user has the 'ROLE_BM' role.
+//        restrictAccessToRole($_SESSION['role']);
+// Rest of your 'bm/index.php' code.
+
+
     }
     curl_close($ch);
 }

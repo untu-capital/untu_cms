@@ -8,9 +8,9 @@
             <h4 class="text-blue h4">Apply for a Loan</h4>
             <p class="mb-30">Personal Information</p>
         </div>
-        <div class="pull-right">
-            <a href="#form-grid-form" class="btn btn-primary btn-sm scroll-click" rel="content-y" data-toggle="collapse" role="button"><i class="fa fa-code"></i> Source Code</a>
-        </div>
+<!--        <div class="pull-right">-->
+<!--            <a href="#form-grid-form" class="btn btn-primary btn-sm scroll-click" rel="content-y" data-toggle="collapse" role="button"><i class="fa fa-code"></i> Source Code</a>-->
+<!--        </div>-->
     </div>
     <form action="" method="post" enctype="multipart/form-data">
         <?php $user_loans = loans('/user/'.$_SESSION['userId']); ?>
@@ -124,6 +124,25 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-12">
+                <div class="form-group">
+                    <label>Select Branch</label>
+                    <select class="custom-select2 form-control" name="branchName" style="width: 100%; height: 38px" required>
+                        <option value="<?php echo $user_loans[0]['branchName']; ?>"><?php echo $user_loans[0]['branchName']; ?> Branch</option>
+                        <?php
+                        $branches = branch();
+                        foreach ($branches as $branch) {
+                            if ($branch['branchName'] !== "Head Office") {
+                                echo "<option value='{$branch['branchName']}'>{$branch['branchName']} Branch</option>";
+                            }
+                        }
+                        ?>
+                    </select>
+                </div>
+
+            </div>
+        </div>
         
         <div class="clearfix">
             <div class="pull-left">
@@ -151,25 +170,16 @@
             </div>
             <div class="col-md-4 col-sm-12">
                 <div class="form-group">
-                    <label>Select Branch</label>
-                    <select class="custom-select2 form-control" name="branchName" style="width: 100%; height: 38px" required>
-                        <option value="<?php echo $user_loans[0]['branchName']; ?>"><?php echo $user_loans[0]['branchName']; ?></option>
-                        <option value=null>Select Option</option>
-                        <?php $branches = branches();
-                        foreach ($branches as $branch) { echo "<option value='$branch[branchName]'>$branch[branchName] Branch</option>";} ?>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-4 col-sm-12">
-                <div class="form-group">
                     <label>Business Name</label>
                     <input type="text" id="businessName" name="businessName" value="<?php echo $user_loans[0]['businessName']; ?>" maxlength = "40" minlength="2" required="required" class="form-control "  >
                 </div>
             </div>
-            <div class="col-md-8 col-sm-12">
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12 col-sm-12">
                 <div class="form-group">
                     <label for="pob">Business Address</label>
                     <textarea type="text" id="pob" name="pob" required="required" maxlength = "40" minlength="4" class="form-control"><?php echo $user_loans[0]['placeOfBusiness']; ?></textarea>
