@@ -8,22 +8,39 @@
 
 
 <?php
-//$errors = array();
 
-if(isset($_POST['add_auth'])){
+$errors = array();
+
+
+if(isset($_POST['auth'])){
     $branch = $_POST['branch'];
     $auth = $_POST['role'];
     $name = $_POST['name'];
+
+
+
+
+
+
+
     $url = "http://localhost:7878/api/utg/cms/cms_authorisation/addAuthorisation";
 
     $data_array = array(
+
+
+        'branchName' => $branch,
         'branchId' => $branch,
         'authLevel' => $auth,
         'userId'=> $name,
+
+
+
     );
 
     $data = json_encode($data_array);
+
     $ch = curl_init();
+
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -80,87 +97,103 @@ if(isset($_POST['add_auth'])){
 
 ?>
 
-    <div class="pd-20">
-        <button class="btn btn-lg btn-primary" type="submit" name="add_branch" id="showFormButton" style="margin-bottom: 15px;">Add Authoriser</button>
-        <div class="pd-20 card-box mb-30">
-            <form action="" method="POST" id="myForm">
-                <div class="clearfix">
-                    <h4 class="text-blue h4">Access to Branch Vaults</h4>
+
+
+
+<div class="pd-20">
+
+    <button class="btn btn-lg btn-primary" type="submit" name="add_branch" id="showFormButton" style="margin-bottom: 15px;">Add Authoriser</button>
+
+
+    <div class="pd-20 card-box mb-30">
+
+
+
+        <form action="" method="POST" id="myForm">
+            <div class="clearfix">
+                <h4 class="text-blue h4">Authoriser</h4>
+
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-12">
+                    <div class="form-group">
+                        <label>Branch Name</label>
+                        <select class="custom-select form-control"name="branch" required>
+                            <option value="">Select Branch</option>
+                            <?php
+                            $branches = branch();
+                            foreach ($branches as $branch) {
+                                echo "<option value='$branch[id]'>$branch[branchName] Branch</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4 col-sm-12">
-                        <div class="form-group">
-                            <label>Branch Name</label>
-                            <select class="custom-select2 form-control" name="branch" style="width: 100%; height: 38px" required>
-                                <option value="">Select Branch</option>
-                                <?php
-                                $branches = branch();
-                                foreach ($branches as $branch) {
-                                    echo "<option value='$branch[id]'>$branch[branchName] Branch</option>";
-                                }
-                                ?>
-                            </select>
-                        </div>
+                <div class="col-md-4 col-sm-12">
+                    <div class="form-group">
+                        <label>Authirisation Level <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
+                        <select class="custom-select form-control" name="role">
+                            <option value="">Select Level</option>
+                            <option value="Initiator" name="role">Initiator</option>
+                            <option value="First Approver" name="role" >First Approver</option>
+                            <option value="Second Approver" name="role" >Second Approver</option>
+                        </select>
                     </div>
-                    <div class="col-md-4 col-sm-12">
-                        <div class="form-group">
-                            <label>Authorization Level <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
-                            <select class="custom-select2 form-control" name="role" style="width: 100%; height: 38px" required>
-                                <option value="">Select Level</option>
-                                <option value="Initiator" name="role">Initiator</option>
-                                <option value="First Approver" name="role" >First Approver</option>
-                                <option value="Second Approver" name="role" >Second Approver</option>
-                            </select>
-                        </div>
-                    </div
-                    <div class="col-md-4 col-sm-12">
-                        <div class="form-group">
-                            <label>Grant Access to:</label>
-                                <select id="name" class="custom-select2 form-control" name="name" style="width: 100%; height: 38px" required>
-                                <option value="">Select user</option>
-                                <?php
-                                $users = cms_user();
-                                foreach ($users as $user) {
-                                    echo "<option value='$user[id]'>$user[firstName] $user[lastName] </option>";
-                                }
-                                ?>
-                            </select>
-                        </div>
+                </div
+                <div class="col-md-4 col-sm-12">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <select class="custom-select form-control"name="name" id="name" required>
+                            <option value="">Select Name</option>
+                            <?php
+                            $users = users();
+                            foreach ($users as $user) {
+                                echo "<option value='$user[id]'>$user[firstName] $user[lastName] </option>";
+                            }
+                            ?>
+                        </select>
                     </div>
+
+
                 </div>
                 <div class="row">
                     <div class="col-md-1 col-sm-12">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary" value="auth" name="add_auth">Submit</button>
+
+                            <button type="submit" class="btn btn-primary" value="auth" name="auth">Submit</button>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-12">
                         <div class="form-group">
+
                             <button  class="btn btn-primary"onclick="goBack()">Cancel</button>
 
                         </div>
                     </div>
                 </div>
-            </form>
 
-            <script>
-                // Get references to the button and form
-                var showFormButton = document.getElementById("showFormButton");
-                var myForm = document.getElementById("myForm");
+        </form>
 
-                // Add a click event listener to the button
-                showFormButton.addEventListener("click", function() {
-                    // Show the form by changing its display style
-                    myForm.style.display = "block";
-                    // showFormButton.style.display = "block";
-                });
-            </script>
-            <script>
-                // JavaScript function to go back to the previous page
-                function goBack() {
-                    window.history.back();
-                }
-            </script
+
+
+        <script>
+            // Get references to the button and form
+            var showFormButton = document.getElementById("showFormButton");
+            var myForm = document.getElementById("myForm");
+
+            // Add a click event listener to the button
+            showFormButton.addEventListener("click", function() {
+                // Show the form by changing its display style
+                myForm.style.display = "block";
+            });
+        </script>
+
+        <script>
+            // JavaScript function to go back to the previous page
+            function goBack() {
+                window.history.back();
+            }
+        </script
 
     </div>
 
@@ -169,10 +202,11 @@ if(isset($_POST['add_auth'])){
     <table class="data-table table stripe hover multiple-select-row nowrap">
         <thead>
         <tr>
-            <th>Date</th>
+            <th>Creation Date</th>
+            <th>Name</th>
+            <th>Athaurisation Level</th>
             <th>Branch</th>
-            <th>User Assigned</th>
-            <th>Authorisation Level</th>
+
             <th class="datatable-nosort">Action</th>
         </tr>
         </thead>
@@ -194,9 +228,9 @@ if(isset($_POST['add_auth'])){
 
             <tr>
                 <td><?php echo date('d-M-Y', strtotime($data['createdAt'])) ;?></td>
-                <td><?php echo $authbranch['branchName'] ;?></td>
-                <td class="table-plus"><?php echo $authuser['firstName']." ".$authuser['lastName'];?></td>
+                <td class="table-plus"><?php echo $authuser['firstName'] . $authuser['lastName'];?></td>
                 <td class="table-plus"><?php echo $data['authLevel'] ;?></td>
+                <td><?php echo $authbranch['branchName'] ;?></td>
 
 
                 <td>
@@ -214,7 +248,7 @@ if(isset($_POST['add_auth'])){
                         >
                             <a class="dropdown-item" href="cash_management.php">
 
-                            <a class="dropdown-item" href="cash_management.php?menu=edit_authorities&id=<?=$data["id"] ?>" ><i class="dw dw-edit2"></i> Edit</a>
+                                <a class="dropdown-item" href="cash_management.php?menu=edit_authorities&id=<?=$data["id"] ?>" ><i class="dw dw-edit2"></i> Edit</a>
 
                                 <form method="post" action="delete.php">
                                     <input type="hidden" name="id" value="<?= $data["id"] ?>">

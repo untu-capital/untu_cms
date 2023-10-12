@@ -97,107 +97,7 @@ include('../includes/header.php');
                             </div>
 
                             <div class="tab-pane fade" id="vault_auth" role="tabpanel">
-                                <form method="post" action="">
-                                    <div class="row">
-                                        <div class="pd-20 col-4">
-                                            <div class="form-group">
-                                                <br>
-                                                <label>Select User :</label>
-                                                <select id="userSelect" class="custom-select2 form-control"
-                                                        data-style="btn-outline-primary" data-size="5" name="user"
-                                                        style="width: 100%; height: 38px">
-                                                    <optgroup label="Pick a user">
-                                                        <?php
-                                                        $users = untuStaff();
-                                                        foreach ($users as $user) {
-                                                            echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
-                                                        } ?>
-                                                    </optgroup>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="pd-20 col-2">
-                                            <div class="form-group">
-                                                <br>
-                                                <label>Select Vault Type :</label>
-                                                <select id="vaultTypeSelect" class="custom-select2 form-control"
-                                                        data-style="btn-outline-primary" data-size="5" name="vault_type"
-                                                        style="width: 100%; height: 38px">
-                                                    <!--                                               <optgroup label="Select Vault Type">-->
-                                                    <option value="">Select Vault Type</option>
-                                                    <option value="Petty Cash">Petty Cash</option>
-                                                    <option value="Internal Vault">Internal Vault</option>
-                                                    <option value="External Vault">External Vault</option>
-                                                    </optgroup>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="pd-20 col-4">
-                                            <div class="form-group">
-                                                <br>
-                                                <label>Select Vault Account :</label>
-                                                <select id="vaultSelect" class="custom-select2 form-control"
-                                                        data-style="btn-outline-primary" data-size="5" name="vault_acc"
-                                                        style="width: 100%; height: 38px">
-                                                    <optgroup label="Select Vault Account">
-                                                        <?php
-                                                        $vaults = vaults('all');
-                                                        foreach ($vaults as $vault) {
-                                                            echo "<option value='$vault[id]'>$vault[name] ($vault[account])</option>";
-                                                        } ?>
-                                                    </optgroup>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <script>
-                                            // Function to fetch vaults based on user and vault type
-                                            function fetchVaults() {
-                                                var userId = $('#userSelect').val();
-                                                var vaultType = $('#vaultTypeSelect').val();
-
-                                                // Construct the API URL based on selected values
-                                                var apiUrl = `http://localhost:7878/api/utg/cms/vault/getVaultsByBranchAndType/Harare/Internal Vault}`;
-
-                                                // Make an AJAX request to fetch the vaults
-                                                $.ajax({
-                                                    url: apiUrl,
-                                                    method: 'GET',
-                                                    success: function (response) {
-                                                        // Populate the vault select options based on the fetched data
-                                                        var vaultSelect = $('#vaultSelect');
-                                                        vaultSelect.empty();
-
-                                                        $.each(response, function (index, vault) {
-                                                            vaultSelect.append(`<option value="${vault.id}">${vault.name} (${vault.account})</option>`);
-                                                        });
-                                                    },
-                                                    error: function (xhr, status, error) {
-                                                        console.error('Error fetching vaults:', error);
-                                                    }
-                                                });
-                                            }
-
-                                            // Attach event listeners to user and vault type selects
-                                            $('#userSelect, #vaultTypeSelect').change(function () {
-                                                fetchVaults(); // Fetch and update vaults when values change
-                                            });
-                                        </script>
-
-                                        <div class="col-2 pd-20 form-group">
-                                            <br>
-                                            <label>.</label>
-                                            <!--                                        <input class="form-control" type="hidden" name="userid" required value="-->
-                                            <?php //echo $_SESSION['userid'] ?><!--">-->
-                                            <button type="submit" name="add_vault_permissions"
-                                                    class="btn btn-success btn-lg btn-block">Grant Permission
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                                <?php include('../includes/tables/cms_permissions_table.php'); ?>
+                                <?php include('../includes/tables/cash_management/list-petty-cash.php'); ?>
                             </div>
 
 
@@ -278,7 +178,8 @@ include('../includes/header.php');
                 </form>
             </div>
 
-        <?php } elseif ($_GET['menu'] == 'update_vault') { ?>
+        <?php }
+        elseif ($_GET['menu'] == 'update_vault') { ?>
 
             <?php
 
@@ -389,7 +290,219 @@ include('../includes/header.php');
             </div>
             <!-- Default Basic Forms End -->
 
-        <?php } elseif ($_GET['menu'] == 'delete_vault') { ?>
+        <?php }
+
+        elseif ($_GET['menu'] == 'approve') { ?>
+
+            <?php
+
+
+            if (isset($_POST['approve'])) {
+                // API endpoint URL
+                $url = "http://localhost:7878/api/utg/cms/petty-cash-payments/".$_POST['id'];
+                // Data to send in the POST request
+                $postData = array(
+                    'id' => $_POST['id'],
+                    'secondApprover' => $_SESSION['firstname']."".$_SESSION['lastname'],
+                    'status' => "Approved",
+                    'notes' => $_POST['notes'],
+                    'fromAccount' => "8000/0009/aac",
+                    'toAccount' => "3000/8988/baa"
+                );
+
+                $data = json_encode($postData);
+//              echo $data;
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HEADER, true);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+
+                // Execute the POST request and store the response in a variable
+                $resp = curl_exec($ch);
+
+                $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+                $headerStr = substr($resp, 0, $headerSize);
+                $bodyStr = substr($resp, $headerSize);
+
+                // Check for cURL errors
+                if (!curl_errno($ch)) {
+                    switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+                        case 200:
+
+                            echo '<script>alert("Approve Successful");</script>';
+
+
+//POST TO Pastel
+                            $url = "http://localhost:7878/api/utg/cms/Pastel/".$_POST['id'];
+                            // Data to send in the POST request
+                            $postData = array(
+                                'id' => $_POST['id'],
+                                'ToAccount' =>"8422/000/GWE/FCA",
+                                'TransactionType' => "PO-TRANS",
+                                'ExchangeRate' => "1",
+                                'Description' => "Repayment Transaction",
+                                'FromAccount' =>"8000/000/HO/LR",
+                                'Reference' =>"RP{transId}",
+                                'Currency' =>"001",
+                                'Amount' =>"4000.0",
+                                'APIPassword' =>"Admin",
+                                'APIUsername' => "Admin",
+                                'TransactionDate'=>"13-Sep-2023"
+
+                            );
+
+                            $data = json_encode($postData);
+//              echo $data;
+                            $ch = curl_init();
+                            curl_setopt($ch, CURLOPT_URL, $url);
+                            curl_setopt($ch, CURLOPT_POST, true);
+                            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            curl_setopt($ch, CURLOPT_HEADER, true);
+                            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+
+                            // Execute the POST request and store the response in a variable
+                            $resp = curl_exec($ch);
+
+                            $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+                            $headerStr = substr($resp, 0, $headerSize);
+                            $bodyStr = substr($resp, $headerSize);
+
+                            // Check for cURL errors
+                            if (!curl_errno($ch)) {
+                                echo 'Curl error: ' . curl_error($ch);
+                            }
+                            // Close cURL session
+                            curl_close($ch);
+
+                            header('Location: cash_management.php?menu=main');
+                            break;
+
+                        case 400:  # Bad Request
+                            $decoded = json_decode($bodyStr);
+                            foreach($decoded as $key => $val) {
+                                //echo $key . ': ' . $val . '<br>';
+                            }
+                            // echo $val;
+                            $_SESSION['error'] = "Failed. Please try again, ".$val;
+                            header('location: cash_management.php?menu=main');
+                            break;
+
+                        case 401: # Unauthorixed - Bad credientials
+                            $_SESSION['error'] = ' Failed.. Please try again!';
+                            header('location: cash_management.php?menu=main');
+
+                            break;
+                        default:
+                            $_SESSION['error'] = 'Not able to Approve'. "\n";
+                            header('location: cash_management.php?menu=main');
+                    }
+                }
+
+                else {
+                    $_SESSION['error'] = 'Failed.. Please try again!'. "\n";
+                    header('location: cash_management.php?menu=main');
+
+                }
+                // Close cURL session
+                curl_close($ch);
+
+
+            }
+            ?>
+
+            <!-- Default Basic Forms Start -->
+            <div class="pd-20 card-box mb-30">
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <h4 class="text-blue h4">Purchase Order</h4>
+                    </div>
+                </div>
+                <form method="POST" action="cash_management.php?menu=approve">
+                    <?php  $petty = petty_cash_payments_by_id($_GET['id']); ?>
+                    <input name="id" value="<?php echo $_GET['id'] ?>" hidden="hidden">
+
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group">
+                                <h1>PO-By: </h1>
+                                <h3><?=$petty['name']?> </h3>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <div class="form-group">
+                                <h1>PO-Number: </h1>
+                                <h3><?=$petty['purchaseOrderNumber']?> </h3>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-sm-12">
+                            <div class="form-group">
+                                <h1>Status </h1>
+                                <h3>First Approved By : <?=$petty['firstApprover']?></h3>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label>Requisition Name</label>
+                                <input type="text" disabled class="form-control" value="<?=$petty['requesitionName'] ?>" name="requesitionName" id="requesitionName" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label>Requisition Date <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
+                                <input type="text" disabled class="form-control" name="branchAddress" value="<?=$petty['date'] ?>" id="date" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label>Transaction</label>
+                                <input type="text" disabled class="form-control" value="<?=$petty['transType'] ?>" name="transType" id="transType" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label>Total <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
+                                <input type="text" class="form-control" name="amount" disabled value="<?=$petty['amount'] ?>" id="amount" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+
+                                <input type="hidden" disabled class="form-control" value="<?=$petty['id'] ?>" name="id" id="id" required>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Additional Notes</label>
+                        <textarea class="form-control" name="notes" id="notes"></textarea>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12 col-md-2 col-form-label">
+                            <button class="btn btn-success" type="submit" name="approve">Approve</button>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+            <!-- Default Basic Forms End -->
+
+        <?php }elseif ($_GET['menu'] == 'delete_vault') { ?>
 
             <?php
             $id = $_GET['vaultId'];
