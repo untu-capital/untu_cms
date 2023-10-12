@@ -62,7 +62,8 @@
                                 </ul>
                             </li>
                         </ul>
-                    <?php } elseif ($check_role == "ROLE_FIN"){?>
+                    <?php }
+                    elseif ($check_role == "ROLE_FIN"){?>
 
                         <ul id="accordion-menu">
                             <li class="dropdown">
@@ -145,7 +146,8 @@
                             </li>
                         </ul>
 
-                    <?php } elseif ($check_role == "ROLE_BOARD"){?>
+                    <?php }
+                    elseif ($check_role == "ROLE_BOARD"){?>
 
                         <ul id="accordion-menu">
                             <li class="dropdown">
@@ -325,7 +327,8 @@
 						</li>
 					</ul>
 
-                    <?php } elseif ($check_role == "ROLE_ADMIN"){?>
+                    <?php }
+                    elseif ($check_role == "ROLE_ADMIN"){?>
 
                         <ul id="accordion-menu">
                             <li class="dropdown">
@@ -495,7 +498,8 @@
                             </li>
                         </ul>
 
-                    <?php } elseif ($check_role == "ROLE_CA"){?>
+                    <?php }
+                    elseif ($check_role == "ROLE_CA"){?>
 
                         <ul id="accordion-menu">
                             <li class="dropdown">
@@ -641,6 +645,15 @@
 								<li><a href="pipeline_report.php">Pipeline Summary Report</a></li>
 							</ul>
 						</li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-textarea-resize"></span
+                                ><span class="mtext">Cash Management</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="cash_management.php?menu=main">Dashboard</a></li>
+                                </ul>
+                            </li>
 						<li class="dropdown">
 							<a href="javascript:;" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span

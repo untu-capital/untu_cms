@@ -99,7 +99,7 @@ include('../includes/header.php');
                             <div class="form-group">
                                 <label for="firstApprover">First Approver</label>
                                 <input type="text"
-                                       value="<?= $transactionVoucher['firstApprover']['firstName'] . ' ' . $transactionVoucher['initiator']['lastName'] ?>"
+                                       value="<?= $transactionVoucher['firstApprover']['firstName'] . ' ' . $transactionVoucher['firstApprover']['lastName'] ?>"
                                        class="form-control" name="firstApprover" id="firstApprover" readonly>
                             </div>
                         </div>
@@ -129,7 +129,7 @@ include('../includes/header.php');
                             <div class="form-group">
                                 <label for="secondApprover">Second Approver</label>
                                 <input type="text"
-                                       value="<?= $transactionVoucher['secondApprover']['firstName'] . ' ' . $transactionVoucher['initiator']['lastName'] ?>"
+                                       value="<?= $transactionVoucher['secondApprover']['firstName'] . ' ' . $transactionVoucher['secondApprover']['lastName'] ?>"
                                        class="form-control" name="secondApprover" id="secondApprover" readonly>
                             </div>
                         </div>
