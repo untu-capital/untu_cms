@@ -455,7 +455,6 @@ include('../includes/header.php');
                                 <?php include('../includes/tables/cms/branches_table.php'); ?>
                             </div>
 
-
                             <div class="tab-pane fade" id="authorisers" role="tabpanel">
                                 <?php include('../includes/tables/cms/authorisers_table.php'); ?>
                             </div>
