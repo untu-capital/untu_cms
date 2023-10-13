@@ -43,7 +43,7 @@
                 <tr>
                     <td><?= htmlspecialchars($row["applicationDate"]) ?></td>
 
-                    <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["initiator"]['lastName']) ?></td>
+                    <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["firstApprover"]['lastName']) ?></td>
                     <td><?php if ($row['firstApprovalStatus'] == "APPROVED") {
                             echo "<label style='padding: 6px;' class='badge badge-success'>Approved</label>";
                         } elseif ($row['firstApprovalStatus'] == "PENDING") {
@@ -52,7 +52,7 @@
                             echo "<label style='padding: 6px;' class='badge badge-danger'>Revise</label>";
                         } ?></td>
 
-                    <td><?= htmlspecialchars($row["secondApprover"]['firstName']) . " " . htmlspecialchars($row["initiator"]['lastName']) ?></td>
+                    <td><?= htmlspecialchars($row["secondApprover"]['firstName']) . " " . htmlspecialchars($row["secondApprover"]['lastName']) ?></td>
                     <td><?php if ($row['secondApprovalStatus'] == "APPROVED") {
                             echo "<label style='padding: 6px;' class='badge badge-success'>Approved</label>";
                         } elseif ($row['secondApprovalStatus'] == "REVISE") {

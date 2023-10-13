@@ -295,8 +295,14 @@ include('../includes/header.php');
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#acc_balance" role="tab" aria-selected="true">Account Balances</a>
                             </li>
+
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#cash_receipts" role="tab" aria-selected="false">Cash Receipts</a>
+                                <a class="nav-link" data-toggle="tab" href="#po_payments" role="tab"
+                                   aria-selected="false">P.O Payments</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#cash_receipts" role="tab" aria-selected="false">Cash Receipts (Musoni - Pastel)</a>
                             </li>
 
                             <li class="nav-item">
@@ -330,9 +336,10 @@ include('../includes/header.php');
                                     <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
                                 </div>
                             </div>
+                            <div class="tab-pane fade" id="po_payments" role="tabpanel">
+                                <?php include('../includes/tables/cash_management/list-petty-cash.php'); ?>
+                            </div>
                             <div class="tab-pane fade row" id="cash_receipts" role="tabpanel">
-
-
                                 <?php include('../includes/tables/cash_management/cash_receipts.php'); ?>
                             </div>
 
@@ -863,6 +870,211 @@ include('../includes/header.php');
                 </form>
             </div>
             <!-- Default Basic Forms End -->
+
+        <?php } elseif ($_GET['menu'] == 'approve') {
+        if (isset($_POST['approve'])) {
+            // API endpoint URL
+            $url = "http://localhost:7878/api/utg/cms/petty-cash-payments/".$_POST['id'];
+            // Data to send in the POST request
+            $postData = array(
+                'id' => $_POST['id'],
+                'secondApprover' => $_SESSION['userId'],
+                'status' => "Approved",
+                'notes' => $_POST['notes'],
+                'fromAccount' => "8000/0009/HRE/FCA",
+                'toAccount' => "3000/8988/EXP/HO"
+            );
+
+            $data = json_encode($postData);
+//              echo $data;
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HEADER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+
+            // Execute the POST request and store the response in a variable
+            $resp = curl_exec($ch);
+
+            $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+            $headerStr = substr($resp, 0, $headerSize);
+            $bodyStr = substr($resp, $headerSize);
+
+            // Check for cURL errors
+            if (!curl_errno($ch)) {
+                switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+                    case 200:
+
+                        echo '<script>alert("Approve Successful");</script>';
+
+
+//POST TO Pastel
+                        $url = "http://localhost:7878/api/utg/cms/Pastel/".$_POST['id'];
+                        // Data to send in the POST request
+                        $postData = array(
+                            'id' => $_POST['id'],
+                            'ToAccount' =>"8422/000/GWE/FCA",
+                            'TransactionType' => "PO-TRANS",
+                            'ExchangeRate' => "1",
+                            'Description' => "Repayment Transaction",
+                            'FromAccount' =>"8000/000/HO/LR",
+                            'Reference' =>"RP{transId}",
+                            'Currency' =>"001",
+                            'Amount' =>"4000.0",
+                            'APIPassword' =>"Admin",
+                            'APIUsername' => "Admin",
+                            'TransactionDate'=>"13-Sep-2023"
+
+                        );
+
+                        $data = json_encode($postData);
+//              echo $data;
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, $url);
+                        curl_setopt($ch, CURLOPT_POST, true);
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        curl_setopt($ch, CURLOPT_HEADER, true);
+                        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+
+                        // Execute the POST request and store the response in a variable
+                        $resp = curl_exec($ch);
+
+                        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+                        $headerStr = substr($resp, 0, $headerSize);
+                        $bodyStr = substr($resp, $headerSize);
+
+                        // Check for cURL errors
+                        if (!curl_errno($ch)) {
+                            echo 'Curl error: ' . curl_error($ch);
+                        }
+                        // Close cURL session
+                        curl_close($ch);
+
+                        header('Location: cash_management.php?menu=main');
+                        break;
+
+                    case 400:  # Bad Request
+                        $decoded = json_decode($bodyStr);
+                        foreach($decoded as $key => $val) {
+                            //echo $key . ': ' . $val . '<br>';
+                        }
+                        // echo $val;
+                        $_SESSION['error'] = "Failed. Please try again, ".$val;
+                        header('location: cash_management.php?menu=main');
+                        break;
+
+                    case 401: # Unauthorixed - Bad credientials
+                        $_SESSION['error'] = ' Failed.. Please try again!';
+                        header('location: cash_management.php?menu=main');
+
+                        break;
+                    default:
+                        $_SESSION['error'] = 'Not able to Approve'. "\n";
+                        header('location: cash_management.php?menu=main');
+                }
+            }
+
+            else {
+                $_SESSION['error'] = 'Failed.. Please try again!'. "\n";
+                header('location: cash_management.php?menu=main');
+
+            }
+            // Close cURL session
+            curl_close($ch);
+
+
+        }
+        ?>
+
+            <!-- Default Basic Forms Start -->
+            <div class="pd-20 card-box mb-30">
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <h4 class="text-blue h4">Purchase Order</h4>
+                    </div>
+                </div>
+                <form method="POST" action="cash_management.php?menu=approve">
+                    <?php  $petty = petty_cash_payments_by_id($_GET['id']); ?>
+                    <input name="id" value="<?php echo $_GET['id'] ?>" hidden="hidden">
+
+                    <div class="row">
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group">
+                                <h1>PO-By: </h1>
+                                <h3><?=$petty['name']?> </h3>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-12">
+                            <div class="form-group">
+                                <h1>PO-Number: </h1>
+                                <h3><?=$petty['purchaseOrderNumber']?> </h3>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-sm-12">
+                            <div class="form-group">
+                                <h1>Status </h1>
+                                <h3>First Approved By : <?=$petty['firstApprover']?></h3>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label>Requisition Name</label>
+                                <input type="text" disabled class="form-control" value="<?=$petty['requesitionName'] ?>" name="requesitionName" id="requesitionName" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label>Requisition Date <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
+                                <input type="text" disabled class="form-control" name="branchAddress" value="<?=$petty['date'] ?>" id="date" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label>Transaction</label>
+                                <input type="text" disabled class="form-control" value="<?=$petty['transType'] ?>" name="transType" id="transType" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+                                <label>Total <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
+                                <input type="text" class="form-control" name="amount" disabled value="<?=$petty['amount'] ?>" id="amount" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="form-group">
+
+                                <input type="hidden" disabled class="form-control" value="<?=$petty['id'] ?>" name="id" id="id" required>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Additional Notes</label>
+                        <textarea class="form-control" name="notes" id="notes"></textarea>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12 col-md-2 col-form-label">
+                            <button class="btn btn-success" type="submit" name="approve">Approve</button>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
 
         <?php }
         elseif ($_GET['menu'] == 'delete_vault'){ ?>
