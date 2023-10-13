@@ -524,21 +524,21 @@ include('../includes/header.php');
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <label>Branch Code</label>
-                                    <input type="text" class="form-control" name="branchcode" id="branchcode" required>
+                                    <input type="text" class="form-control" name="branchcode" id="branchcode" requred>
                                 </div>
                             </div>
 
                         </div>
-                        <div class="row">
-
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <label>Vault Acc Number</label>
-                                    <input type="text" class="form-control" name="vault" id="vault" required>
-                                </div>
-                            </div>
-
-                        </div>
+<!--                        <div class="row">-->
+<!---->
+<!--                            <div class="col-md-6 col-sm-12">-->
+<!--                                <div class="form-group">-->
+<!--                                    <label>Vault Acc Number</label>-->
+<!--                                    <input type="text" class="form-control" name="vault" id="vault" >-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!---->
+<!--                        </div>-->
 
 
                         <div class="row">

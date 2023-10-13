@@ -70,8 +70,7 @@
                                         <a class="dropdown-item"
                                            href="cash_management.php?menu=update_vault&vaultId=<?php echo urlencode($row['id']); ?>"
 
-                                        ><i class="dw dw-edit2"></i> Set Cash Limit</a
-                                        >
+                                        ><i class="dw dw-edit2"></i> Edit Vault</a>
 
                                         <a class="dropdown-item"
                                            href="cash_management.php?menu=delete_vault&vaultId=<?php echo urlencode($row['id']); ?>"

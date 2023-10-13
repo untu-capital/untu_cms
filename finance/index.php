@@ -1,11 +1,54 @@
 <?php
-	include('../session/session.php');
-include ('check_role.php');
-	include('charts_data.php');
-	$nav_header = "Dashboard";
+//	include('../session/session.php');
+//include ('check_role.php');
+//	include('charts_data.php');
+//	$nav_header = "Dashboard";
+//
+//	include('../includes/controllers.php');
+//
+//?>
 
-	include('../includes/controllers.php');	
-	
+<?php
+include('../session/session.php');
+include ('check_role.php');
+//	include('charts_data.php');
+$nav_header = "Dashboard";
+include('../includes/controllers.php');
+
+$fromGraphDate = date('Y-m-d');
+$fromDate = date('Y-m-d');
+$toDate = date('Y-m-d');
+if (isset($_POST['pick_range'])) {
+    // Check if the form is submitted
+    if (isset($_POST['date_range']) && !empty($_POST['date_range'])) {
+        // Get the selected date range from the form
+        list($fromDate, $toDate) = explode(' - ', $_POST['date_range']);
+        // Convert the dates to the desired format
+        $fromDate = date('Y-m-d', strtotime($fromDate));
+        $toDate = date('Y-m-d', strtotime($toDate));
+    }
+}
+//    if (date('Y-m-d') != $fromDate){
+//        $fromGraphDate = $fromDate;
+//    }
+$data = disbursed_by_range($fromGraphDate.'/'.$toDate);
+$disbursement = $data['disbursedLoanMonths'];
+$disbursement_data = [];
+foreach ($disbursement as $disburse_data) {
+    $disbursement_data[] = $disburse_data['totalPrincipalDisbursed'];
+}
+
+//echo '$ ' . number_format($montlhy_disbursement['totalPrincipalDisbursed'], 2, '.', ',');
+
+$target_data = [1100000, 1200000, 1400000, 1100000, 1350000, 1200000, 1300000, 1100000, 1500000, 1200000, 1800000, 2000000];
+$disbursement_rate = round((array_sum($disbursement_data)/array_sum(array_slice($target_data, 0, count($disbursement_data))))*100, 0);
+
+$branches = branches();
+$widget_title = array_merge($branches, ["All Branches"]);
+
+$widget_pipeline = ["210000", "180000", "124000", "68000", "80000", "987000", "987000"];
+$disbursement_months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+
 ?>
 
 <!DOCTYPE html>

@@ -129,7 +129,7 @@ if(isset($_POST['Branch'])){
             <th>Branch Name</th>
             <th>Branch Address</th>
             <th>Contact No.</th>
-            <th>Valt Account No.</th>
+<!--            <th>Valt Account No.</th>-->
             <th>Branch Code</th>
             <th>Status</th>
             <th class="datatable-nosort">Action</th>
@@ -144,7 +144,7 @@ if(isset($_POST['Branch'])){
                 <td class="table-plus"><?php echo $data['branchName'] ;?></td>
                 <td class="table-plus"><?php echo $data['branchAddress'] ;?></td>
                 <td><?php echo $data['branchTellPhone'] ;?></td>
-                <td><?php echo $data['vaultAccountNumber'] ;?></td>
+<!--                <td>--><?php //echo $data['vaultAccountNumber'] ;?><!--</td>-->
                 <td><?php echo $data['branchCode'] ;?></td>
                 <td>
                     <?php if ($data['branchStatus'] == 1){ ?>
