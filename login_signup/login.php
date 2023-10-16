@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 	<!-- HTML HEAD -->
-	<?php 
-		include('../includes/header.php');
+	<?php
+        if (session_status() == PHP_SESSION_ACTIVE) {
+            session_destroy();
+        }
+        include('../includes/header.php');
 	?>
 	<!-- /HTML HEAD -->
 	<body class="login-page">

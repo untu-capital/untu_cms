@@ -96,7 +96,7 @@
                                     <li><a href="signed_tickets.php">Signed Ticket(s)</a></li>
                                 </ul>
                             </li>
-                            <?php if ($_SESSION['cmsUser'] != null){ ?>
+                            <?php if ($_SESSION['cmsUser']['role'] != null){ ?>
                                 <li class="dropdown">
                                     <a href="javascript:;" class="dropdown-toggle">
                                         <span class="micon bi bi-cash-coin"></span><span class="mtext">Cash Management</span>
@@ -187,7 +187,7 @@
                                     <li><a href="signed_tickets.php">Signed Ticket(s)</a></li>
                                 </ul>
                             </li>
-                            <?php if ($_SESSION['cmsUser'] != null){ ?>
+                            <?php if ($_SESSION['cmsUser']['role'] != null){ ?>
                                 <li class="dropdown">
                                     <a href="javascript:;" class="dropdown-toggle">
                                         <span class="micon bi bi-cash-coin"></span><span class="mtext">Cash Management</span>
@@ -736,7 +736,7 @@
                                 <li><a href="signed_tickets.php">Ticket(s) Signing</a></li>
                             </ul>
                         </li>
-                        <?php if ($_SESSION['cmsUser'] != null){ ?>
+                        <?php if ($_SESSION['cmsUser']['role'] != null){ ?>
                         <li class="dropdown">
                             <a href="javascript:;" class="dropdown-toggle">
                                 <span class="micon bi bi-cash-coin"></span><span class="mtext">Cash Management</span>

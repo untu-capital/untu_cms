@@ -28,7 +28,9 @@
                     <?php } ?>
 					<th>Status</th>
                     <th>Branch</th>
+                    <?php if ($_SESSION['role'] != 'ROLE_CLIENT') { ?>
 					<th>Stage</th>
+                    <?php } ?>
 					<th class="datatable-nosort">Action</th>
 				</tr>
 			</thead>
@@ -72,13 +74,15 @@
 						</span>
 					</td>
                     <td><?php echo $data['branchName']; ?></td>
+                    <?php if ($_SESSION['role'] != 'ROLE_CLIENT') { ?>
 					<td><?php echo $data['pipelineStatus']; ?></td>
+                    <?php } ?>
 					<td>
 						<div class="dropdown">
 							<a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a>
 							<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 								<a class="dropdown-item" href="loan_info.php?menu=loan&loan_id=<?php echo $data['id']; ?>&userid=<?php echo $data['userId'] ;?>"><i class="dw dw-eye"></i> View</a>
-                                <?php if ($_SESSION['role'] != 'ROLE_BOCO') { ?>
+                                <?php if ($_SESSION['role'] == 'ROLE_BOCO' || $_SESSION['role'] == 'ROLE_CLIENT') { ?>
                                     <a class="dropdown-item" href="loan_info.php?menu=edit_loan&loan_id=<?php echo $data['id']; ?>&userid=<?php echo $data['userId'] ;?>"><i class="dw dw-edit-file"></i> Edit Loan Info</a>
                                 <?php }?>
                             </div>

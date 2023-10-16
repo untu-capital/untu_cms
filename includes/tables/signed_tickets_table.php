@@ -33,10 +33,11 @@
                     <td><input type = "checkbox" name="checkArr[]" value="<?php echo $ticket['id'];?>"></td>
                     <td><?= htmlspecialchars ($ticket["firstName"]).' '.htmlspecialchars ($ticket["middleName"]).' '.htmlspecialchars ($ticket["lastName"]) ?></td>
 
-                    <td><?= '$ '.htmlspecialchars ($ticket["meetingLoanAmount"] ).'.00'?></td>
-                    <td><?= htmlspecialchars($ticket["lessFees"])?></td>
-                    <td><?= htmlspecialchars($ticket["applicationFee"])?></td>
-                    <td><?= htmlspecialchars($ticket["meetingCashHandlingFee"])?></td>
+                    <td><?= '$ ' . number_format($ticket["meetingLoanAmount"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["lessFees"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["applicationFee"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["meetingCashHandlingFee"], 2, '.', ',') ?></td>
+
                     <td><?= htmlspecialchars($ticket["meetingInterestRate"]." %")?></td>
                     <td><?= htmlspecialchars($ticket["meetingTenure"]).' months' ?></td>
                     <?php if ($_SESSION['role'] =="ROLE_BOCO"){ ?>
@@ -71,10 +72,11 @@
                     <td><input type = "checkbox" name="checkArr[]" value="<?php echo $ticket['id'];?>"></td>
                     <td><?= htmlspecialchars ($ticket["firstName"]).' '.htmlspecialchars ($ticket["middleName"]).' '.htmlspecialchars ($ticket["lastName"]) ?></td>
 
-                    <td><?= '$ '.htmlspecialchars ($ticket["meetingLoanAmount"] ).'.00'?></td>
-                    <td><?= htmlspecialchars($ticket["lessFees"])?></td>
-                    <td><?= htmlspecialchars($ticket["applicationFee"])?></td>
-                    <td><?= htmlspecialchars($ticket["meetingCashHandlingFee"])?></td>
+                    <td><?= '$ ' . number_format($ticket["meetingLoanAmount"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["lessFees"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["applicationFee"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["meetingCashHandlingFee"], 2, '.', ',') ?></td>
+
                     <td><?= htmlspecialchars($ticket["meetingInterestRate"]." %")?></td>
                     <td><?= htmlspecialchars($ticket["meetingTenure"]).' months' ?></td>
                     <?php if ($_SESSION['role'] =="ROLE_BOCO"){ ?>
@@ -142,10 +144,11 @@
                     <td><input type = "checkbox" name="checkArr[]" value="<?php echo $ticket['id'];?>"></td>
                     <td><?= htmlspecialchars ($ticket["firstName"]).' '.htmlspecialchars ($ticket["middleName"]).' '.htmlspecialchars ($ticket["lastName"]) ?></td>
 
-                    <td><?= '$ '.htmlspecialchars ($ticket["meetingLoanAmount"] ).'.00'?></td>
-                    <td><?= htmlspecialchars($ticket["lessFees"])?></td>
-                    <td><?= htmlspecialchars($ticket["applicationFee"])?></td>
-                    <td><?= htmlspecialchars($ticket["meetingCashHandlingFee"])?></td>
+                    <td><?= '$ ' . number_format($ticket["meetingLoanAmount"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["lessFees"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["applicationFee"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["meetingCashHandlingFee"], 2, '.', ',') ?></td>
+
                     <td><?= htmlspecialchars($ticket["meetingInterestRate"]." %")?></td>
                     <td><?= htmlspecialchars($ticket["meetingTenure"]).' months' ?></td>
                     <?php if ($_SESSION['role'] =="ROLE_BOCO"){ ?>

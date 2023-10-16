@@ -1,4 +1,86 @@
 <?php
+if (isset($_POST['update_loan_application'])) {
+    $loanId = $_POST['loanId'];
+    $firstname = $_POST['firstname'];
+    $middleName = $_POST['middleName'];
+    $lastname = $_POST['lastname'];
+    $dob = $_POST['dob'];
+    $id_number = $_POST['id_number'];
+    $gender = $_POST['gender'];
+    $marital = $_POST['marital'];
+    $phonenumber = $_POST['phonenumber'];
+    $loan = $_POST['loan'];
+    $tenure = $_POST['tenure'];
+    $street_no = $_POST['street_no'];
+    $street_name = $_POST['street_name'];
+    $suburb = $_POST['surbub'];
+    $city = $_POST['city'];
+    $branchName = $_POST['branchName'];
+    $industry_code = $_POST['industry_code'];
+    $businessStartDate = $_POST['businessStartDate'];
+    $businessName = $_POST['businessName'];
+    $pob = $_POST['pob'];
+    $next_of_kin_name = $_POST['next_of_kin_name'];
+    $next_of_kin_phone = $_POST['next_of_kin_phone'];
+    $next_of_kin_relationship = $_POST['next_of_kin_relationship'];
+    $next_of_kin_address = $_POST['next_of_kin_address'];
+    $next_of_kin_name2 = $_POST['next_of_kin_name2'];
+    $next_of_kin_phone2 = $_POST['next_of_kin_phone2'];
+    $next_of_kin_relationship2 = $_POST['next_of_kin_relationship2'];
+    $next_of_kin_address2 = $_POST['next_of_kin_address2'];
+
+    $data_array = array(
+        'idNumber' => $id_number,
+        'maritalStatus' => $marital,
+        'gender' => $gender,
+        'dateOfBirth' => $dob,
+        'phoneNumber' => $phonenumber,
+        'placeOfBusiness' => $pob,
+        'industryCode' => $industry_code,
+        'streetNo' => $street_no,
+        'streetName' => $street_name,
+        'suburb' => $suburb,
+        'city' => $city,
+        'loanAmount' => $loan,
+        'tenure' => $tenure,
+        'businessStartDate' => $businessStartDate,
+        'businessName' => $businessName,
+        'branchName' => $branchName,
+        'nextOfKinName' => $next_of_kin_name,
+        'nextOfKinPhone' => $next_of_kin_phone,
+        'nextOfKinRelationship' => $next_of_kin_relationship,
+        'nextOfKinAddress' => $next_of_kin_address,
+        'nextOfKinName2' => $next_of_kin_name2,
+        'nextOfKinPhone2' => $next_of_kin_phone2,
+        'nextOfKinRelationship2' => $next_of_kin_relationship2,
+        'nextOfKinAddress2' => $next_of_kin_address2
+    );
+
+    $data = json_encode($data_array);
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/credit_application/updateLoan/" . $loanId);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    $resp = curl_exec($ch);
+    curl_close($ch);
+
+    // Perform any audit or logging if needed
+    // audit($_SESSION['userid'], "Loan updated for user ($user)", $_SESSION['branch']);
+
+    // Redirect or display a success message to the user
+    if ($resp) {
+        // Use the header() function for redirection
+        header('Location: kyc_documents.php');
+//        exit; // It's a good practice to exit after redirection to prevent further code execution
+    } else {
+        echo "Failed to update loan.";
+    }
+
+}
 ?>
 
 <!-- Form grid Start -->
@@ -283,8 +365,8 @@
 <!--            to immediate full repayment of the loan plus interest and charges without prejudice to any of its right. In the event of a loan facility being granted to me by UNTU.-->
 <!--            I agree to abide their terms and conditions.-->
 <!--        </p>-->
-        <input class="form-control" type="hidden" name="loanId" required value="<?php echo $_GET['id'] ?>">
-        <input class="btn btn-success" type = "submit" value = "Update Application Details" name= "loan_application" id = "submit" Style = "border-radius: 0.38em; border:none; align: centre;">
+        <input class="form-control" type="hidden" name="loanId" required value="<?php echo $_GET['loan_id'] ?>">
+        <input class="btn btn-success" type = "submit" value = "Update Application Details" name= "update_loan_application" id = "submit" Style = "border-radius: 0.38em; border:none; align: centre;">
 
     </form>
 </div>

@@ -26,28 +26,43 @@
 					<th class="datatable-nosort">Action</th>
 				</tr>
 			</thead>
-			<tbody>
-				<?php 
-					$disbursements = disbursements($fromDate,$toDate);
-					foreach ($disbursements as $data): ?>
-				<tr>
-					<td><?php echo formatJsonDate($data['actualDisbursementDate']); ?></td>
-					<!-- <td class="table-plus"><?php //echo $data['accountNo']; ?></td> -->
-					<td><?php echo $data['clientName']; ?></td>
-					<!-- <td><?php //echo $data['loanProductName']; ?></td> -->
-					<td><?php echo "$ ".$data['principal']; ?></td>
-					<td><?php echo $data['numberOfRepayments']." months"; ?></td>
-					<td><?php echo $data['interestRatePerPeriod']." %"; ?></td>
-					<td><?php echo formatJsonDate($data['expectedMaturityDate']); ?></td>
-					<!-- <td><?php //echo $data['totalExpectedRepayment']; ?></td> -->
-					<!-- <td><?php //echo $data['totalRepayment']; ?></td> -->
-					<td><?php echo "$ ".$data['totalOutstanding']; ?></td>
-					<td><?php echo $data['officeName']; ?></td>
-					<td><?php echo $data['loanOfficerName']; ?></td>
-					<td> <a class="dropdown-item" href="#"><i class="dw dw-eye"></i></a> </td>
-				</tr>
-				<?php endforeach; ?>
-			</tbody>
+            <tbody>
+                <?php
+                $disbursements = disbursements($fromDate, $toDate);
+                foreach ($disbursements as $data):
+                    // Check if the current data row matches the branch in the session
+                    if ($_SESSION['branch'] === $data['officeName']) {
+                        ?>
+                        <tr>
+                            <td><?php echo formatJsonDate($data['actualDisbursementDate']); ?></td>
+                            <td><?php echo $data['clientName']; ?></td>
+                            <td><?php echo "$ " . $data['principal']; ?></td>
+                            <td><?php echo $data['numberOfRepayments'] . " months"; ?></td>
+                            <td><?php echo $data['interestRatePerPeriod'] . " %"; ?></td>
+                            <td><?php echo formatJsonDate($data['expectedMaturityDate']); ?></td>
+                            <td><?php echo "$ " . $data['totalOutstanding']; ?></td>
+                            <td><?php echo $data['officeName']; ?></td>
+                            <td><?php echo $data['loanOfficerName']; ?></td>
+                            <td> <a class="dropdown-item" href="#"><i class="dw dw-eye"></i></a> </td>
+                        </tr>
+                        <?php
+                    } elseif ($_SESSION['branch'] == 'Head Office' && $_SESSION['role'] != 'ROLE_BM'){ ?>
+                        <tr>
+                            <td><?php echo formatJsonDate($data['actualDisbursementDate']); ?></td>
+                            <td><?php echo $data['clientName']; ?></td>
+                            <td><?php echo "$ " . $data['principal']; ?></td>
+                            <td><?php echo $data['numberOfRepayments'] . " months"; ?></td>
+                            <td><?php echo $data['interestRatePerPeriod'] . " %"; ?></td>
+                            <td><?php echo formatJsonDate($data['expectedMaturityDate']); ?></td>
+                            <td><?php echo "$ " . $data['totalOutstanding']; ?></td>
+                            <td><?php echo $data['officeName']; ?></td>
+                            <td><?php echo $data['loanOfficerName']; ?></td>
+                            <td> <a class="dropdown-item" href="#"><i class="dw dw-eye"></i></a> </td>
+                        </tr>
+               <?php     }
+                endforeach;
+                ?>
+            </tbody>
 		</table>
 	</div>
 </div>

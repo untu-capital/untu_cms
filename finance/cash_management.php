@@ -599,14 +599,14 @@ include('../includes/header.php');
                                 <div class="wizard-content">
 
                                     <form action="" method="POST">
-                                        <?php  $auth_by_id = authorisation_by_id($_GET['id']); ?>
+                                        <?php  $auth_by_id = authorisation('/'.$_GET['id']); ?>
                                         <div class="row">
                                             <div class="col-md-4 col-sm-12">
                                                 <div class="form-group">
                                                     <label>Branch Name</label>
                                                     <select id="branch" class="custom-select form-control" name="update_branch">
                                                         <?php
-                                                            $branch = authbranch($auth_by_id['branchId']);
+                                                            $branch = branch_by_id($auth_by_id['branchId']);
                                                             echo "<option value='$branch[id]'>$branch[branchName] Branch</option>";
                                                             $branches = branch();
                                                             foreach ($branches as $branch) {

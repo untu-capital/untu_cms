@@ -17,23 +17,13 @@ if(isset($_POST['auth'])){
     $auth = $_POST['role'];
     $name = $_POST['name'];
 
-
-
-
-
-
-
     $url = "http://localhost:7878/api/utg/cms/cms_authorisation/addAuthorisation";
 
     $data_array = array(
-
-
         'branchName' => $branch,
         'branchId' => $branch,
         'authLevel' => $auth,
         'userId'=> $name,
-
-
 
     );
 
@@ -118,7 +108,7 @@ if(isset($_POST['auth'])){
                 <div class="col-md-4 col-sm-12">
                     <div class="form-group">
                         <label>Branch Name</label>
-                        <select class="custom-select form-control"name="branch" required>
+                        <select class="custom-select2 form-control" name="branch" style="width: 100%; height: 38px">
                             <option value="">Select Branch</option>
                             <?php
                             $branches = branch();
@@ -132,7 +122,7 @@ if(isset($_POST['auth'])){
                 <div class="col-md-4 col-sm-12">
                     <div class="form-group">
                         <label>Authirisation Level <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
-                        <select class="custom-select form-control" name="role">
+                        <select class="custom-select2 form-control" name="role" style="width: 100%; height: 38px">
                             <option value="">Select Level</option>
                             <option value="Initiator" name="role">Initiator</option>
                             <option value="First Approver" name="role" >First Approver</option>
@@ -142,11 +132,11 @@ if(isset($_POST['auth'])){
                 </div
                 <div class="col-md-4 col-sm-12">
                     <div class="form-group">
-                        <label>Name</label>
-                        <select class="custom-select form-control"name="name" id="name" required>
-                            <option value="">Select Name</option>
+                        <label>Pick User</label>
+                        <select class="custom-select2 form-control" name="name" style="width: 100%; height: 38px">
+                            <option value="">Select user</option>
                             <?php
-                            $users = users();
+                            $users = cms_user();
                             foreach ($users as $user) {
                                 echo "<option value='$user[id]'>$user[firstName] $user[lastName] </option>";
                             }
@@ -214,12 +204,12 @@ if(isset($_POST['auth'])){
 
 
         <?php
-        $authorisation = authorisation();
+        $authorisation = authorisation("");
         foreach($authorisation as $data):
 
             ?>
             <?php
-            $authbranch = authbranch($data['branchId']);
+            $authbranch = branch_by_id($data['branchId']);
 
             $authuser = user($data['userId']);
 

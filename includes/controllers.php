@@ -334,15 +334,15 @@ function petty_cash_payments_by_id($id){
     return $petty_cash_payments_by_id;
 }
 
-function authorisation_by_id($id){
+function authorisation($id){
     $ch = curl_init();
     $id = $_GET["id"];
-    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/cms_authorisation/$id");
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/cms_authorisation".$id);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $server_response = curl_exec($ch);
     curl_close($ch);
-    $authorisation_by_id = json_decode($server_response, true);
-    return $authorisation_by_id;
+    $authorisation = json_decode($server_response, true);
+    return $authorisation;
 }
 
     function user($userId){
@@ -354,15 +354,15 @@ function authorisation_by_id($id){
         $user = json_decode($user_response, true);
         return $user;
     }
-function authbranch($id){
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/branches/'.$id);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $user_response = curl_exec($ch);
-    curl_close($ch);
-    $authbranch = json_decode($user_response, true);
-    return $authbranch;
-}
+//function authbranch($id){
+//    $ch = curl_init();
+//    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/branches/'.$id);
+//    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//    $user_response = curl_exec($ch);
+//    curl_close($ch);
+//    $authbranch = json_decode($user_response, true);
+//    return $authbranch;
+//}
 
 // ######################   REPORTS for PIPELINE APPLICANTS from CMS #################################
 
@@ -674,15 +674,15 @@ function branch(){
     $branches = json_decode($server_response, true);
     return $branches;
 }
-function authorisation(){
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/cms/cms_authorisation');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $server_response = curl_exec($ch);
-    curl_close($ch);
-    $authorisations = json_decode($server_response, true);
-    return $authorisations;
-}
+//function authorisation(){
+//    $ch = curl_init();
+//    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/cms/cms_authorisation');
+//    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//    $server_response = curl_exec($ch);
+//    curl_close($ch);
+//    $authorisations = json_decode($server_response, true);
+//    return $authorisations;
+//}
 
 
 
@@ -1308,75 +1308,91 @@ function cms_petty_cash_payments(){
         return json_decode($server_response, true);
     }
 
-function updateTicket($loanId,$fullName ,$bocoSignature, $lessFees, $applicationFee, $predisDate, $pipelineStatus){
+//function updateTicket($loanId,$fullName ,$bocoSignature, $lessFees, $applicationFee, $predisDate, $pipelineStatus){
+//
+//
+//}
 
-    $url = "http://localhost:7878/api/utg/credit_application/updateTicketSignature/".$loanId;
-    $data_array = array(
-        'bocoSignature' => $bocoSignature,
-        'bocoName' => $fullName,
-        'lessFees' => $lessFees,
-        'applicationFee' => $applicationFee,
-        'predisDate' => $predisDate,
-        'pipelineStatus' => $pipelineStatus
-    );
+    if(isset($_POST['update_ticket'])) {
+        $loanId = $_POST['loanId'];
+        $fullName = $_POST['fullName'];
+        $bocoSignature = $_POST['bocoSignature'];
+        $lessFees = $_POST['lessFees'];
+        $applicationFee = $_POST['applicationFee'];
+        $meetingLoanAmount = $_POST['meetingLoanAmount'];
+        $meetingCashHandlingFee = $_POST['meetingCashHandlingFee'];
+        $meetingRepaymentAmount = $_POST['meetingRepaymentAmount'];
+        $meetingTenure = $_POST['meetingTenure'];
+        $meetingUpfrontFee = $_POST['meetingUpfrontFee'];
+        $meetingInterestRate = $_POST['meetingInterestRate'];
+        $predisDate = date("Y-m-d H:i:s");
+        $pipelineStatus = "predisbursment_ticket";
 
-    $data = json_encode($data_array);
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true);
-    $resp = curl_exec($ch);
+        $url = "http://localhost:7878/api/utg/credit_application/updateTicketInfo/".$loanId;
+        $data_array = array(
+    //        'bocoSignature' => $bocoSignature,
+    //        'bocoName' => $fullName,
+            'lessFees' => $lessFees,
+            'applicationFee' => $applicationFee,
+            'meetingLoanAmount' => $meetingLoanAmount,
 
-    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    $headerStr = substr($resp, 0, $headerSize);
-    $bodyStr = substr($resp, $headerSize);
+            'meetingCashHandlingFee' => $meetingCashHandlingFee,
+            'meetingRepaymentAmount' => $meetingRepaymentAmount,
+            'meetingTenure' => $meetingTenure,
 
-    // convert headers to array
-    $headers = headersToArray( $headerStr );
+            'meetingUpfrontFee' => $meetingUpfrontFee,
+            'meetingInterestRate' => $meetingInterestRate,
 
-    if (!curl_errno($ch)) {
-        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-            case 200:  # OK redirect to dashboard
-                $_SESSION['info'] = "Ticket Updated Successfully!";
-                audit($_SESSION['userid'], "Signed Ticket Successfully! - ".$loanId, $_SESSION['branch']);
-                header('location: predisbursed_tickets.php');
-                break;
-            case 400:  # Bad Request
-                $decoded = json_decode($bodyStr);
-                foreach($decoded as $key => $val) {
-                    echo $key . ': ' . $val . '<br>';
-                }
-                echo $val;
-                $_SESSION['error'] = "Failed. Please try again, ".$val;
-                audit($_SESSION['userid'], "Failed to Sign Ticket! - ".$loanId, $_SESSION['branch']);
-                header('location: predisbursed_tickets.php');
-                break;
-            default:
-                $_SESSION['error'] = 'Could not update Loan status '. "\n";
-                audit($_SESSION['userid'], "Failed to Sign Ticket! - ".$loanId, $_SESSION['branch']);
-                header('location: predisbursed_tickets.php');
+            'predisDate' => $predisDate,
+            'pipelineStatus' => $pipelineStatus
+        );
+
+        $data = json_encode($data_array);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        $resp = curl_exec($ch);
+
+        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $headerStr = substr($resp, 0, $headerSize);
+        $bodyStr = substr($resp, $headerSize);
+
+        // convert headers to array
+        $headers = headersToArray( $headerStr );
+
+        if (!curl_errno($ch)) {
+            switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+                case 200:  # OK redirect to dashboard
+                    $_SESSION['info'] = "Ticket Updated Successfully!";
+                    audit($_SESSION['userid'], "Signed Ticket Successfully! - ".$loanId, $_SESSION['branch']);
+                    header('location: predisbursed_tickets.php');
+                    break;
+                case 400:  # Bad Request
+                    $decoded = json_decode($bodyStr);
+                    foreach($decoded as $key => $val) {
+                        echo $key . ': ' . $val . '<br>';
+                    }
+                    echo $val;
+                    $_SESSION['error'] = "Failed. Please try again, ".$val;
+                    audit($_SESSION['userid'], "Failed to Sign Ticket! - ".$loanId, $_SESSION['branch']);
+                    header('location: predisbursed_tickets.php');
+                    break;
+                default:
+                    $_SESSION['error'] = 'Could not update Loan status '. "\n";
+                    audit($_SESSION['userid'], "Failed to Sign Ticket! - ".$loanId, $_SESSION['branch']);
+                    header('location: predisbursed_tickets.php');
+            }
+        } else {
+            $_SESSION['error'] = 'Signing failed.. Please try again!'. "\n";
+            audit($_SESSION['userid'], "Failed to Sign Ticket! - ".$loanId, $_SESSION['branch']);
+            header('location: predisbursed_tickets.php');
         }
-    } else {
-        $_SESSION['error'] = 'Signing failed.. Please try again!'. "\n";
-        audit($_SESSION['userid'], "Failed to Sign Ticket! - ".$loanId, $_SESSION['branch']);
-        header('location: predisbursed_tickets.php');
+        curl_close($ch);
     }
-    curl_close($ch);
-}
-
-if(isset($_POST['update_ticket'])) {
-    $loanId = $_POST['loanId'];
-    $fullName = $_POST['fullName'];
-    $bocoSignature = $_POST['bocoSignature'];
-    $lessFees = $_POST['lessFees'];
-    $applicationFee = $_POST['applicationFee'];
-    $predisDate = date("Y-m-d H:i:s");
-    $pipelineStatus = "predisbursment_ticket";
-    updateTicket($loanId, $fullName, $bocoSignature, $lessFees, $applicationFee, $predisDate, $pipelineStatus);
-}
 
 function updateBocoSignature($checked,$userId ,$bocoSignature){
     foreach($_POST['checkArr'] as $checked):
@@ -2415,7 +2431,7 @@ function getTransactionVoucher($transactionId){
 
 function getVaults($userId){
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/cms/transaction-voucher/permissions/'.$userId);
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/cms/cms_vault_permission/user/'.$userId);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $vault_response = curl_exec($ch);
     curl_close($ch);

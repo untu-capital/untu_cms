@@ -147,7 +147,11 @@ include ('check_role.php');
                         </div>
                     </div>
 
-				<?php } include('../includes/footer.php');?>
+                <?php } elseif ($_GET['menu'] == 'edit_loan'){
+
+                    include ('../includes/forms/edit_loan.php');
+
+				 } include('../includes/footer.php');?>
 			</div>
 		</div>
 		

@@ -108,7 +108,10 @@ include('../includes/header.php');
                                 <?php
                                 $voucher = getVaults($_SESSION['userId']);
                                 foreach ($voucher as $row):?>
-                                    <option value="<?= $row['vault_acc_code'] ?>"><?= htmlspecialchars($row["vault_acc_type"]) ?></option>
+                                    <option value="<?= $row['vault_acc_code'] ?>">
+                                        <?php
+                                            $vaults = vaults($row['vault_acc_code']);
+                                            echo $vaults["name"]." (".$vaults['account'].")"; ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <div id="error-fromVault" class="has-danger d-none">
@@ -130,7 +133,10 @@ include('../includes/header.php');
                                 <?php
                                 $voucher = getVaults($_SESSION['userId']);
                                 foreach ($voucher as $row):?>
-                                    <option value="<?= $row['vault_acc_code'] ?>"><?= htmlspecialchars($row["vault_acc_type"]) ?></option>
+                                    <option value="<?= $row['vault_acc_code'] ?>">
+                                        <?php
+                                        $vaults = vaults($row['vault_acc_code']);
+                                        echo $vaults["name"]." (".$vaults['account'].")"; ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <div id="error-toVault" class="has-danger  d-none">
@@ -154,24 +160,41 @@ include('../includes/header.php');
                             <div class="col-md-12 col-sm-10">
                                 <div class="form-group">
                                     <label for="transactionPurposeSelect">Withdrawal Purpose</label>
-                                    <select
-                                            onchange="validateFormOnSelect()"
-                                            class="custom-select2 form-control"
-                                            name="withdrawalPurpose"
-                                            id="transactionPurposeSelect"
-                                            style="width: 100%; height: 38px"
-                                    >
+                                    <select onchange="handleSelectChange(this)" class="custom-select2 form-control" name="withdrawalPurpose" id="transactionPurposeSelect" style="width: 100%; height: 38px">
                                         <option value="">Please Select Transaction Purpose</option>
                                         <?php
                                         $purposes = getWithdrawal();
                                         foreach ($purposes as $row):?>
                                             <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row["name"]) ?></option>
                                         <?php endforeach; ?>
+                                        <option value="custom">Other (Type your purpose)</option>
                                     </select>
-                                    <div id="error-withdrawalPurpose" class="has-danger  d-none">
-                                        <div class="form-control-feedback">Please Select Withdrawal Purpose!</div>
+                                    <div id="error-withdrawalPurpose" class="has-danger d-none">
+                                        <div class="form-control-feedback">Please Select Withdrawal Purpose or Type Your Purpose!</div>
                                     </div>
                                 </div>
+
+                                <!-- Add a custom input field -->
+                                <div class="form-group" id="customPurposeField" style="display: none;">
+                                    <label for="customWithdrawalPurpose">Custom Withdrawal Purpose</label>
+                                    <input type="text" class="form-control" name="customWithdrawalPurpose" id="customWithdrawalPurpose">
+                                </div>
+
+                                <script>
+                                    function handleSelectChange(select) {
+                                        var customField = document.getElementById("customPurposeField");
+                                        var customInput = document.getElementById("customWithdrawalPurpose");
+
+                                        if (select.value === "custom") {
+                                            customField.style.display = "block";
+                                            customInput.setAttribute("name", "customWithdrawalPurpose"); // Make sure the custom input is included in the form data
+                                        } else {
+                                            customField.style.display = "none";
+                                            customInput.removeAttribute("name"); // Remove the custom input from form data
+                                        }
+                                    }
+                                </script>
+
                             </div>
                         </div>
                     </div>
@@ -180,14 +203,16 @@ include('../includes/header.php');
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="firstApprover">First Approver</label>
-                            <select
-                                    onchange="validateFormOnSelect()"
-                                    class="custom-select2 form-control"
-                                    name="firstApprover"
-                                    id="firstApprover"
-                                    style="width: 100%; height: 38px"
-                            >
+                            <select onchange="validateFormOnSelect()" class="custom-select2 form-control" name="firstApprover" id="firstApprover" style="width: 100%; height: 38px">
                                 <option value="">Select First Approver</option>
+                                <?php
+                                $branch = branch_by_id('byName/'.$_SESSION['branch']);
+                                $authorizers = authorisation('/branch/'.$branch['id']);
+//                                echo "wer";
+//                                echo "<option value=''> $branch[id]</option>"
+                                foreach ($authorizers as $authorizer) {?>
+                                    <option value='<?php echo $authorizer['userId'] ?>'><?php $user = user($authorizer['userId']); echo $user['firstName']."".$user['firstName'] ?></option>";
+                               <?php } ?>
                             </select>
                             <div id="error-firstApprover" class="has-danger  d-none">
                                 <div class="form-control-feedback">Please Select First Approver!</div>
@@ -197,13 +222,7 @@ include('../includes/header.php');
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="secondApprover">Second Approver</label>
-                            <select
-                                    onchange="validateFormOnSelect()"
-                                    class="custom-select2 form-control"
-                                    name="secondApprover"
-                                    id="secondApprover"
-                                    style="width: 100%; height: 38px"
-                            >
+                            <select onchange="validateFormOnSelect()" class="custom-select2 form-control" name="secondApprover" id="secondApprover" style="width: 100%; height: 38px">
                                 <option value="">Select Second Approver</option>
                             </select>
                             <div id="error-secondApprover" class="has-danger d-none">

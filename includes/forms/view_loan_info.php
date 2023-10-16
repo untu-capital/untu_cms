@@ -370,7 +370,7 @@
                                 <div class="row">
                                     <div class="col-3">
                                     <a class="list-group-item"><b style="padding-right: 40px;">Action</b>:
-                                        <select id="loanStatus" onchange="Status()" class="btn btn-clipboard" name="update_loan_status" autocomplete="off" placeholder="" >
+                                        <select class="custom-select2 form-control" id="loanStatus" onchange="Status()" class="btn btn-clipboard" name="update_loan_status" autocomplete="off" style="width: 100%; height: 38px" placeholder="" >
                                             <option value="PENDING">Decision pending</option>
                                             <option value="ACCEPTED">Checked</option>
                                             <option value="REJECTED">Reject</option>
@@ -2300,26 +2300,50 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <a class="list-group-item"><b>Client Name</b>: <?= $loans["firstName"] ?> <?= $loans["lastName"] ?></a>
-                                        <a class="list-group-item"><b>Loan Amount</b>: <?= "$ ".$loans["meetingLoanAmount"].".00" ?></a>
-                                        <a class="list-group-item"><b>Less Fees</b>: <input class="form-check-line" type="text"  name="lessFees" autocomplete="off" placeholder="<?php echo $loans['lessFees']; ?>" required ></a>
-                                        <a class="list-group-item"><b>Application Fee</b>: <input class="form-control-line" type="text"  name="applicationFee"  placeholder="<?php echo $loans['applicationFee']; ?>" autocomplete="off"  required ></a>
+                                        <a class="list-group-item"><b>Loan Amount ($)</b>: <input class="form-control" type="text" name="meetingLoanAmount" autocomplete="off" value="<?php echo $loans['meetingLoanAmount']; ?>" required></a>
+                                        <a class="list-group-item"><b>Less Fees ($)</b>: <input class="form-control" type="text" name="lessFees" autocomplete="off" value="<?php echo $loans['lessFees']; ?>" required></a>
+                                        <a class="list-group-item"><b>Application Fee ($)</b>: <input class="form-control" type="text" name="applicationFee" autocomplete="off" value="<?php echo $loans['applicationFee']; ?>" required></a>
                                         <br/>
                                     </div>
 
                                     <div class="col-md-4">
-                                        <a class="list-group-item"><b>Cash Handling Fees</b>: <?= "$ ". $loans["meetingCashHandlingFee"].".00" ?></a>
-                                        <a class="list-group-item"><b>Interest Rate</b>: <?= $loans["meetingInterestRate"]."%"  ?></a>
-                                        <a class="list-group-item"><b>Repayment Amount</b>: <?= $loans["meetingRepaymentAmount"] ?></a>
-                                        <a class="list-group-item"><b>Loan Officer</b>: <?= $loans["processedBy"]?></a>
+                                        <a class="list-group-item"><b>Cash Handling Fees ($)</b>: <input class="form-control" type="text" name="meetingCashHandlingFee" autocomplete="off" value="<?php echo $loans['meetingCashHandlingFee']; ?>" required></a>
+                                        <a class="list-group-item"><b>Interest Rate (%)</b>: <input class="form-control" type="text" name="meetingInterestRate" autocomplete="off" value="<?php echo $loans['meetingInterestRate']; ?>" required> </a>
+                                        <a class="list-group-item"><b>Repayment Amount ($)</b>:<input class="form-control" type="text" name="meetingRepaymentAmount" autocomplete="off" value="<?php echo $loans['meetingRepaymentAmount']; ?>" required></a>
+                                        <a class="list-group-item"><b>Loan Officer</b>: <?= $loans["processedBy"] ?></a>
                                     </div>
                                     <div class="col-md-4">
-    <!--                                    <a class="list-group-item"><b style="padding-right: 95px;">Branch</b>: --><?php //= $data["branchName"] ?><!--</a>-->
-                                        <a class="list-group-item"><b>Tenor</b>: <?= $loans["meetingTenure"]." months" ?></a>
+                                        <!-- <a class="list-group-item"><b style="padding-right: 95px;">Branch</b>: --><?php //= $data["branchName"] ?>
+                                        <!-- </a> -->
+                                        <a class="list-group-item"><b>Tenure (months)</b>: <input class="form-control" type="number" name="meetingTenure" autocomplete="off" value="<?php echo $loans['meetingTenure']; ?>" required></a>
                                         <a class="list-group-item"><b>Product</b>: <?= $loans["meetingProduct"] ?></a>
-                                        <a class="list-group-item"><b>R/N</b>: <?= $loans["meetingRN"]  ?></a>
-                                        <a class="list-group-item"><b>Upfront Fees</b>: <?= $loans["meetingUpfrontFee"]."%"?></a>
+                                        <a class="list-group-item"><b>R/N</b>: <?= $loans["meetingRN"] ?></a>
+                                        <a class="list-group-item"><b>Upfront Fees</b>: <input class="form-control" type="text" name="meetingUpfrontFee" autocomplete="off" value="<?php echo $loans['meetingUpfrontFee']; ?>"></a>
                                     </div>
                                 </div>
+<!--                                <div class="row">-->
+<!--                                    <div class="col-md-4">-->
+<!--                                        <a class="list-group-item"><b>Client Name</b>: --><?php //= $loans["firstName"] ?><!-- --><?php //= $loans["lastName"] ?><!--</a>-->
+<!--                                        <a class="list-group-item"><b>Loan Amount</b>: --><?php //= "$ ".$loans["meetingLoanAmount"].".00" ?><!--</a>-->
+<!--                                        <a class="list-group-item"><b>Less Fees</b>: <input class="form-control" type="text"  name="lessFees" autocomplete="off" placeholder="--><?php //echo $loans['lessFees']; ?><!--" required ></a>-->
+<!--                                        <a class="list-group-item"><b>Application Fee</b>: <input class="form-control" type="text"  name="applicationFee"  placeholder="--><?php //echo $loans['applicationFee']; ?><!--" autocomplete="off"  required ></a>-->
+<!--                                        <br/>-->
+<!--                                    </div>-->
+<!---->
+<!--                                    <div class="col-md-4">-->
+<!--                                        <a class="list-group-item"><b>Cash Handling Fees</b>: --><?php //= "$ ". $loans["meetingCashHandlingFee"].".00" ?><!--</a>-->
+<!--                                        <a class="list-group-item"><b>Interest Rate</b>: --><?php //= $loans["meetingInterestRate"]."%"  ?><!--</a>-->
+<!--                                        <a class="list-group-item"><b>Repayment Amount</b>: --><?php //= $loans["meetingRepaymentAmount"] ?><!--</a>-->
+<!--                                        <a class="list-group-item"><b>Loan Officer</b>: --><?php //= $loans["processedBy"]?><!--</a>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-md-4">-->
+<!--    <!--                                    <a class="list-group-item"><b style="padding-right: 95px;">Branch</b>: --><?php ////= $data["branchName"] ?><!--</a>-->
+<!--                                        <a class="list-group-item"><b>Tenor</b>: --><?php //= $loans["meetingTenure"]." months" ?><!--</a>-->
+<!--                                        <a class="list-group-item"><b>Product</b>: --><?php //= $loans["meetingProduct"] ?><!--</a>-->
+<!--                                        <a class="list-group-item"><b>R/N</b>: --><?php //= $loans["meetingRN"]  ?><!--</a>-->
+<!--                                        <a class="list-group-item"><b>Upfront Fees</b>: --><?php //= $loans["meetingUpfrontFee"]."%"?><!--</a>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                                 <div class="row">
                                     <div class="col-md-12">
 <!--                                        <a class="list-group-item"><b>Collateral</b>:-->
@@ -2349,7 +2373,7 @@
                                 <input class="form-control" type="hidden" name="loanId" required value="<?php echo $_GET['loan_id'] ?>">
                                 <input class="btn btn-success btn-lg" type = "submit" value = "Update Ticket Info" name= "update_ticket" id = "submit">
                                 <select class="form-control" name="bocoSignature" hidden autocomplete="off">
-                                    <option value="Unsigned">Authorise</option>
+                                    <option value="Signed">Authorise</option>
                                     <option value="Unsigned">Decline</option>
                                 </select>
                                 <br><br/>
