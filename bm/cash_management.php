@@ -78,18 +78,20 @@ include('../includes/header.php');
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
                                 <div class="pd-20">
-                                    <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
+                                    <?php
+                                    include('../includes/dashboard/cms_acc_balance_widget.php');
+                                    ?>
                                 </div>
                             </div>
 
                             <div class="tab-pane fade row" id="pending" role="tabpanel">
-                                <?php include('../includes/tables/cash_management/pending_transaction_vouchers.php'); ?>
+                                <?php $approvalStatus = "PENDING"; include('../includes/tables/cash_management/bm_transaction_vouchers.php'); ?>
                             </div>
                             <div class="tab-pane fade" id="approved" role="tabpanel">
-                                <?php include('../includes/tables/cash_management/approved_transaction_vouchers.php'); ?>
+                                <?php $approvalStatus = "APPROVED"; include('../includes/tables/cash_management/bm_transaction_vouchers.php'); ?>
                             </div>
                             <div class="tab-pane fade" id="revise" role="tabpanel">
-                                <?php include('../includes/tables/cash_management/revise_transaction_vouchers.php'); ?>
+                                <?php $approvalStatus = "REVISE"; include('../includes/tables/cash_management/bm_transaction_vouchers.php'); ?>
                             </div>
 
                         </div>

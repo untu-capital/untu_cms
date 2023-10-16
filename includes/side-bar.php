@@ -108,6 +108,15 @@
                             </li>
                             <li class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-textarea-resize"></span
+                                ><span class="mtext">Cash Management</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="cash_management.php?menu=main">Dashboard</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
 								<span class="micon bi bi-folder"></span
                                 ><span class="mtext">Pipeline Reporting</span>
                                 </a>
@@ -147,7 +156,8 @@
                         </ul>
 
                     <?php }
-                    elseif ($check_role == "ROLE_BOARD"){?>
+                    elseif ($check_role == "ROLE_BOARD")
+                    {?>
 
                         <ul id="accordion-menu">
                             <li class="dropdown">
@@ -210,6 +220,15 @@
                             </li>
                             <li class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-textarea-resize"></span
+                                ><span class="mtext">Cash Management</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="cash_management.php?menu=main">Dashboard</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
                             <span class="micon bi bi-folder"></span><span class="mtext">Clients Database</span>
                                 </a>
                                 <ul class="submenu">
@@ -234,7 +253,8 @@
                             </li>
                         </ul>
 
-					<?php } elseif ($check_role == "ROLE_OP"){?>
+					<?php }
+                    elseif ($check_role == "ROLE_OP"){?>
 
 					    <ul id="accordion-menu">
 						<li class="dropdown">
@@ -415,7 +435,8 @@
                             </li>
                         </ul>
 
-                    <?php } elseif ($check_role == "ROLE_AUDIT"){?>
+                    <?php }
+                    elseif ($check_role == "ROLE_AUDIT"){?>
 
                         <ul id="accordion-menu">
                             <li class="dropdown">
@@ -592,7 +613,8 @@
                             </li>
                         </ul>
 
-					<?php } elseif ($check_role == "ROLE_BM"){?>
+					<?php }
+                    elseif ($check_role == "ROLE_BM"){?>
 
                         <ul id="accordion-menu">
 						<li class="dropdown">
@@ -644,7 +666,7 @@
 								<li><a href="branch_pipeline_report.php">Manage Pipeline Report</a></li>
 								<li><a href="pipeline_report.php">Pipeline Summary Report</a></li>
 							</ul>
-						</li>
+                        </li>
                             <li class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span
@@ -684,7 +706,8 @@
 						</li>
 					</ul>
 
-                    <?php } elseif ($check_role == "ROLE_BOCO"){?>
+                    <?php }
+                    elseif ($check_role == "ROLE_BOCO"){?>
 
                         <ul id="accordion-menu">
                         <li class="dropdown">
@@ -755,7 +778,8 @@
                         </li>
                     </ul>
 
-                    <?php } elseif ($check_role == "ROLE_CLIENT"){?>
+                    <?php }
+                    elseif ($check_role == "ROLE_CLIENT"){?>
 
                         <ul id="accordion-menu">
                             <li class="dropdown">
@@ -807,7 +831,8 @@
                             </li>
                         </ul>
 
-                    <?php } else {?>
+                    <?php }
+                    else {?>
 
 					    <ul id="accordion-menu">
 						<li class="dropdown">

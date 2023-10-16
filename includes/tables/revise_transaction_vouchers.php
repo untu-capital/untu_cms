@@ -65,7 +65,7 @@
                         <td><?= htmlspecialchars($row["toVault"]["name"]) ?></td>
                         <td>
                             <a class="dropdown-item"
-                               href="../bm/view_transaction_voucher.php?transactionId=<?= $row['id'] ?>"
+                               href="../finance/view_transaction_voucher.php?transactionId=<?= $row['id'] ?>"
                             ><i class="dw dw-eye"></i> View</a>
                         </td>
                     </tr>
