@@ -429,7 +429,10 @@ include('../includes/header.php');
                                                     <div class="col-md-12 col-sm-12">
                                                         <div class="form-group">
                                                             <label for="comment">Comment</label>
-                                                            <textarea type="text" class="form-control" name="initiator"
+                                                            <textarea type="text"
+                                                                      class="form-control"
+                                                                      name="comment"
+                                                                      required
                                                                       id="comment"></textarea>
                                                         </div>
                                                     </div>

@@ -354,13 +354,15 @@ function cms_withdrawal_voucher_by_firstApprover($userId, $status){
     });
 }
 
-function cms_withdrawal_voucher_by_firstApproverOrSecondApprover($userId, $status){
+function cms_withdrawal_voucher_by_second_approver($userId, $status){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/transaction-voucher/all-by-second-approver/$userId");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $cms_withdrawal_voucher_response = curl_exec($ch);
     curl_close($ch);
     $decoded_response = json_decode($cms_withdrawal_voucher_response, true);
+
+
 
     $aStatus = "APPROVED";
 
@@ -373,6 +375,11 @@ function cms_withdrawal_voucher_by_firstApproverOrSecondApprover($userId, $statu
     });
 
 }
+
+function cms_finance_manager_transaction_vouchers($userId, $status ){
+    return cms_withdrawal_voucher_by_firstApprover($userId, $status) + cms_withdrawal_voucher_by_second_approver($userId, $status);
+}
+
 
 function branch_by_id($id){
     $ch = curl_init();

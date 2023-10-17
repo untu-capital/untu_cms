@@ -351,8 +351,12 @@ include('../includes/header.php');
 
                         <div class="form-group row" <?php echo ($transactionVoucher['secondApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE" || $transactionVoucher['secondApprovalStatus'] == "REVISE") ? "hidden" : " " ?>>
                             <div class="col-sm-6 col-md-6 col-form-label">
-                                <button type="button" class="btn btn-success btn-block"
-                                        onclick="approveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED','')">
+                                <button type="button" class="btn btn-success btn-block" <?php echo $transactionVoucher['firstApprovalStatus'] == "APPROVED" ? " " : "hidden" ?>
+                                        onclick="secondApproveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED','')">
+                                    Approve
+                                </button>
+                                <button type="button" class="btn btn-success btn-block" <?php echo $transactionVoucher['firstApprovalStatus'] == "PENDING" ? " " : "hidden" ?>
+                                        onclick="hoFirstApproveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED','')">
                                     Approve
                                 </button>
                             </div>
@@ -365,6 +369,7 @@ include('../includes/header.php');
                                 </button>
                             </div>
                         </div>
+
                         <div class="form-group row" <?php echo ($transactionVoucher['secondApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE" || $transactionVoucher['secondApprovalStatus'] == "REVISE") ? " " : "hidden" ?>>
                             <div class="col-sm-12 col-md-12 col-form-label">
                                 <a type="button" class="btn btn-success btn-block" href="cash_management.php?menu=main">Back
@@ -439,13 +444,41 @@ include('../includes/header.php');
                 <!--                                    Javascript function to calculate the amount per denomination and total amount-->
                 <script>
 
-                    async function approveTransaction(id, status, comment) {
+                    async function hoFirstApproveTransaction(id, status, comment) {
 
                         const body = {
                             "id": id,
                             "approvalStatus": status,
                             "comment":comment,
                         };
+
+                        console.log(JSON.stringify(body));
+                        await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/first-approve', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(body),
+                        })
+                            .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
+                            .then(data => {
+                                console.log(data);
+                                window.location.href = "http://localhost/untu-systems/finance/cash_management.php?menu=main#approved";
+                            })
+                            .catch(error => {
+                                // Handle errors here
+                                console.error('Error:', error);
+                            });
+                    }
+
+                    async function secondApproveTransaction(id, status, comment) {
+
+                        const body = {
+                            "id": id,
+                            "approvalStatus": status,
+                            "comment":comment,
+                        };
+
                         console.log(JSON.stringify(body));
                         await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/second-approve', {
                             method: 'POST',

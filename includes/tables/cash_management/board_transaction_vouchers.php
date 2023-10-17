@@ -33,7 +33,7 @@
             </thead>
             <tbody>
             <?php
-            $transactions = cms_withdrawal_voucher_by_firstApproverOrSecondApprover($_SESSION['userId'], $approvalStatus);
+            $transactions = cms_withdrawal_voucher_by_second_approver($_SESSION['userId'], $approvalStatus);
             foreach ($transactions as $row):?>
                     <tr>
                         <td><?= htmlspecialchars($row["applicationDate"]) ?></td>
