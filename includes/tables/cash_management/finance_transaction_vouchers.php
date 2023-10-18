@@ -33,7 +33,7 @@
             </thead>
             <tbody>
             <?php
-            $transactions = cms_withdrawal_voucher_by_firstApprover($_SESSION['userId'], "APPROVED");
+            $transactions = cms_finance_manager_transaction_vouchers($_SESSION['userId'], $approvalStatus);
             foreach ($transactions as $row):?>
                     <tr>
                         <td><?= htmlspecialchars($row["applicationDate"]) ?></td>
@@ -64,8 +64,9 @@
                         <td><?= htmlspecialchars($row["fromVault"]["name"]) ?></td>
                         <td><?= htmlspecialchars($row["toVault"]["name"]) ?></td>
                         <td>
+
                             <a class="dropdown-item"
-                               href="../bm/view_transaction_voucher.php?transactionId=<?= $row['id'] ?>"
+                               href="../finance/view_transaction_voucher.php?transactionId=<?= $row['id'] ?>"
                             ><i class="dw dw-eye"></i> View</a>
                         </td>
                     </tr>

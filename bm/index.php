@@ -25,7 +25,7 @@ $disbursement_rate = round((array_sum($disbursement_data)/array_sum(array_slice(
 <!DOCTYPE html>
 <html>
 	<!-- HTML HEAD -->
-	<?php 
+	<?php
 		include('../includes/header.php');
 	?>
 	<!-- /HTML HEAD -->
@@ -56,9 +56,9 @@ $disbursement_rate = round((array_sum($disbursement_data)/array_sum(array_slice(
 
 		<div class="main-container">
 			<div class="pd-ltr-20">
-					
+
 				<?php include('../includes/dashboard/topbar_widget.php');?>
-					
+
 				<?php include('../includes/dashboard/welcome_widget.php'); ?>
 
 <!--				--><?php //include('../includes/dashboard/small_simple_summary_widget.php'); ?>
@@ -74,7 +74,7 @@ $disbursement_rate = round((array_sum($disbursement_data)/array_sum(array_slice(
 				<?php include('../includes/footer.php');?>
 			</div>
 		</div>
-		
+
 		<!-- js -->
 		<script src="../vendors/scripts/core.js"></script>
 		<script src="../vendors/scripts/script.min.js"></script>
@@ -87,7 +87,7 @@ $disbursement_rate = round((array_sum($disbursement_data)/array_sum(array_slice(
 		<script src="../src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 		<script>
 			var disbursementData = <?php echo json_encode($disbursement_data); ?>;
-			var targetData = <?php echo json_encode($target_data); ?>; 
+			var targetData = <?php echo json_encode($target_data); ?>;
 			var disbursementRate = <?php echo json_encode($disbursement_rate); ?>;
 		</script>
 		<script src="../vendors/scripts/dashboard.js"></script>
@@ -102,9 +102,9 @@ $disbursement_rate = round((array_sum($disbursement_data)/array_sum(array_slice(
 		<script src="../src/plugins/datatables/js/vfs_fonts.js"></script>
 		<!-- Datatable Setting js -->
 		<script src="../vendors/scripts/datatable-setting.js"></script>
-		
 
-		
+
+
 		<!-- Google Tag Manager (noscript) -->
 		<noscript
 			><iframe
@@ -115,6 +115,6 @@ $disbursement_rate = round((array_sum($disbursement_data)/array_sum(array_slice(
 			></iframe
 		></noscript>
 		<!-- End Google Tag Manager (noscript) -->
-		
+
 	</body>
 </html>

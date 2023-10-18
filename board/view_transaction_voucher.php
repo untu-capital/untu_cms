@@ -124,17 +124,6 @@ include('../includes/header.php');
                             </div>
                         </div>
 
-                        <div class="row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? " " : "hidden" ?> >
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-group">
-                                    <label for="firstApprover">Revise Comment</label>
-                                    <input
-                                            value="<?= $transactionVoucher['firstApprovalComment'] ?>"
-                                            class="form-control" name="firstApprover" id="firstApprover" readonly>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="row">
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
@@ -174,7 +163,6 @@ include('../includes/header.php');
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
@@ -359,206 +347,185 @@ include('../includes/header.php');
                             </table>
                         </div>
 
-                        <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE") ? "hidden" : " " ?>>
+                        <div class="form-group row" <?php echo ($transactionVoucher['secondApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE"   || $transactionVoucher['secondApprovalStatus'] == "REVISE") ? "hidden" : " " ?>>
                             <div class="col-sm-6 col-md-6 col-form-label">
                                 <button type="button" class="btn btn-success btn-block"
-                                        onclick="approveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED','')">
+                                        onclick="approveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED')">
                                     Approve
                                 </button>
                             </div>
                             <div class="col-sm-6 col-md-6 col-form-label">
-                                <button type="button"
-                                        class="btn btn-danger btn-block"
+                                <button type="button" class="btn btn-warning btn-block"
                                         data-toggle="modal"
                                         data-target="#Medium-modal"
                                 >Revise
                                 </button>
                             </div>
                         </div>
-                        <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? " " : "hidden" ?>>
-                            <div class="col-sm-6 col-md-6 col-form-label">
-                                <button type="button" class="btn btn-success btn-block"
-                                        onclick="approveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED','')">
-                                    Approve
-                                </button>
-                            </div>
-                            <div class="col-sm-6 col-md-6 col-form-label">
-                                <a type="button" class="btn btn-primary btn-block" href="cash_management.php?menu=main">Back
-                                </a>
-                            </div>
-                        </div>
-                        <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE" || $transactionVoucher['firstApprovalStatus'] == "PENDING") ? "hidden" : "" ?>>
+                        <div class="form-group row" <?php echo ($transactionVoucher['secondApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE" || $transactionVoucher['secondApprovalStatus'] == "REVISE") ? " " : "hidden" ?>>
                             <div class="col-sm-12 col-md-12 col-form-label">
-                                <a type="button" class="btn btn-primary btn-block" href="cash_management.php?menu=main">Back
+                                <a type="button" class="btn btn-success btn-block" href="cash_management.php?menu=main">Back
                                 </a>
                             </div>
                         </div>
-                    </div>
-                    <!-- Form -->
-                    <div class="col-md-4 col-sm-12 mb-30">
-                        <div class="pd-20 card-box height-100-p">
-                            <div
-                                    class="modal fade"
-                                    id="Medium-modal"
-                                    tabindex="-1"
-                                    role="dialog"
-                                    aria-labelledby="myLargeModalLabel"
-                                    aria-hidden="true"
-                            >
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" id="myLargeModalLabel">
-                                                Revise Comment
-                                            </h4>
-                                            <button
-                                                    type="button"
-                                                    class="close"
-                                                    data-dismiss="modal"
-                                                    aria-hidden="true"
-                                            >
-                                                ×
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form method="POST" action="">
-                                                <label for="id" hidden="hidden"></label>
-                                                <input id="id" value="<?= $transactionVoucher['id']; ?>"
-                                                       hidden="hidden">
-                                                <div class="row">
-                                                    <div class="col-md-12 col-sm-12">
-                                                        <div class="form-group">
-                                                            <label for="comment">Comment</label>
-                                                            <textarea type="text"
-                                                                      class="form-control"
-                                                                      name="comment"
-                                                                      required
-                                                                      id="comment"></textarea>
-                                                        </div>
+                </div>
+            </div>
+                <!-- Form -->
+                <div class="col-md-4 col-sm-12 mb-30">
+                    <div class="pd-20 card-box height-100-p">
+                        <div
+                                class="modal fade"
+                                id="Medium-modal"
+                                tabindex="-1"
+                                role="dialog"
+                                aria-labelledby="myLargeModalLabel"
+                                aria-hidden="true"
+                        >
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myLargeModalLabel">
+                                            Revise Comment
+                                        </h4>
+                                        <button
+                                                type="button"
+                                                class="close"
+                                                data-dismiss="modal"
+                                                aria-hidden="true"
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="">
+                                            <label for="id" hidden="hidden"></label>
+                                            <input id="id" value="<?= $transactionVoucher['id']; ?>"
+                                                   hidden="hidden">
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="comment">Comment</label>
+                                                        <textarea type="text" class="form-control" name="initiator"
+                                                                  id="comment"></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
-                                                    <div class="col-sm-6 col-md-6 col-form-label">
-                                                        <button type="button"
-                                                                class="btn btn-success btn-block"
-                                                                id="saveButton"
-                                                        >
-                                                            Save
-                                                        </button>
-                                                    </div>
-                                                    <div class="col-sm-6 col-md-6 col-form-label">
-                                                        <button type="button" class="btn btn-danger btn-block"
-                                                                data-dismiss="modal">
-                                                            Cancel
-                                                        </button>
-                                                    </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-6 col-md-6 col-form-label">
+                                                    <button type="button"
+                                                            class="btn btn-success btn-block"
+                                                            id="saveButton"
+                                                    >
+                                                        Save
+                                                    </button>
                                                 </div>
-                                            </form>
-                                        </div>
+                                                <div class="col-sm-6 col-md-6 col-form-label">
+                                                    <button type="button" class="btn btn-danger btn-block"
+                                                            data-dismiss="modal">
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <script>
-
-                        async function approveTransaction(id, status, comment) {
-
-                            const body = {
-                                "id": id,
-                                "approvalStatus": status,
-                                "comment": comment,
-                            };
-
-                            console.log(JSON.stringify(body));
-                            await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/first-approve', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(body),
-                            })
-                                .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
-                                .then(data => {
-                                    console.log(data);
-                                    window.location.href = "http://localhost/untu-systems/bm/cash_management.php?menu=main#approved";
-                                })
-                                .catch(error => {
-                                    // Handle errors here
-                                    console.error('Error:', error);
-                                });
-                        }
-
-                        document.addEventListener('DOMContentLoaded', function () {
-                            calculateValue();
-
-                            const saveButton = document.getElementById('saveButton');
-
-                            saveButton.addEventListener('click', function () {
-
-                                console.log("Comment")
-
-                                const transactionId = document.getElementById('id').value;
-                                const comment = document.getElementById('comment').value;
-
-                                approveTransaction(transactionId, "REVISE", comment);
-                            });
-
-                        });
-
-                        function calculateValue() {
-
-                            const denomination100 = parseInt(document.getElementById('denomination100').value) || 0;
-                            const denomination50 = parseInt(document.getElementById('denomination50').value) || 0;
-                            const denomination20 = parseInt(document.getElementById('denomination20').value) || 0;
-                            const denomination10 = parseInt(document.getElementById('denomination10').value) || 0;
-                            const denomination5 = parseInt(document.getElementById('denomination5').value) || 0;
-                            const denomination2 = parseInt(document.getElementById('denomination2').value) || 0;
-                            const denomination1 = parseInt(document.getElementById('denomination1').value) || 0;
-                            const denominationCents = parseInt(document.getElementById('denominationCents').value) || 0;
-
-                            // Calculate individual totals
-                            const total100 = denomination100 * 100;
-                            const total50 = denomination50 * 50;
-                            const total20 = denomination20 * 20;
-                            const total10 = denomination10 * 10;
-                            const total5 = denomination5 * 5;
-                            const total2 = denomination2 * 2;
-                            const total1 = denomination1 * 1;
-                            const totalCents = denominationCents * 0.01;
-
-                            document.getElementById('denomination100T').value = total100;
-                            document.getElementById('denomination50T').value = total50;
-                            document.getElementById('denomination20T').value = total20;
-                            document.getElementById('denomination10T').value = total10;
-                            document.getElementById('denomination5T').value = total5;
-                            document.getElementById('denomination2T').value = total2;
-                            document.getElementById('denomination1T').value = total1;
-                            document.getElementById('denominationCentsT').value = totalCents;
-
-                            const totalSum = total100 + total50 + total20 + total10 + total5 + total2 + total1 + totalCents;
-                            const amount = parseInt(document.getElementById('amount').value) || 0;
-
-                            if (totalSum !== amount) {
-                                document.getElementById('totalSumT').value = "Check if the amount entered is correct";
-                            } else {
-                                document.getElementById('totalSumT').value = totalSum;
-                            }
-
-
-                            document.getElementById('totalDenominationsT').value = denomination100 + denomination50 + denomination20 + denomination10 + denomination5 + denomination2 + denomination1 + denominationCents;
-                        }
-                    </script>
-
                 </div>
+                <!--                                    Javascript function to calculate the amount per denomination and total amount-->
+                <script>
+
+                    async function approveTransaction(id, status, comment) {
+
+                        const body = {
+                            "id": id,
+                            "approvalStatus": status,
+                            "comment":comment,
+                        };
+                        console.log(JSON.stringify(body));
+                        await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/second-approve', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(body),
+                        })
+                            .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
+                            .then(data => {
+                                console.log(data);
+                                window.location.href = "http://localhost/untu-systems/board/cash_management.php?menu=main#approved";
+                            })
+                            .catch(error => {
+                                // Handle errors here
+                                console.error('Error:', error);
+                            });
+                    }
+                    document.addEventListener('DOMContentLoaded', function () {
+                        calculateValue();
+
+                        const saveButton = document.getElementById('saveButton');
+
+                        saveButton.addEventListener('click', function () {
+
+                            console.log("Comment")
+
+                            const transactionId = document.getElementById('id').value;
+                            const comment = document.getElementById('comment').value;
+
+                            approveTransaction(transactionId, "REVISE", comment);
+                        });
+                    });
+
+                    function calculateValue() {
+
+                        const denomination100 = parseInt(document.getElementById('denomination100').value) || 0;
+                        const denomination50 = parseInt(document.getElementById('denomination50').value) || 0;
+                        const denomination20 = parseInt(document.getElementById('denomination20').value) || 0;
+                        const denomination10 = parseInt(document.getElementById('denomination10').value) || 0;
+                        const denomination5 = parseInt(document.getElementById('denomination5').value) || 0;
+                        const denomination2 = parseInt(document.getElementById('denomination2').value) || 0;
+                        const denomination1 = parseInt(document.getElementById('denomination1').value) || 0;
+                        const denominationCents = parseInt(document.getElementById('denominationCents').value) || 0;
+
+                        // Calculate individual totals
+                        const total100 = denomination100 * 100;
+                        const total50 = denomination50 * 50;
+                        const total20 = denomination20 * 20;
+                        const total10 = denomination10 * 10;
+                        const total5 = denomination5 * 5;
+                        const total2 = denomination2 * 2;
+                        const total1 = denomination1 * 1;
+                        const totalCents = denominationCents * 0.01;
+
+                        document.getElementById('denomination100T').value = total100;
+                        document.getElementById('denomination50T').value = total50;
+                        document.getElementById('denomination20T').value = total20;
+                        document.getElementById('denomination10T').value = total10;
+                        document.getElementById('denomination5T').value = total5;
+                        document.getElementById('denomination2T').value = total2;
+                        document.getElementById('denomination1T').value = total1;
+                        document.getElementById('denominationCentsT').value = totalCents;
+
+                        const totalSum = total100 + total50 + total20 + total10 + total5 + total2 + total1 + totalCents;
+                        const amount = parseInt(document.getElementById('amount').value) || 0;
+
+                        if (totalSum !== amount) {
+                            document.getElementById('totalSumT').value = "Check if the amount entered is correct";
+                        } else {
+                            document.getElementById('totalSumT').value = totalSum;
+                        }
+
+                        document.getElementById('totalDenominationsT').value = denomination100 + denomination50 + denomination20 + denomination10 + denomination5 + denomination2 + denomination1 + denominationCents;
+                    }
+                </script>
             </div>
         </div>
-        <?php include('../includes/footer.php'); ?>
     </div>
+    <?php include('../includes/footer.php'); ?>
 </div>
 
 
-<!-- js -->
 <script src="../vendors/scripts/core.js"></script>
 <script src="../vendors/scripts/script.min.js"></script>
 <script src="../vendors/scripts/process.js"></script>

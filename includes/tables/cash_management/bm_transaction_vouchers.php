@@ -1,10 +1,9 @@
 <!-- table widget -->
-
 <div class="card-box mb-30">
     <div class="pd-20">
         <div class="row">
             <div class="col-10">
-                <h4 class="text-blue h4">Revise Cash Transactions Vouchers</h4>
+                <h4 class="text-blue h4">Pending Cash Transactions Vouchers</h4>
             </div>
         </div>
     </div>
@@ -33,7 +32,7 @@
             </thead>
             <tbody>
             <?php
-            $transactions = cms_withdrawal_voucher_by_firstApprover($_SESSION['userId'], "REVISE");
+            $transactions = cms_withdrawal_voucher_by_firstApprover($_SESSION['userId'], $approvalStatus);
             foreach ($transactions as $row):?>
                     <tr>
                         <td><?= htmlspecialchars($row["applicationDate"]) ?></td>

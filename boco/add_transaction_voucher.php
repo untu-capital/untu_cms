@@ -563,7 +563,7 @@ include('../includes/header.php');
                         });
 
                         const jsonData = JSON.stringify(formDataObject);
-
+                        console.log(jsonData);
                         if(validateForm()){
                             // Send form data using Fetch API
                             await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/initiate', {

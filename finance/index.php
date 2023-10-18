@@ -1,14 +1,4 @@
 <?php
-//	include('../session/session.php');
-//include ('check_role.php');
-//	include('charts_data.php');
-//	$nav_header = "Dashboard";
-//
-//	include('../includes/controllers.php');
-//
-//?>
-
-<?php
 include('../session/session.php');
 include ('check_role.php');
 //	include('charts_data.php');

@@ -123,7 +123,20 @@ include('../includes/header.php');
                             </div>
                         </div>
                     </div>
-
+                        <div class="row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? " " : "hidden" ?> >
+                            <div class="col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <label for="firstApprovalStatus">Revise Comment</label>
+                                    <input
+                                            value="<?= $transactionVoucher['firstApprovalComment'] ?>"
+                                            class="form-control"
+                                            name="firstApprovalStatus"
+                                            id="firstApprovalStatus"
+                                            readonly
+                                    >
+                                </div>
+                            </div>
+                        </div>
                     <div class="row">
                         <div class="col-md-4 col-sm-12">
                             <div class="form-group">
@@ -153,7 +166,6 @@ include('../includes/header.php');
                             </div>
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-4 col-sm-12">
                             <div class="form-group">

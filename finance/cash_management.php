@@ -4,6 +4,10 @@ include ('check_role.php');
 include('../includes/controllers.php');
 $nav_header = "Cash Management Dashboard";
 
+$state = $_GET['state'];
+$userId = $_SESSION['userId'];
+$branch = $_SESSION['branch'];
+
 if(isset($_POST['Branch'])){
     $name = $_POST['name'];
     $status = $_POST['status'];
@@ -297,6 +301,19 @@ include('../includes/header.php');
                             </li>
 
                             <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#pending" role="tab"
+                                   aria-selected="false">Pending Transactions Vouchers</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#approved" role="tab"
+                                   aria-selected="false">Approved Transactions Vouchers</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#revise" role="tab"
+                                   aria-selected="false">Revise Transactions Vouchers</a>
+                            </li>
+
+                            <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#po_payments" role="tab"
                                    aria-selected="false">P.O Payments</a>
                             </li>
@@ -336,6 +353,17 @@ include('../includes/header.php');
                                     <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
                                 </div>
                             </div>
+
+                            <div class="tab-pane fade row" id="pending" role="tabpanel">
+                                <?php $approvalStatus = "PENDING"; include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
+                            </div>
+                            <div class="tab-pane fade" id="approved" role="tabpanel">
+                                <?php $approvalStatus = "APPROVED"; include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
+                            </div>
+                            <div class="tab-pane fade" id="revise" role="tabpanel">
+                                <?php $approvalStatus = "REVISE"; include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
+                            </div>
+
                             <div class="tab-pane fade" id="po_payments" role="tabpanel">
                                 <?php include('../includes/tables/cash_management/list-petty-cash.php'); ?>
                             </div>

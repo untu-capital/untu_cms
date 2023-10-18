@@ -4,7 +4,7 @@
     <div class="pd-20">
         <div class="row">
             <div class="col-10">
-                <h4 class="text-blue h4">Pending Cash Transactions Vouchers</h4>
+                <h4 class="text-blue h4">Revise Cash Transactions Vouchers</h4>
             </div>
         </div>
     </div>
@@ -33,7 +33,7 @@
             </thead>
             <tbody>
             <?php
-            $transactions = cms_withdrawal_voucher_by_firstApprover($_SESSION['userId'], "PENDING");
+            $transactions = cms_withdrawal_voucher_by_firstApprover($_SESSION['userId'], "REVISE");
             foreach ($transactions as $row):?>
                     <tr>
                         <td><?= htmlspecialchars($row["applicationDate"]) ?></td>
@@ -65,7 +65,7 @@
                         <td><?= htmlspecialchars($row["toVault"]["name"]) ?></td>
                         <td>
                             <a class="dropdown-item"
-                               href="../bm/view_transaction_voucher.php?transactionId=<?= $row['id'] ?>"
+                               href="../finance/view_transaction_voucher.php?transactionId=<?= $row['id'] ?>"
                             ><i class="dw dw-eye"></i> View</a>
                         </td>
                     </tr>
