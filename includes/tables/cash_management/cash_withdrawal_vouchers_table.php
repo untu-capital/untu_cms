@@ -18,7 +18,7 @@
         <table class="table small hover multiple-select-row data-table-export nowrap">
             <thead class="small">
             <tr>
-                <th>Application Date</th>
+                <th>Application No</th>
 
                 <th>First Approver</th>
                 <th>First Approval Status</th>
@@ -41,7 +41,7 @@
             $voucher = cms_withdrawal_voucher($_SESSION['userId']);
             foreach ($voucher as $row):?>
                 <tr>
-                    <td><?= htmlspecialchars($row["applicationDate"]) ?></td>
+                    <td><?= htmlspecialchars($row["applicationNo"]) ?></td>
 
                     <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["firstApprover"]['lastName']) ?></td>
                     <td><?php if ($row['firstApprovalStatus'] == "APPROVED") {

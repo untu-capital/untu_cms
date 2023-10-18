@@ -362,8 +362,7 @@ include('../includes/header.php');
                 <div class="form-group row">
                     <div class="col-sm-12 col-md-2 col-form-label">
                         <button class="btn btn-success"
-                                type="submit"
-                                name="create"
+                                name="saveButton"
                                 id="withdrawalCashVoucherButton">Save
                         </button>
                     </div>
@@ -375,6 +374,7 @@ include('../includes/header.php');
                 </div>
                 <!--                                    Javascript function to calculate the amount per denomination and total amount-->
                 <script>
+
                     async function getAllTransactionsDefault() {
                         const purposesList = document.getElementById('transactionPurposeSelect');
 
@@ -518,12 +518,13 @@ include('../includes/header.php');
                             || withdrawalPurpose.trim() === "" || firstApprover.trim() === "" || secondApprover.trim() === "");
                     }
 
-                    document.getElementById('withdrawalCashVoucherForm').addEventListener('submit', async function (event) {
+                    const form = document.getElementById('withdrawalCashVoucherForm');
+                    const saveButton = document.getElementById('withdrawalCashVoucherButton');
+
+                    form.addEventListener('submit', async function (event) {
 
                         // Prevent the default form submission
                         event.preventDefault();
-
-
 
                         // Collect form data
                         const formData = new FormData(event.target);
@@ -546,6 +547,10 @@ include('../includes/header.php');
                         const jsonData = JSON.stringify(formDataObject);
                         console.log(jsonData);
                         if(validateForm()){
+
+                            saveButton.disabled = true;
+                            saveButton.innerText = 'Saving...';
+
                             // Send form data using Fetch API
                             await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/initiate', {
                                 method: 'POST',

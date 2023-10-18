@@ -350,13 +350,16 @@ include('../includes/header.php');
                         <div class="form-group row" <?php echo ($transactionVoucher['secondApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE"   || $transactionVoucher['secondApprovalStatus'] == "REVISE") ? "hidden" : " " ?>>
                             <div class="col-sm-6 col-md-6 col-form-label">
                                 <button type="button" class="btn btn-success btn-block"
-                                        onclick="approveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED')">
+                                        onclick="approveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED')"
+                                        id="approveButton"
+                                >
                                     Approve
                                 </button>
                             </div>
                             <div class="col-sm-6 col-md-6 col-form-label">
                                 <button type="button" class="btn btn-warning btn-block"
                                         data-toggle="modal"
+                                        id="reviseButton"
                                         data-target="#Medium-modal"
                                 >Revise
                                 </button>
@@ -421,6 +424,7 @@ include('../includes/header.php');
                                                 </div>
                                                 <div class="col-sm-6 col-md-6 col-form-label">
                                                     <button type="button" class="btn btn-danger btn-block"
+                                                            id="cancelButton"
                                                             data-dismiss="modal">
                                                         Cancel
                                                     </button>
@@ -435,8 +439,26 @@ include('../includes/header.php');
                 </div>
                 <!--                                    Javascript function to calculate the amount per denomination and total amount-->
                 <script>
+                    const approveButton = document.getElementById("approveButton");
+                    const reviseButton = document.getElementById("reviseButton");
+                    const saveButton = document.getElementById("saveButton");
+                    const cancelButton = document.getElementById("cancelButton");
 
                     async function approveTransaction(id, status, comment) {
+
+                        reviseButton.disabled = true;
+                        approveButton.disabled = true;
+                        saveButton.disabled = true;
+                        cancelButton.disabled = true;
+
+                        if (status === "APPROVED"){
+                            approveButton.innerText = "Approving...";
+                        }
+
+                        if (status === "REVISE"){
+                            reviseButton.innerText = "Revising...";
+                            saveButton.innerText = "Revising...";
+                        }
 
                         const body = {
                             "id": id,

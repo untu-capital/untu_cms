@@ -277,7 +277,8 @@ include('../includes/header.php');
                 </form>
             </div>
 
-        <?php } elseif ($_GET['menu'] == 'update_vault') { ?>
+        <?php }
+        elseif ($_GET['menu'] == 'update_vault') { ?>
 
             <?php
 
@@ -388,7 +389,8 @@ include('../includes/header.php');
             </div>
             <!-- Default Basic Forms End -->
 
-        <?php } elseif ($_GET['menu'] == 'delete_vault') { ?>
+        <?php }
+        elseif ($_GET['menu'] == 'delete_vault') { ?>
 
             <?php
             $id = $_GET['vaultId'];
