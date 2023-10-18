@@ -414,7 +414,7 @@
                                     echo $loan_officer['firstName'].' '.$loan_officer['lastName'];?></h5>
 
                                 <div class="row">
-                                    <div class="col-md-9">
+                                    <div class="col-md-12">
                                         <!--                                        <a class="list-group-item"><b>Collateral</b>:-->
                                         <table class="table table-striped table-bordered hover nowrap">
                                             <thead>
@@ -437,37 +437,37 @@
                                         </table>
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <input class="form-control" type="hidden" name="userId" required value="<?php echo $_SESSION['userid'] ?>">
-                                        <input class="form-control" type="hidden" name="fullName" required value="<?php echo $_SESSION['fullname'] ?>">
-                                        <div style="display: flex; justify-content: flex-end; margin-right: 5%">
-                                            <div class="custom-control custom-radio mb-5" style="display: flex; flex-direction: column; align-items: flex-start; margin-right: 10px;">
-                                                <div>
-                                                    <input class="custom-control-input" type="radio" id="authorise" name="<?php echo $xxSignature ?>" value="Signed" onclick="enableButton()">
-                                                    <label class="custom-control-label" for="authorise">Authorise</label>
-                                                </div>
-                                                <div>
-                                                    <input class="custom-control-input" type="radio" id="decline" name="<?php echo $xxSignature ?>" value="Declined" onclick="enableButton()">
-                                                    <label class="custom-control-label" for="decline">Revert Ticket</label>
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <button class="btn btn-success" id="submitBtn" type="submit" name="<?php echo $xx_sign_ticket ?>" disabled>Sign Ticket</button>
-                                        </div>
-                                        <script>
-                                            function enableButton() {
-                                                const authorise = document.getElementById('authorise');
-                                                const decline = document.getElementById('decline');
-                                                const submitBtn = document.getElementById('submitBtn');
-
-                                                if (authorise.checked || decline.checked) {
-                                                    submitBtn.disabled = false;
-                                                } else {
-                                                    submitBtn.disabled = true;
-                                                }
-                                            }
-                                        </script>
-                                    </div>
+<!--                                    <div class="col-md-3">-->
+<!--                                        <input class="form-control" type="hidden" name="userId" required value="--><?php //echo $_SESSION['userid'] ?><!--">-->
+<!--                                        <input class="form-control" type="hidden" name="fullName" required value="--><?php //echo $_SESSION['fullname'] ?><!--">-->
+<!--                                        <div style="display: flex; justify-content: flex-end; margin-right: 5%">-->
+<!--                                            <div class="custom-control custom-radio mb-5" style="display: flex; flex-direction: column; align-items: flex-start; margin-right: 10px;">-->
+<!--                                                <div>-->
+<!--                                                    <input class="custom-control-input" type="radio" id="authorise" name="--><?php //echo $xxSignature ?><!--" value="Signed" onclick="enableButton()">-->
+<!--                                                    <label class="custom-control-label" for="authorise">Authorise</label>-->
+<!--                                                </div>-->
+<!--                                                <div>-->
+<!--                                                    <input class="custom-control-input" type="radio" id="decline" name="--><?php //echo $xxSignature ?><!--" value="Declined" onclick="enableButton()">-->
+<!--                                                    <label class="custom-control-label" for="decline">Revert Ticket</label>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <br>-->
+<!--                                            <button class="btn btn-success" id="submitBtn" type="submit" name="--><?php //echo $xx_sign_ticket ?><!--" disabled>Sign Ticket</button>-->
+<!--                                        </div>-->
+<!--                                        <script>-->
+<!--                                            function enableButton() {-->
+<!--                                                const authorise = document.getElementById('authorise');-->
+<!--                                                const decline = document.getElementById('decline');-->
+<!--                                                const submitBtn = document.getElementById('submitBtn');-->
+<!---->
+<!--                                                if (authorise.checked || decline.checked) {-->
+<!--                                                    submitBtn.disabled = false;-->
+<!--                                                } else {-->
+<!--                                                    submitBtn.disabled = true;-->
+<!--                                                }-->
+<!--                                            }-->
+<!--                                        </script>-->
+<!--                                    </div>-->
 
                                 </div>
                                 <br/>

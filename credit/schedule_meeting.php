@@ -3,7 +3,7 @@ include('../session/session.php');
 include ('check_role.php');
 //include('charts_data.php');
 include('../includes/controllers.php');
-$nav_header = "MCC Meeting(s)";
+$nav_header = "Prepare MCC Meeting(s)";
 $final_meeting = '/loanAwaitingDecision/ACCEPTED/bm_scheduled_meeting/management';
 
 ?>

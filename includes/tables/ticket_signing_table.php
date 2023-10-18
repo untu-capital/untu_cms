@@ -62,7 +62,7 @@
                         <label class="custom-control-label" for="decline">Decline</label>
                     </div>
                 </div>
-                <button class="btn btn-success" id="submitBtn" type="submit" name="<?php echo $xx_sign_ticket ?>" disabled>Sign Bulk Tickets</button>
+                <button class="btn btn-success" id="submitBtn" type="submit" name="<?php echo $xx_sign_ticket ?>" disabled>Sign Ticket(s)</button>
             </div>
 
             <script>

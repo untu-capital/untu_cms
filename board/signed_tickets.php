@@ -10,12 +10,12 @@ include ('check_role.php');
 	// small widgets descriptions
 	$widget_descr = ["Tickets to be signed: Harare", "Tickets to be signed: HarareA", "Tickets to be signed: Bulawayo", "Tickets to be signed: Gweru", "Tickets to be signed: Gokwe", "Total Tickets to be signed"];
 
-    $sign_ticket = '/cmSignature/Signed';
+    $sign_ticket = '/boardSignature/Signed';
 //    $decline_ticket = '/cmSignature/Declined';
     $decline_ticket = 'Declined';
 
-    $xxSignature = 'cmSignature';
-    $xx_sign_ticket = 'cm_sign_ticket';
+    $xxSignature = 'boardSignature';
+    $xx_sign_ticket = 'board_sign_ticket';
 
 ?>
 

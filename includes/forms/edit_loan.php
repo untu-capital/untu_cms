@@ -74,7 +74,7 @@ if (isset($_POST['update_loan_application'])) {
     // Redirect or display a success message to the user
     if ($resp) {
         // Use the header() function for redirection
-        header('Location: kyc_documents.php');
+        header('Location: kyc_documents.php?userid=' . $_GET['userid']);
 //        exit; // It's a good practice to exit after redirection to prevent further code execution
     } else {
         echo "Failed to update loan.";
