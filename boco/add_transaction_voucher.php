@@ -167,7 +167,7 @@ include('../includes/header.php');
                                         foreach ($purposes as $row):?>
                                             <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row["name"]) ?></option>
                                         <?php endforeach; ?>
-                                        <option value="custom">Other (Type your purpose)</option>
+                                        <option value="withdrawalPurpose">Other (Type your purpose)</option>
                                     </select>
                                     <div id="error-withdrawalPurpose" class="has-danger d-none">
                                         <div class="form-control-feedback">Please Select Withdrawal Purpose or Type Your Purpose!</div>
@@ -211,7 +211,7 @@ include('../includes/header.php');
 //                                echo "wer";
 //                                echo "<option value=''> $branch[id]</option>"
                                 foreach ($authorizers as $authorizer) {?>
-                                    <option value='<?php echo $authorizer['userId'] ?>'><?php $user = user($authorizer['userId']); echo $user['firstName']."".$user['firstName'] ?></option>";
+                                    <option value='<?php echo $authorizer['userId'] ?>'><?php $user = user($authorizer['userId']); echo $user['firstName']." ".$user['firstName'] ?></option>";
                                <?php } ?>
                             </select>
                             <div id="error-firstApprover" class="has-danger  d-none">
@@ -224,6 +224,14 @@ include('../includes/header.php');
                             <label for="secondApprover">Second Approver</label>
                             <select onchange="validateFormOnSelect()" class="custom-select2 form-control" name="secondApprover" id="secondApprover" style="width: 100%; height: 38px">
                                 <option value="">Select Second Approver</option>
+                                <?php
+                                $branch = branch_by_id('byName/'.$_SESSION['branch']);
+                                $authorizers = authorisation('/branch/'.$branch['id']);
+                                //                                echo "wer";
+                                //                                echo "<option value=''> $branch[id]</option>"
+                                foreach ($authorizers as $authorizer) {?>
+                                    <option value='<?php echo $authorizer['userId'] ?>'><?php $user = user($authorizer['userId']); echo $user['firstName']." ".$user['firstName'] ?></option>";
+                                <?php } ?>
                             </select>
                             <div id="error-secondApprover" class="has-danger d-none">
                                 <div class="form-control-feedback">Please Select Second Aprrover!</div>
@@ -247,14 +255,13 @@ include('../includes/header.php');
                                 <label for="denomination100" hidden="hidden"></label>
                                 <input type="number" class="form-control"
                                        id="denomination100"
-                                       required
                                        name="denomination100"
                                        oninput="calculateValue()">
                             </th>
                             <th scope="row">
                                 <label for="denomination100T" hidden="hidden"></label>
                                 <input type="number" class="form-control"
-                                       id="denomination100T" required
+                                       id="denomination100T"
                                        name="denomination100T" readonly></th>
                         </tr>
                         <tr>
@@ -262,13 +269,13 @@ include('../includes/header.php');
                             <th scope="row">
                                 <label for="denomination50" hidden="hidden"></label>
                                 <input type="number" class="form-control"
-                                       id="denomination50" required
+                                       id="denomination50"
                                        name="denomination50"
                                        oninput="calculateValue()">
                             </th>
                             <th scope="row">
                                 <label for="denomination50T" hidden="hidden"></label>
-                                <input type="number" class="form-control" required
+                                <input type="number" class="form-control"
                                        id="denomination50T" name="denomination50T"
                                        readonly></th>
                         </tr>
@@ -277,13 +284,13 @@ include('../includes/header.php');
                             <th scope="row">
                                 <label for="denomination20" hidden="hidden"></label>
                                 <input type="number" class="form-control"
-                                       id="denomination20" required
+                                       id="denomination20"
                                        name="denomination20"
                                        oninput="calculateValue()">
                             </th>
                             <th scope="row">
                                 <label for="denomination20T" hidden="hidden"></label>
-                                <input type="number" class="form-control" required
+                                <input type="number" class="form-control"
                                        id="denomination20T" name="denomination20T"
                                        readonly></th>
                         </tr>
@@ -292,13 +299,13 @@ include('../includes/header.php');
                             <th scope="row">
                                 <label for="denomination10" hidden="hidden"></label>
                                 <input type="number" class="form-control"
-                                       id="denomination10" required
+                                       id="denomination10"
                                        name="denomination10"
                                        oninput="calculateValue()">
                             </th>
                             <th scope="row">
                                 <label for="denomination10T" hidden="hidden"></label>
-                                <input type="number" class="form-control" required
+                                <input type="number" class="form-control"
                                        id="denomination10T" name="denomination10T"
                                        readonly></th>
                         </tr>
@@ -307,13 +314,13 @@ include('../includes/header.php');
                             <th scope="row">
                                 <label for="denomination5" hidden="hidden"></label>
                                 <input type="number" class="form-control"
-                                       id="denomination5" required
+                                       id="denomination5"
                                        name="denomination5"
                                        oninput="calculateValue()">
                             </th>
                             <th scope="row">
                                 <label for="denomination5T" hidden="hidden"></label>
-                                <input type="number" class="form-control" required
+                                <input type="number" class="form-control"
                                        id="denomination5T" name="denomination5T"
                                        readonly></th>
                         </tr>
@@ -322,13 +329,13 @@ include('../includes/header.php');
                             <th scope="row">
                                 <label for="denomination2" hidden="hidden"></label>
                                 <input type="number" class="form-control"
-                                       id="denomination2" required
+                                       id="denomination2"
                                        name="denomination2"
                                        oninput="calculateValue()">
                             </th>
                             <th scope="row">
                                 <label for="denomination2T" hidden="hidden"></label>
-                                <input type="number" class="form-control" required
+                                <input type="number" class="form-control"
                                        id="denomination2T" name="denomination2T"
                                        readonly></th>
                         </tr>
@@ -337,13 +344,13 @@ include('../includes/header.php');
                             <th scope="row">
                                 <label for="denomination1" hidden="hidden"></label>
                                 <input type="number" class="form-control"
-                                       id="denomination1" required
+                                       id="denomination1"
                                        name="denomination1"
                                        oninput="calculateValue()">
                             </th>
                             <th scope="row">
                                 <label for="denomination1T" hidden="hidden"></label>
-                                <input type="number" class="form-control" required
+                                <input type="number" class="form-control"
                                        id="denomination1T" name="denomination1T"
                                        readonly></th>
                         </tr>
@@ -352,13 +359,13 @@ include('../includes/header.php');
                             <th scope="row">
                                 <label for="denominationCents" hidden="hidden"></label>
                                 <input type="number" class="form-control"
-                                       id="denominationCents" required
+                                       id="denominationCents"
                                        name="denominationCents"
                                        oninput="calculateValue()">
                             </th>
                             <th scope="row">
                                 <label for="denominationCentsT" hidden="hidden"></label>
-                                <input type="number" class="form-control" required
+                                <input type="number" class="form-control"
                                        id="denominationCentsT"
                                        name="denominationCentsT" readonly></th>
                         </tr>
@@ -367,12 +374,12 @@ include('../includes/header.php');
                             <th scope="row">
                                 <label for="totalDenominationsT" hidden="hidden"></label>
                                 <input type="number" id="totalDenominationsT"
-                                       class="form-control" required
+                                       class="form-control"
                                        name="totalDenominations" readonly></th>
                             <th scope="row">
                                 <label for="totalSumT" hidden="hidden"></label>
                                 <input type="text" id="totalSumT"
-                                       class="form-control form-control-danger" required name="totalSumT"
+                                       class="form-control form-control-danger" name="totalSumT"
                                        readonly></th>
                         </tr>
                         </tbody>
@@ -381,8 +388,7 @@ include('../includes/header.php');
                 <div class="form-group row">
                     <div class="col-sm-12 col-md-2 col-form-label">
                         <button class="btn btn-success"
-                                type="submit"
-                                name="create"
+                                name="saveButton"
                                 id="withdrawalCashVoucherButton">Save
                         </button>
                     </div>
@@ -394,6 +400,7 @@ include('../includes/header.php');
                 </div>
                 <!--                                    Javascript function to calculate the amount per denomination and total amount-->
                 <script>
+
                     async function getAllTransactionsDefault() {
                         const purposesList = document.getElementById('transactionPurposeSelect');
 
@@ -537,12 +544,13 @@ include('../includes/header.php');
                             || withdrawalPurpose.trim() === "" || firstApprover.trim() === "" || secondApprover.trim() === "");
                     }
 
-                    document.getElementById('withdrawalCashVoucherForm').addEventListener('submit', async function (event) {
+                    const form = document.getElementById('withdrawalCashVoucherForm');
+                    const saveButton = document.getElementById('withdrawalCashVoucherButton');
+
+                    form.addEventListener('submit', async function (event) {
 
                         // Prevent the default form submission
                         event.preventDefault();
-
-
 
                         // Collect form data
                         const formData = new FormData(event.target);
@@ -565,6 +573,10 @@ include('../includes/header.php');
                         const jsonData = JSON.stringify(formDataObject);
                         console.log(jsonData);
                         if(validateForm()){
+
+                            saveButton.disabled = true;
+                            saveButton.innerText = 'Saving...';
+
                             // Send form data using Fetch API
                             await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/initiate', {
                                 method: 'POST',

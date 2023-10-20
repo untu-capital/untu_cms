@@ -160,7 +160,8 @@ include('../includes/header.php');
                                     <label for="secondApprovalStatus">Revise Comment</label>
                                     <input
                                             value="<?= $transactionVoucher['secondApprovalComment'] ?>"
-                                            class="form-control" name="secondApprovalStatus" id="secondApprovalStatus" readonly>
+                                            class="form-control" name="secondApprovalStatus" id="secondApprovalStatus"
+                                            readonly>
                                 </div>
                             </div>
                         </div>
@@ -351,11 +352,16 @@ include('../includes/header.php');
 
                         <div class="form-group row" <?php echo ($transactionVoucher['secondApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE" || $transactionVoucher['secondApprovalStatus'] == "REVISE") ? "hidden" : " " ?>>
                             <div class="col-sm-6 col-md-6 col-form-label">
-                                <button type="button" class="btn btn-success btn-block" <?php echo $transactionVoucher['firstApprovalStatus'] == "APPROVED" ? " " : "hidden" ?>
+                                <button type="button"
+                                        class="btn btn-success btn-block"
+                                    <?php echo $transactionVoucher['firstApprovalStatus'] == "APPROVED" ? " " : "hidden" ?>
+                                        id="approveButton"
                                         onclick="secondApproveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED','')">
                                     Approve
                                 </button>
-                                <button type="button" class="btn btn-success btn-block" <?php echo $transactionVoucher['firstApprovalStatus'] == "PENDING" ? " " : "hidden" ?>
+                                <button type="button" class="btn btn-success btn-block"
+                                    <?php echo $transactionVoucher['firstApprovalStatus'] == "PENDING" ? " " : "hidden" ?>
+                                        id="happroveButton"
                                         onclick="hoFirstApproveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED','')">
                                     Approve
                                 </button>
@@ -364,7 +370,19 @@ include('../includes/header.php');
                                 <button type="button"
                                         class="btn btn-warning btn-block"
                                         data-toggle="modal"
+                                        id="reviseButton"
+                                    <?php echo $transactionVoucher['firstApprovalStatus'] == "APPROVED" ? " " : "hidden" ?>
+
                                         data-target="#Medium-modal"
+                                >Revise
+                                </button>
+                                <button type="button"
+                                        class="btn btn-warning btn-block"
+                                        data-toggle="modal"
+                                        id="hreviseButton"
+                                        data-target="#HMedium-modal"
+                                    <?php echo $transactionVoucher['firstApprovalStatus'] == "PENDING" ? " " : "hidden" ?>
+
                                 >Revise
                                 </button>
                             </div>
@@ -380,7 +398,7 @@ include('../includes/header.php');
                 </div>
                 <!-- Form -->
                 <div class="col-md-4 col-sm-12 mb-30">
-                    <div class="pd-20 card-box height-100-p">
+                    <div class="pd-20 height-100-p">
                         <div
                                 class="modal fade"
                                 id="Medium-modal"
@@ -428,7 +446,73 @@ include('../includes/header.php');
                                                     </button>
                                                 </div>
                                                 <div class="col-sm-6 col-md-6 col-form-label">
-                                                    <button type="button" class="btn btn-danger btn-block"
+                                                    <button type="button"
+                                                            class="btn btn-danger btn-block"
+                                                            id="cancelButton"
+                                                            data-dismiss="modal">
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-12 mb-30">
+                    <div class="pd-20 height-100-p">
+                        <div
+                                class="modal fade"
+                                id="HMedium-modal"
+                                tabindex="-1"
+                                role="dialog"
+                                aria-labelledby="myLargeModalLabel"
+                                aria-hidden="true"
+                        >
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" id="myLargeModalLabel">
+                                            HO Revise Comment
+                                        </h4>
+                                        <button
+                                                type="button"
+                                                class="close"
+                                                data-dismiss="modal"
+                                                aria-hidden="true"
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="">
+                                            <label for="hid" hidden="hidden"></label>
+                                            <input id="hid" value="<?= $transactionVoucher['id']; ?>"
+                                                   hidden="hidden">
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="hcomment">Comment</label>
+                                                        <textarea type="text" class="form-control" name="initiator"
+                                                                  id="hcomment"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <div class="col-sm-6 col-md-6 col-form-label">
+                                                    <button type="button"
+                                                            class="btn btn-success btn-block"
+                                                            id="hsaveButton"
+                                                    >
+                                                        Revise
+                                                    </button>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-form-label">
+                                                    <button type="button"
+                                                            class="btn btn-danger btn-block"
+                                                            id="cancelButton"
                                                             data-dismiss="modal">
                                                         Cancel
                                                     </button>
@@ -444,15 +528,45 @@ include('../includes/header.php');
                 <!--                                    Javascript function to calculate the amount per denomination and total amount-->
                 <script>
 
+                    const approveButton = document.getElementById("approveButton");
+                    const happroveButton = document.getElementById("happroveButton");
+                    const reviseButton = document.getElementById("reviseButton");
+                    const hreviseButton = document.getElementById("hreviseButton");
+                    const saveButton = document.getElementById("saveButton");
+                    const cancelButton = document.getElementById("cancelButton");
+
+                    async function actionsInfo(status) {
+                        reviseButton.disabled = true;
+                        hreviseButton.disabled = true;
+                        approveButton.disabled = true;
+                        happroveButton.disabled = true;
+                        saveButton.disabled = true;
+                        cancelButton.disabled = true;
+
+                        if (status === "APPROVED") {
+                            approveButton.innerText = "Approving...";
+                            happroveButton.innerText = "Approving...";
+                        }
+
+                        if (status === "REVISE") {
+                            reviseButton.innerText = "Revising...";
+                            hreviseButton.innerText = "Revising...";
+                            saveButton.innerText = "Revising...";
+                        }
+                    }
+
                     async function hoFirstApproveTransaction(id, status, comment) {
+
+                        await actionsInfo(status);
 
                         const body = {
                             "id": id,
                             "approvalStatus": status,
-                            "comment":comment,
+                            "comment": comment,
                         };
 
                         console.log(JSON.stringify(body));
+
                         await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/first-approve', {
                             method: 'POST',
                             headers: {
@@ -473,13 +587,16 @@ include('../includes/header.php');
 
                     async function secondApproveTransaction(id, status, comment) {
 
+                        await actionsInfo(status);
+
                         const body = {
                             "id": id,
                             "approvalStatus": status,
-                            "comment":comment,
+                            "comment": comment,
                         };
 
                         console.log(JSON.stringify(body));
+
                         await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/second-approve', {
                             method: 'POST',
                             headers: {
@@ -502,15 +619,22 @@ include('../includes/header.php');
                         calculateValue();
 
                         const saveButton = document.getElementById('saveButton');
+                        const hsaveButton = document.getElementById('hsaveButton');
 
                         saveButton.addEventListener('click', function () {
-
-                            console.log("Comment")
 
                             const transactionId = document.getElementById('id').value;
                             const comment = document.getElementById('comment').value;
 
-                            approveTransaction(transactionId, "REVISE", comment);
+                            secondApproveTransaction(transactionId, "REVISE", comment);
+                        });
+
+                        hsaveButton.addEventListener('click', function () {
+
+                            const transactionId = document.getElementById('hid').value;
+                            const comment = document.getElementById('hcomment').value;
+
+                            hoFirstApproveTransaction(transactionId, "REVISE", comment);
                         });
                     });
 

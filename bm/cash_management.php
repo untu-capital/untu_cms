@@ -93,7 +93,6 @@ include('../includes/header.php');
                             <div class="tab-pane fade" id="revise" role="tabpanel">
                                 <?php $approvalStatus = "REVISE"; include('../includes/tables/cash_management/bm_transaction_vouchers.php'); ?>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -101,7 +100,8 @@ include('../includes/header.php');
 
             <!--        --><?php //include('../includes/tables/users_table.php'); ?>
 
-        <?php } elseif ($_GET['menu'] == 'add_vault') {
+        <?php }
+        elseif ($_GET['menu'] == 'add_vault') {
             ?>
             <?php
 

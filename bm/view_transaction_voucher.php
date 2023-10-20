@@ -170,7 +170,8 @@ include('../includes/header.php');
                                     <label for="secondApprovalStatus">Revise Comment</label>
                                     <input
                                             value="<?= $transactionVoucher['secondApprovalComment'] ?>"
-                                            class="form-control" name="secondApprovalStatus" id="secondApprovalStatus" readonly>
+                                            class="form-control" name="secondApprovalStatus" id="secondApprovalStatus"
+                                            readonly>
                                 </div>
                             </div>
                         </div>
@@ -362,6 +363,7 @@ include('../includes/header.php');
                         <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE") ? "hidden" : " " ?>>
                             <div class="col-sm-6 col-md-6 col-form-label">
                                 <button type="button" class="btn btn-success btn-block"
+                                        id="approveButton"
                                         onclick="approveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED','')">
                                     Approve
                                 </button>
@@ -369,6 +371,7 @@ include('../includes/header.php');
                             <div class="col-sm-6 col-md-6 col-form-label">
                                 <button type="button"
                                         class="btn btn-danger btn-block"
+                                        id="reviseButton"
                                         data-toggle="modal"
                                         data-target="#Medium-modal"
                                 >Revise
@@ -377,7 +380,9 @@ include('../includes/header.php');
                         </div>
                         <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? " " : "hidden" ?>>
                             <div class="col-sm-6 col-md-6 col-form-label">
-                                <button type="button" class="btn btn-success btn-block"
+                                <button type="button"
+                                        class="btn btn-success btn-block"
+                                        id="approveButton"
                                         onclick="approveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED','')">
                                     Approve
                                 </button>
@@ -443,11 +448,13 @@ include('../includes/header.php');
                                                                 class="btn btn-success btn-block"
                                                                 id="saveButton"
                                                         >
-                                                            Save
+                                                            Revise
                                                         </button>
                                                     </div>
                                                     <div class="col-sm-6 col-md-6 col-form-label">
-                                                        <button type="button" class="btn btn-danger btn-block"
+                                                        <button type="button"
+                                                                id="cancelButton"
+                                                                class="btn btn-danger btn-block"
                                                                 data-dismiss="modal">
                                                             Cancel
                                                         </button>
@@ -461,8 +468,26 @@ include('../includes/header.php');
                         </div>
                     </div>
                     <script>
+                        const approveButton = document.getElementById("approveButton");
+                        const reviseButton = document.getElementById("reviseButton");
+                        const saveButton = document.getElementById("saveButton");
+                        const cancelButton = document.getElementById("cancelButton");
 
                         async function approveTransaction(id, status, comment) {
+
+                            reviseButton.disabled = true;
+                            approveButton.disabled = true;
+                            saveButton.disabled = true;
+                            cancelButton.disabled = true;
+
+                            if (status === "APPROVED"){
+                                approveButton.innerText = "Approving...";
+                            }
+
+                            if (status === "REVISE"){
+                                reviseButton.innerText = "Revising...";
+                                saveButton.innerText = "Revising...";
+                            }
 
                             const body = {
                                 "id": id,
