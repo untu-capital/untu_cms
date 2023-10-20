@@ -302,15 +302,15 @@ include('../includes/header.php');
 
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#pending" role="tab"
-                                   aria-selected="false">Pending Transactions Vouchers</a>
+                                   aria-selected="false">Pending Trans Vouchers</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#approved" role="tab"
-                                   aria-selected="false">Approved Transactions Vouchers</a>
+                                   aria-selected="false">Approved Trans Vouchers</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#revise" role="tab"
-                                   aria-selected="false">Revise Transactions Vouchers</a>
+                                   aria-selected="false">Revise Trans Vouchers</a>
                             </li>
 
                             <li class="nav-item">

@@ -56,6 +56,19 @@ function audit($userid, $activity, $branch) {
 //    return "Log recorded successfully";
 }
 
+
+function access_logs()
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/access_logs");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $access_logs = json_decode($server_response, true);
+    return $access_logs;
+}
+
+
 // ######################  Get RECENT DISBURSEMENTS from MUSONI #################################
 function disbursements($fromDate,$toDate){
     $ch = curl_init();

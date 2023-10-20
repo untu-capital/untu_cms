@@ -7,7 +7,8 @@
 		<h4 class="text-blue h4">Recent Disbursements</h4>
 	</div>
 	<div class="pb-20">
-		<table class="data-table table stripe hover multiple-select-row nowrap">
+<!--		<table class="data-table table stripe hover multiple-select-row nowrap">-->
+            <table class="table hover table stripe multiple-select-row data-table-export nowrap">
 			<thead>
 				<tr>
 					<th>DisbursedOn</th>

@@ -1,29 +1,9 @@
 <?php
-    include('../session/session.php');
+include('../session/session.php');
 include ('check_role.php');
-    include('../includes/controllers.php');
-    $nav_header = "Ticket Signing";
-
-    $sign_ticket = '/caTicketNotSigned/ACCEPTED/completed/Signed/Unsigned';
-    $xxSignature = 'caSignature';
-    $xx_sign_ticket = 'ca_sign_ticket';
-
-    $loan = loans('/'.$_GET['loan_id']);
-
-    $boco_signed = user($loan["bocoName"]);
-    $boco_signature = $boco_signed['firstName'].' '.$boco_signed['lastName'];
-
-    $bm_signed = user($loan["bmName"]);
-    $bm_signature = $bm_signed['firstName'].' '.$bm_signed['lastName'];
-
-    $cm_signed = user($loan["cmName"]);
-    $cm_signature = $cm_signed['firstName'].' '.$cm_signed['lastName'];
-
-    $ca_signed = user($loan["caName"]);
-    $ca_signature = $ca_signed['firstName'].' '.$ca_signed['lastName'];
-
-    $fin_signed = user($loan["finName"]);
-    $fin_signature = $fin_signed['firstName'].' '.$fin_signed['lastName'];
+include('charts_data.php');
+include ('../includes/controllers.php');
+$nav_header = "User Access Logs";
 
 ?>
 
@@ -52,7 +32,9 @@ include('../includes/header.php');
 
         <?php include('../includes/dashboard/topbar_widget.php'); ?>
 
-        <?php include('../includes/forms/view_ticket_info.php'); ?>
+        <?php include('../includes/dashboard/cms_loans_graph.php'); ?>
+
+        <?php include('../includes/tables/access_logs_table.php'); ?>
 
         <?php include('../includes/footer.php');?>
     </div>
@@ -64,6 +46,13 @@ include('../includes/header.php');
 <script src="../vendors/scripts/process.js"></script>
 <script src="../vendors/scripts/layout-settings.js"></script>
 <script src="../src/plugins/apexcharts/apexcharts.min.js"></script>
+
+<!-- js -->
+<script src="../src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="../src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
+<script src="../vendors/scripts/highchart-setting.js"></script>
+
 <script src="../src/plugins/datatables/js/jquery.dataTables.min.js"></script>
 <script src="../src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
 <script src="../src/plugins/datatables/js/dataTables.responsive.min.js"></script>

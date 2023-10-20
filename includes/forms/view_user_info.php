@@ -125,7 +125,7 @@
                                     </tr>
                             </table>
                             <form method="post" action="">
-                                <input class="form-control" type="text" name="new_password" placeholder="Type new password">
+                                <input class="form-control" type="password" name="new_password" placeholder="Type new password">
                                 <input class="form-control" type="hidden" name="userid" required value="<?php echo $_GET['userid'] ?>">
                                 <button class="btn btn-success" type = "submit" name= "change_password" >Change Password</button>
                             </form>

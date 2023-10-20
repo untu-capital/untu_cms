@@ -38,7 +38,7 @@
                         <td><?= htmlspecialchars($ticket["meetingTenure"]).' months' ?></td>
                         <td><?php if($ticket[$xxSignature] == "Signed" ){
                                 echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Signed</label>";}
-                            elseif($ticket[$xxSignature ] == "Declined") {echo "<label style='padding: 7px;' class='badge badge-primary'>Ticket Declined</label>";}
+                            elseif($ticket[$xxSignature ] == "Unsigned") {echo "<label style='padding: 7px;' class='badge badge-primary'>Ticket Reverted</label>";}
                             else{echo "<label style='padding: 7px;' class='badge badge-warning'>Waiting for Signature</label>";}?>
                         </td>
                         <td><?php $loan_officer = user(htmlspecialchars ($ticket["assignTo"]));
@@ -58,8 +58,8 @@
                         <label class="custom-control-label" for="authorise">Authorise</label>
                     </div>
                     <div>
-                        <input class="custom-control-input" type="radio" id="decline" name="<?php echo $xxSignature ?>" value="Declined" onclick="enableButton()">
-                        <label class="custom-control-label" for="decline">Decline</label>
+                        <input class="custom-control-input" type="radio" id="decline" name="<?php echo $xxSignature ?>" value="Unsigned" onclick="enableButton()">
+                        <label class="custom-control-label" for="decline">Revert</label>
                     </div>
                 </div>
                 <button class="btn btn-success" id="submitBtn" type="submit" name="<?php echo $xx_sign_ticket ?>" disabled>Sign Ticket(s)</button>

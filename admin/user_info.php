@@ -49,16 +49,10 @@ if(isset($_POST['updateUserRole'])) {
 if(isset($_POST['change_password'])) {
     $id = $_POST['userid'];
     $update_user_password =  $_POST['new_password'];
-
-    $url = "http://localhost:7878/api/utg/users/updateUserPassword/$id";
-    $data_array = array(
-        'password' => $update_user_password
-    );
-    $data = json_encode($data_array);
+    $url = "http://localhost:7878/api/utg/auth/reset_mobile_password?userid=".$id."&password=".$update_user_password;
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HEADER, true);

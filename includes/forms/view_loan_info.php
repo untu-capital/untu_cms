@@ -1803,11 +1803,11 @@
 <!--                                    <th>Tenure</th>-->
 <!--                                    <th>Interest Rate (%)</th>-->
 <!--                                    <th>On what basis</th>-->
-<!--                                    <th>Cash Handling Fee (%)</th>-->
+<!--                                    <th>Cash Handling Fee ($)</th>-->
 <!--                                    <th>Repayment Amount ($)</th>-->
 <!--                                    <th>Product</th>-->
 <!--                                    <th>R/N Client</th>-->
-<!--                                    <th>Upfront Fee (%)</th>-->
+<!--                                    <th>Upfront Fee ($)</th>-->
 <!--                                </tr>-->
 <!---->
 <!--                                <tr>-->
@@ -1821,7 +1821,7 @@
 <!--                                    <td>--><?php //echo $data['meetingProduct'] ;?><!--</td>-->
 <!--                                    <td>--><?php //echo $data['meetingRN'] ;?><!--</td>-->
 <!--                                    <td>--><?php //echo $data['meetingUpfrontFee'].' %' ;?><!--</td>-->
-<!--                                    <!-- <td><input class="btn" type="button" id="delete" name="delete" value="delete" required></td> -->-->
+<!--                                    <!-- <td><input class="btn" type="button" id="delete" name="delete" value="delete" required></td> -->
 <!--                                </tr>-->
 <!--                                <tr>-->
 <!--                                    <td><input class="form-control" type="text" name="txtLoanAmount"  min=0 required></td>-->
@@ -1877,11 +1877,11 @@
                                     <th>Tenure</th>
                                     <th>Interest Rate (%)</th>
                                     <th>On what basis</th>
-                                    <th>Cash Handling Fee (%)</th>
+                                    <th>Cash Handling Fee ($)</th>
                                     <th>Repayment Amount ($)</th>
                                     <th>Product</th>
                                     <th>R/N Client</th>
-                                    <th>Upfront Fee (%)</th>
+                                    <th>Upfront Fee ($)</th>
                                 </tr>
 
                                 <tr>
