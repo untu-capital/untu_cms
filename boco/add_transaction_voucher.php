@@ -387,10 +387,7 @@ include('../includes/header.php');
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12 col-md-2 col-form-label">
-                        <button class="btn btn-success"
-                                name="saveButton"
-                                id="withdrawalCashVoucherButton">Save
-                        </button>
+                        <button class="btn btn-success" name="saveButton" id="withdrawalCashVoucherButton">Save</button>
                     </div>
                     <div class="col-sm-12 col-md-2 col-form-label">
                         <a href="cash_management.php?menu=main" class="btn btn-primary "
@@ -571,7 +568,9 @@ include('../includes/header.php');
                         });
 
                         const jsonData = JSON.stringify(formDataObject);
+                        console.log("Form Data");
                         console.log(jsonData);
+
                         if(validateForm()){
 
                             saveButton.disabled = true;
@@ -588,7 +587,7 @@ include('../includes/header.php');
                                 .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
                                 .then(data => {
                                     console.log(data);
-                                    window.location.href = "http://localhost/untu-systems/boco/cash_management.php?menu=main";
+                                    window.location.href = "http://localhost/untu_cms/boco/cash_management.php?menu=main";
                                 })
                                 .catch(error => {
                                     // Handle errors here
