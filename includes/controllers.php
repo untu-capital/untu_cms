@@ -2429,6 +2429,41 @@ if(isset($_POST['create_vault'])){
     }
 }
 
+if(isset($_POST['create_withdrawal_purpose'])){
+    // API endpoint URL
+    $url ="http://localhost:7878/api/utg/cms/transaction-purpose/save";
+
+    // Data to send in the POST request
+    $postData = array(
+        'name' => $_POST['name'],
+    );
+
+    $data = json_encode($postData);
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+
+    // Execute the POST request and store the response in a variable
+    $response = curl_exec($ch);
+
+    // Check for cURL errors
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+    }
+
+    // Close cURL session
+    curl_close($ch);
+    if($response){
+        echo '<script>window.location.href = "cash_management.php?menu=main";</script>';
+    }
+}
+
 function vaults($get) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/vault/get/$get");
@@ -2439,4 +2474,13 @@ function vaults($get) {
     return $vaults;
 }
 
+function withdrawal_purposes($action) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/transaction-purpose/$action");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $vaults = json_decode($server_response, true);
+    return $vaults;
+}
 ?>
