@@ -419,13 +419,14 @@ function cms_withdrawal_voucher_by_second_approver($userId, $status){
 }
 
 function cms_finance_manager_transaction_vouchers($userId, $status ){
-    return cms_withdrawal_voucher_by_firstApprover($userId, $status) + cms_withdrawal_voucher_by_second_approver($userId, $status);
+
+//    return cms_withdrawal_voucher_by_second_approver($userId, $status) + cms_withdrawal_voucher_by_firstApprover($userId, $status);
+    return array_merge(cms_withdrawal_voucher_by_second_approver($userId, $status), cms_withdrawal_voucher_by_firstApprover($userId, $status));
 }
 
 
 function branch_by_id($id){
     $ch = curl_init();
-    $id = $_GET["id"];
     curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/branches/$id");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $server_response = curl_exec($ch);
@@ -447,7 +448,6 @@ function petty_cash_payments_by_id($id){
 
 function authorisation($id){
     $ch = curl_init();
-    $id = $_GET["id"];
     curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/cms_authorisation".$id);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $server_response = curl_exec($ch);

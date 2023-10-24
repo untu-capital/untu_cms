@@ -122,13 +122,7 @@ include('../includes/header.php');
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="toVault">Withdrawal To</label>
-                            <select
-                                    onchange="validateFormOnSelect()"
-                                    class="custom-select2 form-control"
-                                    id="toVault"
-                                    name="toVault"
-                                    style="width: 100%; height: 38px"
-                            >
+                            <select onchange="validateFormOnSelect()" class="custom-select2 form-control" id="toVault" name="toVault" style="width: 100%; height: 38px">
                                 <option value="">Please Select Vault</option>
                                 <?php
                                 $voucher = getVaults($_SESSION['userId']);
@@ -207,12 +201,11 @@ include('../includes/header.php');
                                 <option value="">Select First Approver</option>
                                 <?php
                                 $branch = branch_by_id('byName/'.$_SESSION['branch']);
-                                $authorizers = authorisation('/branch/'.$branch['id']);
-//                                echo "wer";
-//                                echo "<option value=''> $branch[id]</option>"
+                                $authorizers = authorisation('/authLevel/'.$branch['id'].'/First%20Approver');
                                 foreach ($authorizers as $authorizer) {?>
-                                    <option value='<?php echo $authorizer['userId'] ?>'><?php $user = user($authorizer['userId']); echo $user['firstName']." ".$user['firstName'] ?></option>";
+                                    <option value='<?php echo $authorizer['userId'] ?>'><?php $user = user($authorizer['userId']); echo $user['firstName']." ".$user['lastName'] ?></option>";
                                <?php } ?>
+
                             </select>
                             <div id="error-firstApprover" class="has-danger  d-none">
                                 <div class="form-control-feedback">Please Select First Approver!</div>
@@ -226,11 +219,9 @@ include('../includes/header.php');
                                 <option value="">Select Second Approver</option>
                                 <?php
                                 $branch = branch_by_id('byName/'.$_SESSION['branch']);
-                                $authorizers = authorisation('/branch/'.$branch['id']);
-                                //                                echo "wer";
-                                //                                echo "<option value=''> $branch[id]</option>"
+                                $authorizers = authorisation('/authLevel/'.$branch['id'].'/Second%20Approver');
                                 foreach ($authorizers as $authorizer) {?>
-                                    <option value='<?php echo $authorizer['userId'] ?>'><?php $user = user($authorizer['userId']); echo $user['firstName']." ".$user['firstName'] ?></option>";
+                                    <option value='<?php echo $authorizer['userId'] ?>'><?php $user = user($authorizer['userId']); echo $user['firstName']." ".$user['lastName'] ?></option>";
                                 <?php } ?>
                             </select>
                             <div id="error-secondApprover" class="has-danger d-none">
@@ -411,55 +402,6 @@ include('../includes/header.php');
                                     option.value = item.id; // Set the value attribute of the option
                                     option.textContent = item.name; // Set the text content of the option
                                     purposesList.appendChild(option); // Append the option to the select element
-                                });
-                            })
-                            .catch(error => {
-                                console.error('Error fetching data:', error);
-                            });
-
-                        let branchId;
-                        //Fetch Initiator details to retrieve branch details
-                        await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/authorizations/<?= $userId ?>')
-                            .then(response => response.json())
-                            .then(data => {
-                                data.forEach((item)=>{
-                                    branchId = item.branchId;
-                                });
-
-                            })
-                            .catch(error => {
-                                console.error('Error fetching data:', error);
-                            });
-
-                        console.log("Branch Id" + branchId);
-                        const firstApprovers = document.getElementById('firstApprover');
-                        //Fetch First Approvers
-                        await fetch(`http://localhost:7878/api/utg/cms/transaction-voucher/first-approvers/${branchId}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                data.forEach(item => {
-                                    const option = document.createElement('option');
-                                    option.value = item.id; // Set the value attribute of the option
-                                    option.textContent = `${item.firstName} ${item.lastName}`; // Set the text content of the option
-
-                                    firstApprovers.appendChild(option); // Append the option to the select element
-                                });
-                            })
-                            .catch(error => {
-                                console.error('Error fetching data:', error);
-                            });
-
-                        const secondApprovers = document.getElementById('secondApprover');
-                        //Fetch Second Approvers
-                        await fetch(`http://localhost:7878/api/utg/cms/transaction-voucher/second-approvers/${branchId}`)
-                            .then(response => response.json())
-                            .then(data => {
-                                data.forEach(item => {
-                                    const option = document.createElement('option');
-                                    option.value = item.id; // Set the value attribute of the option
-                                    option.textContent = `${item.firstName} ${item.lastName}`; // Set the text content of the option
-
-                                    secondApprovers.appendChild(option); // Append the option to the select element
                                 });
                             })
                             .catch(error => {

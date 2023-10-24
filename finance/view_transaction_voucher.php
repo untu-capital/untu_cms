@@ -61,6 +61,8 @@ include('../includes/header.php');
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
+                                    <input id="transactionId" value="<?= $transactionVoucher['id']?>" hidden="hidden">
+                                    <input id="transactionDate" value="<?= date('d-m-Y')?>" hidden="hidden">
                                     <label for="initiator">Initiator</label>
                                     <input type="text"
                                            value="<?= $transactionVoucher['initiator']['firstName'] . ' ' . $transactionVoucher['initiator']['lastName'] ?>"
@@ -157,7 +159,7 @@ include('../includes/header.php');
                         <div class="row" <?php echo ($transactionVoucher['secondApprovalStatus'] == "REVISE") ? " " : "hidden" ?> >
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group">
-                                    <label for="secondApprovalStatus">Revise Comment</label>
+                                    <label for="secondApprovalStatus">Revert Comment</label>
                                     <input
                                             value="<?= $transactionVoucher['secondApprovalComment'] ?>"
                                             class="form-control" name="secondApprovalStatus" id="secondApprovalStatus"
@@ -374,7 +376,7 @@ include('../includes/header.php');
                                     <?php echo $transactionVoucher['firstApprovalStatus'] == "APPROVED" ? " " : "hidden" ?>
 
                                         data-target="#Medium-modal"
-                                >Revise
+                                >Revert
                                 </button>
                                 <button type="button"
                                         class="btn btn-warning btn-block"
@@ -383,7 +385,7 @@ include('../includes/header.php');
                                         data-target="#HMedium-modal"
                                     <?php echo $transactionVoucher['firstApprovalStatus'] == "PENDING" ? " " : "hidden" ?>
 
-                                >Revise
+                                >Revert
                                 </button>
                             </div>
                         </div>
@@ -399,28 +401,14 @@ include('../includes/header.php');
                 <!-- Form -->
                 <div class="col-md-4 col-sm-12 mb-30">
                     <div class="pd-20 height-100-p">
-                        <div
-                                class="modal fade"
-                                id="Medium-modal"
-                                tabindex="-1"
-                                role="dialog"
-                                aria-labelledby="myLargeModalLabel"
-                                aria-hidden="true"
-                        >
+                        <div class="modal fade" id="Medium-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title" id="myLargeModalLabel">
-                                            Revise Comment
+                                            Revert Comment
                                         </h4>
-                                        <button
-                                                type="button"
-                                                class="close"
-                                                data-dismiss="modal"
-                                                aria-hidden="true"
-                                        >
-                                            ×
-                                        </button>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                     </div>
                                     <div class="modal-body">
                                         <form method="POST" action="">
@@ -431,27 +419,16 @@ include('../includes/header.php');
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="form-group">
                                                         <label for="comment">Comment</label>
-                                                        <textarea type="text" class="form-control" name="initiator"
-                                                                  id="comment"></textarea>
+                                                        <textarea type="text" class="form-control" name="initiator" id="comment"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-md-6 col-form-label">
-                                                    <button type="button"
-                                                            class="btn btn-success btn-block"
-                                                            id="saveButton"
-                                                    >
-                                                        Save
-                                                    </button>
+                                                    <button type="button" class="btn btn-success btn-block" id="saveButton">Save</button>
                                                 </div>
                                                 <div class="col-sm-6 col-md-6 col-form-label">
-                                                    <button type="button"
-                                                            class="btn btn-danger btn-block"
-                                                            id="cancelButton"
-                                                            data-dismiss="modal">
-                                                        Cancel
-                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-block" id="cancelButton" data-dismiss="modal">Cancel</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -463,28 +440,14 @@ include('../includes/header.php');
                 </div>
                 <div class="col-md-4 col-sm-12 mb-30">
                     <div class="pd-20 height-100-p">
-                        <div
-                                class="modal fade"
-                                id="HMedium-modal"
-                                tabindex="-1"
-                                role="dialog"
-                                aria-labelledby="myLargeModalLabel"
-                                aria-hidden="true"
-                        >
+                        <div class="modal fade" id="HMedium-modal" tabindex="-1" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h4 class="modal-title" id="myLargeModalLabel">
-                                            HO Revise Comment
+                                            HO Revert Comment
                                         </h4>
-                                        <button
-                                                type="button"
-                                                class="close"
-                                                data-dismiss="modal"
-                                                aria-hidden="true"
-                                        >
-                                            ×
-                                        </button>
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                     </div>
                                     <div class="modal-body">
                                         <form method="POST" action="">
@@ -495,27 +458,16 @@ include('../includes/header.php');
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="form-group">
                                                         <label for="hcomment">Comment</label>
-                                                        <textarea type="text" class="form-control" name="initiator"
-                                                                  id="hcomment"></textarea>
+                                                        <textarea type="text" class="form-control" name="initiator" id="hcomment"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-md-6 col-form-label">
-                                                    <button type="button"
-                                                            class="btn btn-success btn-block"
-                                                            id="hsaveButton"
-                                                    >
-                                                        Revise
-                                                    </button>
+                                                    <button type="button" class="btn btn-success btn-block" id="hsaveButton">Revert</button>
                                                 </div>
                                                 <div class="col-sm-6 col-md-6 col-form-label">
-                                                    <button type="button"
-                                                            class="btn btn-danger btn-block"
-                                                            id="cancelButton"
-                                                            data-dismiss="modal">
-                                                        Cancel
-                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-block" id="cancelButton" data-dismiss="modal">Cancel</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -535,6 +487,9 @@ include('../includes/header.php');
                     const saveButton = document.getElementById("saveButton");
                     const cancelButton = document.getElementById("cancelButton");
 
+
+
+
                     async function actionsInfo(status) {
                         reviseButton.disabled = true;
                         hreviseButton.disabled = true;
@@ -549,9 +504,9 @@ include('../includes/header.php');
                         }
 
                         if (status === "REVISE") {
-                            reviseButton.innerText = "Revising...";
-                            hreviseButton.innerText = "Revising...";
-                            saveButton.innerText = "Revising...";
+                            reviseButton.innerText = "Reverting...";
+                            hreviseButton.innerText = "Reverting...";
+                            saveButton.innerText = "Reverting...";
                         }
                     }
 
@@ -577,7 +532,7 @@ include('../includes/header.php');
                             .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
                             .then(data => {
                                 console.log(data);
-                                window.location.href = "http://localhost/untu-systems/finance/cash_management.php?menu=main#approved";
+                                window.location.href = "http://localhost/untu_cms/finance/cash_management.php?menu=main#approved";
                             })
                             .catch(error => {
                                 // Handle errors here
@@ -595,8 +550,6 @@ include('../includes/header.php');
                             "comment": comment,
                         };
 
-                        console.log(JSON.stringify(body));
-
                         await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/second-approve', {
                             method: 'POST',
                             headers: {
@@ -604,15 +557,50 @@ include('../includes/header.php');
                             },
                             body: JSON.stringify(body),
                         })
-                            .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
+                            .then(response => response.json())
                             .then(data => {
                                 console.log(data);
-                                window.location.href = "http://localhost/untu-systems/finance/cash_management.php?menu=main#approved";
+                                pastelTransaction()
+                                window.location.href = "cash_management.php?menu=main#approved";
                             })
                             .catch(error => {
-                                // Handle errors here
                                 console.error('Error:', error);
                             });
+                    }
+
+                    async function pastelTransaction(){
+
+                        const pastel = {
+                            'APIPassword': 'Admin',
+                            'APIUsername' :'Admin',
+                            "ToAccount" :document.getElementById('toVault').value,
+                            "FromAccount" :document.getElementById('fromVault').value,
+                            "Reference" :  `CTV-${document.getElementById('transactionId').value}`,
+                            "Amount" :document.getElementById('amount').value,
+                            "TransactionType" : "CASH-TRANS-VOUCHER",
+                            "Description" :document.getElementById('withdrawalPurpose').value,
+                            "Currency" : '001',
+                            "TransactionDate" :document.getElementById('transactionDate').value ,
+                            "ExchangeRate" : '1'
+                        }
+
+                        console.log(JSON.stringify(pastel))
+
+                        // await fetch('http://192.168.2.103:1335/api/PastelTeller/PostJournalTxn', {
+                        //     method: 'POST',
+                        //     headers: {
+                        //         'Content-Type': 'application/json'
+                        //     },
+                        //     body: JSON.stringify(pastel),
+                        // })
+                        //     .then(response => response.json())
+                        //     .then(data => {
+                        //         console.log(data);
+                        //     })
+                        //     .catch(error => {
+                        //         console.error('Error:', error);
+                        //     });
+
                     }
 
                     document.addEventListener('DOMContentLoaded', function () {

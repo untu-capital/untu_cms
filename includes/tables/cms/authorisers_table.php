@@ -218,7 +218,7 @@ if(isset($_POST['auth'])){
 
             <tr>
                 <td><?php echo date('d-M-Y', strtotime($data['createdAt'])) ;?></td>
-                <td class="table-plus"><?php echo $authuser['firstName'] . $authuser['lastName'];?></td>
+                <td class="table-plus"><?php echo $authuser['firstName']." ".$authuser['lastName'];?></td>
                 <td class="table-plus"><?php echo $data['authLevel'] ;?></td>
                 <td><?php echo $authbranch['branchName'] ;?></td>
 

@@ -21,6 +21,9 @@ include ('check_role.php');
     $fin_signed = user($loan["finName"]);
     $fin_signature = $fin_signed['firstName'].' '.$fin_signed['lastName'];
 
+$board_signed = user($loan["boardName"]);
+$board_signature = $board_signed['firstName'].' '.$board_signed['lastName'];
+
 ?>
 
 <!DOCTYPE html>

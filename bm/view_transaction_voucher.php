@@ -506,7 +506,7 @@ include('../includes/header.php');
                                 .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
                                 .then(data => {
                                     console.log(data);
-                                    window.location.href = "http://localhost/untu-systems/bm/cash_management.php?menu=main#approved";
+                                    window.location.href = "cash_management.php?menu=main#approved";
                                 })
                                 .catch(error => {
                                     // Handle errors here

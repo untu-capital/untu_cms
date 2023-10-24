@@ -64,17 +64,15 @@ include('../includes/header.php');
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label for="fromVault">From Vault</label>
-                                <select
-                                        class="custom-select2 form-control"
-                                        id="fromVault"
-                                        name="fromVault"
-                                        style="width: 100%; height: 38px"
-                                >
+                                <select class="custom-select2 form-control" id="fromVault" name="fromVault" style="width: 100%; height: 38px">
                                     <option value="">Please Select Vault</option>
                                     <?php
-                                    $vaults = getVaults($_SESSION['userId']);
-                                    foreach ($vaults as $row):?>
-                                        <option value="<?= $row['vault_acc_code'] ?>"><?= htmlspecialchars($row["vault_acc_type"]) ?></option>
+                                    $voucher = getVaults($_SESSION['userId']);
+                                    foreach ($voucher as $row):?>
+                                        <option value="<?= $row['vault_acc_code'] ?>">
+                                            <?php
+                                            $vaults = vaults($row['vault_acc_code']);
+                                            echo $vaults["name"]." (".$vaults['account'].")"; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -82,17 +80,15 @@ include('../includes/header.php');
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label for="toVault">To Vault</label>
-                                <select
-                                        class="custom-select2 form-control"
-                                        id="toVault"
-                                        name="toVault"
-                                        style="width: 100%; height: 38px"
-                                >
+                                <select class="custom-select2 form-control" id="toVault" name="toVault" style="width: 100%; height: 38px">
                                     <option value="">Please Select Vault</option>
                                     <?php
-                                    $vaults = getVaults($_SESSION['userId']);
-                                    foreach ($vaults as $row):?>
-                                        <option value="<?= $row['vault_acc_code'] ?>"><?= htmlspecialchars($row["vault_acc_type"]) ?></option>
+                                    $voucher = getVaults($_SESSION['userId']);
+                                    foreach ($voucher as $row):?>
+                                        <option value="<?= $row['vault_acc_code'] ?>">
+                                            <?php
+                                            $vaults = vaults($row['vault_acc_code']);
+                                            echo $vaults["name"]." (".$vaults['account'].")"; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>

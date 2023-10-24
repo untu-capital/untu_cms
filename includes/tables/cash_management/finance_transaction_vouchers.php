@@ -10,20 +10,17 @@
     </div>
 
     <div class="pb-20">
-        <table class="table small hover multiple-select-row data-table-export nowrap">
+        <table class="table hover table stripe multiple-select-row data-table-export nowrap">
             <thead class="small">
             <tr>
                 <th>Application Date</th>
 
                 <th>First Approver</th>
-                <th>First Approval Status</th>
 
                 <th>Second Approver</th>
-                <th>Second Approval Status</th>
 
                 <th>Amount</th>
                 <th>Withdrawal Purpose</th>
-                <th>Currency</th>
 
                 <th>From Vault</th>
                 <th>To Vault</th>
@@ -38,28 +35,29 @@
                     <tr>
                         <td><?= htmlspecialchars($row["applicationDate"]) ?></td>
 
-                        <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["firstApprover"]['lastName']) ?></td>
-                        <td><?php if ($row['firstApprovalStatus'] == "APPROVED") {
+                        <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["firstApprover"]['lastName'])." - "  ?>
+
+                            <?php if ($row['firstApprovalStatus'] == "APPROVED") {
                                 echo "<label style='padding: 6px;' class='badge badge-success'>Approved</label>";
                             } elseif ($row['firstApprovalStatus'] == "PENDING") {
                                 echo "<label style='padding: 6px;' class='badge badge-warning'>Pending</label>";
                             } else {
-                                echo "<label style='padding: 6px;' class='badge badge-danger'>Revise</label>";
+                                echo "<label style='padding: 6px;' class='badge badge-danger'>Reverted</label>";
                             } ?></td>
 
-                        <td><?= htmlspecialchars($row["secondApprover"]['firstName']) . " " . htmlspecialchars($row["secondApprover"]['lastName']) ?></td>
-                        <td><?php if ($row['secondApprovalStatus'] == "APPROVED") {
+                        <td><?= htmlspecialchars($row["secondApprover"]['firstName']) . " " . htmlspecialchars($row["secondApprover"]['lastName'])." - "  ?>
+
+                            <?php if ($row['secondApprovalStatus'] == "APPROVED") {
                                 echo "<label style='padding: 6px;' class='badge badge-success'>Approved</label>";
                             } elseif ($row['secondApprovalStatus'] == "REVISE") {
-                                echo "<label style='padding: 6px;' class='badge badge-danger'>Revise</label>";
+                                echo "<label style='padding: 6px;' class='badge badge-danger'>Reverted</label>";
                             } else {
                                 echo "<label style='padding: 6px;' class='badge badge-warning'>Pending</label>";
                             } ?></td>
 
 
-                        <td><?= htmlspecialchars($row["amount"]) ?></td>
+                        <td><?= '$' . number_format($row["amount"], 2)." (".htmlspecialchars($row["currency"]).")" ?></td>
                         <td><?= htmlspecialchars($row["withdrawalPurpose"]) ?></td>
-                        <td><?= htmlspecialchars($row["currency"]) ?></td>
 
                         <td><?= htmlspecialchars($row["fromVault"]["name"]) ?></td>
                         <td><?= htmlspecialchars($row["toVault"]["name"]) ?></td>
@@ -75,7 +73,7 @@
         </table>
     </div>
 </div>
-p<script src="../../../vendors/scripts/core.js"></script>
+<script src="../../../vendors/scripts/core.js"></script>
 <script src="../../../vendors/scripts/script.min.js"></script>
 <script src="../../../vendors/scripts/process.js"></script>
 <script src="../../../vendors/scripts/layout-settings.js"></script>

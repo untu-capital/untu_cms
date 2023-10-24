@@ -321,12 +321,12 @@ include('../includes/header.php');
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#cash_receipts" role="tab" aria-selected="false">Cash Receipts (Musoni - Pastel)</a>
                             </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-blue" data-toggle="tab" href="#cash_trans_voucher" role="tab" aria-selected="false">
-                                    Cash Transactions Voucher
-                                </a>
-                            </li>
+<!---->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link text-blue" data-toggle="tab" href="#cash_trans_voucher" role="tab" aria-selected="false">-->
+<!--                                    Cash Transactions Voucher-->
+<!--                                </a>-->
+<!--                            </li>-->
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#vault_auth" role="tab" aria-selected="false">Vaults Authorization</a>
                             </li>
@@ -371,9 +371,9 @@ include('../includes/header.php');
                                 <?php include('../includes/tables/cash_management/cash_receipts.php'); ?>
                             </div>
 
-                            <div class="tab-pane fade" id="cash_trans_voucher" role="tabpanel">
-                                <?php include('../includes/tables/cms/cash_transactions.php'); ?>
-                            </div>
+<!--                            <div class="tab-pane fade" id="cash_trans_voucher" role="tabpanel">-->
+<!--                                --><?php //include('../includes/tables/cms/cash_transactions.php'); ?>
+<!--                            </div>-->
 
                             <div class="tab-pane fade" id="vault_auth" role="tabpanel">
                                 <form method="post" action="">
