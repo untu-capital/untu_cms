@@ -374,6 +374,16 @@ function cms_user(){
     return $cms_user;
 }
 
+function po_user(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/users/poUser');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $cms_user_response = curl_exec($ch);
+    curl_close($ch);
+    $cms_user = json_decode($cms_user_response, true);
+    return $cms_user;
+}
+
 function cms_withdrawal_voucher($userId){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/transaction-voucher/all-by-initiator/$userId");
@@ -2445,6 +2455,95 @@ if (isset($_POST['send_requisition'])) {
     send_requisition();
 }
 
+if(isset($_POST['delete_supplier'])) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/supplier/delete/".$_POST['supplierId']);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    $resp = curl_exec($ch);
+    curl_close($ch);
+
+}
+
+function categories(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/category/all");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+
+    curl_close($ch);
+    $data = json_decode($server_response, true);
+// Check if the JSON decoding was successful
+    if ($data !== null) {
+        return $data;
+
+    } else {
+        return "Error decoding JSON data";
+    }
+}
+
+if(isset($_POST['create_category'])){
+    // API endpoint URL
+    $url ="http://localhost:7878/api/utg/pos/budget/save";
+
+    // Data to send in the POST request
+    $postData = array(
+        'category' => $_POST['category'],
+        'year' => $_POST['year'],
+        'january' => $_POST['january'],
+        'february' => $_POST['february'],
+        'march' => $_POST['march'],
+        'april' => $_POST['april'],
+        'may' => $_POST['may'],
+        'june' => $_POST['june'],
+        'july' => $_POST['july'],
+        'august' => $_POST['august'],
+        'september' => $_POST['september'],
+        'october' => $_POST['october'],
+        'november' => $_POST['november'],
+        'december' => $_POST['december'],
+    );
+
+    $data = json_encode($postData);
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+
+    // Execute the POST request and store the response in a variable
+    $response = curl_exec($ch);
+
+    // Check for cURL errors
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+    }
+
+    // Close cURL session
+    curl_close($ch);
+
+    header("Location: requisitions.php?menu=main");
+    exit;
+}
+
+if(isset($_POST['delete_category'])) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/category/delete/".$_POST['categoryId']);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    $resp = curl_exec($ch);
+    curl_close($ch);
+
+}
+
 if(isset($_POST['update_cms_role'])) {
     $user = $_POST['user'];
     $role = $_POST['role'];
@@ -2676,7 +2775,105 @@ function deleteTransaction($id){
     curl_close($ch);
 }
 
-//===============================End CMS Controller==========================================================================================
+//===============================End CMS Controller ==========================================================================================
 
+//===============================START PURCHASE ORDER ==========================================================================================
+
+function poBudget($path){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/budget".$path);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+
+    curl_close($ch);
+    $data = json_decode($server_response, true);
+    if ($data !== null) {
+        return $data;
+    } else {
+        return "Error decoding JSON data";
+    }
+}
+
+if (isset($_POST['delete_budget'])){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/pos/budget/delete/'.$_POST['budgetId']);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    $resp = curl_exec($ch);
+    curl_close($ch);
+}
+
+if(isset($_POST['update_po_budget'])){
+    // API endpoint URL
+    $url ="http://localhost:7878/api/utg/pos/budget/update";
+
+    // Data to send in the POST request
+    $postData = array(
+        'id'=>  $_POST['budgetId'],
+        'category' => $_POST['category'],
+        'year' => $_POST['year'],
+        'january' => $_POST['january'],
+        'february' => $_POST['february'],
+        'march' => $_POST['march'],
+        'april' => $_POST['april'],
+        'may' => $_POST['may'],
+        'june' => $_POST['june'],
+        'july' => $_POST['july'],
+        'august' => $_POST['august'],
+        'september' => $_POST['september'],
+        'october' => $_POST['october'],
+        'november' => $_POST['november'],
+        'december' => $_POST['december'],
+    );
+
+    $data = json_encode($postData);
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+
+    // Execute the POST request and store the response in a variable
+    $response = curl_exec($ch);
+
+    // Check for cURL errors
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+    }
+
+    // Close cURL session
+    curl_close($ch);
+
+    header("Location: requisitions.php?menu=main");
+    exit;
+}
+
+if(isset($_POST['update_po_role'])) {
+    $user = $_POST['user'];
+    $role = $_POST['role'];
+
+    $data_array = array(
+        'role' => $role
+    );
+    $data = json_encode($data_array);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/users/updatePoUserRole/".$user);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    $resp = curl_exec($ch);
+    curl_close($ch);
+
+    audit($_SESSION['userid'], "Admin updated user ($user) Purchase Order Sys Role", $_SESSION['branch']);
+}
 
 ?>

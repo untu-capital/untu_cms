@@ -31,7 +31,7 @@ if ($data !== null) {
                     </div>
                 </div>
                 <div class="pb-20">
-                    <table class="table hover multiple-select-row data-table-export nowrap">
+                    <table class="table hover table stripe multiple-select-row data-table-export nowrap">
                         <thead>
                         <tr>
                             <th class="table-plus datatable-nosort">Name</th>
@@ -52,29 +52,18 @@ if ($data !== null) {
                             <td><?php echo $row['comment']; ?></td>
                             <td>
                                 <div class="dropdown">
-                                    <a
-                                            class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle"
-                                            href="#"
-                                            role="button"
-                                            data-toggle="dropdown"
-                                    >
+                                    <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                                         <i class="dw dw-more"></i>
                                     </a>
-                                    <div
-                                            class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"
-                                    >
-                                        <a class="dropdown-item"
-                                           href="requisitions.php?menu=update_supplier&supplierId=<?php echo urlencode($row['id']); ?>"
-
-                                        ><i class="dw dw-edit2"></i> Edit</a
-                                        >
-                                        <form method="post" action="delete-actions.php">
-                                            <input hidden="hidden" name="supplierId" value="<?php echo urlencode($row['id']); ?>">
-                                        <button class="dropdown-item"
-                                           name="delete_supplier"
-                                        ><i class="dw dw-delete-3"></i>
-                                            Delete</button>
+                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                                        <a class="dropdown-item" href="requisitions.php?menu=update_supplier&supplierId=<?php echo urlencode($row['id']); ?>"><i class="dw dw-edit2"></i> Edit</a>
+                                        <form method="post" action="">
+                                            <input type="hidden" name="supplierId" value="<?php echo urlencode($row['id']); ?>">
+                                            <button class="dropdown-item" name="delete_supplier" onclick="return confirm('Are you sure you want to delete this supplier?');">
+                                                <i class="dw dw-delete-3"></i>Delete
+                                            </button>
                                         </form>
+
                                     </div>
                                 </div>
                             </td>
