@@ -6,7 +6,7 @@
 <div class="card-box mb-30">
     <div class="pd-20">
         <h4 class="text-blue h4">
-            Petty Cash Payments
+            Purchase Order Payments
         </h4>
     </div>
 

@@ -1,10 +1,10 @@
 <?php
 	include('../session/session.php');
+include ('check_role.php');
 //	include('charts_data.php');
 	$nav_header = "Dashboard";
 	include('../includes/controllers.php');
-
-    $fromGraphDate = date('Y-01-01');
+    $fromGraphDate = date('Y-m-d');
     $fromDate = date('Y-m-d');
     $toDate = date('Y-m-d');
     if (isset($_POST['pick_range'])) {
@@ -20,14 +20,12 @@
 $disbursement_data = disbursed_by_range($_SESSION['branch'].'/'.$fromGraphDate.'/'.$toDate);
 $target_data = [1100000, 1200000, 1400000, 1100000, 1350000, 1200000, 1300000, 1100000, 1500000, 1200000, 1800000, 2000000];
 $disbursement_rate = round((array_sum($disbursement_data)/array_sum(array_slice($target_data, 0, count($disbursement_data))))*100, 0);
-
-
 ?>
 
 <!DOCTYPE html>
 <html>
 	<!-- HTML HEAD -->
-	<?php 
+	<?php
 		include('../includes/header.php');
 	?>
 	<!-- /HTML HEAD -->
@@ -58,9 +56,9 @@ $disbursement_rate = round((array_sum($disbursement_data)/array_sum(array_slice(
 
 		<div class="main-container">
 			<div class="pd-ltr-20">
-					
+
 				<?php include('../includes/dashboard/topbar_widget.php');?>
-					
+
 				<?php include('../includes/dashboard/welcome_widget.php'); ?>
 
 <!--				--><?php //include('../includes/dashboard/small_simple_summary_widget.php'); ?>
@@ -76,7 +74,7 @@ $disbursement_rate = round((array_sum($disbursement_data)/array_sum(array_slice(
 				<?php include('../includes/footer.php');?>
 			</div>
 		</div>
-		
+
 		<!-- js -->
 		<script src="../vendors/scripts/core.js"></script>
 		<script src="../vendors/scripts/script.min.js"></script>
@@ -89,7 +87,7 @@ $disbursement_rate = round((array_sum($disbursement_data)/array_sum(array_slice(
 		<script src="../src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 		<script>
 			var disbursementData = <?php echo json_encode($disbursement_data); ?>;
-			var targetData = <?php echo json_encode($target_data); ?>; 
+			var targetData = <?php echo json_encode($target_data); ?>;
 			var disbursementRate = <?php echo json_encode($disbursement_rate); ?>;
 		</script>
 		<script src="../vendors/scripts/dashboard.js"></script>
@@ -104,9 +102,9 @@ $disbursement_rate = round((array_sum($disbursement_data)/array_sum(array_slice(
 		<script src="../src/plugins/datatables/js/vfs_fonts.js"></script>
 		<!-- Datatable Setting js -->
 		<script src="../vendors/scripts/datatable-setting.js"></script>
-		
 
-		
+
+
 		<!-- Google Tag Manager (noscript) -->
 		<noscript
 			><iframe
@@ -117,6 +115,6 @@ $disbursement_rate = round((array_sum($disbursement_data)/array_sum(array_slice(
 			></iframe
 		></noscript>
 		<!-- End Google Tag Manager (noscript) -->
-		
+
 	</body>
 </html>

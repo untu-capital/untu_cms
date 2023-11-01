@@ -5,13 +5,20 @@
 ?>
 <div class="card-box mb-30">
 	<div class="pd-20">
-		<h4 class="text-blue h4">
-			<?php
-				if ($state == 'progress'){echo "Applications In Progress";}
-				elseif($state == 'reject'){echo "Rejected Applications";}
-				else {echo "List of Requisitions";}
-			?>
-		</h4>
+        <div class="row">
+            <div class="col-10">
+                <h4 class="text-blue h4">
+                    <?php
+                        if ($state == 'progress'){echo "Applications In Progress";}
+                        elseif($state == 'reject'){echo "Rejected Applications";}
+                        else {echo "List of Requisitions";}
+                    ?>
+                </h4>
+            </div>
+            <div class="col-2">
+                <a class="btn-lg btn-block btn-success text-white text-center" href="requisitions.php?menu=add_requisition"><i class="icon-copy bi bi-plus-lg"></i>Create Requisition</a>
+            </div>
+        </div>
 	</div>
 	<div class="pb-20">
 		<table class="table hover table stripe multiple-select-row data-table-export nowrap">

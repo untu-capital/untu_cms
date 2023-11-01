@@ -1,10 +1,11 @@
 <?php
 	include('../session/session.php');
+include ('check_role.php');
 //	include('charts_data.php');
 	$nav_header = "Dashboard";
 	include('../includes/controllers.php');
 
-    $fromGraphDate = date('Y-08-01');
+    $fromGraphDate = date('Y-m-d');
     $fromDate = date('Y-m-d');
     $toDate = date('Y-m-d');
     if (isset($_POST['pick_range'])) {
@@ -20,12 +21,26 @@
 //    if (date('Y-m-d') != $fromDate){
 //        $fromGraphDate = $fromDate;
 //    }
-    $data = disbursed_by_range($fromGraphDate.'/'.$toDate);
-    $disbursement = $data['disbursedLoanMonths'];
-    $disbursement_data = [];
-    foreach ($disbursement as $disburse_data) {
-        $disbursement_data[] = $disburse_data['totalPrincipalDisbursed'];
+$data = disbursed_by_range($fromGraphDate.'/'.$toDate);
+$disbursement = $data['disbursedLoanMonths'];
+$disbursement_data = [];
+
+foreach ($disbursement as $disburse_data) {
+    $disbursement_data[] = $disburse_data['totalPrincipalDisbursed'];
+}
+
+// Check if $disbursement_data is empty
+if (empty($disbursement_data)) {
+    // Handle the case where there is no data (e.g., display a message)
+    $disbursement_data = disbursed_by_range($fromGraphDate.'/'.$toDate);
+    // echo "No data available.";
+} else {
+    // Render the content using $disbursement_data
+    foreach ($disbursement_data as $value) {
+        // Render each data point
+        echo "Total Principal Disbursed: $value<br>";
     }
+}
 
 //echo '$ ' . number_format($montlhy_disbursement['totalPrincipalDisbursed'], 2, '.', ',');
 
@@ -48,18 +63,18 @@
 	?>
 	<!-- /HTML HEAD -->
 	<body>
-		<div class="pre-loader">
-			<div class="pre-loader-box">
-				<div class="loader-logo">
-					<img src="vendors/images/deskapp-logo.svg" alt="" />
-				</div>
-				<div class="loader-progress" id="progress_div">
-					<div class="bar" id="bar1"></div>
-				</div>
-				<div class="percent" id="percent1">0%</div>
-				<div class="loading-text">Loading...</div>
-			</div>
-		</div>
+<!--		<div class="pre-loader">-->
+<!--			<div class="pre-loader-box">-->
+<!--				<div class="loader-logo">-->
+<!--					<img src="vendors/images/deskapp-logo.svg" alt="" />-->
+<!--				</div>-->
+<!--				<div class="loader-progress" id="progress_div">-->
+<!--					<div class="bar" id="bar1"></div>-->
+<!--				</div>-->
+<!--				<div class="percent" id="percent1">0%</div>-->
+<!--				<div class="loading-text">Loading...</div>-->
+<!--			</div>-->
+<!--		</div>-->
 
 		<!-- Top NavBar -->
 			<?php include('../includes/top-nav-bar.php'); ?>
@@ -79,7 +94,7 @@
 
 				<?php include('../includes/dashboard/welcome_widget.php');
 //                print_r($widget_disburse);
-//                foreach ($widget_disburse as $montlhy_disbursement){
+//                foreach ($widget_disburse as $monthly_disbursement){
 //                    echo $disbursement_data;
 //                }
                  ?>

@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="pb-20">
-                    <table class="table hover multiple-select-row data-table-export nowrap">
+                    <table  class="table hover table stripe multiple-select-row data-table-export nowrap">
                         <thead>
                         <tr>
                             <th class="table-plus datatable-nosort">Account</th>
@@ -70,8 +70,7 @@
                                         <a class="dropdown-item"
                                            href="cash_management.php?menu=update_vault&vaultId=<?php echo urlencode($row['id']); ?>"
 
-                                        ><i class="dw dw-edit2"></i> Edit</a
-                                        >
+                                        ><i class="dw dw-edit2"></i> Edit Vault</a>
 
                                         <a class="dropdown-item"
                                            href="cash_management.php?menu=delete_vault&vaultId=<?php echo urlencode($row['id']); ?>"

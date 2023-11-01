@@ -1,5 +1,5 @@
 <?php
-    $vault_accs = vaults('all');
+    $vault_accs = vaults("all");
     $vaults = array_merge($vault_accs, ["Total Vaults Balances"]);
 
     if ($_SESSION['branch'] != "Head Office"){

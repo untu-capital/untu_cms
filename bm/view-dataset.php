@@ -3,6 +3,7 @@
 	<!-- HTML HEAD -->
 	<?php 
 		include('../includes/header.php');
+    include ('check_role.php');
 $ch = curl_init();
 //error_reporting(0);
 

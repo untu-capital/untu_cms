@@ -33,19 +33,34 @@
                     <td><input type = "checkbox" name="checkArr[]" value="<?php echo $ticket['id'];?>"></td>
                     <td><?= htmlspecialchars ($ticket["firstName"]).' '.htmlspecialchars ($ticket["middleName"]).' '.htmlspecialchars ($ticket["lastName"]) ?></td>
 
-                    <td><?= '$ '.htmlspecialchars ($ticket["meetingLoanAmount"] ).'.00'?></td>
-                    <td><?= htmlspecialchars($ticket["lessFees"])?></td>
-                    <td><?= htmlspecialchars($ticket["applicationFee"])?></td>
-                    <td><?= htmlspecialchars($ticket["meetingCashHandlingFee"])?></td>
+                    <td><?= '$ ' . number_format($ticket["meetingLoanAmount"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["lessFees"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["applicationFee"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["meetingCashHandlingFee"], 2, '.', ',') ?></td>
+
                     <td><?= htmlspecialchars($ticket["meetingInterestRate"]." %")?></td>
                     <td><?= htmlspecialchars($ticket["meetingTenure"]).' months' ?></td>
                     <?php if ($_SESSION['role'] =="ROLE_BOCO"){ ?>
-                    <td><?php if($ticket['bocoSignature'] != "Unsigned" && $ticket['finSignature'] != "Unsigned"){
-                            echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Ready</label>";}
-                        else if($ticket['bocoSignature'] != "Unsigned" && $ticket['finSignature'] == "Unsigned"){
-                            echo "<label style='padding: 7px;' class='badge badge-warning'>Waiting for Authorization</label>";}
-                        else{echo "<label style='padding: 7px;' class='badge badge-dark'>Updating Status</label>";}?>
-                    </td>
+                        <td>
+                            <?php
+                            if ($ticket['bocoSignature'] != "Unsigned" && $ticket['finSignature'] != "Unsigned") {
+                                if ($ticket["meetingLoanAmount"] >= 30000) {
+                                    if ($ticket['bocoSignature'] != "Unsigned" && $ticket['boardSignature'] != "Unsigned") {
+                                        echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Ready</label>";
+                                    } else {
+                                        echo "<label style='padding: 7px;' class='badge badge-warning'>Waiting for Authorization</label>";
+                                    }
+                                } else {
+                                    echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Ready</label>";
+                                }
+                            } else if ($ticket['bocoSignature'] != "Unsigned" && $ticket['finSignature'] == "Unsigned") {
+                                echo "<label style='padding: 7px;' class='badge badge-warning'>Waiting for Authorization</label>";
+                            } else {
+                                echo "<label style='padding: 7px;' class='badge badge-dark'>Updating Status</label>";
+                            }
+                            ?>
+                        </td>
+
                     <?php } else{?>
                     <td><?php if($ticket[$xxSignature] == "Signed" ){
                             echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Signed</label>";}
@@ -71,19 +86,35 @@
                     <td><input type = "checkbox" name="checkArr[]" value="<?php echo $ticket['id'];?>"></td>
                     <td><?= htmlspecialchars ($ticket["firstName"]).' '.htmlspecialchars ($ticket["middleName"]).' '.htmlspecialchars ($ticket["lastName"]) ?></td>
 
-                    <td><?= '$ '.htmlspecialchars ($ticket["meetingLoanAmount"] ).'.00'?></td>
-                    <td><?= htmlspecialchars($ticket["lessFees"])?></td>
-                    <td><?= htmlspecialchars($ticket["applicationFee"])?></td>
-                    <td><?= htmlspecialchars($ticket["meetingCashHandlingFee"])?></td>
+                    <td><?= '$ ' . number_format($ticket["meetingLoanAmount"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["lessFees"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["applicationFee"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["meetingCashHandlingFee"], 2, '.', ',') ?></td>
+
                     <td><?= htmlspecialchars($ticket["meetingInterestRate"]." %")?></td>
                     <td><?= htmlspecialchars($ticket["meetingTenure"]).' months' ?></td>
                     <?php if ($_SESSION['role'] =="ROLE_BOCO"){ ?>
-                        <td><?php if($ticket['bocoSignature'] != "Unsigned" && $ticket['finSignature'] != "Unsigned"){
-                                echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Ready</label>";}
-                            else if($ticket['bocoSignature'] != "Unsigned" && $ticket['finSignature'] == "Unsigned"){
-                                echo "<label style='padding: 7px;' class='badge badge-warning'>Waiting for Authorization</label>";}
-                            else{echo "<label style='padding: 7px;' class='badge badge-dark'>Updating Status</label>";}?>
+                        <td>
+                            <?php
+                            if ($ticket['bocoSignature'] != "Unsigned" && $ticket['finSignature'] != "Unsigned") {
+                                if ($ticket["meetingLoanAmount"] >= 30000) {
+                                    if ($ticket['bocoSignature'] != "Unsigned" && $ticket['boardSignature'] != "Unsigned") {
+                                        echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Ready</label>";
+                                    } else {
+                                        echo "<label style='padding: 7px;' class='badge badge-warning'>Waiting for Authorization</label>";
+                                    }
+                                } else {
+                                    echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Ready</label>";
+                                }
+                            } else if ($ticket['bocoSignature'] != "Unsigned" && $ticket['finSignature'] == "Unsigned") {
+                                echo "<label style='padding: 7px;' class='badge badge-warning'>Waiting for Authorization</label>";
+                            } else {
+                                echo "<label style='padding: 7px;' class='badge badge-dark'>Updating Status</label>";
+                            }
+                            ?>
                         </td>
+
+
                     <?php } else{?>
                         <td><?php if($ticket[$xxSignature] == "Signed" ){
                                 echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Signed</label>";}
@@ -142,19 +173,34 @@
                     <td><input type = "checkbox" name="checkArr[]" value="<?php echo $ticket['id'];?>"></td>
                     <td><?= htmlspecialchars ($ticket["firstName"]).' '.htmlspecialchars ($ticket["middleName"]).' '.htmlspecialchars ($ticket["lastName"]) ?></td>
 
-                    <td><?= '$ '.htmlspecialchars ($ticket["meetingLoanAmount"] ).'.00'?></td>
-                    <td><?= htmlspecialchars($ticket["lessFees"])?></td>
-                    <td><?= htmlspecialchars($ticket["applicationFee"])?></td>
-                    <td><?= htmlspecialchars($ticket["meetingCashHandlingFee"])?></td>
+                    <td><?= '$ ' . number_format($ticket["meetingLoanAmount"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["lessFees"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["applicationFee"], 2, '.', ',') ?></td>
+                    <td><?= '$ ' . number_format($ticket["meetingCashHandlingFee"], 2, '.', ',') ?></td>
+
                     <td><?= htmlspecialchars($ticket["meetingInterestRate"]." %")?></td>
                     <td><?= htmlspecialchars($ticket["meetingTenure"]).' months' ?></td>
                     <?php if ($_SESSION['role'] =="ROLE_BOCO"){ ?>
-                        <td><?php if($ticket['bocoSignature'] != "Unsigned" && $ticket['finSignature'] != "Unsigned"){
-                                echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Ready</label>";}
-                            else if($ticket['bocoSignature'] != "Unsigned" && $ticket['finSignature'] == "Unsigned"){
-                                echo "<label style='padding: 7px;' class='badge badge-warning'>Waiting for Authorization</label>";}
-                            else{echo "<label style='padding: 7px;' class='badge badge-dark'>Updating Status</label>";}?>
+                        <td>
+                            <?php
+                            if ($ticket['bocoSignature'] != "Unsigned" && $ticket['finSignature'] != "Unsigned") {
+                                if ($ticket["meetingLoanAmount"] >= 30000) {
+                                    if ($ticket['bocoSignature'] != "Unsigned" && $ticket['boardSignature'] != "Unsigned") {
+                                        echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Ready</label>";
+                                    } else {
+                                        echo "<label style='padding: 7px;' class='badge badge-warning'>Waiting for Authorization</label>";
+                                    }
+                                } else {
+                                    echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Ready</label>";
+                                }
+                            } else if ($ticket['bocoSignature'] != "Unsigned" && $ticket['finSignature'] == "Unsigned") {
+                                echo "<label style='padding: 7px;' class='badge badge-warning'>Waiting for Authorization</label>";
+                            } else {
+                                echo "<label style='padding: 7px;' class='badge badge-dark'>Updating Status</label>";
+                            }
+                            ?>
                         </td>
+
                     <?php } else{?>
                         <td><?php if($ticket[$xxSignature] == "Signed" ){
                                 echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Signed</label>";}

@@ -1,5 +1,6 @@
 <?php
     include('../session/session.php');
+include ('check_role.php');
     include('../includes/controllers.php');
     $nav_header = "Ticket Signing";
 
@@ -19,6 +20,9 @@
 
     $fin_signed = user($loan["finName"]);
     $fin_signature = $fin_signed['firstName'].' '.$fin_signed['lastName'];
+
+$board_signed = user($loan["boardName"]);
+$board_signature = $board_signed['firstName'].' '.$board_signed['lastName'];
 
 ?>
 

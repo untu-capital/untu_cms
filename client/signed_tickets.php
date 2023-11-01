@@ -1,4 +1,5 @@
 <?php
+include ('check_role.php');
     include('../includes/fpdf/fpdf.php');
     if (isset($_POST['generate'])) {
         class myPDF extends FPDF

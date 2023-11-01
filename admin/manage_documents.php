@@ -1,5 +1,6 @@
 <?php
     include('../session/session.php');
+include ('check_role.php');
     include('../includes/controllers.php');
     $doc = $_GET['doc'];
     $nav_header = "Document Management";

@@ -59,7 +59,7 @@
             </tbody>
         </table>
     </div>
-    <input class="form-control" type="hidden" name="userId" required value="<?php echo $_SESSION['userid'] ?>">
+    <input class="form-control" type="hidden" name="userId" required value="<?php echo $_SESSION['userId'] ?>">
     <input class="form-control" type="hidden" name="fullName" required value="<?php echo $_SESSION['fullname'] ?>">
     <input class="form-control" type="hidden" name="bocoSignature" required value="Signed">
         <div style="display: flex; justify-content: end; margin-right: 5%">

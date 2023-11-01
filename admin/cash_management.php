@@ -1,10 +1,8 @@
 <?php
 include('../session/session.php');
+include ('check_role.php');
 include('../includes/controllers.php');
 $nav_header = "Cash Management Dashboard";
-
-
-
 
 if(isset($_POST['Branch'])){
     $name = $_POST['name'];
@@ -16,10 +14,6 @@ if(isset($_POST['Branch'])){
     $address = $_POST['address'];
     $branchcode = $_POST['branchcode'];
     $vault = $_POST['vault'];
-
-
-
-
 
     $url = "http://localhost:7878/api/utg/branches/addBranch";
 
@@ -461,7 +455,6 @@ include('../includes/header.php');
                                 <?php include('../includes/tables/cms/branches_table.php'); ?>
                             </div>
 
-
                             <div class="tab-pane fade" id="authorisers" role="tabpanel">
                                 <?php include('../includes/tables/cms/authorisers_table.php'); ?>
                             </div>
@@ -531,21 +524,21 @@ include('../includes/header.php');
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <label>Branch Code</label>
-                                    <input type="text" class="form-control" name="branchcode" id="branchcode" required>
+                                    <input type="text" class="form-control" name="branchcode" id="branchcode" requred>
                                 </div>
                             </div>
 
                         </div>
-                        <div class="row">
-
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <label>Vault Acc Number</label>
-                                    <input type="text" class="form-control" name="vault" id="vault" required>
-                                </div>
-                            </div>
-
-                        </div>
+<!--                        <div class="row">-->
+<!---->
+<!--                            <div class="col-md-6 col-sm-12">-->
+<!--                                <div class="form-group">-->
+<!--                                    <label>Vault Acc Number</label>-->
+<!--                                    <input type="text" class="form-control" name="vault" id="vault" >-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!---->
+<!--                        </div>-->
 
 
                         <div class="row">
@@ -692,14 +685,14 @@ include('../includes/header.php');
                                 <div class="wizard-content">
 
                                     <form action="" method="POST">
-                                        <?php  $auth_by_id = authorisation_by_id($_GET['id']); ?>
+                                        <?php  $auth_by_id = authorisation('/'.$_GET['id']); ?>
                                         <div class="row">
                                             <div class="col-md-4 col-sm-12">
                                                 <div class="form-group">
                                                     <label>Branch Name</label>
                                                     <select id="branch" class="custom-select form-control" name="update_branch">
                                                         <?php
-                                                            $branch = authbranch($auth_by_id['branchId']);
+                                                            $branch = branch_by_id($auth_by_id['branchId']);
                                                             echo "<option value='$branch[id]'>$branch[branchName] Branch</option>";
                                                             $branches = branch();
                                                             foreach ($branches as $branch) {

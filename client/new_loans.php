@@ -3,6 +3,7 @@
 	<!-- HTML HEAD -->
 	<?php 
 		include('includes/head.php');
+    include ('check_role.php');
 	?>
 	<!-- /HTML HEAD -->
 	<body>

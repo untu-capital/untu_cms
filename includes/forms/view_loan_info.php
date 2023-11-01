@@ -305,15 +305,44 @@
                             </div>
                         </div>
 
-                        <a class="list-group-item text-blue"><center><b>ATTACHED KYC FILES</b></center></a>
+                        <?php if ($_SESSION['role'] == "ROLE_BOCO"){?>
+                            <a class="list-group-item text-blue"><center><b>ATTACH XDS REPORT</b></center></a>
+                            <br>
+
+                            <?php $xds_files = xds_files($_GET['loan_id']); ?>
+
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="x_panel">
+                                        <div class="x_title">
+                                            <div class="panel panel-default">
+                                                <div class="ln_solid"></div>
+                                                <div class="uploadcontainer">
+                                                    <form action="" enctype="multipart/form-data" method="post">
+                                                        <input type="file" name="file" id="file" class="form-control input-sm" required/>
+                                                        <input type="hidden" name="loan_id" id="file" value="<?php echo $_GET['loan_id']?>" class="form-control input-sm"/>
+                                                        <input type="hidden" name="userid" id="file" value="<?php echo $_GET['userid']?>" class="form-control input-sm"/>
+                                                        <input type="submit" value="Upload XDS Report" name="uploadxds" class="btn btn-success btn-sm" style="padding:8px; margin-top:15px">
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php }?>
+
+                        <br>
+
+                        <a class="list-group-item text-blue"><center><b>XDS REPORT</b></center></a>
 
                         <?php
                         $xds_files = xds_files($_GET['loan_id']);
                         if ($xds_files['fileName'] <> ""){?>
                             <div class="panel panel-default">
                                 <embed
-                                    src="../../uploads/xds/<?php echo $xds_files['fileName'] ?>"
-                                    type="application/pdf" frameBorder="0" scrolling="auto" height="700px" width="100%">
+                                        src="../includes/file_uploads/xds/<?php echo $xds_files['fileName'] ?>"
+                                        type="application/pdf" frameBorder="0" scrolling="auto" height="700px" width="100%">
                             </div>
                         <?php }?>
 
@@ -323,11 +352,28 @@
                         <div class="">
                             <b>Client's Documents</b>
                             <?php
-                                $client_id = $_GET['userid'];
-                                include('../includes/forms/view_kyc.php');?>
+                            $client_id = $_GET['userid'];
+                            include('../includes/forms/view_kyc.php');?>
 
                             <br><br>
                         </div>
+
+                        <br><br>
+                        <b>Appraisal File (Excel Sheet)</b>
+                        <div class="row">
+                            <?php
+                            $loan_id = $_GET['loan_id'];
+                            include('../includes/forms/view_appraisal_file.php');?>
+                        </div>
+
+                        <br><br>
+                        <b>Assessment Files by Loan Officer</b>
+                        <div class="row">
+                            <?php
+                            $loan_id = $_GET['loan_id'];
+                            include('../includes/forms/view_assessment_files.php');?>
+                        </div>
+
                     </div>
 
                     <div class="tab-pane fade" id="assign_task" role="tabpanel">
@@ -369,13 +415,13 @@
                             <form method="post" action="">
                                 <div class="row">
                                     <div class="col-3">
-                                    <a class="list-group-item"><b style="padding-right: 40px;">Action</b>:
-                                        <select id="loanStatus" onchange="Status()" class="btn btn-clipboard" name="update_loan_status" autocomplete="off" placeholder="" >
-                                            <option value="PENDING">Decision pending</option>
-                                            <option value="ACCEPTED">Checked</option>
-                                            <option value="REJECTED">Reject</option>
-                                        </select>
-                                    </a>
+                                        <a class="list-group-item"><b style="padding-right: 40px;">Action</b>:
+                                            <select class="custom-select2 form-control" id="loanStatus" onchange="Status()" class="btn btn-clipboard" name="update_loan_status" autocomplete="off" style="width: 100%; height: 38px" placeholder="" >
+                                                <option value="PENDING">Decision pending</option>
+                                                <option value="ACCEPTED">Checked</option>
+                                                <option value="REJECTED">Reject</option>
+                                            </select>
+                                        </a>
                                     </div>
                                     <div class="col-9">
                                         <textarea class="form-control" placeholder = "Additional Comments" name= "reason"></textarea>
@@ -402,29 +448,29 @@
                                         <div class="col-4">
                                             <input type="submit" value="Upload Appraisal (Excel)" name="UploadAppraisal" class="btn btn-success btn-lg" >
                                         </div>
-                                     </div>
+                                    </div>
                                 </form>
                             </div>
                             <div class="row">
 
                                 <?php
-                                    $appraisal_files = appraisal_files($_GET['loan_id']);
-                                    if($appraisal_files[0]['fileName'] !=""){ ?>
-                                        <div class="col-md-55">
-                                            <div class="thumbnail" style="border-radius: 0.08rem">
-                                                <div class="image view view-first">
-                                                    <a href="../includes/file_uploads/loan_officers/<?php echo $appraisal_files[0]['fileName'] ?>"><img style="height: 150px" src="../includes/file_uploads/loan_officers/excel.png"></a>
-                                                    <div class="mask no-caption"></div>
-                                                </div>
-                                                <div class="caption">
-                                                    <p>
-                                                        <?php echo current(explode('.', $appraisal_files[0]['fileName'])) ?>
-                                                        <strong><a name="downloadfile" download="<?php echo $appraisal_files[0]['fileName'] ?>" href="../includes/file_uploads/loan_officers/<?php echo $appraisal_files[0]['fileName'] ?>" style="color: black;">Download</a></strong>
-                                                    </p>
-                                                </div>
+                                $appraisal_files = appraisal_files($_GET['loan_id']);
+                                if($appraisal_files[0]['fileName'] !=""){ ?>
+                                    <div class="col-md-55">
+                                        <div class="thumbnail" style="border-radius: 0.08rem">
+                                            <div class="image view view-first">
+                                                <a href="../includes/file_uploads/loan_officers/<?php echo $appraisal_files[0]['fileName'] ?>"><img style="height: 150px" src="../includes/file_uploads/loan_officers/excel.png"></a>
+                                                <div class="mask no-caption"></div>
+                                            </div>
+                                            <div class="caption">
+                                                <p>
+                                                    <?php echo current(explode('.', $appraisal_files[0]['fileName'])) ?>
+                                                    <strong><a name="downloadfile" download="<?php echo $appraisal_files[0]['fileName'] ?>" href="../includes/file_uploads/loan_officers/<?php echo $appraisal_files[0]['fileName'] ?>" style="color: black;">Download</a></strong>
+                                                </p>
                                             </div>
                                         </div>
-                                    <?php }?>
+                                    </div>
+                                <?php }?>
                                 <br>
                                 <hr>
                             </div>
@@ -468,7 +514,9 @@
             </div>
         </div>
     </div>
-<?php } elseif ($_GET['menu'] == 'bcc_schedule'){ ?>
+<?php }elseif ($_GET['menu'] == 'edit_loan'){
+    include('../includes/forms/edit_loan.php');
+} elseif ($_GET['menu'] == 'bcc_schedule'){ ?>
     <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
         <div class="pd-20 card-box">
             <?php $loans = loans('/'.$_GET['loan_id']); ?>
@@ -777,7 +825,7 @@
                         if ($xds_files['fileName'] <> ""){?>
                             <div class="panel panel-default">
                                 <embed
-                                        src="../../uploads/xds/<?php echo $xds_files['fileName'] ?>"
+                                        src="../includes/file_uploads/xds/<?php echo $xds_files['fileName'] ?>"
                                         type="application/pdf" frameBorder="0" scrolling="auto" height="700px" width="100%">
                             </div>
                         <?php }?>
@@ -814,40 +862,40 @@
                         <form method="post" id="insert_form" action="">
                             <b>Setup BCC Meeting</b>
                             <br>
-                                <div class="form-group row">
-                                    <label class="col-sm-12 col-md-2 col-form-label">Select Committee</label>
-                                    <div class="col-sm-12 col-md-10">
-                                        <select id="setCommit" onchange="chooseCommit()" class="custom-select2 form-control" name="recipientEmail" multiple="multiple" required style="width: 100%">
-                                            <optgroup label="Select Attendees">
-    <!--                                            <option value="null">Select Attendees</option>-->
-                                                <?php
-                                                $loan_officer = loan_officer();
-                                                foreach ($loan_officer as $lo) {
-                                                    if ($lo['branch'] == $_SESSION['branch']){ echo "<option value='$lo[id]'>$lo[firstName] $lo[lastName]</option>";}} ?>
-                                            </optgroup>
-                                        </select>
-                                    </div>
+                            <div class="form-group row">
+                                <label class="col-sm-12 col-md-2 col-form-label">Select Committee</label>
+                                <div class="col-sm-12 col-md-10">
+                                    <select id="setCommit" onchange="chooseCommit()" class="custom-select2 form-control" name="recipientEmail" multiple="multiple" required style="width: 100%">
+                                        <optgroup label="Select Attendees">
+                                            <!--                                            <option value="null">Select Attendees</option>-->
+                                            <?php
+                                            $loan_officer = loan_officer();
+                                            foreach ($loan_officer as $lo) {
+                                                if ($lo['branch'] == $_SESSION['branch']){ echo "<option value='$lo[id]'>$lo[firstName] $lo[lastName]</option>";}} ?>
+                                        </optgroup>
+                                    </select>
                                 </div>
-                                <div class="ln_solid"></div>
+                            </div>
+                            <div class="ln_solid"></div>
 
-                                <div class="form-group row">
-                                    <label class="col-sm-12 col-md-2 col-form-label">Email Subject</label>
-                                    <div class="col-sm-12 col-md-10">
-                                        <input class="form-control" type="text" id="setCommitGroup" name= "subject" placeholder="Add email subject">
-                                    </div>
+                            <div class="form-group row">
+                                <label class="col-sm-12 col-md-2 col-form-label">Email Subject</label>
+                                <div class="col-sm-12 col-md-10">
+                                    <input class="form-control" type="text" id="setCommitGroup" name= "subject" placeholder="Add email subject">
                                 </div>
-                                <div class="form-group">
-                                    <label><b>Message :</b></label>
-                                    <textarea placeholder = "Type your message here" name= "message" class="form-control" required></textarea>
-                                    <input type="hidden"  name = "fullname" required="required" class="form-control" value="<?php echo $_SESSION['firstname'].'_'.$_SESSION['lastname']; ?>" >
-                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label><b>Message :</b></label>
+                                <textarea placeholder = "Type your message here" name= "message" class="form-control" required></textarea>
+                                <input type="hidden"  name = "fullname" required="required" class="form-control" value="<?php echo $_SESSION['firstname'].'_'.$_SESSION['lastname']; ?>" >
+                            </div>
 
-<!--                            <a class="list-group-item"><b style="padding-right: 160px;"></b>-->
-                                <input class="form-control" type="hidden" name="loanId" required value="<?php echo $_GET['loan_id'] ?>">
-                                <input class="form-control" type="hidden" name="userId" required value="<?php echo $_SESSION['userid'] ?>">
-                                <input class="form-control" type="hidden" name="commit" required value="branch">
-                                <button class="btn btn-success btn-lg" type = "submit" name= "set_meeting" >Schedule BCC Meeting</button>
-<!--                            </a>-->
+                            <!--                            <a class="list-group-item"><b style="padding-right: 160px;"></b>-->
+                            <input class="form-control" type="hidden" name="loanId" required value="<?php echo $_GET['loan_id'] ?>">
+                            <input class="form-control" type="hidden" name="userId" required value="<?php echo $_SESSION['userid'] ?>">
+                            <input class="form-control" type="hidden" name="commit" required value="branch">
+                            <button class="btn btn-success btn-lg" type = "submit" name= "set_bcc_meeting" >Schedule BCC Meeting</button>
+                            <!--                            </a>-->
                         </form>
                     </div>
 
@@ -880,7 +928,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-blue" data-toggle="tab" href="#assign_task" role="tab" aria-selected="false" >
-                            Schedule BCC
+                            Set BCC Decision
                         </a>
                     </li>
                 </ul>
@@ -1165,7 +1213,7 @@
                         if ($xds_files['fileName'] <> ""){?>
                             <div class="panel panel-default">
                                 <embed
-                                        src="../../uploads/xds/<?php echo $xds_files['fileName'] ?>"
+                                        src="../includes/file_uploads/xds/<?php echo $xds_files['fileName'] ?>"
                                         type="application/pdf" frameBorder="0" scrolling="auto" height="700px" width="100%">
                             </div>
                         <?php }?>
@@ -1207,8 +1255,8 @@
                                     <th>Loan Amount ($)</th>
                                     <th>Tenure</th>
                                     <th>Interest Rate (%)</th>
-                                    <th>On what basis</th>
-                                    <th>Cash Handling Fee (%)</th>
+                                    <th>Repayment Method </th>
+                                    <th>Cash Handling Fee ($)</th>
                                     <th>Repayment Amount ($)</th>
                                     <th>Product</th>
                                     <th>R/N Client</th>
@@ -1217,22 +1265,22 @@
 
                                 <tr>
                                     <?php $data = loans('/'.$_GET['loan_id']) ?>
-                                    <td><?php echo '$ '.$data['meetingLoanAmount'] ;?></td>
+                                    <td><?php echo "$" . number_format($data['meetingLoanAmount'], 2); ?></td>
                                     <td><?php echo $data['meetingTenure'].' months' ;?></td>
                                     <td><?php echo $data['meetingInterestRate'].' %' ;?></td>
                                     <td><?php echo $data['meetingOnWhichBasis'] ;?></td>
-                                    <td><?php echo $data['meetingCashHandlingFee'].' %' ;?></td>
-                                    <td><?php echo '$ '.$data['meetingRepaymentAmount'] ;?></td>
+                                    <td><?php echo "$" . number_format($data['meetingCashHandlingFee'], 2); ?></td>
+                                    <td><?php echo "$" . number_format($data['meetingRepaymentAmount'], 2); ?></td>
                                     <td><?php echo $data['meetingProduct'] ;?></td>
                                     <td><?php echo $data['meetingRN'] ;?></td>
-                                    <td><?php echo $data['meetingUpfrontFee'].' %' ;?></td>
+                                    <td><?php echo $data['meetingUpfrontFee'].' %'; ?></td>
                                     <!-- <td><input class="btn" type="button" id="delete" name="delete" value="delete" required></td> -->
                                 </tr>
                                 <tr>
                                     <td><input class="form-control" type="text" name="txtLoanAmount"  min=0 required></td>
                                     <td>
-                                        <select class="btn btn-clipboard" name="txtTenure" autocomplete="off" placeholder="" >
-                                            <option value="0">Select</option>
+                                        <select class="custom-select2 form-control" style="width: 100%; height: 38px" required name="txtTenure" autocomplete="off" >
+                                            <option value="0">Select Tenure</option>
                                             <option value="1">1 months</option>
                                             <option value="2">2 months</option>
                                             <option value="3">3 months</option>
@@ -1247,17 +1295,17 @@
                                             <option value="12">12 months</option>
                                         </select></td>
                                     <td><input class="form-control" type="text" name="txtInterestRate"  min=0 required></td>
-                                    <td><select class="btn btn-clipboard" name="txtBasis" autocomplete="off" placeholder="" >
+                                    <td><select class="custom-select2 form-control" name="txtBasis" autocomplete="off" style="width: 100%; height: 38px" required>
                                             <option value="reducing balance">reducing balance</option>
-                                            <option value="fixed balance">fixed balance</option>
+                                            <option value="flat interest rate">Flat Interest Rate</option>
                                         </select></td>
 
-                                    <td><input class="form-control" type="text" name="txtCashHandlingFee" placeholder="max 2%" min=0 max=2></td>
+                                    <td><input class="form-control" type="text" name="txtCashHandlingFee" placeholder="" min=0 max=2></td>
                                     <td><input class="form-control" type="text" name="txtRepaymentAmount" required></td>
-                                    <td><select class="btn btn-clipboard" name="txtProduct" autocomplete="off" placeholder="" >
+                                    <td><select class="custom-select2 form-control" name="txtProduct" autocomplete="off" style="width: 100%; height: 38px" required >
                                             <option value="CTF">CTF</option>
                                         </select></td>
-                                    <td><select class="btn btn-clipboard" name="txtRN" autocomplete="off" placeholder="" >
+                                    <td><select class="custom-select2 form-control" name="txtRN" autocomplete="off" style="width: 100%; height: 38px" required>
                                             <option value="R">Repeat</option>
                                             <option value="N">New</option>
                                         </select>
@@ -1274,8 +1322,9 @@
                             <br><br>
                         </form>
 
+
                         <form method="post" action="">
-                            <table class="table table-striped table-bordered" id="table_field" >
+                            <table class="table table-striped table-bordered" id="table_field">
                                 <tr>
                                     <th>Conditions ( e.g Motor vehicle valued at 10000 ): </th>
                                 </tr>
@@ -1287,11 +1336,9 @@
                                                 <input class="form-control" type="hidden" name="loanId" required value="<?php echo $_GET['loan_id'] ?>">
                                                 <input class="form-control" type="hidden" name="userId" required value="<?php echo $_GET['userid'] ?>">
                                                 <input class="form-control" type="hidden" name="meetingFinalizedBy" required value="<?php echo $_SESSION['fullname'] ?>">
-
                                             </div>
                                             <div class="col-md-2">
-                                                <button class="btn btn-block btn-lg btn-success" type="submit" id="add" name="addCollateral" >Add To List</button>
-<!--                                                <input class="btn btn-success" type="submit" id="add" name="addCollateral" value="Add" required>-->
+                                                <button class="btn btn-block btn-lg btn-success" type="submit" id="add" name="addCollateral">Add To List</button>
                                             </div>
                                         </div>
                                     </td>
@@ -1299,15 +1346,27 @@
                                 <?php
                                 $cnt = 1;
                                 $collateral = collateral($_GET['loan_id']);
-                                foreach($collateral as $row):
+                                foreach ($collateral as $row):
                                     ?>
-
                                     <tr>
-                                        <td><?php echo $cnt.'. '.$row['collateral'] ;?></td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <?php echo $cnt . '. ' . $row['collateral']; ?>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <input class="form-control" type="hidden" name="collateral_id" value="<?php echo $row['id']; ?>">
+                                                    <button class="btn btn-block btn-lg btn-outline-danger" type="submit" name="deleteCollateral" value="<?php echo $row['id']; ?>">
+                                                        Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <?php
                                     $cnt++;
-                                endforeach;?>
+                                endforeach;
+                                ?>
                             </table>
                         </form>
 
@@ -1718,7 +1777,7 @@
                         if ($xds_files['fileName'] <> ""){?>
                             <div class="panel panel-default">
                                 <embed
-                                        src="../../uploads/xds/<?php echo $xds_files['fileName'] ?>"
+                                        src="../includes/file_uploads/xds/<?php echo $xds_files['fileName'] ?>"
                                         type="application/pdf" frameBorder="0" scrolling="auto" height="700px" width="100%">
                             </div>
                         <?php }?>
@@ -1754,6 +1813,80 @@
 
                     <div class="tab-pane fade" id="assign_task" role="tabpanel">
 
+                        <!--                        <form method="post" action="">-->
+                        <!--                            <table class="table table-striped table-bordered" id="table_field">-->
+                        <!--                                <tr>-->
+                        <!--                                    <th>Loan Amount ($)</th>-->
+                        <!--                                    <th>Tenure</th>-->
+                        <!--                                    <th>Interest Rate (%)</th>-->
+                        <!--                                    <th>On what basis</th>-->
+                        <!--                                    <th>Cash Handling Fee ($)</th>-->
+                        <!--                                    <th>Repayment Amount ($)</th>-->
+                        <!--                                    <th>Product</th>-->
+                        <!--                                    <th>R/N Client</th>-->
+                        <!--                                    <th>Upfront Fee (%)</th>-->
+                        <!--                                </tr>-->
+                        <!---->
+                        <!--                                <tr>-->
+                        <!--                                    --><?php //$data = loans('/'.$_GET['loan_id']) ?>
+                        <!--                                    <td>--><?php //echo '$ '.$data['meetingLoanAmount'] ;?><!--</td>-->
+                        <!--                                    <td>--><?php //echo $data['meetingTenure'].' months' ;?><!--</td>-->
+                        <!--                                    <td>--><?php //echo $data['meetingInterestRate'].' %' ;?><!--</td>-->
+                        <!--                                    <td>--><?php //echo $data['meetingOnWhichBasis'] ;?><!--</td>-->
+                        <!--                                    <td>--><?php //echo $data['meetingCashHandlingFee'].' %' ;?><!--</td>-->
+                        <!--                                    <td>--><?php //echo '$ '.$data['meetingRepaymentAmount'] ;?><!--</td>-->
+                        <!--                                    <td>--><?php //echo $data['meetingProduct'] ;?><!--</td>-->
+                        <!--                                    <td>--><?php //echo $data['meetingRN'] ;?><!--</td>-->
+                        <!--                                    <td>--><?php //echo $data['meetingUpfrontFee'].' %' ;?><!--</td>-->
+                        <!--                                    <!-- <td><input class="btn" type="button" id="delete" name="delete" value="delete" required></td> -->
+                        <!--                                </tr>-->
+                        <!--                                <tr>-->
+                        <!--                                    <td><input class="form-control" type="text" name="txtLoanAmount"  min=0 required></td>-->
+                        <!--                                    <td>-->
+                        <!--                                        <select class="btn btn-clipboard" name="txtTenure" autocomplete="off" placeholder="" >-->
+                        <!--                                            <option value="0">Select</option>-->
+                        <!--                                            <option value="1">1 months</option>-->
+                        <!--                                            <option value="2">2 months</option>-->
+                        <!--                                            <option value="3">3 months</option>-->
+                        <!--                                            <option value="4">4 months</option>-->
+                        <!--                                            <option value="5">5 months</option>-->
+                        <!--                                            <option value="6">6 months</option>-->
+                        <!--                                            <option value="7">7 months</option>-->
+                        <!--                                            <option value="8">8 months</option>-->
+                        <!--                                            <option value="9">9 months</option>-->
+                        <!--                                            <option value="10">10 months</option>-->
+                        <!--                                            <option value="11">11 months</option>-->
+                        <!--                                            <option value="12">12 months</option>-->
+                        <!--                                        </select></td>-->
+                        <!--                                    <td><input class="form-control" type="text" name="txtInterestRate"  min=0 required></td>-->
+                        <!--                                    <td><select class="btn btn-clipboard" name="txtBasis" autocomplete="off" placeholder="" >-->
+                        <!--                                            <option value="reducing balance">reducing balance</option>-->
+                        <!--                                            <option value="fixed balance">fixed balance</option>-->
+                        <!--                                        </select></td>-->
+                        <!---->
+                        <!--                                    <td><input class="form-control" type="text" name="txtCashHandlingFee" placeholder="max 2%" min=0 max=2></td>-->
+                        <!--                                    <td><input class="form-control" type="text" name="txtRepaymentAmount" required></td>-->
+                        <!--                                    <td><select class="btn btn-clipboard" name="txtProduct" autocomplete="off" placeholder="" >-->
+                        <!--                                            <option value="CTF">CTF</option>-->
+                        <!--                                        </select></td>-->
+                        <!--                                    <td><select class="btn btn-clipboard" name="txtRN" autocomplete="off" placeholder="" >-->
+                        <!--                                            <option value="R">Repeat</option>-->
+                        <!--                                            <option value="N">New</option>-->
+                        <!--                                        </select>-->
+                        <!--                                    </td>-->
+                        <!---->
+                        <!--                                    <td><input class="form-control" type="text" name="txtUpfrontFee" required></td>-->
+                        <!--                                </tr>-->
+                        <!---->
+                        <!--                            </table>-->
+                        <!--                            <input class="form-control" type="hidden" name="loanId" required value="--><?php //echo $_GET['loan_id'] ?><!--">-->
+                        <!--                            <input class="form-control" type="hidden" name="userId" required value="--><?php //echo $_GET['userid'] ?><!--">-->
+                        <!--                            <input class="form-control" type="hidden" name="meetingFinalizedBy" required value="--><?php //echo $_SESSION['fullname'] ?><!--">-->
+                        <!--                            <button class="btn btn-success btn-lg btn-block" type = "submit" name= "set_parameters">Click To Update </button>-->
+                        <!--                            <br><br>-->
+                        <!--                        </form>-->
+
+
                         <form method="post" action="">
                             <table class="table table-striped table-bordered" id="table_field">
                                 <tr>
@@ -1761,7 +1894,7 @@
                                     <th>Tenure</th>
                                     <th>Interest Rate (%)</th>
                                     <th>On what basis</th>
-                                    <th>Cash Handling Fee (%)</th>
+                                    <th>Cash Handling Fee ($)</th>
                                     <th>Repayment Amount ($)</th>
                                     <th>Product</th>
                                     <th>R/N Client</th>
@@ -1774,7 +1907,7 @@
                                     <td><?php echo $data['meetingTenure'].' months' ;?></td>
                                     <td><?php echo $data['meetingInterestRate'].' %' ;?></td>
                                     <td><?php echo $data['meetingOnWhichBasis'] ;?></td>
-                                    <td><?php echo $data['meetingCashHandlingFee'].' %' ;?></td>
+                                    <td><?php echo '$ '.$data['meetingCashHandlingFee'];?></td>
                                     <td><?php echo '$ '.$data['meetingRepaymentAmount'] ;?></td>
                                     <td><?php echo $data['meetingProduct'] ;?></td>
                                     <td><?php echo $data['meetingRN'] ;?></td>
@@ -1805,7 +1938,7 @@
                                             <option value="fixed balance">fixed balance</option>
                                         </select></td>
 
-                                    <td><input class="form-control" type="text" name="txtCashHandlingFee" placeholder="max 2%" min=0 max=2></td>
+                                    <td><input class="form-control" type="text" name="txtCashHandlingFee" placeholder="" min=0 max=2></td>
                                     <td><input class="form-control" type="text" name="txtRepaymentAmount" required></td>
                                     <td><select class="btn btn-clipboard" name="txtProduct" autocomplete="off" placeholder="" >
                                             <option value="CTF">CTF</option>
@@ -1826,6 +1959,7 @@
                             <button class="btn btn-success btn-lg btn-block" type = "submit" name= "set_parameters">Click To Update </button>
                             <br><br>
                         </form>
+
 
                         <form method="post" action="">
                             <table class="table table-striped table-bordered" id="table_field" >
@@ -2256,7 +2390,7 @@
                         if ($xds_files['fileName'] <> ""){?>
                             <div class="panel panel-default">
                                 <embed
-                                        src="../../uploads/xds/<?php echo $xds_files['fileName'] ?>"
+                                        src="../includes/file_uploads/xds/<?php echo $xds_files['fileName'] ?>"
                                         type="application/pdf" frameBorder="0" scrolling="auto" height="700px" width="100%">
                             </div>
                         <?php }?>
@@ -2298,48 +2432,72 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <a class="list-group-item"><b>Client Name</b>: <?= $loans["firstName"] ?> <?= $loans["lastName"] ?></a>
-                                        <a class="list-group-item"><b>Loan Amount</b>: <?= "$ ".$loans["meetingLoanAmount"].".00" ?></a>
-                                        <a class="list-group-item"><b>Less Fees</b>: <input class="form-check-line" type="text"  name="lessFees" autocomplete="off" placeholder="<?php echo $loans['lessFees']; ?>" required ></a>
-                                        <a class="list-group-item"><b>Application Fee</b>: <input class="form-control-line" type="text"  name="applicationFee"  placeholder="<?php echo $loans['applicationFee']; ?>" autocomplete="off"  required ></a>
+                                        <a class="list-group-item"><b>Loan Amount ($)</b>: <input class="form-control" type="text" name="meetingLoanAmount" autocomplete="off" value="<?php echo $loans['meetingLoanAmount']; ?>" required></a>
+                                        <a class="list-group-item"><b>Less Fees ($)</b>: <input class="form-control" type="text" name="lessFees" autocomplete="off" value="<?php echo $loans['lessFees']; ?>" required></a>
+                                        <a class="list-group-item"><b>Application Fee ($)</b>: <input class="form-control" type="text" name="applicationFee" autocomplete="off" value="<?php echo $loans['applicationFee']; ?>" required></a>
                                         <br/>
                                     </div>
 
                                     <div class="col-md-4">
-                                        <a class="list-group-item"><b>Cash Handling Fees</b>: <?= "$ ". $loans["meetingCashHandlingFee"].".00" ?></a>
-                                        <a class="list-group-item"><b>Interest Rate</b>: <?= $loans["meetingInterestRate"]."%"  ?></a>
-                                        <a class="list-group-item"><b>Repayment Amount</b>: <?= $loans["meetingRepaymentAmount"] ?></a>
-                                        <a class="list-group-item"><b>Loan Officer</b>: <?= $loans["processedBy"]?></a>
+                                        <a class="list-group-item"><b>Cash Handling Fees ($)</b>: <input class="form-control" type="text" name="meetingCashHandlingFee" autocomplete="off" value="<?php echo $loans['meetingCashHandlingFee']; ?>" required></a>
+                                        <a class="list-group-item"><b>Interest Rate (%)</b>: <input class="form-control" type="text" name="meetingInterestRate" autocomplete="off" value="<?php echo $loans['meetingInterestRate']; ?>" required> </a>
+                                        <a class="list-group-item"><b>Repayment Amount ($)</b>:<input class="form-control" type="text" name="meetingRepaymentAmount" autocomplete="off" value="<?php echo $loans['meetingRepaymentAmount']; ?>" required></a>
+                                        <a class="list-group-item"><b>Loan Officer</b>: <?= $loans["processedBy"] ?></a>
                                     </div>
                                     <div class="col-md-4">
-    <!--                                    <a class="list-group-item"><b style="padding-right: 95px;">Branch</b>: --><?php //= $data["branchName"] ?><!--</a>-->
-                                        <a class="list-group-item"><b>Tenor</b>: <?= $loans["meetingTenure"]." months" ?></a>
+                                        <!-- <a class="list-group-item"><b style="padding-right: 95px;">Branch</b>: --><?php //= $data["branchName"] ?>
+                                        <!-- </a> -->
+                                        <a class="list-group-item"><b>Tenure (months)</b>: <input class="form-control" type="number" name="meetingTenure" autocomplete="off" value="<?php echo $loans['meetingTenure']; ?>" required></a>
                                         <a class="list-group-item"><b>Product</b>: <?= $loans["meetingProduct"] ?></a>
-                                        <a class="list-group-item"><b>R/N</b>: <?= $loans["meetingRN"]  ?></a>
-                                        <a class="list-group-item"><b>Upfront Fees</b>: <?= $loans["meetingUpfrontFee"]."%"?></a>
+                                        <a class="list-group-item"><b>R/N</b>: <?= $loans["meetingRN"] ?></a>
+                                        <a class="list-group-item"><b>Upfront Fees (%)</b>: <input class="form-control" type="text" name="meetingUpfrontFee" autocomplete="off" value="<?php echo $loans['meetingUpfrontFee']; ?>"></a>
                                     </div>
                                 </div>
+                                <!--                                <div class="row">-->
+                                <!--                                    <div class="col-md-4">-->
+                                <!--                                        <a class="list-group-item"><b>Client Name</b>: --><?php //= $loans["firstName"] ?><!-- --><?php //= $loans["lastName"] ?><!--</a>-->
+                                <!--                                        <a class="list-group-item"><b>Loan Amount</b>: --><?php //= "$ ".$loans["meetingLoanAmount"].".00" ?><!--</a>-->
+                                <!--                                        <a class="list-group-item"><b>Less Fees</b>: <input class="form-control" type="text"  name="lessFees" autocomplete="off" placeholder="--><?php //echo $loans['lessFees']; ?><!--" required ></a>-->
+                                <!--                                        <a class="list-group-item"><b>Application Fee</b>: <input class="form-control" type="text"  name="applicationFee"  placeholder="--><?php //echo $loans['applicationFee']; ?><!--" autocomplete="off"  required ></a>-->
+                                <!--                                        <br/>-->
+                                <!--                                    </div>-->
+                                <!---->
+                                <!--                                    <div class="col-md-4">-->
+                                <!--                                        <a class="list-group-item"><b>Cash Handling Fees</b>: --><?php //= "$ ". $loans["meetingCashHandlingFee"].".00" ?><!--</a>-->
+                                <!--                                        <a class="list-group-item"><b>Interest Rate</b>: --><?php //= $loans["meetingInterestRate"]."%"  ?><!--</a>-->
+                                <!--                                        <a class="list-group-item"><b>Repayment Amount</b>: --><?php //= $loans["meetingRepaymentAmount"] ?><!--</a>-->
+                                <!--                                        <a class="list-group-item"><b>Loan Officer</b>: --><?php //= $loans["processedBy"]?><!--</a>-->
+                                <!--                                    </div>-->
+                                <!--                                    <div class="col-md-4">-->
+                                <!--                                        <a class="list-group-item"><b style="padding-right: 95px;">Branch</b>: --><?php ////= $data["branchName"] ?><!--</a>-->
+                                <!--                                        <a class="list-group-item"><b>Tenor</b>: --><?php //= $loans["meetingTenure"]." months" ?><!--</a>-->
+                                <!--                                        <a class="list-group-item"><b>Product</b>: --><?php //= $loans["meetingProduct"] ?><!--</a>-->
+                                <!--                                        <a class="list-group-item"><b>R/N</b>: --><?php //= $loans["meetingRN"]  ?><!--</a>-->
+                                <!--                                        <a class="list-group-item"><b>Upfront Fees (%)</b>: --><?php //= $loans["meetingUpfrontFee"]."%"?><!--</a>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
                                 <div class="row">
                                     <div class="col-md-12">
-<!--                                        <a class="list-group-item"><b>Collateral</b>:-->
-                                            <table class="table table-striped table-bordered hover nowrap">
-                                                <thead>
+                                        <!--                                        <a class="list-group-item"><b>Collateral</b>:-->
+                                        <table class="table table-striped table-bordered hover nowrap">
+                                            <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Conditions List</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <?php
+                                            $cnt = 1;
+                                            $data_collateral = data_collateral($_GET['loan_id']);
+                                            foreach($data_collateral as $application):?>
                                                 <tr>
-                                                    <th>#</th>
-                                                    <th>Conditions List</th>
+                                                    <td><?= $cnt; ?></td>
+                                                    <td><?= $application["collateral"] ?></td>
                                                 </tr>
-                                                </thead>
-                                                <tbody>
-                                                <?php
-                                                    $cnt = 1;
-                                                    $data_collateral = data_collateral($_GET['loan_id']);
-                                                    foreach($data_collateral as $application):?>
-                                                    <tr>
-                                                        <td><?= $cnt; ?></td>
-                                                        <td><?= $application["collateral"] ?></td>
-                                                    </tr>
                                                 <?php $cnt++; endforeach;?>
-                                                </tbody>
-                                            </table>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                                 <br/>
@@ -2347,7 +2505,7 @@
                                 <input class="form-control" type="hidden" name="loanId" required value="<?php echo $_GET['loan_id'] ?>">
                                 <input class="btn btn-success btn-lg" type = "submit" value = "Update Ticket Info" name= "update_ticket" id = "submit">
                                 <select class="form-control" name="bocoSignature" hidden autocomplete="off">
-                                    <option value="Unsigned">Authorise</option>
+                                    <option value="Signed">Authorise</option>
                                     <option value="Unsigned">Decline</option>
                                 </select>
                                 <br><br/>

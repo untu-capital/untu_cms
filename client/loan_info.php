@@ -1,5 +1,6 @@
 <?php
 	include('../session/session.php');
+include ('check_role.php');
 	include('../includes/controllers.php');
 	$nav_header = "Application Details";
 
@@ -146,7 +147,11 @@
                         </div>
                     </div>
 
-				<?php } include('../includes/footer.php');?>
+                <?php } elseif ($_GET['menu'] == 'edit_loan'){
+
+                    include ('../includes/forms/edit_loan.php');
+
+				 } include('../includes/footer.php');?>
 			</div>
 		</div>
 		

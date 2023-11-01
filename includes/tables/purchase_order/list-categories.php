@@ -28,9 +28,10 @@ if ($data !== null) {
                     </div>
                 </div>
                 <div class="pb-20">
-                    <table class="table hover multiple-select-row data-table-export nowrap">
+                    <table class="table hover table stripe multiple-select-row data-table-export nowrap">
                         <thead>
                         <tr>
+                            <th>Creation Date</th>
                             <th class="table-plus datatable-nosort">Name</th>
                             <th class="table-plus datatable-nosort">Actions</th>
                         </tr>
@@ -38,14 +39,15 @@ if ($data !== null) {
                         <tbody>
                         <?php foreach ($table as $row):?>
                             <tr>
+                                <td><?php echo date('d-M-Y', strtotime($row['createdAt'])) ;?></td>
                                 <td class="table-plus"><?php echo $row['name']; ?></td>
                                 <td>
                                     <div class="dropdown">
                                         <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a>
                                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                                             <a class="dropdown-item" href="requisitions.php?menu=update_category&id=<?php echo urlencode($row['id']); ?>"><i class="dw dw-edit2"></i> Edit</a>
-                                            <form method="post" action="requisitions.php?menu=delete_actions">
-                                                <input hidden="hidden" name="id" value="<?php echo urlencode($row['id']); ?>">
+                                            <form method="post" action="">
+                                                <input hidden="hidden" name="categoryId" value="<?php echo urlencode($row['id']); ?>">
                                                 <button class="dropdown-item" name="delete_category" type="submit"><i class="dw dw-delete-3"></i>Delete</button>
                                             </form>
                                         </div>

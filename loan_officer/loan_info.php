@@ -1,5 +1,6 @@
 <?php
 	include('../session/session.php');
+include ('check_role.php');
 	include('../includes/controllers.php');
 	$nav_header = "Application Details";
 
@@ -215,6 +216,8 @@ if(isset($_POST['markAsDone'])){
 				<?php include('../includes/dashboard/topbar_widget.php'); ?>
 
                 <?php include('../includes/forms/view_loan_info.php'); ?>
+
+                <?php include('../includes/tables/track_loans_progress_table.php'); ?>
 
 				<?php include('../includes/footer.php');?>
 			</div>
