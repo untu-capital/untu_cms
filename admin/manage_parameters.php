@@ -81,7 +81,39 @@ include ('check_role.php');
                             <?php include('../includes/forms/create_campaign.php'); ?>
                         </div>
                     </div>
-                <?php } ?>
+                <?php }
+
+                elseif ($_GET['menu'] == "add_target") {?>
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                        <div class="pd-20 card-box">
+                            <?php include('../includes/forms/create_target.php'); ?>
+                        </div>
+                    </div>
+                <?php }
+                elseif ($_GET['menu'] == "add_cities") {?>
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                        <div class="pd-20 card-box">
+                            <?php include('../includes/forms/create_cities.php'); ?>
+                        </div>
+                    </div>
+                <?php }
+                elseif ($_GET['menu'] == "add_zones") {?>
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                        <div class="pd-20 card-box">
+                            <?php include('../includes/forms/create_zones.php'); ?>
+                        </div>
+                    </div>
+                <?php }
+                elseif ($_GET['menu'] == "add_sectors") {?>
+                    <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                        <div class="pd-20 card-box">
+                            <?php include('../includes/forms/create_sectors.php'); ?>
+                        </div>
+                    </div>
+                <?php }
+
+
+                ?>
 
 				<?php include('../includes/footer.php');?>
 			</div>
