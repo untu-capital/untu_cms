@@ -125,25 +125,25 @@ if(isset($_POST['Submit'])){
 
         <form action="" method="POST">
             <div class="row">
-            <div class="col-md-6 col-sm-12">
-                    <div class="form-group">
-                        <label>Date</label>
-                        <input
-                                type="text"
-                                class="form-control date-picker"
-                                placeholder="Select Date"
-                                id="end_date"
-                                name="end_date"
-                        />
-                    </div>
-                </div>
+<!--            <div class="col-md-6 col-sm-12">-->
+<!--                    <div class="form-group">-->
+<!--                        <label>Date</label>-->
+<!--                        <input-->
+<!--                                type="text"-->
+<!--                                class="form-control date-picker"-->
+<!--                                placeholder="Select Date"-->
+<!--                                id="end_date"-->
+<!--                                name="end_date"-->
+<!--                        />-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label>Branch Name</label>
                         <select class="custom-select form-control"name="branch" id="branch" required>
                             <option value="">Select Branch</option>
                             <?php
-                                $branches = branches();
+                                $branches = branch();
                                 foreach ($branches as $branch) {
                                 echo "<option value='$branch[branchName]'>$branch[branchName] Branch</option>";
                             }
