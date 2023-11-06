@@ -31,6 +31,12 @@ function convertDateFormat($dateString) {
     return $dateTime->format('d-M-Y');
 }
 
+//function sendEmail($receipient, $subject, $message, $user){
+//
+//}
+//
+//send_requisition("randa@gmail.com","subject", "message","Kelvin");
+
 // ######################  Get RECENT DISBURSEMENTS from MUSONI #################################
 
 function audit($userid, $activity, $branch) {
@@ -2293,7 +2299,8 @@ function save_requisition(){
     $data_array = array(
         'notes' => $notes,
         'approvers' => $approvers,
-        'attachments' => $attachmentFiles
+        'attachments' => $attachmentFiles,
+        'poStatus' => "OPEN",
     );
 
     // Convert the data array to JSON
@@ -2340,6 +2347,106 @@ function save_requisition(){
 
 if (isset($_POST['save_requisition'])) {
     save_requisition();
+}
+
+if (isset($_POST['po_approve_requisition'])) {
+
+        $data_array = array(
+            'poStatus' => "PENDING APPROVAL",
+            'poApprover' => $_SESSION['userId'],
+        );
+
+        // Convert the data array to JSON
+        $data = json_encode($data_array);
+
+        $url = "http://localhost:7878/api/utg/requisitions/poApproveRequest/".$_GET['req_id'];
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HEADER, true);
+
+        // Execute cURL request
+        $response = curl_exec($curl);
+        $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+        $headerStr = substr($response, 0, $headerSize);
+        $bodyStr = substr($response, $headerSize);
+        $headers = headersToArray($headerStr);
+
+        // Check for errors
+        if (!curl_errno($curl)) {
+            switch ($http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE)) {
+                case 200:
+//                echo "<script>alert('$systemOut')</script>";
+                    $_SESSION['info'] = "Purchase Order Transaction approved Successfully";
+                    audit($_SESSION['userid'], "Purchase Order Transaction approved Successfully", $_SESSION['branch']);
+                    header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+                    break;
+                default:
+                    $_SESSION['error'] = 'Failed to approved PO Transaction.';
+                    audit($_SESSION['userid'], "Failed to approved Purchase Order Transaction", $_SESSION['branch']);
+                    header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+            }
+        } else {
+            $_SESSION['error'] = 'Failed to approved Purchase Order Transaction.. Please try again!';
+            audit($_SESSION['userid'], "Failed to approved Purchase Order Transaction", $_SESSION['branch']);
+            header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+        }
+        curl_close($curl);
+
+}
+
+if (isset($_POST['cms_approve_requisition'])) {
+
+    $data_array = array(
+        'poStatus' => "PAYMENT APPROVED",
+        'cmsApprover' => $_SESSION['userId'],
+    );
+
+    // Convert the data array to JSON
+    $data = json_encode($data_array);
+
+    $url = "http://localhost:7878/api/utg/requisitions/cmsApproveRequest/".$_GET['req_id'];
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HEADER, true);
+
+    // Execute cURL request
+    $response = curl_exec($curl);
+    $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($response, 0, $headerSize);
+    $bodyStr = substr($response, $headerSize);
+    $headers = headersToArray($headerStr);
+
+    // Check for errors
+    if (!curl_errno($curl)) {
+        switch ($http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE)) {
+            case 200:
+//                echo "<script>alert('$systemOut')</script>";
+                $_SESSION['info'] = "Purchase Order Transaction approved Successfully";
+                audit($_SESSION['userid'], "Purchase Order Transaction approved Successfully", $_SESSION['branch']);
+                header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+                break;
+            default:
+                $_SESSION['error'] = 'Failed to approved PO Transaction.';
+                audit($_SESSION['userid'], "Failed to approved Purchase Order Transaction", $_SESSION['branch']);
+                header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+        }
+    } else {
+        $_SESSION['error'] = 'Failed to approved Purchase Order Transaction.. Please try again!';
+        audit($_SESSION['userid'], "Failed to approved Purchase Order Transaction", $_SESSION['branch']);
+        header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+    }
+    curl_close($curl);
+
 }
 
 function send_requisition(){
@@ -2455,6 +2562,17 @@ if (isset($_POST['send_requisition'])) {
     send_requisition();
 }
 
+function suppliers($path){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/supplier".$path);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+
+    curl_close($ch);
+    return json_decode($server_response, true);
+//    return $data;
+}
+
 if(isset($_POST['delete_supplier'])) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/supplier/delete/".$_POST['supplierId']);
@@ -2467,9 +2585,9 @@ if(isset($_POST['delete_supplier'])) {
 
 }
 
-function categories(){
+function categories($path){
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/category/all");
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/category".$path);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $server_response = curl_exec($ch);
 
@@ -2605,17 +2723,6 @@ if(isset($_POST['revoke_permission'])) {
 function pastel_transaction($ToAccount, $FromAccount, $Reference, $Amount, $TransactionType, $Description){
 
     $data_array = array(
-//        'APIPassword' => 'Admin',
-//        'APIUsername' => 'Admin',
-//        'ToAccount' => $ToAccount,
-//        'FromAccount' => $FromAccount,
-//        'Reference' => $Reference,
-//        'Amount' => $Amount,
-//        'TransactionType' => $TransactionType,
-//        'Description' => $Description,
-//        'Currency' => '001',
-//        'TransactionDate' => date('d-m-Y'),
-//        'ExchangeRate' => '1'
 
         'APIPassword' => 'Admin',
         'APIUsername' => 'Admin',
@@ -2653,26 +2760,25 @@ if (isset($_POST['cms_transact'])){
     pastel_transaction($ToAccount, $FromAccount, $Reference, $Amount, $TransactionType, $Description);
 }
 
-
-$account = "8000/000/HO/LR";
 function pastel_acc_balances($account){
 
     $data_array = array(
-        'APIPassword' => "Admin",
-        'APIUsername' => "Admin",
-        'Account' => $account
+        'account' => $account
     );
     $data = json_encode($data_array);
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://192.168.2.103:1335/api/PastelTeller/PostJournalTxn");
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/postGl/getVaultBalance");
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true );
     $resp = curl_exec($ch);
     curl_close($ch);
+
+    // Return the response body without the headers
+    return $resp;
 }
+
 
 if(isset($_POST['create_vault'])){
     // API endpoint URL

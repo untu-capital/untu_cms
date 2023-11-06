@@ -97,7 +97,7 @@
                 'Content-Type': 'application/json'
             },
         }).then(data => {
-            window.location.href = "http://localhost/untu-systems/boco/cash_management.php?menu=main";
+            window.location.href = "http://localhost/untu_cms/boco/cash_management.php?menu=main";
             // You can perform additional actions here after a successful deletion.
         })
             .catch(error => {

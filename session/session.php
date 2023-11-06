@@ -1,6 +1,7 @@
 <?php 
   error_reporting(0);
 
+
 require_once "controllerUserData.php"; 
 
 $ch = curl_init();
@@ -35,6 +36,7 @@ if($userid == false){
 //        $_SESSION['cms_role'] = $decoded['roles'][0]['name'];
         $_SESSION['musoniClientId'] = $decoded['musoniClientId'];
         $_SESSION['cmsUser'] = $decoded['cmsUser'];
+        $_SESSION['poUser'] = $decoded['poUser'];
 
         $check_role = $_SESSION['role'];
 

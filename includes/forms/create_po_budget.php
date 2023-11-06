@@ -16,9 +16,9 @@
                             <option value="" >Please Select Category</option>
                             <option value="All" >All Categories</option>
                             <?php
-                            $categories = categories();
+                            $categories = categories('/all');
                             foreach ($categories as $row):?>
-                                <option value="<?php echo $row['name']; ?>"><?php echo $row['name']; ?></option>
+                                <option value="<?php echo $row['id']; ?>"><?php echo $row['name']; ?></option>
                             <?php endforeach; ?>
                         </optgroup>
                     </select>

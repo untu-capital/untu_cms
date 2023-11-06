@@ -34,17 +34,16 @@
                     <td><?php echo date('d-M-Y', strtotime($petty['createdAt'])) ;?></td>
                     <td><?= htmlspecialchars ($petty["name"])." ".htmlspecialchars ($user["lastName"]) ?></td>
 
-                    <td><?= htmlspecialchars ($petty['amount']) ?></td>
+                    <td><?= '$' . number_format($petty['amount'], 2, '.', ',') ?></td>
                     <td><?= htmlspecialchars ($petty["count"]) ?></td>
                     <td>
-
                         <!-- <span class="badge badge-pill" data-bgcolor="#FF0000" data-color="#fff">
 						<?= htmlspecialchars ($petty["status"]) ?></span> -->
 
                         <?php if ($petty["status"] =="Approved") {
                             echo "<label style='padding: 7px;' class='badge badge-success'>Approved</label>";
                         } else {
-                            echo "<label style='padding: 7px;' class='badge badge-danger'>Not Approved</label>";
+                            echo "<label style='padding: 7px;' class='badge badge-warning'>Pending Approval</label>";
                         }
                         ?>
                     </td>

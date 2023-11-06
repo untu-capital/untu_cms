@@ -62,7 +62,8 @@ include('../includes/header.php');
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <input id="transactionId" value="<?= $transactionVoucher['id']?>" hidden="hidden">
-                                    <input id="transactionDate" value="<?= date('d-m-Y')?>" hidden="hidden">
+                                    <input id="transactionDate" value="<?= date('Y-m-d')?>" hidden="hidden">
+                                    <input id="username" value="<?= $_SESSION['username']; ?>" hidden="hidden">
                                     <label for="initiator">Initiator</label>
                                     <input type="text"
                                            value="<?= $transactionVoucher['initiator']['firstName'] . ' ' . $transactionVoucher['initiator']['lastName'] ?>"
@@ -83,14 +84,14 @@ include('../includes/header.php');
                                 <div class="form-group">
                                     <label for="fromVault">From Vault</label>
                                     <input type="text"
-                                           value="<?= $transactionVoucher['fromVault']['name'] ?>"
+                                           value="<?= $transactionVoucher['fromVault']['account'] ?>"
                                            class="form-control" name="fromVault" id="fromVault" readonly>
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <label for="toVault">To Vault</label>
-                                    <input type="text" value="<?= $transactionVoucher['toVault']['name'] ?>"
+                                    <input type="text" value="<?= $transactionVoucher['toVault']['account'] ?>"
                                            class="form-control" name="toVault" id="toVault" readonly>
                                 </div>
                             </div>
@@ -541,65 +542,78 @@ include('../includes/header.php');
                     }
 
                     async function secondApproveTransaction(id, status, comment) {
+                        try {
+                            await actionsInfo(status);
 
-                        await actionsInfo(status);
+                            const body = {
+                                "id": id,
+                                "approvalStatus": status,
+                                "comment": comment,
+                            };
 
-                        const body = {
-                            "id": id,
-                            "approvalStatus": status,
-                            "comment": comment,
-                        };
-
-                        await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/second-approve', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(body),
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log(data);
-                                pastelTransaction()
-                                window.location.href = "cash_management.php?menu=main#approved";
+                            await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/second-approve', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(body),
                             })
-                            .catch(error => {
-                                console.error('Error:', error);
-                            });
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log("Response from API:", data);
+                                    pastelTransaction();
+                                    console.log("pastelTransaction called successfully.");
+                                    window.location.href = "cash_management.php?menu=main#approved";
+                                });
+                        } catch (error) {
+                            console.error('Error in secondApproveTransaction:', error);
+                        }
                     }
+
 
                     async function pastelTransaction(){
 
                         const pastel = {
-                            'APIPassword': 'Admin',
-                            'APIUsername' :'Admin',
-                            "ToAccount" :document.getElementById('toVault').value,
-                            "FromAccount" :document.getElementById('fromVault').value,
-                            "Reference" :  `CTV-${document.getElementById('transactionId').value}`,
-                            "Amount" :document.getElementById('amount').value,
-                            "TransactionType" : "CASH-TRANS-VOUCHER",
-                            "Description" :document.getElementById('withdrawalPurpose').value,
-                            "Currency" : '001',
-                            "TransactionDate" :document.getElementById('transactionDate').value ,
-                            "ExchangeRate" : '1'
+                            // "toAccount":"8422/000/HRE/FCA",
+                            // "transactionType":"LOA-REP",
+                            // "exchangeRate":"1",
+                            // "description":"Repayment Transaction",
+                            // "fromAccount":"8422/000/BYO/FCA",
+                            // "reference":"RP504797",
+                            // "currency":"001",
+                            // "amount":"4000.0",
+                            // "userName":"Admin",
+                            // "transactionDate":"2023-10-31"
+
+                            'userName': document.getElementById('username').value,
+                            "toAccount": document.getElementById('toVault').value,
+                            "fromAccount": document.getElementById('fromVault').value,
+                            "reference": `CTV-${document.getElementById('transactionId').value}`,
+                            "amount": document.getElementById('amount').value,
+                            "transactionType": "CASH-TRANS-VOUCHER",
+                            "description": document.getElementById('withdrawalPurpose').value,
+                            "currency": '001',
+                            "transactionDate": new Date().toISOString().slice(0, 10), // Format: "YYYY-MM-DD"
+                            "exchangeRate": '1'
+
                         }
 
                         console.log(JSON.stringify(pastel))
 
-                        // await fetch('http://192.168.2.103:1335/api/PastelTeller/PostJournalTxn', {
-                        //     method: 'POST',
-                        //     headers: {
-                        //         'Content-Type': 'application/json'
-                        //     },
-                        //     body: JSON.stringify(pastel),
-                        // })
-                        //     .then(response => response.json())
-                        //     .then(data => {
-                        //         console.log(data);
-                        //     })
-                        //     .catch(error => {
-                        //         console.error('Error:', error);
-                        //     });
+                        await fetch('http://localhost:7878/api/utg/postGl/save', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(pastel),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log(data);
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                            });
 
                     }
 

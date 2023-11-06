@@ -1,6 +1,7 @@
 <?php
     $vault_accs = vaults("all");
     $vaults = array_merge($vault_accs, ["Total Vaults Balances"]);
+//    $vaults = array_merge($vault_accs);
 
     if ($_SESSION['branch'] != "Head Office"){
         $vaults = vaults("byBranch/$_SESSION[branch]");
@@ -27,23 +28,18 @@
 			</div>
             <br>
             <div class="pd-5 card-box">
-                <div class="weight-600 font-16">Available Bal : <?php echo '$ ' . number_format($vault['currentAmount'], 2, '.', ','); ?></div>
+                <div class="weight-600 font-16">Available Bal : <?php echo '$ ' . number_format(pastel_acc_balances($vault['account']),'2','.',','); ?></div>
                 <div class="progress mb-20">
-                    <?php if (($vault['currentAmount']/$vault['maxAmount'])*100 <= 60) {
+                    <?php if ((pastel_acc_balances($vault['account'])/$vault['maxAmount'])*100 <= 60) {
                         $color = 'bg-success';
-                    } elseif (($vault['currentAmount']/$vault['maxAmount'])*100 > 60 && ($vault['currentAmount']/$vault['maxAmount'])*100 <= 90){
+                    } elseif ((pastel_acc_balances($vault['account'])/$vault['maxAmount'])*100 > 60 && (pastel_acc_balances($vault['account'])/$vault['maxAmount'])*100 <= 80){
+                        $color = 'bg-warning';
+                    } elseif ((pastel_acc_balances($vault['account'])/$vault['maxAmount'])*100 > 80 && (pastel_acc_balances($vault['account'])/$vault['maxAmount'])*100 <= 90){
                         $color = 'bg-orange';
                     } else {
                         $color = '';
                     }?>
-                    <div
-                            class="progress-bar <?php echo $color; ?> progress-bar-striped progress-bar-animated"
-                            role="progressbar"
-                            style="width: <?php echo ($vault['currentAmount']/$vault['maxAmount'])*100?>%"
-                            aria-valuenow="0"
-                            aria-valuemin="0"
-                            aria-valuemax="100"
-                    ></div>
+                    <div class="progress-bar <?php echo $color; ?> progress-bar-striped progress-bar-animated" role="progressbar" style="width: <?php echo (pastel_acc_balances($vault['account'])/$vault['maxAmount'])*100?>%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 <div class="weight-600 font-16">Vault Limit : <?php echo '$ ' . number_format($vault['maxAmount'], 2, '.', ','); ?></div>
                 <div class="progress mb-20">

@@ -318,9 +318,9 @@ include('../includes/header.php');
                                    aria-selected="false">P.O Payments</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#cash_receipts" role="tab" aria-selected="false">Cash Receipts (Musoni - Pastel)</a>
-                            </li>
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link" data-toggle="tab" href="#cash_receipts" role="tab" aria-selected="false">Cash Receipts (Musoni - Pastel)</a>-->
+<!--                            </li>-->
 <!---->
 <!--                            <li class="nav-item">-->
 <!--                                <a class="nav-link text-blue" data-toggle="tab" href="#cash_trans_voucher" role="tab" aria-selected="false">-->
@@ -365,11 +365,14 @@ include('../includes/header.php');
                             </div>
 
                             <div class="tab-pane fade" id="po_payments" role="tabpanel">
-                                <?php include('../includes/tables/cash_management/list-petty-cash.php'); ?>
+<!--                                --><?php //include('../includes/tables/cash_management/list-petty-cash.php'); ?>
+
+                                <?php  $requisitionsUrl = "/getByApproverIdNull";
+                                include('../includes/tables/purchase_order/requisitions_table.php'); ?>
                             </div>
-                            <div class="tab-pane fade row" id="cash_receipts" role="tabpanel">
-                                <?php include('../includes/tables/cash_management/cash_receipts.php'); ?>
-                            </div>
+<!--                            <div class="tab-pane fade row" id="cash_receipts" role="tabpanel">-->
+<!--                                --><?php //include('../includes/tables/cash_management/cash_receipts.php'); ?>
+<!--                            </div>-->
 
 <!--                            <div class="tab-pane fade" id="cash_trans_voucher" role="tabpanel">-->
 <!--                                --><?php //include('../includes/tables/cms/cash_transactions.php'); ?>
@@ -1027,26 +1030,38 @@ include('../includes/header.php');
                     </div>
                 </div>
                 <form method="POST" action="cash_management.php?menu=approve">
-                    <?php  $petty = petty_cash_payments_by_id($_GET['id']); ?>
+                    <?php  $petty = requisitions('/'.$_GET['id']);
+
+                    $transactionCount = count(req_trans("/getByRequisitionId/".$_GET['id'])); // Calculate the total count of transactions
+                    $totalAmount = 0; // Initialize the total amount variable
+
+                    foreach (req_trans("/getByRequisitionId/".$_GET['id']) as $transaction) {
+                        // Check if 'poAmount' key exists before accessing it
+                        if (isset($transaction['poAmount'])) {
+                            $totalAmount += (int)$transaction['poAmount']; // Sum up the transaction amounts (cast to integer for numeric addition)
+                        }
+                    }
+
+                    ?>
                     <input name="id" value="<?php echo $_GET['id'] ?>" hidden="hidden">
 
                     <div class="row">
                         <div class="col-md-4 col-sm-12">
                             <div class="form-group">
-                                <h1>PO-By: </h1>
-                                <h3><?=$petty['name']?> </h3>
+                                <h1>Prepared-By: </h1>
+                                <h3><?php $user = user($petty['userId']); echo $user['firstName'].' '.$user['lastName'];?> </h3>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-12">
                             <div class="form-group">
                                 <h1>PO-Number: </h1>
-                                <h3><?=$petty['purchaseOrderNumber']?> </h3>
+                                <h3><?=$petty['poNumber']?> </h3>
                             </div>
                         </div>
                         <div class="col-md-5 col-sm-12">
                             <div class="form-group">
-                                <h1>Status </h1>
-                                <h3>First Approved By : <?=$petty['firstApprover']?></h3>
+                                <h1>Po Approved By : </h1>
+                                <h3> <?php $user = user($petty['poApprover']); echo $user['firstName'].' '.$user['lastName'];?></h3>
                             </div>
                         </div>
                     </div>
@@ -1056,13 +1071,13 @@ include('../includes/header.php');
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label>Requisition Name</label>
-                                <input type="text" disabled class="form-control" value="<?=$petty['requesitionName'] ?>" name="requesitionName" id="requesitionName" required>
+                                <input type="text" disabled class="form-control" value="<?=$petty['poName'] ?>" name="poName" id="poName" required>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label>Requisition Date <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
-                                <input type="text" disabled class="form-control" name="branchAddress" value="<?=$petty['date'] ?>" id="date" required>
+                                <input type="text" disabled class="form-control" name="date" value="<?= date('d-M-Y H:i', strtotime($petty['createdAt'])) ?>" id="date" required>
                             </div>
                         </div>
                     </div>
@@ -1070,13 +1085,13 @@ include('../includes/header.php');
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label>Transaction</label>
-                                <input type="text" disabled class="form-control" value="<?=$petty['transType'] ?>" name="transType" id="transType" required>
+                                <input type="text" disabled class="form-control" value="PO-TRANS" name="transType" id="transType">
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label>Total <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
-                                <input type="text" class="form-control" name="amount" disabled value="<?=$petty['amount'] ?>" id="amount" required>
+                                <input type="text" class="form-control" name="amount" disabled value="$ <?php echo number_format($totalAmount, 2); ?>" id="amount" required>
                             </div>
                         </div>
                     </div>
@@ -1084,7 +1099,6 @@ include('../includes/header.php');
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-
                                 <input type="hidden" disabled class="form-control" value="<?=$petty['id'] ?>" name="id" id="id" required>
                             </div>
                         </div>
@@ -1094,6 +1108,7 @@ include('../includes/header.php');
                         <label>Additional Notes</label>
                         <textarea class="form-control" name="notes" id="notes"></textarea>
                     </div>
+
                     <div class="form-group row">
                         <div class="col-sm-12 col-md-2 col-form-label">
                             <button class="btn btn-success" type="submit" name="approve">Approve</button>

@@ -9,8 +9,7 @@
     if ($state == 'progress'){$url = '/loanStatus/ACCEPTED';}
     elseif($state == 'reject'){$url = '/loanStatus/REJECTED';}
     else {$url;}
-    $requisitionsUrl = "";
-
+    $requisitionsUrl = "/userId/".$_SESSION['userId'];
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +42,7 @@ include('../includes/header.php');
             <ul class="nav nav-pills" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active text-blue" data-toggle="tab" href="#requisitions" role="tab" aria-selected="true" >
-                        Requisitions
+                        My Requisitions
                     </a>
                 </li>
                 <li class="nav-item">
@@ -54,31 +53,6 @@ include('../includes/header.php');
                 <li class="nav-item">
                     <a class="nav-link text-blue" data-toggle="tab" href="#categories" role="tab" aria-selected="false" >
                         Categories
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#budgets" role="tab" aria-selected="false" >
-                        Budgets
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#po_user_role" role="tab" aria-selected="false" >
-                        PO User Roles
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#departments" role="tab" aria-selected="false" >
-                        Departments
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#branches" role="tab" aria-selected="false" >
-                        Bsn Sectors
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#reports" role="tab" aria-selected="false" >
-                        Reports
                     </a>
                 </li>
 
@@ -92,67 +66,6 @@ include('../includes/header.php');
                 </div>
                 <div class="tab-pane fade" id="categories" role="tabpanel">
                     <?php include('../includes/tables/purchase_order/list-categories.php'); ?>
-                </div>
-                <div class="tab-pane fade" id="budgets" role="tabpanel">
-                    <?php include('../includes/tables/list-budget.php'); ?>
-                </div>
-                <div class="tab-pane fade" id="po_user_role" role="tabpanel">
-
-                    <form method="post" action="">
-                        <div class="row">
-                            <div class="pd-20 col-4">
-                                <div class="form-group">
-                                    <br>
-                                    <label>Select User :</label>
-                                    <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="user" style="width: 100%; height: 38px">
-                                        <optgroup label="Pick a user">
-                                            <?php
-                                            $users = untuStaff();
-                                            foreach ($users as $user) {
-                                                echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
-                                            } ?>
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="pd-20 col-4">
-                                <div class="form-group">
-                                    <br>
-                                    <label>Select P.O Role :</label>
-                                    <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="role" style="width: 100%; height: 38px">
-                                        <optgroup label="Assign Role">
-                                            <option value="">Unassign Role</option>;
-                                            <?php
-                                            $roles = roles();
-                                            foreach ($roles as $role) {
-                                                echo "<option value='$role[id]'>$role[description] ($role[name])</option>";
-                                            } ?>
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="pd-20 col-4">
-                                <div class="form-group">
-                                    <br>
-                                    <label> .</label>
-                                    <button type="submit" name="update_po_role" class="btn btn-success btn-lg btn-block">Update Role</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-
-                    <?php include('../includes/tables/purchase_order/po_users_table.php'); ?>
-                </div>
-                <div class="tab-pane fade" id="departments" role="tabpanel">
-                    <?php include('../includes/tables/purchase_order/list-department.php'); ?>
-                </div>
-                <div class="tab-pane fade" id="branches" role="tabpanel">
-                    <?php include('../includes/tables/business_sector_table.php'); ?>
-                </div>
-                <div class="tab-pane fade" id="reports" role="tabpanel">
-                    <?php include('../includes/tables/branch_target_table.php'); ?>
                 </div>
             </div>
         </div>

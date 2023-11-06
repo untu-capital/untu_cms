@@ -18,7 +18,7 @@
 			<tbody>
 				<?php
                 $cnt = 1;
-					$branches = branches();
+					$branches = branch();
 					foreach($branches as $data): ?>
 				<tr>
 					<td><?php echo $cnt ;?></td>

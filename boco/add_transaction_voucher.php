@@ -66,13 +66,7 @@ include('../includes/header.php');
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="currency">currency</label>
-                            <select
-                                    onselect="validateFormOnSelect()"
-                                    class="custom-select2 form-control"
-                                    id="currency"
-                                    name="currency"
-                                    style="width: 100%; height: 38px"
-                            >
+                            <select onselect="validateFormOnSelect()" class="custom-select2 form-control" id="currency" name="currency" style="width: 100%; height: 38px">
 
                                 <option value="usd">USD</option>
                                 <option value="zwl">ZWL</option>
@@ -85,11 +79,7 @@ include('../includes/header.php');
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="amount">Amount</label>
-                            <input type="number" class="form-control"
-                                   name="amount"
-                                   required
-                                   oninput="calculateValue()"
-                                   id="amount">
+                            <input type="number" class="form-control" name="amount" required oninput="calculateValue()" id="amount">
                         </div>
                     </div>
                 </div>
@@ -97,13 +87,7 @@ include('../includes/header.php');
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="fromVault">Withdrawal From</label>
-                            <select
-                                    onchange="validateFormOnSelect()"
-                                    class="custom-select2 form-control"
-                                    id="fromVault"
-                                    name="fromVault"
-                                    style="width: 100%; height: 38px"
-                            >
+                            <select onchange="validateFormOnSelect()" class="custom-select2 form-control" id="fromVault" name="fromVault" style="width: 100%; height: 38px">
                                 <option value="">Please Select Vault</option>
                                 <?php
                                 $voucher = getVaults($_SESSION['userId']);
@@ -121,7 +105,7 @@ include('../includes/header.php');
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
-                            <label for="toVault">Withdrawal To</label>
+                            <label for="toVault">Deposit To</label>
                             <select onchange="validateFormOnSelect()" class="custom-select2 form-control" id="toVault" name="toVault" style="width: 100%; height: 38px">
                                 <option value="">Please Select Vault</option>
                                 <?php
@@ -157,10 +141,10 @@ include('../includes/header.php');
                                     <select onchange="handleSelectChange(this)" class="custom-select2 form-control" name="withdrawalPurpose" id="transactionPurposeSelect" style="width: 100%; height: 38px">
                                         <option value="">Please Select Transaction Purpose</option>
                                         <?php
-                                        $purposes = getWithdrawal();
-                                        foreach ($purposes as $row):?>
-                                            <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row["name"]) ?></option>
-                                        <?php endforeach; ?>
+//                                        $purposes = getWithdrawal();
+//                                        foreach ($purposes as $row):?>
+<!--                                            <option value="--><?php //= $row['id'] ?><!--">--><?php //= htmlspecialchars($row["name"]) ?><!--</option>-->
+<!--                                        --><?php //endforeach; ?>
                                         <option value="withdrawalPurpose">Other (Type your purpose)</option>
                                     </select>
                                     <div id="error-withdrawalPurpose" class="has-danger d-none">

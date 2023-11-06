@@ -96,6 +96,16 @@
                                     <li><a href="signed_tickets.php">Signed Ticket(s)</a></li>
                                 </ul>
                             </li>
+                            <?php if ($_SESSION['poUser']['role'] != null){ ?>
+                                <li class="dropdown">
+                                    <a href="javascript:;" class="dropdown-toggle">
+                                        <span class="micon bi bi-cash-stack"></span><span class="mtext">Purchase Order</span>
+                                    </a>
+                                    <ul class="submenu">
+                                        <li><a href="requisitions.php?menu=main">Requisitions</a></li>
+                                    </ul>
+                                </li>
+                            <?php } ?>
                             <?php if ($_SESSION['cmsUser']['role'] != null){ ?>
                                 <li class="dropdown">
                                     <a href="javascript:;" class="dropdown-toggle">
@@ -188,6 +198,16 @@
                                     <li><a href="signed_tickets.php">Signed Ticket(s)</a></li>
                                 </ul>
                             </li>
+                            <?php if ($_SESSION['poUser']['role'] != null){ ?>
+                                <li class="dropdown">
+                                    <a href="javascript:;" class="dropdown-toggle">
+                                        <span class="micon bi bi-cash-stack"></span><span class="mtext">Purchase Order</span>
+                                    </a>
+                                    <ul class="submenu">
+                                        <li><a href="requisitions.php?menu=main">Requisitions</a></li>
+                                    </ul>
+                                </li>
+                            <?php } ?>
                             <?php if ($_SESSION['cmsUser']['role'] != null){ ?>
                                 <li class="dropdown">
                                     <a href="javascript:;" class="dropdown-toggle">
@@ -219,6 +239,16 @@
                                     <li><a href="client_retention.php">Client Retention</a></li>
                                 </ul>
                             </li>
+                            <?php if ($_SESSION['poUser']['role'] != null){ ?>
+                                <li class="dropdown">
+                                    <a href="javascript:;" class="dropdown-toggle">
+                                        <span class="micon bi bi-cash-stack"></span><span class="mtext">Purchase Order</span>
+                                    </a>
+                                    <ul class="submenu">
+                                        <li><a href="requisitions.php?menu=main">Requisitions</a></li>
+                                    </ul>
+                                </li>
+                            <?php } ?>
                             <?php if ($_SESSION['cmsUser']['role'] != null){ ?>
                                 <li class="dropdown">
                                     <a href="javascript:;" class="dropdown-toggle">
@@ -317,7 +347,7 @@
 							<ul class="submenu">
 								<li><a href="campaign_and_marketing.php?menu=main">Campaign and Marketing</a></li>
 								<li><a href="lead_management.php">Lead Management</a></li>
-								<li><a href="client_retention.php">Client Retention</a></li>	
+								<li><a href="client_retention.php">Client Retention</a></li>
 							</ul>
 						</li>
                             <li class="dropdown">
@@ -461,6 +491,16 @@
                                     <li><a href="loan_applications.php?state=reject">Rejected Applications</a></li>
                                 </ul>
                             </li>
+                            <?php if ($_SESSION['poUser']['role'] != null){ ?>
+                                <li class="dropdown">
+                                    <a href="javascript:;" class="dropdown-toggle">
+                                        <span class="micon bi bi-cash-stack"></span><span class="mtext">Purchase Order</span>
+                                    </a>
+                                    <ul class="submenu">
+                                        <li><a href="requisitions.php?menu=main">Requisitions</a></li>
+                                    </ul>
+                                </li>
+                            <?php } ?>
                             <?php if ($_SESSION['cmsUser']['role'] != null){ ?>
                                 <li class="dropdown">
                                     <a href="javascript:;" class="dropdown-toggle">
@@ -644,6 +684,16 @@
 								<li><a href="pipeline_report.php">Pipeline Summary Report</a></li>
 							</ul>
                         </li>
+                            <?php if ($_SESSION['poUser']['role'] != null){ ?>
+                                <li class="dropdown">
+                                    <a href="javascript:;" class="dropdown-toggle">
+                                        <span class="micon bi bi-cash-stack"></span><span class="mtext">Purchase Order</span>
+                                    </a>
+                                    <ul class="submenu">
+                                        <li><a href="requisitions.php?menu=main">Requisitions</a></li>
+                                    </ul>
+                                </li>
+                            <?php } ?>
                             <?php if ($_SESSION['cmsUser']['role'] != null){ ?>
                                 <li class="dropdown">
                                     <a href="javascript:;" class="dropdown-toggle">
@@ -662,7 +712,7 @@
 							<ul class="submenu">
 								<li><a href="campaign_and_marketing.php?menu=main">Campaign and Marketing</a></li>
 								<li><a href="lead_management.php">Lead Management</a></li>
-								<li><a href="client_retention.php">Client Retention</a></li>	
+								<li><a href="client_retention.php">Client Retention</a></li>
 							</ul>
 						</li>
 						<li>
@@ -727,6 +777,16 @@
                                 <li><a href="signed_tickets.php">Ticket(s) Signing</a></li>
                             </ul>
                         </li>
+                        <?php if ($_SESSION['poUser']['role'] != null){ ?>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+                                    <span class="micon bi bi-cash-stack"></span><span class="mtext">Purchase Order</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="requisitions.php?menu=main">Requisitions</a></li>
+                                </ul>
+                            </li>
+                        <?php } ?>
                         <?php if ($_SESSION['cmsUser']['role'] != null){ ?>
                         <li class="dropdown">
                             <a href="javascript:;" class="dropdown-toggle">
@@ -808,221 +868,6 @@
 
                     <?php }
                     else {?>
-
-<!--					    <ul id="accordion-menu">-->
-<!--						<li class="dropdown">-->
-<!--							<a href="javascript:;" class="dropdown-toggle">-->
-<!--								<span class="micon bi bi-house"></span-->
-<!--								><span class="mtext">Home</span>-->
-<!--							</a>-->
-<!--							<ul class="submenu">-->
-<!--								<li><a href="../index.php">Dashboard</a></li>-->
-<!--							</ul>-->
-<!--						</li>-->
-<!--						<li class="dropdown">-->
-<!--							<a href="javascript:;" class="dropdown-toggle">-->
-<!--								<span class="micon bi bi-table"></span-->
-<!--								><span class="mtext">Loan Applications</span>-->
-<!--							</a>-->
-<!--							<ul class="submenu">-->
-<!--								<li><a href="../datatable.php">New Applications</a></li>-->
-<!--								<li><a href="../datatable.php">Checked Applications</a></li>-->
-<!--								<li><a href="../datatable.php">All Applications</a></li>-->
-<!--							</ul>-->
-<!--						</li>-->
-<!--						<li class="dropdown">-->
-<!--							<a href="javascript:;" class="dropdown-toggle">-->
-<!--								<span class="micon bi bi-textarea-resize"></span-->
-<!--								><span class="mtext">Forms</span>-->
-<!--							</a>-->
-<!--							<ul class="submenu">-->
-<!--								<li><a href="../form-basic.php">Form Basic</a></li>-->
-<!--								<li>-->
-<!--									<a href="../advanced-components.php">Advanced Components</a>-->
-<!--								</li>-->
-<!--								<li><a href="../form-wizard.php">Form Wizard</a></li>-->
-<!--								<li><a href="../html5-editor.php">HTML5 Editor</a></li>-->
-<!--								<li><a href="../form-pickers.php">Form Pickers</a></li>-->
-<!--								<li><a href="../image-cropper.php">Image Cropper</a></li>-->
-<!--								<li><a href="../image-dropzone.php">Image Dropzone</a></li>-->
-<!--							</ul>-->
-<!--						</li>-->
-<!--						<li>-->
-<!--							<a href="../calendar.php" class="dropdown-toggle no-arrow">-->
-<!--								<span class="micon bi bi-calendar4-week"></span-->
-<!--								><span class="mtext">Calendar</span>-->
-<!--							</a>-->
-<!--						</li>-->
-<!--						<li class="dropdown">-->
-<!--							<a href="javascript:;" class="dropdown-toggle">-->
-<!--								<span class="micon bi bi-archive"></span-->
-<!--								><span class="mtext"> UI Elements </span>-->
-<!--							</a>-->
-<!--							<ul class="submenu">-->
-<!--								<li><a href="../ui-buttons.php">Buttons</a></li>-->
-<!--								<li><a href="../ui-cards.php">Cards</a></li>-->
-<!--								<li><a href="../ui-cards-hover.php">Cards Hover</a></li>-->
-<!--								<li><a href="../ui-modals.php">Modals</a></li>-->
-<!--								<li><a href="../ui-tabs.php">Tabs</a></li>-->
-<!--								<li>-->
-<!--									<a href="../ui-tooltip-popover.php">Tooltip &amp; Popover</a>-->
-<!--								</li>-->
-<!--								<li><a href="../ui-sweet-alert.php">Sweet Alert</a></li>-->
-<!--								<li><a href="../ui-notification.php">Notification</a></li>-->
-<!--								<li><a href="../ui-timeline.php">Timeline</a></li>-->
-<!--								<li><a href="../ui-progressbar.php">Progressbar</a></li>-->
-<!--								<li><a href="../ui-typography.php">Typography</a></li>-->
-<!--								<li><a href="../ui-list-group.php">List group</a></li>-->
-<!--								<li><a href="../ui-range-slider.php">Range slider</a></li>-->
-<!--								<li><a href="../ui-carousel.php">Carousel</a></li>-->
-<!--							</ul>-->
-<!--						</li>-->
-<!--						<li class="dropdown">-->
-<!--							<a href="javascript:;" class="dropdown-toggle">-->
-<!--								<span class="micon bi bi-command"></span-->
-<!--								><span class="mtext">Icons</span>-->
-<!--							</a>-->
-<!--							<ul class="submenu">-->
-<!--								<li><a href="../bootstrap-icon.php">Bootstrap Icons</a></li>-->
-<!--								<li><a href="../font-awesome.php">FontAwesome Icons</a></li>-->
-<!--								<li><a href="../foundation.php">Foundation Icons</a></li>-->
-<!--								<li><a href="../ionicons.php">Ionicons Icons</a></li>-->
-<!--								<li><a href="../themify.php">Themify Icons</a></li>-->
-<!--								<li><a href="../custom-icon.php">Custom Icons</a></li>-->
-<!--							</ul>-->
-<!--						</li>-->
-<!--						<li class="dropdown">-->
-<!--							<a href="javascript:;" class="dropdown-toggle">-->
-<!--								<span class="micon bi bi-pie-chart"></span-->
-<!--								><span class="mtext">Charts</span>-->
-<!--							</a>-->
-<!--							<ul class="submenu">-->
-<!--								<li><a href="../highchart.php">Highchart</a></li>-->
-<!--								<li><a href="../knob-chart.php">jQuery Knob</a></li>-->
-<!--								<li><a href="../jvectormap.php">jvectormap</a></li>-->
-<!--								<li><a href="../apexcharts.php">Apexcharts</a></li>-->
-<!--							</ul>-->
-<!--						</li>-->
-<!--						<li class="dropdown">-->
-<!--							<a href="javascript:;" class="dropdown-toggle">-->
-<!--								<span class="micon bi bi-file-earmark-text"></span-->
-<!--								><span class="mtext">Additional Pages</span>-->
-<!--							</a>-->
-<!--							<ul class="submenu">-->
-<!--								<li><a href="../video-player.php">Video Player</a></li>-->
-<!--								<li><a href="../login.php">Login</a></li>-->
-<!--								<li><a href="../forgot-password.php">Forgot Password</a></li>-->
-<!--								<li><a href="../reset-password.php">Reset Password</a></li>-->
-<!--							</ul>-->
-<!--						</li>-->
-<!--						<li class="dropdown">-->
-<!--							<a href="javascript:;" class="dropdown-toggle">-->
-<!--								<span class="micon bi bi-bug"></span-->
-<!--								><span class="mtext">Error Pages</span>-->
-<!--							</a>-->
-<!--							<ul class="submenu">-->
-<!--								<li><a href="../400.php">400</a></li>-->
-<!--								<li><a href="../403.php">403</a></li>-->
-<!--								<li><a href="../404.php">404</a></li>-->
-<!--								<li><a href="../500.php">500</a></li>-->
-<!--								<li><a href="../503.php">503</a></li>-->
-<!--							</ul>-->
-<!--						</li>-->
-<!---->
-<!--						<li class="dropdown">-->
-<!--							<a href="javascript:;" class="dropdown-toggle">-->
-<!--								<span class="micon bi bi-back"></span-->
-<!--								><span class="mtext">Extra Pages</span>-->
-<!--							</a>-->
-<!--							<ul class="submenu">-->
-<!--								<li><a href="../blank.php">Blank</a></li>-->
-<!--								<li><a href="../contact-directory.php">Contact Directory</a></li>-->
-<!--								<li><a href="../blog.php">Blog</a></li>-->
-<!--								<li><a href="../blog-detail.php">Blog Detail</a></li>-->
-<!--								<li><a href="../product.php">Product</a></li>-->
-<!--								<li><a href="../product-detail.php">Product Detail</a></li>-->
-<!--								<!--                                    <li><a href="../faq.php">FAQ</a></li>-->
-<!--								<li><a href="../includes/profile.php">Profile</a></li>-->
-<!--								<li><a href="../gallery.php">Gallery</a></li>-->
-<!--								<!--                                    <li><a href="../pricing-table.php">Pricing Tables</a></li>-->
-<!--							</ul>-->
-<!--						</li>-->
-<!--						<li class="dropdown">-->
-<!--							<a href="javascript:;" class="dropdown-toggle">-->
-<!--								<span class="micon bi bi-hdd-stack"></span-->
-<!--								><span class="mtext">Multi Level Menu</span>-->
-<!--							</a>-->
-<!--							<ul class="submenu">-->
-<!--								<li><a href="javascript:;">Level 1</a></li>-->
-<!--								<li><a href="javascript:;">Level 1</a></li>-->
-<!--								<li><a href="javascript:;">Level 1</a></li>-->
-<!--								<li class="dropdown">-->
-<!--									<a href="javascript:;" class="dropdown-toggle">-->
-<!--										<span class="micon fa fa-plug"></span-->
-<!--										><span class="mtext">Level 2</span>-->
-<!--									</a>-->
-<!--									<ul class="submenu child">-->
-<!--										<li><a href="javascript:;">Level 2</a></li>-->
-<!--										<li><a href="javascript:;">Level 2</a></li>-->
-<!--									</ul>-->
-<!--								</li>-->
-<!--								<li><a href="javascript:;">Level 1</a></li>-->
-<!--								<li><a href="javascript:;">Level 1</a></li>-->
-<!--								<li><a href="javascript:;">Level 1</a></li>-->
-<!--							</ul>-->
-<!--						</li>-->
-<!--						<li>-->
-<!--							<a href="../sitemap.php" class="dropdown-toggle no-arrow">-->
-<!--								<span class="micon bi bi-diagram-3"></span-->
-<!--								><span class="mtext">Sitemap</span>-->
-<!--							</a>-->
-<!--						</li>-->
-<!--						<li>-->
-<!--							<a href="../chat.php" class="dropdown-toggle no-arrow">-->
-<!--								<span class="micon bi bi-chat-right-dots"></span-->
-<!--								><span class="mtext">Chat</span>-->
-<!--							</a>-->
-<!--						</li>-->
-<!--						<li>-->
-<!--							<a href="../invoice.php" class="dropdown-toggle no-arrow">-->
-<!--								<span class="micon bi bi-receipt-cutoff"></span-->
-<!--								><span class="mtext">Invoice</span>-->
-<!--							</a>-->
-<!--						</li>-->
-<!--						<li>-->
-<!--							<div class="dropdown-divider"></div>-->
-<!--						</li>-->
-<!--						<li>-->
-<!--							<div class="sidebar-small-cap">Extra</div>-->
-<!--						</li>-->
-<!--						<li>-->
-<!--							<a href="javascript:;" class="dropdown-toggle">-->
-<!--								<span class="micon bi bi-file-pdf"></span-->
-<!--								><span class="mtext">Documentation</span>-->
-<!--							</a>-->
-<!--							<ul class="submenu">-->
-<!--								<li><a href="../introduction.php">Introduction</a></li>-->
-<!--								<li><a href="../getting-started.php">Getting Started</a></li>-->
-<!--								<li><a href="../color-settings.php">Color Settings</a></li>-->
-<!--								<li>-->
-<!--									<a href="../third-party-plugins.php">Third Party Plugins</a>-->
-<!--								</li>-->
-<!--							</ul>-->
-<!--						</li>-->
-<!--						<li>-->
-<!--							<a-->
-<!--								href="https://dropways.github.io/deskapp-free-single-page-website-template/"-->
-<!--								target="_blank"-->
-<!--								class="dropdown-toggle no-arrow"-->
-<!--							>-->
-<!--								<span class="micon bi bi-layout-text-window-reverse"></span>-->
-<!--								<span class="mtext"-->
-<!--									>Landing Page-->
-<!--									<img src="../vendors/images/coming-soon.png" alt="" width="25"-->
-<!--								/></span>-->
-<!--							</a>-->
-<!--						</li>-->
-<!--					</ul>-->
 
 					<?php } ?>
 				</div>
