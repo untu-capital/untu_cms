@@ -7,63 +7,67 @@ include ('check_role.php');
     $market_campaign_by_id = market_campaign_by_id($_GET['id']);
 
 
-    function updateZones($id,$name ,$description){
+function updateZones($id, $name, $description) {
+    $url = "http://localhost:7878/api/utg/zones/update/" . $id;
+    $data_array = array(
+        'name' => $name,
+        'description' => $description,
+    );
 
-        $url = "http://localhost:7878/api/utg/zones/update/".$id;
-        $data_array = array(
-            'name' => $name,
-            'description' => $description,
+    $data = json_encode($data_array);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    $resp = curl_exec($ch);
 
-        );
-    
-        $data = json_encode($data_array);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        $resp = curl_exec($ch);
-    
-        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        $headerStr = substr($resp, 0, $headerSize);
-        $bodyStr = substr($resp, $headerSize);
-    
-        // convert headers to array
-        $headers = headersToArray( $headerStr );
-    
-        if (!curl_errno($ch)) {
-            switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-                case 200:  # OK redirect to dashboard
-                    $_SESSION['info'] = "Zone Updated Successfully!";
-                    audit($_SESSION['userid'], "Signed Ticket Successfully! - ".$id, $_SESSION['branch']);
-                    header('location: edit.php?menu=zones');
-                    break;
-                case 400:  # Bad Request
-                    $decoded = json_decode($bodyStr);
-                    foreach($decoded as $key => $val) {
-                        echo $key . ': ' . $val . '<br>';
-                    }
-                    echo $val;
-                    $_SESSION['error'] = "Failed. Please try again, ".$val;
-                    audit($_SESSION['userid'], "Failed to Sign Ticket! - ".$id, $_SESSION['branch']);
-                    header('location: predisbursed_tickets.php');
-                    break;
-                default:
-                    $_SESSION['error'] = 'Could not update Loan status '. "\n";
-                    audit($_SESSION['userid'], "Failed to Sign Ticket! - ".$id, $_SESSION['branch']);
-                    header('location: predisbursed_tickets.php');
-            }
-        } else {
-            $_SESSION['error'] = 'Update failed.. Please try again!'. "\n";
-            audit($_SESSION['userid'], "Failed to Update Zone! - ".$id, $_SESSION['branch']);
-            header('location: edit.php?menu=zones');
+    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($resp, 0, $headerSize);
+    $bodyStr = substr($resp, $headerSize);
+
+    // convert headers to array
+    $headers = headersToArray($headerStr);
+
+    if (!curl_errno($ch)) {
+        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+            case 200:
+                audit($_SESSION['userid'], "Zone Updated Successfully! - ".$id, $_SESSION['branch']);
+                // Success: Show a success modal using JavaScript
+                echo '<script>
+                 alert("Zone Updated Successfully!");
+        // Add code to display a modal here
+                    </script>';
+                break;
+
+                case 400:
+                // Handle other cases (e.g., 400 Bad Request) as before
+                $decoded = json_decode($bodyStr);
+                foreach ($decoded as $key => $val) {
+                    echo $key . ': ' . $val . '<br>';
+                }
+                echo $val;
+                $_SESSION['error'] = "Failed. Please try again, " . $val;
+                audit($_SESSION['userid'], "Failed to Sign Ticket! - " . $id, $_SESSION['branch']);
+                header('location: edit.php?menu=zones');
+                break;
+            default:
+                $_SESSION['error'] = 'Could not update Loan status ' . "\n";
+                audit($_SESSION['userid'], "Failed to Sign Ticket! - " . $id, $_SESSION['branch']);
+                header('location: edit.php?menu=zones');
         }
-        curl_close($ch);
+    } else {
+        $_SESSION['error'] = 'Update failed.. Please try again!' . "\n";
+        audit($_SESSION['userid'], "Failed to Update Zone! - " . $id, $_SESSION['branch']);
+        header('location: edit.php?menu=zones');
     }
-    if(isset($_POST['Zone'])) {
-        $id = $_POST[''];
+    curl_close($ch);
+}
+
+    if(isset($_POST['Zones'])) {
+        $id = $_POST['id'];
         $name = $_POST['zone'];
         $description = $_POST['description'];
 
@@ -102,10 +106,13 @@ function updateCity($id,$name ,$description){
 
     if (!curl_errno($ch)) {
         switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-            case 200:  # OK redirect to dashboard
-                $_SESSION['info'] = "Zone Updated Successfully!";
+            case 200:
                 audit($_SESSION['userid'], "Zone Updated Successfully! - ".$id, $_SESSION['branch']);
-                header('location: edit.php?menu=target');
+                // Success: Show a success modal using JavaScript
+                echo '<script>
+                 alert("City Updated Successfully!");
+        // Add code to display a modal here
+                    </script>';
                 break;
             case 400:  # Bad Request
                 $decoded = json_decode($bodyStr);
@@ -120,12 +127,12 @@ function updateCity($id,$name ,$description){
             default:
                 $_SESSION['error'] = 'Could not update Loan status '. "\n";
                 audit($_SESSION['userid'], "Failed to Update TargetTicket! - ".$id, $_SESSION['branch']);
-                header('location: edit.php?menu=target');
+                header('location: edit.php?menu=cities');
         }
     } else {
         $_SESSION['error'] = 'Update failed.. Please try again!'. "\n";
         audit($_SESSION['userid'], "Failed to Update Zone! - ".$id, $_SESSION['branch']);
-        header('location: edit.php?menu=target');
+        header('location: edit.php?menu=cities');
     }
     curl_close($ch);
 }
@@ -169,10 +176,13 @@ function updateTarget($id,$branch ,$target){
 
     if (!curl_errno($ch)) {
         switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-            case 200:  # OK redirect to dashboard
-                $_SESSION['info'] = "Target Updated Successfully!";
+            case 200:
                 audit($_SESSION['userid'], "Target Updated Successfully! - ".$id, $_SESSION['branch']);
-                header('location: edit.php?menu=cities');
+                // Success: Show a success modal using JavaScript
+                echo '<script>
+                 alert("Target Updated Successfully!");
+        // Add code to display a modal here
+                    </script>';
                 break;
             case 400:  # Bad Request
                 $decoded = json_decode($bodyStr);
@@ -233,10 +243,13 @@ function updateSector($id,$name ,$subSector){
 
     if (!curl_errno($ch)) {
         switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-            case 200:  # OK redirect to dashboard
-                $_SESSION['info'] = "Industry Updated Successfully!";
-                audit($_SESSION['userid'], "Updated Industry! - ".$id, $_SESSION['branch']);
-                header('location: edit.php?menu=sector');
+            case 200:
+                audit($_SESSION['userid'], "Sector Updated Successfully! - ".$id, $_SESSION['branch']);
+                // Success: Show a success modal using JavaScript
+                echo '<script>
+                 alert("Sector Updated Successfully!");
+        // Add code to display a modal here
+                    </script>';
                 break;
             case 400:  # Bad Request
                 $decoded = json_decode($bodyStr);
@@ -399,8 +412,7 @@ if(isset($_POST['Sector'])) {
 
 <div class="col-md-6 col-sm-12">
         <div class="form-group">
-            <label>Zone Name</label>
-            <input type="hidden" class="form-control" value="<?=$zones_by_id['id'] ?>" name="zone" id="zone" required>
+            <input type="hidden" class="form-control" value="<?=$zones_by_id['id'] ?>" name="id" id="id" required>
         </div>
     </div>
 
@@ -435,7 +447,7 @@ if(isset($_POST['Sector'])) {
 //                }
                 ?>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-danger" value="Zonez" name="Zones">Submit</button>
+                    <button type="submit" class="btn btn-danger" value="Zones" name="Zones">Submit</button>
                 </div>
             </div>
         </form>
@@ -456,25 +468,14 @@ if(isset($_POST['Sector'])) {
         <form action="" method="POST">
         <?php  $targets_by_id = targets_by_id($_GET['id']); ?>
             <div class="row">
-            <div class="col-md-6 col-sm-12">
-                    <div class="form-group">
-                        <label>Date</label>
-                        <input
-                                type="text"
-                                class="form-control date-picker"
-                                placeholder="Select Date"
-                                id="end_date"
-                                name="end_date"
-                        />
-                    </div>
-                </div>
+
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label>Branch Name</label>
                         <select class="custom-select form-control"name="branch" value="<?=$targets_by_id['branch'] ?>" id="branch" required>
                             
                             <?php
-                                $branches = branches();
+                                $branches = branch();
                                 foreach ($branches as $branch) {
                                 echo "<option value='$branch[branchName]'>$branch[branchName] Branch</option>";
                             }

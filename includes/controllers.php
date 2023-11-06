@@ -753,15 +753,58 @@ function market_campaign_by_id($id){
     return $market_campaign_by_id;
 }
 
-function leads($leads_url){
+function sectors_by_id($id){
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/marketLeads".$leads_url);
+    $id = $_GET["id"];
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/industries/$id");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $server_response = curl_exec($ch);
     curl_close($ch);
-    $leads = json_decode($server_response, true);
-    return $leads;
+    $sectors_by_id = json_decode($server_response, true);
+    return $sectors_by_id;
 }
+
+function targets_by_id($id){
+    $ch = curl_init();
+    $id = $_GET["id"];
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/targets/$id");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $targets_by_id = json_decode($server_response, true);
+    return $targets_by_id;
+}
+function zones_by_id($id){
+    $ch = curl_init();
+    $id = $_GET["id"];
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/zones/$id");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $zones_by_id = json_decode($server_response, true);
+    return $zones_by_id;
+}
+function cities_by_id($id){
+    $ch = curl_init();
+    $id = $_GET["id"];
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cities/$id");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $cities_by_id = json_decode($server_response, true);
+    return $cities_by_id;
+}
+
+
+    function leads($leads_url){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/marketLeads".$leads_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $server_response = curl_exec($ch);
+        curl_close($ch);
+        $leads = json_decode($server_response, true);
+        return $leads;
+    }
 
 function bsn_sector(){
     $ch = curl_init();

@@ -6,7 +6,6 @@ $errors = array();
 // Escape user inputs for security
 if(isset($_POST['Submit'])){
     $name = $_POST['name'];
-    $sub = $_POST['subsector'];
 
 
     if ($enddate < $startdate) {
@@ -14,12 +13,12 @@ if(isset($_POST['Submit'])){
         echo '<script>alert("End date must be greater than start date.");history.go(-1);</script>';
         // Add your desired logic here
     } else {
-        $url = "http://localhost:7878/api/utg/api/market_campaigns";
+        $url = "http://localhost:7878/api/utg/api/industries/save";
 
         $data_array = array(
           
             'name'=> $name,
-            'subSector' => $sub,
+
 
 
         );
