@@ -141,11 +141,11 @@ include('../includes/header.php');
                                     <select onchange="handleSelectChange(this)" class="custom-select2 form-control" name="withdrawalPurpose" id="transactionPurposeSelect" style="width: 100%; height: 38px">
                                         <option value="">Please Select Transaction Purpose</option>
                                         <?php
-//                                        $purposes = getWithdrawal();
-//                                        foreach ($purposes as $row):?>
-<!--                                            <option value="--><?php //= $row['id'] ?><!--">--><?php //= htmlspecialchars($row["name"]) ?><!--</option>-->
-<!--                                        --><?php //endforeach; ?>
-                                        <option value="withdrawalPurpose">Other (Type your purpose)</option>
+                                        $purposes = getWithdrawal();
+                                        foreach ($purposes as $row):?>
+                                            <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row["name"]) ?></option>
+                                        <?php endforeach; ?>
+                                        <option value="withdrawalPurpose">Other (Type purpose)</option>
                                     </select>
                                     <div id="error-withdrawalPurpose" class="has-danger d-none">
                                         <div class="form-control-feedback">Please Select Withdrawal Purpose or Type Your Purpose!</div>

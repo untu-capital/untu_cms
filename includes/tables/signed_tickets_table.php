@@ -33,8 +33,9 @@
                 ?>
 
                 <tr>
-                    <td><?= date(htmlspecialchars($ticket["ccDate"]), 'd-M-Y')?></td>
+<!--                    <td>--><?php //= date(htmlspecialchars($ticket["ccDate"]), 'd-M-Y')?><!--</td>-->
                     <td><input type = "checkbox" name="checkArr[]" value="<?php echo $ticket['id'];?>"></td>
+                    <td><?= date('d-M-Y', strtotime(htmlspecialchars($ticket["ccDate"]))); ?></td>
                     <td><?= htmlspecialchars ($ticket["firstName"]).' '.htmlspecialchars ($ticket["middleName"]).' '.htmlspecialchars ($ticket["lastName"]) ?></td>
                     <td><?= htmlspecialchars($ticket["businessName"])?></td>
                     <td><?= htmlspecialchars($ticket["industryCode"])?></td>

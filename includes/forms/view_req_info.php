@@ -82,7 +82,9 @@
                                 <th style="width: 25%;">Supplier</th>
                                 <th style="width: 20%;">Category</th>
                                 <th style="width: 10%;">Quantity</th>
+                                <th style="width: 10%;">Currency</th>
                                 <th style="width: 12%;">Amount($)</th>
+                                <th style="width: 12%;">Action</th>
                             </tr>
                             <tr>
                                 <td>
@@ -108,6 +110,14 @@
                                 </td>
 
                                 <td><input class="form-control" type="number" name="quantity" placeholder="1" min=0 required ></td>
+                                <td>
+                                    <div class="form-group">
+                                        <select class="custom-select2 form-control" name="currency" required>
+                                            <option value='USD'>USD</option>
+                                            <option value='ZWL'>ZWL</option>
+                                        </select>
+                                    </div>
+                                </td>
                                 <td><input class="form-control" type="number" name="amount" required></td>
                                 <td>
                                     <input class="form-control" type="hidden" name="req_id" value="<?php echo $_GET['req_id'] ?>" required>
@@ -123,13 +133,16 @@
                                     <td><?php $cat = categories('/'.$row['poCategory']);
                                         echo $cat['name'] ;?></td>
                                     <td><?php echo $row['poQuantity'] ;?></td>
+                                    <td><?php echo $row['poCurrency'] ;?></td>
                                     <td>$ <?php echo number_format($row['poAmount'], 2); ?></td>
                                     <td>
                                         <div class="dropdown">
                                             <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                                <a class="dropdown-item" href="req_info.php?menu=edit&req_id=<?php echo $row['id']; ?>"><i class="dw dw-edit-2"></i> Edit</a>
-                                                <a class="dropdown-item" href="req_info.php?menu=delete&req_id=<?php echo $row['id']; ?>"><i class="dw dw-delete-3"></i> Delete</a>
+                                                <a class="dropdown-item" href="req_info.php?menu=edit&req_trans_id=<?php echo $row['id']; ?>"><i class="dw dw-edit-2"></i> Edit</a>
+                                                <a class="dropdown-item" href="req_info.php?menu=delete&req_trans_id=<?php echo $row['id']; ?>"><i class="dw dw-delete-3"></i> Delete</a>
+<!--                                                <input class="form-control" type="hidden" name="req_trans_id" value="--><?php //echo $_GET['id'] ?><!--" required>-->
+<!--                                                <button name="delete_po_transaction" type="submit" class="btn btn-delete btn-lg btn-block"><i class="dw dw-delete-3"></i>Delete</button>-->
                                             </div>
                                         </div>
                                     </td>
@@ -196,9 +209,6 @@
                                 }
                             });
                         </script>
-
-
-
 
 
                         <div class="form-group">
@@ -380,10 +390,12 @@
             </div>
         </div>
     </div>
-<?php } elseif ($_GET['menu'] == 'edit'){ ?>
-    <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
-        <div class="pd-20 card-box">
-            <?php include('../includes/forms/create_campaign.php'); ?>
+    <?php } elseif ($_GET['menu'] == 'edit'){ ?>
+        <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+            <div class="pd-20 card-box">
+                <?php include('../includes/forms/edit_po_transaction.php'); ?>
+            </div>
         </div>
-    </div>
-<?php } ?>
+    <?php } elseif ($_GET['menu'] == 'delete'){
+        delete_po_transaction($_GET['req_trans_id'],);
+    } ?>

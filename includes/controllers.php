@@ -2242,6 +2242,57 @@ function requisitions($url){
     return $requisitions;
 }
 
+if (isset($_POST['create_requisition'])) {
+    // API endpoint URL
+    $url = "http://localhost:7878/api/utg/requisitions";
+
+    // Data to send in the POST request
+    $postData = array(
+        'poNumber' => $_POST['po_number'],
+        'poName' => $_POST['name'],
+        'poTotal' => 0,
+        'poCount' => 0,
+        'poStatus' => "OPEN",
+        'userId' => $_SESSION['userId']
+    );
+
+    // Encode the data array as JSON
+    $data = json_encode($postData);
+
+    // Initialize cURL
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    // Execute the POST request and store the response in a variable
+    $response = curl_exec($ch);
+
+    // Check for cURL errors
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+    }
+
+    // Close cURL session
+    curl_close($ch);
+
+    // Parse the API response as JSON to extract the ID
+    $responseData = json_decode($response, true);
+
+    if ($responseData && isset($responseData['id'])) {
+        // Add the returned ID to the data array
+        $postData['id'] = $responseData['id'];
+
+        // Encode the updated data array as JSON
+        $data = json_encode($postData);
+    }
+
+    header("Location: req_info.php?menu=req&req_id=" . $responseData['id']);
+}
+
+
 // ######################  Get Transactions for a REQUISITION #################################
 
 function req_trans($url){
@@ -2264,7 +2315,8 @@ if(isset($_POST['add_req_trans'])) {
         'poCategory' => $_POST['category'],
         'poQuantity' => $_POST['quantity'],
         'poAmount' => $_POST['amount'],
-        'poRequisitionId' => $_POST['req_id']
+        'poRequisitionId' => $_POST['req_id'],
+        'poCurrency' => $_POST['currency']
     );
 
     $data = json_encode($data_array);
@@ -2302,6 +2354,63 @@ if(isset($_POST['add_req_trans'])) {
         header('location: req_info.php?menu=req&req_id='.$_POST['req_id']);
     }
     curl_close($ch);
+
+}
+
+if (isset($_POST['update_po_trans'])) {
+
+    $req_trans_id = $_POST['req_trans_id'];
+
+    $data_array = array(
+        'poItem' => $_POST['item'],
+        'poSupplier' => $_POST['supplier'],
+        'poCategory' => $_POST['category'],
+        'poQuantity' => $_POST['quantity'],
+        'poAmount' => $_POST['amount'],
+        'poCurrency' => $_POST['currency']
+
+    );
+
+    // Convert the data array to JSON
+    $data = json_encode($data_array);
+
+    $url = "http://localhost:7878/api/utg/poTransactions/".$req_trans_id;
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HEADER, true);
+
+    // Execute cURL request
+    $response = curl_exec($curl);
+    $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($response, 0, $headerSize);
+    $bodyStr = substr($response, $headerSize);
+    $headers = headersToArray($headerStr);
+
+    // Check for errors
+    if (!curl_errno($curl)) {
+        switch ($http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE)) {
+            case 200:
+//                echo "<script>alert('$systemOut')</script>";
+                $_SESSION['info'] = "Purchase Order Transaction approved Successfully";
+                audit($_SESSION['userid'], "Purchase Order Transaction approved Successfully", $_SESSION['branch']);
+                header('location: requisitions.php?menu=main');
+                break;
+            default:
+                $_SESSION['error'] = 'Failed to approved PO Transaction.';
+                audit($_SESSION['userid'], "Failed to approved Purchase Order Transaction", $_SESSION['branch']);
+                header('location: requisitions.php?menu=main');
+        }
+    } else {
+        $_SESSION['error'] = 'Failed to approved Purchase Order Transaction.. Please try again!';
+        audit($_SESSION['userid'], "Failed to approved Purchase Order Transaction", $_SESSION['branch']);
+        header('location: requisitions.php?menu=main');
+    }
+    curl_close($curl);
 
 }
 
@@ -3025,4 +3134,42 @@ if(isset($_POST['update_po_role'])) {
     audit($_SESSION['userid'], "Admin updated user ($user) Purchase Order Sys Role", $_SESSION['branch']);
 }
 
+
+function delete_po_transaction($req_trans_id) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/poTransactions/deletePurchaseOrderTransaction/".$req_trans_id);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    $resp = curl_exec($ch);
+
+    // Execute cURL request
+    $response = curl_exec($ch);
+    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($response, 0, $headerSize);
+    $bodyStr = substr($response, $headerSize);
+    $headers = headersToArray($headerStr);
+
+    // Check for errors
+    if (!curl_errno($ch)) {
+        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+            case 200:
+                $_SESSION['info'] = "Purchase Order Transaction deleted Successfully";
+                audit($_SESSION['userid'], "Purchase Order Transaction deleted Successfully", $_SESSION['branch']);
+                header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+                break;
+            default:
+                $_SESSION['error'] = 'Failed to delete PO Transaction.';
+                audit($_SESSION['userid'], "Failed to delete Purchase Order Transaction", $_SESSION['branch']);
+                header("Location: req_info.php?menu=req&req_id=".$req_trans_id);
+        }
+    } else {
+        $_SESSION['error'] = 'Failed to delete Purchase Order Transaction.. Please try again!';
+        audit($_SESSION['userid'], "Failed to delete Purchase Order Transaction", $_SESSION['branch']);
+        header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+    }
+    curl_close($ch);
+
+}
 ?>

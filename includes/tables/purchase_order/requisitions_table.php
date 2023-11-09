@@ -1,5 +1,5 @@
 <!-- table widget -->
-<?php 
+<?php
 // include('../session/session.php');
 //include('../includes/controllers.php');
 ?>
@@ -24,10 +24,11 @@
 		<table class="table hover table stripe multiple-select-row data-table-export nowrap">
 			<thead>
 				<tr>
+                    <th>Date Created</th>
 					<th>PO Number</th>
-					<th>Name</th>					
-					<th>Date Created</th>
+					<th>Name</th>
 					<th>Total Amount</th>
+                    <th>Count</th>
                     <th>Requisition Approval</th>
                     <th>Finance Approval</th>
 					<th>Status</th>
@@ -37,12 +38,29 @@
 			<tbody>
 				<?php
 					$req = requisitions($requisitionsUrl);
-					foreach ($req as $data): ?>
+					foreach ($req as $data):
+                        $req = requisitions('/'.$data['id']);
+                        $req_trans = req_trans("/getByRequisitionId/".$data['id']);
+
+
+                        // Assuming you have retrieved the transactions and stored them in a variable called $req
+                        $transactionCount = count($req_trans); // Calculate the total count of transactions
+                        $totalAmount = 0; // Initialize the total amount variable
+
+                        foreach ($req_trans as $transaction) {
+                            // Check if 'poAmount' key exists before accessing it
+                            if (isset($transaction['poAmount'])) {
+                                $totalAmount += (int)$transaction['poAmount']; // Sum up the transaction amounts (cast to integer for numeric addition)
+                            }
+                        }
+
+                        ?>
 				<tr>
+                    <td><?php echo convertDateFormat($data['createdAt']); ?></td>
                     <td><?php echo $data['poNumber']; ?></td>
 					<td class="table-plus"><?php echo $data['poName']; ?>
-                    <td><?php echo convertDateFormat($data['createdAt']); ?></td>
-					<td><?php echo "$ ".$data['poTotal'].".00"; ?></td>
+					<td><?php echo "$ ".number_format($totalAmount,'2','.',','); ?></td>
+                    <td><?php echo $transactionCount; ?></td>
 					<td><?php $user = user($data['poApprover']);
                         echo $user['firstName']." ".$user['lastName']; ?></td>
                     <td><?php $user = user($data['cmsApprover']);
