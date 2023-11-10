@@ -113,8 +113,17 @@ function branch_targets(){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $server_response = curl_exec($ch);
     curl_close($ch);
-    $branch_targets = json_decode($server_response, true);
-    return $branch_targets;
+    return json_decode($server_response, true);
+}
+
+
+function get_tax_policies(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/tax_policy");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    return json_decode($server_response, true);
 }
 
 // ######################  Get LOAN APPLICATIONS from CMS #################################
@@ -2728,6 +2737,18 @@ function suppliers($path){
 if(isset($_POST['delete_supplier'])) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/supplier/delete/".$_POST['supplierId']);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    $resp = curl_exec($ch);
+    curl_close($ch);
+
+}
+
+if(isset($_POST['delete_policy'])) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/tax_policy/".$_POST['policyId']);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
