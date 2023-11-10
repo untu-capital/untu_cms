@@ -526,6 +526,16 @@ function zones(){
     $zones = json_decode($zones_response, true);
     return $zones;
 }
+// ######################   REPORTS for PO Transaction from CMS #################################
+function poTransactions(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/poTransactions');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $poTransactions_response = curl_exec($ch);
+    curl_close($ch);
+    $poTransactions = json_decode($poTransactions_response, true);
+    return $poTransactions;
+}
 
 // ######################   REPORTS for BUSINESS SECTORS from CMS #################################
 
