@@ -37,8 +37,17 @@
 			<tbody>
 				<?php
 					$req = requisitions($requisitionsUrl);
-					foreach ($req as $data): ?>
-				<tr>
+					foreach ($req as $data):
+
+						$attachments = ($data["attachments"]);
+
+						$row_class = '';
+						if (empty($attachments)) {
+							$row_class = 'expired';
+						}
+
+						?>
+						<tr class="<?php echo $row_class; ?>">
                     <td><?php echo $data['poNumber']; ?></td>
 					<td class="table-plus"><?php echo $data['poName']; ?>
                     <td><?php echo convertDateFormat($data['createdAt']); ?></td>
@@ -78,3 +87,5 @@
 		</table>
 	</div>
 </div>
+
+<style> .expired { background-color: #FAA0A0; /* Set the background color for expired rows */ } </style>
