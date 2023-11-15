@@ -29,7 +29,7 @@ $branch = $_SESSION['branch'];
 //?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <!-- HTML HEAD -->
 <?php
 include('../includes/header.php');
@@ -130,19 +130,22 @@ include('../includes/header.php');
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Account</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="account" placeholder="Vault Account"
+                            <label for="account" hidden="hidden"></label>
+                            <input id="account" class="form-control" type="text" name="account" placeholder="Vault Account"
                                    required/></div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Name</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="name" placeholder="Vault Name" required/>
+                            <label for="name" hidden="hidden"></label>
+                            <input id="name" class="form-control" type="text" name="name" placeholder="Vault Name" required/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Type</label>
                         <div class="col-sm-12 col-md-10">
-                            <select class="custom-select2 form-control" name="type" style="width: 100%; height: 38px">
+                            <label for="type" hidden="hidden"></label>
+                            <select id="type" class="custom-select2 form-control" name="type" style="width: 100%; height: 38px">
                                 <optgroup label="Select Vault Type">
                                     <option value="">Select Vault Type</option>
                                     <option value="Petty Cash">Petty Cash</option>
@@ -155,7 +158,8 @@ include('../includes/header.php');
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Branch</label>
                         <div class="col-sm-12 col-md-10">
-                            <select class="custom-select2 form-control" name="branch" style="width: 100%; height: 38px">
+                            <label for="branch" hidden="hidden"></label>
+                            <select id="branch" class="custom-select2 form-control" name="branch" style="width: 100%; height: 38px">
                                 <optgroup label="Branches">
                                     <option value="">Select Branch</option>
                                     <?php
@@ -246,26 +250,31 @@ include('../includes/header.php');
                     </div>
                 </div>
                 <form method="POST" action="cash_management.php?menu=update_vault">
-                    <input name="id" value="<?php echo $table['id'] ?>" hidden="hidden">
+                    <label for="id" hidden="hidden"></label>
+                    <input id="id" name="id" value="<?php echo $table['id'] ?>" hidden="hidden">
 
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Account</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="account" placeholder="Vault Account"
+                            <label for="account" hidden="hidden"></label>
+                            <input id="account" class="form-control" type="text" name="account" placeholder="Vault Account"
                                    value="<?php echo $table['account'] ?>" required/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Name</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="vaultName" placeholder="Vault Account"
+                            <label for="vaultName" hidden="hidden"></label>
+                            <input id="vaultName" class="form-control" type="text" name="vaultName" placeholder="Vault Account"
                                    value="<?php echo $table['name'] ?>" required/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Type</label>
                         <div class="col-sm-12 col-md-10">
+                            <label for="type" hidden="hidden"></label>
                             <select
+                                    id="type"
                                     class="custom-select2 form-control"
                                     name="type"
                                     style="width: 100%; height: 38px"
@@ -424,7 +433,8 @@ include('../includes/header.php');
                 </div>
                 <form method="POST" action="cash_management.php?menu=approve">
                     <?php  $petty = petty_cash_payments_by_id($_GET['id']); ?>
-                    <input name="id" value="<?php echo $_GET['id'] ?>" hidden="hidden">
+                    <label for="id" hidden="hidden"></label>
+                    <input id="id" name="id" value="<?php echo $_GET['id'] ?>" hidden="hidden">
 
                     <div class="row">
                         <div class="col-md-4 col-sm-12">
@@ -451,13 +461,13 @@ include('../includes/header.php');
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                                <label>Requisition Name</label>
+                                <label for="requesitionName">Requisition Name</label>
                                 <input type="text" disabled class="form-control" value="<?=$petty['requesitionName'] ?>" name="requesitionName" id="requesitionName" required>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                                <label>Requisition Date <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
+                                <label for="date">Requisition Date <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
                                 <input type="text" disabled class="form-control" name="branchAddress" value="<?=$petty['date'] ?>" id="date" required>
                             </div>
                         </div>
@@ -465,13 +475,13 @@ include('../includes/header.php');
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                                <label>Transaction</label>
+                                <label for="transType">Transaction</label>
                                 <input type="text" disabled class="form-control" value="<?=$petty['transType'] ?>" name="transType" id="transType" required>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                                <label>Total <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
+                                <label for="amount">Total <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
                                 <input type="text" class="form-control" name="amount" disabled value="<?=$petty['amount'] ?>" id="amount" required>
                             </div>
                         </div>
@@ -480,14 +490,14 @@ include('../includes/header.php');
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-
+                                <label for="id" hidden="hidden"></label>
                                 <input type="hidden" disabled class="form-control" value="<?=$petty['id'] ?>" name="id" id="id" required>
                             </div>
                         </div>
 
                     </div>
                     <div class="form-group">
-                        <label>Additional Notes</label>
+                        <label for="notes">Additional Notes</label>
                         <textarea class="form-control" name="notes" id="notes"></textarea>
                     </div>
                     <div class="form-group row">
