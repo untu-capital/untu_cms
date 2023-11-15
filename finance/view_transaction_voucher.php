@@ -61,8 +61,11 @@ include('../includes/header.php');
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
+                                    <label for="transactionId" hidden="hidden"></label>
                                     <input id="transactionId" value="<?= $transactionVoucher['id']?>" hidden="hidden">
+                                    <label for="transactionDate" hidden="hidden"></label>
                                     <input id="transactionDate" value="<?= date('Y-m-d')?>" hidden="hidden">
+                                    <label for="username" hidden="hidden"></label>
                                     <input id="username" value="<?= $_SESSION['username']; ?>" hidden="hidden">
                                     <label for="initiator">Initiator</label>
                                     <input type="text"
@@ -357,9 +360,12 @@ include('../includes/header.php');
                             <div class="col-sm-6 col-md-6 col-form-label">
 
                                 <form method="post" action="">
-                                    <input name="id" value="<?= $transactionVoucher['id'] ?>" hidden="hidden">
-                                    <input name="status" value="APPROVED" hidden="hidden">
-                                    <input name="comment" value="APPROVED" hidden="hidden">
+                                    <label for="id" hidden="hidden"></label>
+                                    <input id="id" name="id" value="<?= $transactionVoucher['id'] ?>" hidden="hidden">
+                                    <label for="status" hidden="hidden"></label>
+                                    <input id="status" name="status" value="APPROVED" hidden="hidden">
+                                    <label for="comment" hidden="hidden"></label>
+                                    <input id="comment" name="comment" value="APPROVED" hidden="hidden">
                                     <button type="submit"
                                             name="secondApprove01"
                                             class="btn btn-success btn-block"
@@ -423,7 +429,8 @@ include('../includes/header.php');
                                         <form method="POST" action="">
                                             <label for="id" hidden="hidden"></label>
                                             <input name="id" id="id" value="<?= $transactionVoucher['id']; ?>" hidden="hidden">
-                                            <input name="status" value="REVISE" hidden="hidden">
+                                            <label for="status" hidden="hidden"></label>
+                                            <input id="status" name="status" value="REVISE" hidden="hidden">
                                             <div class="row">
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="form-group">
@@ -463,7 +470,8 @@ include('../includes/header.php');
                                         <form method="POST" action="">
                                             <label for="id" hidden="hidden"></label>
                                             <input name="id" id="id" value="<?= $transactionVoucher['id']; ?>" hidden="hidden">
-                                            <input name="status" value="REVISE" hidden="hidden">
+                                            <label for="status" hidden="hidden"></label>
+                                            <input id="status" name="status" value="REVISE" hidden="hidden">
                                             <div class="row">
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="form-group">
