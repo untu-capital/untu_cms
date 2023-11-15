@@ -362,7 +362,7 @@ include('../includes/header.php');
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12 col-md-2 col-form-label">
-                        <button class="btn btn-success" name="saveButton" id="withdrawalCashVoucherButton">Save</button>
+                        <button class="btn btn-success" name="initiate_transaction" id="withdrawalCashVoucherButton">Save</button>
                     </div>
                     <div class="col-sm-12 col-md-2 col-form-label">
                         <a href="cash_management.php?menu=main" class="btn btn-primary "
@@ -372,26 +372,6 @@ include('../includes/header.php');
                 </div>
                 <!--                                    Javascript function to calculate the amount per denomination and total amount-->
                 <script>
-
-                    async function getAllTransactionsDefault() {
-                        const purposesList = document.getElementById('transactionPurposeSelect');
-
-                        // Fetch Transaction Type from API
-                        await fetch('http://localhost:7878/api/utg/cms/transaction-purpose/all')
-                            .then(response => response.json())
-                            .then(data => {
-                                // Loop through the data and create option elements
-                                data.forEach(item => {
-                                    const option = document.createElement('option');
-                                    option.value = item.id; // Set the value attribute of the option
-                                    option.textContent = item.name; // Set the text content of the option
-                                    purposesList.appendChild(option); // Append the option to the select element
-                                });
-                            })
-                            .catch(error => {
-                                console.error('Error fetching data:', error);
-                            });
-                    }
 
                     document.addEventListener('DOMContentLoaded', function() {
                         // Your JavaScript function here
@@ -467,60 +447,8 @@ include('../includes/header.php');
                             || withdrawalPurpose.trim() === "" || firstApprover.trim() === "" || secondApprover.trim() === "");
                     }
 
-                    const form = document.getElementById('withdrawalCashVoucherForm');
                     const saveButton = document.getElementById('withdrawalCashVoucherButton');
 
-                    form.addEventListener('submit', async function (event) {
-
-                        // Prevent the default form submission
-                        event.preventDefault();
-
-                        // Collect form data
-                        const formData = new FormData(event.target);
-                        const filteredFormData = new FormData();
-
-                        for (const [name, value] of formData.entries()) {
-                            // Exclude fields ending with 'from'
-                            if (!name.endsWith('T')) {
-                                // Include this field in the form data to be sent
-                                filteredFormData.append(name, value);
-                            }
-                        }
-
-                        const formDataObject = {};
-
-                        filteredFormData.forEach((value, key) => {
-                            formDataObject[key] = value;
-                        });
-
-                        const jsonData = JSON.stringify(formDataObject);
-                        console.log("Form Data");
-                        console.log(jsonData);
-
-                        if(validateForm()){
-
-                            saveButton.disabled = true;
-                            saveButton.innerText = 'Saving...';
-
-                            // Send form data using Fetch API
-                            await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/initiate', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: jsonData,
-                            })
-                                .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
-                                .then(data => {
-                                    console.log(data);
-                                    window.location.href = "http://localhost/untu_cms/boco/cash_management.php?menu=main";
-                                })
-                                .catch(error => {
-                                    // Handle errors here
-                                    console.error('Error:', error);
-                                });
-                        }
-                    });
                     function calculateValue() {
 
                         const denomination100 = parseInt(document.getElementById('denomination100').value) || 0;

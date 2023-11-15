@@ -309,8 +309,8 @@ include('../includes/header.php');
                         <div class="col-sm-12 col-md-2 col-form-label">
                             <button class="btn btn-success"
                                     type="submit"
-                                    name="create"
-                                    id="withdrawalCashVoucherButton">Update
+                                    name="update_transaction"
+                                    >Update
                             </button>
                         </div>
                         <div class="col-sm-12 col-md-2 col-form-label">
@@ -322,102 +322,10 @@ include('../includes/header.php');
                     </form>
                     <!--                                    Javascript function to calculate the amount per denomination and total amount-->
                     <script>
-                        async function getAllTransactionsDefault() {
-
-                            let branchId;
-                            //Fetch Initiator details to retrieve branch details
-                            await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/authorizations/<?= $userId ?>')
-                                .then(response => response.json())
-                                .then(data => {
-                                    branchId = data.branchId;
-                                })
-                                .catch(error => {
-                                    console.error('Error fetching data:', error);
-                                });
-
-                            const firstApprovers = document.getElementById('firstApprover');
-                            //Fetch First Approvers
-                            await fetch(`http://localhost:7878/api/utg/cms/transaction-voucher/first-approvers/${branchId}`)
-                                .then(response => response.json())
-                                .then(data => {
-                                    data.forEach(item => {
-                                        const option = document.createElement('option');
-                                        option.value = item.id; // Set the value attribute of the option
-                                        option.textContent = `${item.firstName} ${item.lastName}`; // Set the text content of the option
-
-                                        firstApprovers.appendChild(option); // Append the option to the select element
-                                    });
-                                })
-                                .catch(error => {
-                                    console.error('Error fetching data:', error);
-                                });
-
-                            const secondApprovers = document.getElementById('secondApprover');
-                            //Fetch Second Approvers
-                            await fetch(`http://localhost:7878/api/utg/cms/transaction-voucher/second-approvers/${branchId}`)
-                                .then(response => response.json())
-                                .then(data => {
-                                    data.forEach(item => {
-                                        const option = document.createElement('option');
-                                        option.value = item.id; // Set the value attribute of the option
-                                        option.textContent = `${item.firstName} ${item.lastName}`; // Set the text content of the option
-
-                                        secondApprovers.appendChild(option); // Append the option to the select element
-                                    });
-                                })
-                                .catch(error => {
-                                    console.error('Error fetching data:', error);
-                                });
-                        }
 
                         document.addEventListener('DOMContentLoaded', function () {
-                            // Your JavaScript function here
-                            getAllTransactionsDefault();
                             calculateValue();
                         });
-
-                        document.getElementById('withdrawalCashVoucherForm').addEventListener('submit', async function (event) {
-                            // Prevent the default form submission
-                            event.preventDefault();
-
-                            // Collect form data
-                            const formData = new FormData(event.target);
-                            const filteredFormData = new FormData();
-
-                            for (const [name, value] of formData.entries()) {
-                                // Exclude fields ending with 'from'
-                                if (!name.endsWith('T')) {
-                                    // Include this field in the form data to be sent
-                                    filteredFormData.append(name, value);
-                                }
-                            }
-
-                            const formDataObject = {};
-
-                            filteredFormData.forEach((value, key) => {
-                                formDataObject[key] = value;
-                            });
-
-                            const jsonData = JSON.stringify(formDataObject);
-                            console.log(jsonData);
-                            // Send form data using Fetch API
-                            await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/update', {
-                                method: 'PUT',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: jsonData,
-                            })
-                                .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
-                                .then(data => {
-                                    console.log(data);
-                                    window.location.href = "http://localhost/untu-systems/boco/cash_management.php?menu=main";
-                                })
-                                .catch(error => {
-                                    // Handle errors here
-                                    console.error('Error:', error);
-                                });
-                        })
 
                         function calculateValue() {
 

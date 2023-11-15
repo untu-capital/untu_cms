@@ -327,7 +327,7 @@ include('../includes/header.php');
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
                                 <div class="pd-20">
-                                    <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
+<!--                                    --><?php //include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
                                 </div>
                             </div>
                             <div class="tab-pane fade row" id="assign_role" role="tabpanel">

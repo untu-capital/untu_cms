@@ -114,7 +114,8 @@ include('../includes/header.php');
 
             <!--        --><?php //include('../includes/tables/users_table.php'); ?>
 
-        <?php } elseif ($_GET['menu'] == 'add_vault') {
+        <?php }
+        elseif ($_GET['menu'] == 'add_vault') {
             ?>
             <?php
 
@@ -179,7 +180,8 @@ include('../includes/header.php');
             </div>
 
         <?php }
-        elseif ($_GET['menu'] == 'update_vault') { ?>
+        elseif ($_GET['menu'] == 'update_vault')
+        { ?>
 
             <?php
 
@@ -499,7 +501,8 @@ include('../includes/header.php');
             </div>
             <!-- Default Basic Forms End -->
 
-        <?php }elseif ($_GET['menu'] == 'delete_vault') { ?>
+        <?php }
+        elseif ($_GET['menu'] == 'delete_vault') { ?>
 
             <?php
             $id = $_GET['vaultId'];

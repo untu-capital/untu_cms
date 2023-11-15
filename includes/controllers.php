@@ -1,10 +1,177 @@
 <?php
 
-error_reporting(0);
+//error_reporting(0);
 
 $audit = "";
 $cc_level = 'bcc_final';
 $schedule_meeting = '';
+
+// PURCHASE ORDER
+if(isset($_POST['initiate_transaction'])) {
+
+    $url = "http://localhost:7878/api/utg/cms/transaction-voucher/initiate";
+
+    // Data to send in the POST request
+    $postData = array(
+        'initiator' => $_POST['initiator'],
+        'currency' => $_POST['currency'],
+        'amount' => $_POST['amount'],
+        'fromVault' => $_POST['fromVault'],
+        'toVault' => $_POST['toVault'],
+        'amountInWords' => $_POST['amountInWords'],
+        'withdrawalPurpose' => $_POST['withdrawalPurpose'],
+        'firstApprover' => $_POST['firstApprover'],
+        'secondApprover' => $_POST['secondApprover'],
+        'denomination100' => $_POST['denomination100'],
+        'denomination50' => $_POST['denomination50'],
+        'denomination20' => $_POST['denomination20'],
+        'denomination10' => $_POST['denomination10'],
+        'denomination5' => $_POST['denomination5'],
+        'denomination2' => $_POST['denomination5'],
+        'denomination1' => $_POST['denomination1'],
+        'denominationCents' => $_POST['denominationCents'],
+        'totalDenominations' => $_POST['totalDenominations'],
+
+    );
+
+    $data = json_encode($postData);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+    }
+
+    curl_close($ch);
+    echo $response;
+    header("Location: cash_management.php?menu=main");
+//    exit;
+}
+
+if(isset($_POST['update_transaction'])) {
+
+    $url = "http://localhost:7878/api/utg/cms/transaction-voucher/update";
+
+    // Data to send in the POST request
+    $postData = array(
+        'id' => $_POST['id'],
+        'fromVault' => $_POST['fromVault'],
+        'toVault' => $_POST['toVault'],
+        'amount' => $_POST['amount'],
+        'amountInWords' => $_POST['amountInWords'],
+        'currency' => $_POST['currency'],
+        'withdrawalPurpose' => $_POST['withdrawalPurpose'],
+        'denomination100' => $_POST['denomination100'],
+        'denomination50' => $_POST['denomination50'],
+        'denomination20' => $_POST['denomination20'],
+        'denomination10' => $_POST['denomination10'],
+        'denomination5' => $_POST['denomination5'],
+        'denomination2' => $_POST['denomination5'],
+        'denomination1' => $_POST['denomination1'],
+        'denominationCents' => $_POST['denominationCents'],
+        'totalDenominations' => $_POST['totalDenominations'],
+
+    );
+
+    $data = json_encode($postData);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+    }
+
+    curl_close($ch);
+
+    header("Location: cash_management.php?menu=main");
+//    exit;
+}
+
+if(isset($_POST['firstApprove01'])) {
+    first_approver_update_transaction_status($_POST['id'],$_POST['status'],$_POST['comment']);
+}
+
+if(isset($_POST['secondApprove01'])) {
+    second_approver_update_transaction_status($_POST['id'],$_POST['status'],$_POST['comment']);
+}
+
+function first_approver_update_transaction_status($id, $status, $comment ){
+    // Data to send in the POST request
+    $postData = array(
+        'id' => $id,
+        'approvalStatus' => $status,
+        'comment' => $comment,
+    );
+
+    $url = "http://localhost:7878/api/utg/cms/transaction-voucher/first-approve";
+
+    $data = json_encode($postData);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+    }
+
+    curl_close($ch);
+
+    header("Location: cash_management.php?menu=main");
+}
+
+function second_approver_update_transaction_status($id, $status, $comment ){
+    // Data to send in the POST request
+    $postData = array(
+        'id' => $id,
+        'approvalStatus' => $status,
+        'comment' => $comment,
+    );
+
+    $url = "http://localhost:7878/api/utg/cms/transaction-voucher/second-approve";
+
+    $data = json_encode($postData);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+    }
+
+    curl_close($ch);
+
+    header("Location: cash_management.php?menu=main");
+}
 
 
 if ($_SESSION['role'] == "ROLE_OP"){

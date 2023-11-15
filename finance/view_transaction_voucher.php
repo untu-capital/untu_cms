@@ -355,19 +355,27 @@ include('../includes/header.php');
 
                         <div class="form-group row" <?php echo ($transactionVoucher['secondApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE" || $transactionVoucher['secondApprovalStatus'] == "REVISE") ? "hidden" : " " ?>>
                             <div class="col-sm-6 col-md-6 col-form-label">
-                                <button type="button"
-                                        class="btn btn-success btn-block"
-                                    <?php echo $transactionVoucher['firstApprovalStatus'] == "APPROVED" ? " " : "hidden" ?>
-                                        id="approveButton"
-                                        onclick="secondApproveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED','')">
-                                    Approve
-                                </button>
-                                <button type="button" class="btn btn-success btn-block"
-                                    <?php echo $transactionVoucher['firstApprovalStatus'] == "PENDING" ? " " : "hidden" ?>
-                                        id="happroveButton"
-                                        onclick="hoFirstApproveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED','')">
-                                    Approve
-                                </button>
+
+                                <form method="post" action="">
+                                    <input name="id" value="<?= $transactionVoucher['id'] ?>" hidden="hidden">
+                                    <input name="status" value="APPROVED" hidden="hidden">
+                                    <input name="comment" value="APPROVED" hidden="hidden">
+                                    <button type="submit"
+                                            name="secondApprove01"
+                                            class="btn btn-success btn-block"
+                                            <?php echo $transactionVoucher['firstApprovalStatus'] == "APPROVED" ? " " : "hidden" ?>
+                                    >
+                                        Approve
+                                    </button>
+                                    <button type="submit"
+                                            name="firstApprove01"
+                                            class="btn btn-success btn-block"
+                                            <?php echo $transactionVoucher['firstApprovalStatus'] == "PENDING" ? " " : "hidden" ?>
+                                    >
+                                        Approve
+                                    </button>
+                                </form>
+
                             </div>
                             <div class="col-sm-6 col-md-6 col-form-label">
                                 <button type="button"
@@ -414,19 +422,19 @@ include('../includes/header.php');
                                     <div class="modal-body">
                                         <form method="POST" action="">
                                             <label for="id" hidden="hidden"></label>
-                                            <input id="id" value="<?= $transactionVoucher['id']; ?>"
-                                                   hidden="hidden">
+                                            <input name="id" id="id" value="<?= $transactionVoucher['id']; ?>" hidden="hidden">
+                                            <input name="status" value="REVISE" hidden="hidden">
                                             <div class="row">
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="form-group">
                                                         <label for="comment">Comment</label>
-                                                        <textarea type="text" class="form-control" name="initiator" id="comment"></textarea>
+                                                        <textarea id="comment" type="text" class="form-control" name="comment"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-md-6 col-form-label">
-                                                    <button type="button" class="btn btn-success btn-block" id="saveButton">Save</button>
+                                                    <button type="submit" class="btn btn-success btn-block" name="secondApprove01">Save</button>
                                                 </div>
                                                 <div class="col-sm-6 col-md-6 col-form-label">
                                                     <button type="button" class="btn btn-danger btn-block" id="cancelButton" data-dismiss="modal">Cancel</button>
@@ -439,6 +447,7 @@ include('../includes/header.php');
                         </div>
                     </div>
                 </div>
+
                 <div class="col-md-4 col-sm-12 mb-30">
                     <div class="pd-20 height-100-p">
                         <div class="modal fade" id="HMedium-modal" tabindex="-1" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -452,20 +461,20 @@ include('../includes/header.php');
                                     </div>
                                     <div class="modal-body">
                                         <form method="POST" action="">
-                                            <label for="hid" hidden="hidden"></label>
-                                            <input id="hid" value="<?= $transactionVoucher['id']; ?>"
-                                                   hidden="hidden">
+                                            <label for="id" hidden="hidden"></label>
+                                            <input name="id" id="id" value="<?= $transactionVoucher['id']; ?>" hidden="hidden">
+                                            <input name="status" value="REVISE" hidden="hidden">
                                             <div class="row">
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="form-group">
-                                                        <label for="hcomment">Comment</label>
-                                                        <textarea type="text" class="form-control" name="initiator" id="hcomment"></textarea>
+                                                        <label for="comment">Comment</label>
+                                                        <textarea type="text" class="form-control" name="comment" id="comment"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-md-6 col-form-label">
-                                                    <button type="button" class="btn btn-success btn-block" id="hsaveButton">Revert</button>
+                                                    <button type="submit" name="firstApprove01" class="btn btn-success btn-block" id="firstApprove01">Revert</button>
                                                 </div>
                                                 <div class="col-sm-6 col-md-6 col-form-label">
                                                     <button type="button" class="btn btn-danger btn-block" id="cancelButton" data-dismiss="modal">Cancel</button>
@@ -481,163 +490,8 @@ include('../includes/header.php');
                 <!--                                    Javascript function to calculate the amount per denomination and total amount-->
                 <script>
 
-                    const approveButton = document.getElementById("approveButton");
-                    const happroveButton = document.getElementById("happroveButton");
-                    const reviseButton = document.getElementById("reviseButton");
-                    const hreviseButton = document.getElementById("hreviseButton");
-                    const saveButton = document.getElementById("saveButton");
-                    const cancelButton = document.getElementById("cancelButton");
-
-
-
-
-                    async function actionsInfo(status) {
-                        reviseButton.disabled = true;
-                        hreviseButton.disabled = true;
-                        approveButton.disabled = true;
-                        happroveButton.disabled = true;
-                        saveButton.disabled = true;
-                        cancelButton.disabled = true;
-
-                        if (status === "APPROVED") {
-                            approveButton.innerText = "Approving...";
-                            happroveButton.innerText = "Approving...";
-                        }
-
-                        if (status === "REVISE") {
-                            reviseButton.innerText = "Reverting...";
-                            hreviseButton.innerText = "Reverting...";
-                            saveButton.innerText = "Reverting...";
-                        }
-                    }
-
-                    async function hoFirstApproveTransaction(id, status, comment) {
-
-                        await actionsInfo(status);
-
-                        const body = {
-                            "id": id,
-                            "approvalStatus": status,
-                            "comment": comment,
-                        };
-
-                        console.log(JSON.stringify(body));
-
-                        await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/first-approve', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(body),
-                        })
-                            .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
-                            .then(data => {
-                                console.log(data);
-                                window.location.href = "http://localhost/untu_cms/finance/cash_management.php?menu=main#approved";
-                            })
-                            .catch(error => {
-                                // Handle errors here
-                                console.error('Error:', error);
-                            });
-                    }
-
-                    async function secondApproveTransaction(id, status, comment) {
-                        try {
-                            await actionsInfo(status);
-
-                            const body = {
-                                "id": id,
-                                "approvalStatus": status,
-                                "comment": comment,
-                            };
-
-                            await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/second-approve', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(body),
-                            })
-                                .then(response => response.json())
-                                .then(data => {
-                                    console.log("Response from API:", data);
-                                    pastelTransaction();
-                                    console.log("pastelTransaction called successfully.");
-                                    window.location.href = "cash_management.php?menu=main#approved";
-                                });
-                        } catch (error) {
-                            console.error('Error in secondApproveTransaction:', error);
-                        }
-                    }
-
-
-                    async function pastelTransaction(){
-
-                        const pastel = {
-                            // "toAccount":"8422/000/HRE/FCA",
-                            // "transactionType":"LOA-REP",
-                            // "exchangeRate":"1",
-                            // "description":"Repayment Transaction",
-                            // "fromAccount":"8422/000/BYO/FCA",
-                            // "reference":"RP504797",
-                            // "currency":"001",
-                            // "amount":"4000.0",
-                            // "userName":"Admin",
-                            // "transactionDate":"2023-10-31"
-
-                            'userName': document.getElementById('username').value,
-                            "toAccount": document.getElementById('toVault').value,
-                            "fromAccount": document.getElementById('fromVault').value,
-                            "reference": `CTV-${document.getElementById('transactionId').value}`,
-                            "amount": document.getElementById('amount').value,
-                            "transactionType": "CASH-TRANS-VOUCHER",
-                            "description": document.getElementById('withdrawalPurpose').value,
-                            "currency": '001',
-                            "transactionDate": new Date().toISOString().slice(0, 10), // Format: "YYYY-MM-DD"
-                            "exchangeRate": '1'
-
-                        }
-
-                        console.log(JSON.stringify(pastel))
-
-                        await fetch('http://localhost:7878/api/utg/postGl/save', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(pastel),
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log(data);
-                            })
-                            .catch(error => {
-                                console.error('Error:', error);
-                            });
-
-                    }
-
                     document.addEventListener('DOMContentLoaded', function () {
                         calculateValue();
-
-                        const saveButton = document.getElementById('saveButton');
-                        const hsaveButton = document.getElementById('hsaveButton');
-
-                        saveButton.addEventListener('click', function () {
-
-                            const transactionId = document.getElementById('id').value;
-                            const comment = document.getElementById('comment').value;
-
-                            secondApproveTransaction(transactionId, "REVISE", comment);
-                        });
-
-                        hsaveButton.addEventListener('click', function () {
-
-                            const transactionId = document.getElementById('hid').value;
-                            const comment = document.getElementById('hcomment').value;
-
-                            hoFirstApproveTransaction(transactionId, "REVISE", comment);
-                        });
                     });
 
                     function calculateValue() {
@@ -680,6 +534,7 @@ include('../includes/header.php');
                         }
 
                         document.getElementById('totalDenominationsT').value = denomination100 + denomination50 + denomination20 + denomination10 + denomination5 + denomination2 + denomination1 + denominationCents;
+
                     }
                 </script>
             </div>

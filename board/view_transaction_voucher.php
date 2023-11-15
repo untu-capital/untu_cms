@@ -349,12 +349,17 @@ include('../includes/header.php');
 
                         <div class="form-group row" <?php echo ($transactionVoucher['secondApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE"   || $transactionVoucher['secondApprovalStatus'] == "REVISE") ? "hidden" : " " ?>>
                             <div class="col-sm-6 col-md-6 col-form-label">
-                                <button type="button" class="btn btn-success btn-block"
-                                        onclick="approveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED')"
-                                        id="approveButton"
-                                >
-                                    Approve
-                                </button>
+                                <form method="post" action="">
+                                    <input name="id" value="<?= $transactionVoucher['id'] ?>" hidden="hidden">
+                                    <input name="status" value="APPROVED" hidden="hidden">
+                                    <input name="comment" value="APPROVED" hidden="hidden">
+                                    <button type="submit"
+                                            class="btn btn-success btn-block"
+                                            name="secondApprove01"
+                                    >
+                                        Approve
+                                    </button>
+                                </form>
                             </div>
                             <div class="col-sm-6 col-md-6 col-form-label">
                                 <button type="button" class="btn btn-warning btn-block"
@@ -402,20 +407,23 @@ include('../includes/header.php');
                                     <div class="modal-body">
                                         <form method="POST" action="">
                                             <label for="id" hidden="hidden"></label>
-                                            <input id="id" value="<?= $transactionVoucher['id']; ?>"
-                                                   hidden="hidden">
+                                            <input name="id" value="<?= $transactionVoucher['id'] ?>" hidden="hidden">
+                                            <input name="status" value="REVISE" hidden="hidden">
                                             <div class="row">
                                                 <div class="col-md-12 col-sm-12">
                                                     <div class="form-group">
                                                         <label for="comment">Comment</label>
-                                                        <textarea type="text" class="form-control" name="initiator"
+                                                        <textarea type="text"
+                                                                  class="form-control"
+                                                                  name="comment"
                                                                   id="comment"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-md-6 col-form-label">
-                                                    <button type="button"
+                                                    <button type="submit"
+                                                            name="secondApprove01"
                                                             class="btn btn-success btn-block"
                                                             id="saveButton"
                                                     >
@@ -439,64 +447,9 @@ include('../includes/header.php');
                 </div>
                 <!--                                    Javascript function to calculate the amount per denomination and total amount-->
                 <script>
-                    const approveButton = document.getElementById("approveButton");
-                    const reviseButton = document.getElementById("reviseButton");
-                    const saveButton = document.getElementById("saveButton");
-                    const cancelButton = document.getElementById("cancelButton");
 
-                    async function approveTransaction(id, status, comment) {
-
-                        reviseButton.disabled = true;
-                        approveButton.disabled = true;
-                        saveButton.disabled = true;
-                        cancelButton.disabled = true;
-
-                        if (status === "APPROVED"){
-                            approveButton.innerText = "Approving...";
-                        }
-
-                        if (status === "REVISE"){
-                            reviseButton.innerText = "Revising...";
-                            saveButton.innerText = "Revising...";
-                        }
-
-                        const body = {
-                            "id": id,
-                            "approvalStatus": status,
-                            "comment":comment,
-                        };
-                        console.log(JSON.stringify(body));
-                        await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/second-approve', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(body),
-                        })
-                            .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
-                            .then(data => {
-                                console.log(data);
-                                window.location.href = "http://localhost/untu-systems/board/cash_management.php?menu=main#approved";
-                            })
-                            .catch(error => {
-                                // Handle errors here
-                                console.error('Error:', error);
-                            });
-                    }
                     document.addEventListener('DOMContentLoaded', function () {
                         calculateValue();
-
-                        const saveButton = document.getElementById('saveButton');
-
-                        saveButton.addEventListener('click', function () {
-
-                            console.log("Comment")
-
-                            const transactionId = document.getElementById('id').value;
-                            const comment = document.getElementById('comment').value;
-
-                            approveTransaction(transactionId, "REVISE", comment);
-                        });
                     });
 
                     function calculateValue() {

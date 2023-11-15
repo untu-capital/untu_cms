@@ -164,6 +164,7 @@ include('../includes/header.php');
                                 </div>
                             </div>
                         </div>
+
                         <div class="row" <?php echo ($transactionVoucher['secondApprovalStatus'] == "REVISE") ? " " : "hidden" ?> >
                             <div class="col-md-12 col-sm-12">
                                 <div class="form-group">
@@ -362,11 +363,22 @@ include('../includes/header.php');
 
                         <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE") ? "hidden" : " " ?>>
                             <div class="col-sm-6 col-md-6 col-form-label">
-                                <button type="button" class="btn btn-success btn-block"
-                                        id="approveButton"
-                                        onclick="approveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED','')">
-                                    Approve
-                                </button>
+                                <form method="post" action="">
+                                    <label for="id" hidden="hidden"></label>
+                                    <input id="id" name="id"    value="<?= $transactionVoucher['id'] ?>" hidden="hidden">
+                                    <label for="status" hidden="hidden"></label>
+                                    <input id="status" name="status"  value="APPROVED" hidden="hidden">
+                                    <label for="comment" hidden="hidden"></label>
+                                    <input id="comment" name="comment" value="APPROVED" hidden="hidden">
+                                    <button
+                                            type="submit"
+                                            class="btn btn-success btn-block"
+                                            name="firstApprove01"
+                                    >
+                                        Approve
+                                    </button>
+                                </form>
+
                             </div>
                             <div class="col-sm-6 col-md-6 col-form-label">
                                 <button type="button"
@@ -378,20 +390,29 @@ include('../includes/header.php');
                                 </button>
                             </div>
                         </div>
+
                         <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? " " : "hidden" ?>>
                             <div class="col-sm-6 col-md-6 col-form-label">
-                                <button type="button"
-                                        class="btn btn-success btn-block"
-                                        id="approveButton"
-                                        onclick="approveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED','')">
-                                    Approve
-                                </button>
+                                <form method="POST" action="">
+                                    <label for="id" hidden="hidden"></label>
+                                    <input id="id" name="id" value="<?= $transactionVoucher['id'] ?>" hidden="hidden">
+                                    <label for="status" hidden="hidden"></label>
+                                    <input id="status" name="status" value="APPROVED" hidden="hidden">
+                                    <label for="comment" hidden="hidden"></label>
+                                    <input id="comment" name="comment" value="APPROVED" hidden="hidden">
+                                    <button type="submit"
+                                            class="btn btn-success btn-block"
+                                            name="firstApprove01">
+                                        Approve
+                                    </button>
+                                </form>
                             </div>
                             <div class="col-sm-6 col-md-6 col-form-label">
                                 <a type="button" class="btn btn-primary btn-block" href="cash_management.php?menu=main">Back
                                 </a>
                             </div>
                         </div>
+
                         <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE" || $transactionVoucher['firstApprovalStatus'] == "PENDING") ? "hidden" : "" ?>>
                             <div class="col-sm-12 col-md-12 col-form-label">
                                 <a type="button" class="btn btn-primary btn-block" href="cash_management.php?menu=main">Back
@@ -426,10 +447,11 @@ include('../includes/header.php');
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <form method="POST" action="">
+                                            <form method="post" action="">
                                                 <label for="id" hidden="hidden"></label>
-                                                <input id="id" value="<?= $transactionVoucher['id']; ?>"
-                                                       hidden="hidden">
+                                                <input name="id" id="id" value="<?= $transactionVoucher['id']; ?>" hidden="hidden">
+                                                <label for="status" hidden="hidden"></label>
+                                                <input name="status" value="REVISE" hidden="hidden">
                                                 <div class="row">
                                                     <div class="col-md-12 col-sm-12">
                                                         <div class="form-group">
@@ -444,9 +466,9 @@ include('../includes/header.php');
                                                 </div>
                                                 <div class="form-group row">
                                                     <div class="col-sm-6 col-md-6 col-form-label">
-                                                        <button type="button"
+                                                        <button type="submit"
                                                                 class="btn btn-success btn-block"
-                                                                id="saveButton"
+                                                                name="firstApprove01"
                                                         >
                                                             Revise
                                                         </button>
@@ -467,68 +489,10 @@ include('../includes/header.php');
                             </div>
                         </div>
                     </div>
+
                     <script>
-                        const approveButton = document.getElementById("approveButton");
-                        const reviseButton = document.getElementById("reviseButton");
-                        const saveButton = document.getElementById("saveButton");
-                        const cancelButton = document.getElementById("cancelButton");
-
-                        async function approveTransaction(id, status, comment) {
-
-                            reviseButton.disabled = true;
-                            approveButton.disabled = true;
-                            saveButton.disabled = true;
-                            cancelButton.disabled = true;
-
-                            if (status === "APPROVED"){
-                                approveButton.innerText = "Approving...";
-                            }
-
-                            if (status === "REVISE"){
-                                reviseButton.innerText = "Revising...";
-                                saveButton.innerText = "Revising...";
-                            }
-
-                            const body = {
-                                "id": id,
-                                "approvalStatus": status,
-                                "comment": comment,
-                            };
-
-                            console.log(JSON.stringify(body));
-                            await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/first-approve', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify(body),
-                            })
-                                .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
-                                .then(data => {
-                                    console.log(data);
-                                    window.location.href = "cash_management.php?menu=main#approved";
-                                })
-                                .catch(error => {
-                                    // Handle errors here
-                                    console.error('Error:', error);
-                                });
-                        }
-
                         document.addEventListener('DOMContentLoaded', function () {
                             calculateValue();
-
-                            const saveButton = document.getElementById('saveButton');
-
-                            saveButton.addEventListener('click', function () {
-
-                                console.log("Comment")
-
-                                const transactionId = document.getElementById('id').value;
-                                const comment = document.getElementById('comment').value;
-
-                                approveTransaction(transactionId, "REVISE", comment);
-                            });
-
                         });
 
                         function calculateValue() {
@@ -570,11 +534,9 @@ include('../includes/header.php');
                                 document.getElementById('totalSumT').value = totalSum;
                             }
 
-
                             document.getElementById('totalDenominationsT').value = denomination100 + denomination50 + denomination20 + denomination10 + denomination5 + denomination2 + denomination1 + denominationCents;
                         }
                     </script>
-
                 </div>
             </div>
         </div>
