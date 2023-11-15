@@ -337,8 +337,8 @@ include('../includes/header.php');
                                         <div class="pd-20 col-4">
                                             <div class="form-group">
                                                 <br>
-                                                <label>Select User :</label>
-                                                <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="user" style="width: 100%; height: 38px">
+                                                <label for="user">Select User :</label>
+                                                <select id="usser" class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="user" style="width: 100%; height: 38px">
                                                     <optgroup label="Pick a user">
                                                         <?php
                                                         $users = untuStaff();
@@ -353,8 +353,8 @@ include('../includes/header.php');
                                         <div class="pd-20 col-4">
                                             <div class="form-group">
                                                 <br>
-                                                <label>Select CMS Role :</label>
-                                                <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="role" style="width: 100%; height: 38px">
+                                                <label for="role">Select CMS Role :</label>
+                                                <select id="role" class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="role" style="width: 100%; height: 38px">
                                                     <optgroup label="Assign Role">
                                                         <option value="">Unassign Role</option>;
                                                         <?php
