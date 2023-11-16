@@ -59,7 +59,7 @@ include('../includes/header.php');
                     <h4 class="text-blue h4">Withdrawal Cash Voucher</h4>
                 </div>
             </div>
-            <form method="POST" action="" id="withdrawalCashVoucherForm">
+            <form method="POST" action="">
                 <label for="initiator" hidden="hidden"></label>
                 <input id="initiator" value="<?= $userId  ?>" name="initiator" hidden="hidden">
                 <div class="row">
@@ -362,11 +362,10 @@ include('../includes/header.php');
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12 col-md-2 col-form-label">
-                        <button class="btn btn-success" name="saveButton" id="withdrawalCashVoucherButton">Save</button>
+                        <button type="submit" class="btn btn-success" name="add_trans_voucher" >Submit</button>
                     </div>
                     <div class="col-sm-12 col-md-2 col-form-label">
-                        <a href="cash_management.php?menu=main" class="btn btn-primary "
-                           >Back
+                        <a href="cash_management.php?menu=main" class="btn btn-primary ">Back
                         </a>
                     </div>
                 </div>
@@ -468,7 +467,7 @@ include('../includes/header.php');
                     }
 
                     const form = document.getElementById('withdrawalCashVoucherForm');
-                    const saveButton = document.getElementById('withdrawalCashVoucherButton');
+                    // const saveButton = document.getElementById('withdrawalCashVoucherButton');
 
                     form.addEventListener('submit', async function (event) {
 
@@ -497,29 +496,6 @@ include('../includes/header.php');
                         console.log("Form Data");
                         console.log(jsonData);
 
-                        if(validateForm()){
-
-                            saveButton.disabled = true;
-                            saveButton.innerText = 'Saving...';
-
-                            // Send form data using Fetch API
-                            await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/initiate', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: jsonData,
-                            })
-                                .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
-                                .then(data => {
-                                    console.log(data);
-                                    window.location.href = "http://localhost/untu_cms/boco/cash_management.php?menu=main";
-                                })
-                                .catch(error => {
-                                    // Handle errors here
-                                    console.error('Error:', error);
-                                });
-                        }
                     });
                     function calculateValue() {
 

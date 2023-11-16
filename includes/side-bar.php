@@ -239,26 +239,7 @@
                                     <li><a href="client_retention.php">Client Retention</a></li>
                                 </ul>
                             </li>
-                            <?php if ($_SESSION['poUser']['role'] != null){ ?>
-                                <li class="dropdown">
-                                    <a href="javascript:;" class="dropdown-toggle">
-                                        <span class="micon bi bi-cash-stack"></span><span class="mtext">Purchase Order</span>
-                                    </a>
-                                    <ul class="submenu">
-                                        <li><a href="requisitions.php?menu=main">Requisitions</a></li>
-                                    </ul>
-                                </li>
-                            <?php } ?>
-                            <?php if ($_SESSION['cmsUser']['role'] != null){ ?>
-                                <li class="dropdown">
-                                    <a href="javascript:;" class="dropdown-toggle">
-                                        <span class="micon bi bi-cash-coin"></span><span class="mtext">Cash Management</span>
-                                    </a>
-                                    <ul class="submenu">
-                                        <li><a href="cash_management.php?menu=main">Dashboard</a></li>
-                                    </ul>
-                                </li>
-                            <?php } ?>
+
                             <li class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle">
                             <span class="micon bi bi-folder"></span><span class="mtext">Clients Database</span>

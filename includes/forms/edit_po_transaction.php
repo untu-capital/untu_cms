@@ -2,7 +2,7 @@
 <?php
 
 //$errors = array();
-$req = req_trans("/getById/".$_GET['req_trans_id']);
+$req = req_trans("/getById/".$_GET['trans_id']);
 // Escape user inputs for security
 if(isset($_POST['Submit'])){
     $campaignname = $_POST['campaign_name'];
@@ -192,7 +192,7 @@ if(isset($_POST['Submit'])){
 
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
-                    <input class="form-control" type="hidden" name="req_trans_id" value="<?php echo $_GET['req_trans_id'] ?>" required>
+                    <input class="form-control" type="hidden" name="trans_id" value="<?php echo $_GET['trans_id'] ?>" required>
                     <button type="submit" class="btn btn-danger" value="Submit" name="update_po_trans">Update Transaction</button>
                 </div>
             </div>

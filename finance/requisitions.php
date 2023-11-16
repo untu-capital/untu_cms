@@ -9,7 +9,7 @@
     if ($state == 'progress'){$url = '/loanStatus/ACCEPTED';}
     elseif($state == 'reject'){$url = '/loanStatus/REJECTED';}
     else {$url;}
-    $requisitionsUrl = "/userId/".$_SESSION['userId'];
+    $requisitionsUrl = "/userid/".$_SESSION['userId'];
 
 ?>
 
@@ -123,6 +123,7 @@ include('../includes/header.php');
         </div>
         <?php } elseif ($_GET['menu'] == 'add_requisition'){
 
+
             // Call the requisitions function to get the data
             $requisitionsData = requisitions('');
 
@@ -137,43 +138,7 @@ include('../includes/header.php');
             $nextNumber = $lastKnownNumber + 1;
             $poNumber = "P" . str_pad($nextNumber, 6, "0", STR_PAD_LEFT);
 
-            if(isset($_POST['create'])){
-                // API endpoint URL
-                $url ="http://localhost:7878/api/utg/requisitions";
 
-                // Data to send in the POST request
-                $postData = array(
-                    'poNumber' => $poNumber,
-                    'poName' => $_POST['name'],
-                    'poTotal' => 0,
-                    'poCount' => 0,
-                    'poStatus' => "OPEN",
-                    'userId' => $_SESSION['userId']
-                );
-
-                $data = json_encode($postData);
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HEADER, true );
-
-                // Execute the POST request and store the response in a variable
-                $response = curl_exec($ch);
-
-                // Check for cURL errors
-                if (curl_errno($ch)) {
-                    echo 'Curl error: ' . curl_error($ch);
-                }
-
-                // Close cURL session
-                curl_close($ch);
-
-                header("Location: requisitions.php?menu=main");
-//                exit;
-            }
             ?>
 
             <!-- Default Basic Forms Start -->
@@ -183,7 +148,7 @@ include('../includes/header.php');
                         <h4 class="text-blue h4">Create Purchase Order</h4>
                     </div>
                 </div>
-                <form method="POST" action="requisitions.php?menu=add_requisition">
+                <form method="POST" action="">
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Requisition Name</label>
                         <div class="col-sm-12 col-md-10">
@@ -192,7 +157,8 @@ include('../includes/header.php');
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-12 col-md-2 col-form-label">
-                            <button class="btn btn-success" type="submit" name="create">Save</button>
+                            <input class="form-control" type="hidden" name="po_number" value="<?php echo $poNumber; ?>" required/>
+                            <button class="btn btn-success" type="submit" name="create_requisition">Save</button>
                         </div>
                         <div class="col-sm-12 col-md-2 col-form-label">
                             <a href="requisitions.php?menu=main" class="btn btn-primary">Cancel</a>

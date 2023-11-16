@@ -98,8 +98,7 @@ include('../includes/header.php');
             </div>
 
 
-        <?php }
-        ?>
+        <?php } ?>
 
         <?php include('../includes/footer.php'); ?>
     </div>

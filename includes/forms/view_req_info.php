@@ -139,10 +139,8 @@
                                         <div class="dropdown">
                                             <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a>
                                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                                <a class="dropdown-item" href="req_info.php?menu=edit&req_trans_id=<?php echo $row['id']; ?>"><i class="dw dw-edit-2"></i> Edit</a>
-                                                <a class="dropdown-item" href="req_info.php?menu=delete&req_trans_id=<?php echo $row['id']; ?>"><i class="dw dw-delete-3"></i> Delete</a>
-<!--                                                <input class="form-control" type="hidden" name="req_trans_id" value="--><?php //echo $_GET['id'] ?><!--" required>-->
-<!--                                                <button name="delete_po_transaction" type="submit" class="btn btn-delete btn-lg btn-block"><i class="dw dw-delete-3"></i>Delete</button>-->
+                                                <a class="dropdown-item" href="req_info.php?menu=edit&trans_id=<?php echo $row['id']; ?>"><i class="dw dw-edit-2"></i> Edit</a>
+                                                <a class="dropdown-item" href="req_info.php?menu=delete&trans_id=<?php echo $row['id']; ?>"><i class="dw dw-delete-3"></i> Delete</a>
                                             </div>
                                         </div>
                                     </td>
@@ -390,12 +388,13 @@
             </div>
         </div>
     </div>
-    <?php } elseif ($_GET['menu'] == 'edit'){ ?>
-        <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
-            <div class="pd-20 card-box">
-                <?php include('../includes/forms/edit_po_transaction.php'); ?>
-            </div>
+<?php } elseif ($_GET['menu'] == 'edit'){ ?>
+    <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+        <div class="pd-20 card-box">
+            <?php include('../includes/forms/edit_po_transaction.php'); ?>
         </div>
-    <?php } elseif ($_GET['menu'] == 'delete'){
-        delete_po_transaction($_GET['req_trans_id'],);
-    } ?>
+    </div>
+<?php } elseif ($_GET['menu'] == 'delete'){
+    delete_po_transaction($_GET['trans_id'],$_GET['req_id']);
+    header('Location: req_info.php?menu=req&req_id=' .$_GET['req_id']);
+ } ?>

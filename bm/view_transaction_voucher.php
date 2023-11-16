@@ -49,7 +49,7 @@ include('../includes/header.php');
 <!-- /sidebar-left -->
 <div class="mobile-menu-overlay"></div>
 
-<div class="main-container">
+<div class="main-container">h
     <div class="pd-ltr-20">
 
         <?php include('../includes/dashboard/topbar_widget.php'); ?>
@@ -57,374 +57,334 @@ include('../includes/header.php');
             <div class="pd-20 card-box">
                 <h5 class="h4 text-blue mb-20">View Transaction voucher Details</h5>
                 <div class="pd-20 card-box mb-30">
-                    <div>
-                        <div class="row">
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <label for="initiator">Initiator</label>
-                                    <input type="text"
-                                           value="<?= $transactionVoucher['initiator']['firstName'] . ' ' . $transactionVoucher['initiator']['lastName'] ?>"
-                                           class="form-control" name="initiator" id="initiator" readonly>
+                    <form method="post" action="">
+                        <div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="initiator">Initiator</label>
+                                        <input type="text"
+                                               value="<?= $transactionVoucher['initiator']['firstName'] . ' ' . $transactionVoucher['initiator']['lastName'] ?>"
+                                               class="form-control" name="initiator" id="initiator" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="applicationDate">Application Date</label>
+                                        <input type="text" value="<?= $transactionVoucher['applicationDate'] ?>"
+                                               class="form-control" name="applicationDate" id="applicationDate" readonly>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <label for="applicationDate">Application Date</label>
-                                    <input type="text" value="<?= $transactionVoucher['applicationDate'] ?>"
-                                           class="form-control" name="applicationDate" id="applicationDate" readonly>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <label for="fromVault">From Vault</label>
-                                    <input type="text"
-                                           value="<?= $transactionVoucher['fromVault']['name'] ?>"
-                                           class="form-control" name="fromVault" id="fromVault" readonly>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="fromVault">From Vault</label>
+                                        <input type="text"
+                                               value="<?= $transactionVoucher['fromVault']['name'] ?>"
+                                               class="form-control" name="fromVault" id="fromVault" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="toVault">To Vault</label>
+                                        <input type="text" value="<?= $transactionVoucher['toVault']['name'] ?>"
+                                               class="form-control" name="toVault" id="toVault" readonly>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <label for="toVault">To Vault</label>
-                                    <input type="text" value="<?= $transactionVoucher['toVault']['name'] ?>"
-                                           class="form-control" name="toVault" id="toVault" readonly>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md-4 col-sm-12">
-                                <div class="form-group">
-                                    <label for="firstApprover">First Approver</label>
-                                    <input type="text"
-                                           value="<?= $transactionVoucher['firstApprover']['firstName'] . ' ' . $transactionVoucher['firstApprover']['lastName'] ?>"
-                                           class="form-control" name="firstApprover" id="firstApprover" readonly>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="firstApprover">First Approver</label>
+                                        <input type="text"
+                                               value="<?= $transactionVoucher['firstApprover']['firstName'] . ' ' . $transactionVoucher['firstApprover']['lastName'] ?>"
+                                               class="form-control" name="firstApprover" id="firstApprover" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="firstApprovedAt">First Approved At</label>
+                                        <input type="text" value="<?= $transactionVoucher['firstApprovedAt'] ?>"
+                                               class="form-control" name="firstApprovedAt" id="firstApprovedAt" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="firstApprovalStatus">Approval Status</label>
+                                        <input type="text" value="<?= $transactionVoucher['firstApprovalStatus'] ?>"
+                                               class="form-control font-weight-bold
+                                            <?php echo ($transactionVoucher['firstApprovalStatus'] == "PENDING") ? "bg-warning" : " " ?>
+                                            <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? "bg-danger" : " " ?>
+                                            <?php echo ($transactionVoucher['firstApprovalStatus'] == "APPROVED") ? "bg-success" : " " ?>"
+                                               name="firstApprovalStatus" id="firstApprovalStatus"
+                                               readonly>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-12">
-                                <div class="form-group">
-                                    <label for="firstApprovedAt">First Approved At</label>
-                                    <input type="text" value="<?= $transactionVoucher['firstApprovedAt'] ?>"
-                                           class="form-control" name="firstApprovedAt" id="firstApprovedAt" readonly>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-12">
-                                <div class="form-group">
-                                    <label for="firstApprovalStatus">Approval Status</label>
-                                    <input type="text" value="<?= $transactionVoucher['firstApprovalStatus'] ?>"
-                                           class="form-control font-weight-bold
-                                        <?php echo ($transactionVoucher['firstApprovalStatus'] == "PENDING") ? "bg-warning" : " " ?>
-                                        <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? "bg-danger" : " " ?>
-                                        <?php echo ($transactionVoucher['firstApprovalStatus'] == "APPROVED") ? "bg-success" : " " ?>"
-                                           name="firstApprovalStatus" id="firstApprovalStatus"
-                                           readonly>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? " " : "hidden" ?> >
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-group">
-                                    <label for="firstApprover">Revise Comment</label>
-                                    <input
-                                            value="<?= $transactionVoucher['firstApprovalComment'] ?>"
-                                            class="form-control" name="firstApprover" id="firstApprover" readonly>
+                            <div class="row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? " " : "hidden" ?> >
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="firstApprover">Revise Comment</label>
+                                        <input
+                                                value="<?= $transactionVoucher['firstApprovalComment'] ?>"
+                                                class="form-control" name="firstApprover" id="firstApprover" readonly>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md-4 col-sm-12">
-                                <div class="form-group">
-                                    <label for="secondApprover">Second Approver</label>
-                                    <input type="text"
-                                           value="<?= $transactionVoucher['secondApprover']['firstName'] . ' ' . $transactionVoucher['secondApprover']['lastName'] ?>"
-                                           class="form-control" name="secondApprover" id="secondApprover" readonly>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="secondApprover">Second Approver</label>
+                                        <input type="text"
+                                               value="<?= $transactionVoucher['secondApprover']['firstName'] . ' ' . $transactionVoucher['secondApprover']['lastName'] ?>"
+                                               class="form-control" name="secondApprover" id="secondApprover" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="secondApprovedAt">Second Approved At</label>
+                                        <input type="text" value="<?= $transactionVoucher['secondApprovedAt'] ?>"
+                                               class="form-control" name="secondApprovedAt" id="secondApprovedAt" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="secondApprovalStatus">Second Approval Status</label>
+                                        <input type="text" value="<?= $transactionVoucher['secondApprovalStatus'] ?>" class="form-control font-weight-bold
+                                           <?php echo ($transactionVoucher['secondApprovalStatus'] == "PENDING") ? "bg-warning" : " " ?>
+                                           <?php echo ($transactionVoucher['secondApprovalStatus'] == "REVISE") ? "bg-danger" : " " ?>
+                                           <?php echo ($transactionVoucher['secondApprovalStatus'] == "APPROVED") ? "bg-success" : " " ?>"
+                                               name="secondApprovalStatus" id="secondApprovalStatus"
+                                               readonly>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-12">
-                                <div class="form-group">
-                                    <label for="secondApprovedAt">Second Approved At</label>
-                                    <input type="text" value="<?= $transactionVoucher['secondApprovedAt'] ?>"
-                                           class="form-control" name="secondApprovedAt" id="secondApprovedAt" readonly>
+                            <div class="row" <?php echo ($transactionVoucher['secondApprovalStatus'] == "REVISE") ? " " : "hidden" ?> >
+                                <div class="col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="secondApprovalStatus">Revise Comment</label>
+                                        <input value="<?= $transactionVoucher['secondApprovalComment'] ?>" class="form-control" name="secondApprovalStatus" id="secondApprovalStatus" readonly>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-12">
-                                <div class="form-group">
-                                    <label for="secondApprovalStatus">Second Approval Status</label>
-                                    <input type="text" value="<?= $transactionVoucher['secondApprovalStatus'] ?>"
-                                           class="form-control font-weight-bold
-                                        <?php echo ($transactionVoucher['secondApprovalStatus'] == "PENDING") ? "bg-warning" : " " ?>
-                                        <?php echo ($transactionVoucher['secondApprovalStatus'] == "REVISE") ? "bg-danger" : " " ?>
-                                       <?php echo ($transactionVoucher['secondApprovalStatus'] == "APPROVED") ? "bg-success" : " " ?>"
-                                           name="secondApprovalStatus" id="secondApprovalStatus"
-                                           readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" <?php echo ($transactionVoucher['secondApprovalStatus'] == "REVISE") ? " " : "hidden" ?> >
-                            <div class="col-md-12 col-sm-12">
-                                <div class="form-group">
-                                    <label for="secondApprovalStatus">Revise Comment</label>
-                                    <input
-                                            value="<?= $transactionVoucher['secondApprovalComment'] ?>"
-                                            class="form-control" name="secondApprovalStatus" id="secondApprovalStatus"
-                                            readonly>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md-4 col-sm-12">
-                                <div class="form-group">
-                                    <label for="amount">Amount</label>
-                                    <input type="text"
-                                           value="<?= $transactionVoucher['amount'] ?>"
-                                           class="form-control" name="amount" id="amount" readonly>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="amount">Amount</label>
+                                        <input type="text"
+                                               value="<?= $transactionVoucher['amount'] ?>"
+                                               class="form-control" name="amount" id="amount" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="amountInWords">Amount In Words</label>
+                                        <input type="text" value="<?= $transactionVoucher['amountInWords'] ?>"
+                                               class="form-control" name="amountInWords" id="amountInWords" readonly>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-8 col-sm-12">
-                                <div class="form-group">
-                                    <label for="amountInWords">Amount In Words</label>
-                                    <input type="text" value="<?= $transactionVoucher['amountInWords'] ?>"
-                                           class="form-control" name="amountInWords" id="amountInWords" readonly>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-md-4 col-sm-12">
-                                <div class="form-group">
-                                    <label for="currency">Currency</label>
-                                    <input type="text"
-                                           value="<?= $transactionVoucher['currency'] ?>"
-                                           class="form-control" name="currency" id="currency" readonly>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="currency">Currency</label>
+                                        <input type="text"
+                                               value="<?= $transactionVoucher['currency'] ?>"
+                                               class="form-control" name="currency" id="currency" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 col-sm-12">
+                                    <div class="form-group">
+                                        <label for="withdrawalPurpose">Withdrawal Purpose</label>
+                                        <input type="text" value="<?= $transactionVoucher['withdrawalPurpose'] ?>"
+                                               class="form-control" name="withdrawalPurpose" id="withdrawalPurpose"
+                                               readonly>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-8 col-sm-12">
-                                <div class="form-group">
-                                    <label for="withdrawalPurpose">Withdrawal Purpose</label>
-                                    <input type="text" value="<?= $transactionVoucher['withdrawalPurpose'] ?>"
-                                           class="form-control" name="withdrawalPurpose" id="withdrawalPurpose"
-                                           readonly>
+
+                            <div class="row">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Denomination</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Value</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <th scope="row">100</th>
+                                        <th scope="row">
+                                            <label for="denomination100" hidden="hidden"></label>
+                                            <input type="number" class="form-control"
+                                                   id="denomination100" readonly
+                                                   name="denomination100"
+                                                   value="<?= $transactionVoucher['denomination100'] ?>"
+                                            ></th>
+                                        <th scope="row">
+                                            <label for="denomination100T" hidden="hidden"></label>
+                                            <input type="number" class="form-control"
+                                                   id="denomination100T"
+                                                   name="denomination100T" readonly></th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">50</th>
+                                        <th scope="row">
+                                            <label for="denomination50" hidden="hidden"></label>
+                                            <input type="number" class="form-control"
+                                                   id="denomination50" readonly
+                                                   name="denomination50"
+                                                   value="<?= $transactionVoucher['denomination50'] ?>"
+                                            ></th>
+                                        <th scope="row">
+                                            <label for="denomination50T" hidden="hidden"></label>
+                                            <input type="number" class="form-control"
+                                                   id="denomination50T" name="denomination50T"
+                                                   readonly></th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">20</th>
+                                        <th scope="row">
+                                            <label for="denomination20" hidden="hidden"></label>
+                                            <input type="number" class="form-control"
+                                                   id="denomination20" readonly
+                                                   name="denomination20"
+                                                   value="<?= $transactionVoucher['denomination20'] ?>"
+                                            ></th>
+                                        <th scope="row">
+                                            <label for="denomination20T" hidden="hidden"></label>
+                                            <input type="number" class="form-control"
+                                                   id="denomination20T" name="denomination20T"
+                                                   readonly></th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">10</th>
+                                        <th scope="row">
+                                            <label for="denomination10" hidden="hidden"></label>
+                                            <input type="number" class="form-control"
+                                                   id="denomination10" readonly
+                                                   name="denomination10"
+                                                   value="<?= $transactionVoucher['denomination10'] ?>"
+                                            ></th>
+                                        <th scope="row">
+                                            <label for="denomination10T" hidden="hidden"></label>
+                                            <input type="number" class="form-control"
+                                                   id="denomination10T" name="denomination10T"
+                                                   readonly></th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">5</th>
+                                        <th scope="row">
+                                            <label for="denomination5" hidden="hidden"></label>
+                                            <input type="number" class="form-control"
+                                                   id="denomination5" readonly
+                                                   name="denomination5"
+                                                   value="<?= $transactionVoucher['denomination5'] ?>"
+                                            ></th>
+                                        <th scope="row">
+                                            <label for="denomination5T" hidden="hidden"></label>
+                                            <input type="number" class="form-control"
+                                                   id="denomination5T" name="denomination5T"
+                                                   readonly></th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <th scope="row">
+                                            <label for="denomination2" hidden="hidden"></label>
+                                            <input type="number" class="form-control"
+                                                   id="denomination2" readonly
+                                                   name="denomination2"
+                                                   value="<?= $transactionVoucher['denomination2'] ?>"
+                                            ></th>
+                                        <th scope="row">
+                                            <label for="denomination2T" hidden="hidden"></label>
+                                            <input type="number" class="form-control"
+                                                   id="denomination2T" name="denomination2T"
+                                                   readonly></th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <th scope="row">
+                                            <label for="denomination1" hidden="hidden"></label>
+                                            <input type="number" class="form-control"
+                                                   id="denomination1" readonly
+                                                   name="denomination1"
+                                                   value="<?= $transactionVoucher['denomination1'] ?>"
+                                            ></th>
+                                        <th scope="row">
+                                            <label for="denomination1T" hidden="hidden"></label>
+                                            <input type="number" class="form-control"
+                                                   id="denomination1T" name="denomination1T"
+                                                   readonly></th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">0.01</th>
+                                        <th scope="row">
+                                            <label for="denominationCents" hidden="hidden"></label>
+                                            <input type="number" class="form-control" id="denominationCents" readonly name="denominationCents" value="<?= $transactionVoucher['denominationCents'] ?>"></th>
+                                        <th scope="row">
+                                            <label for="denominationCentsT" hidden="hidden"></label>
+                                            <input type="number" class="form-control" id="denominationCentsT" name="denominationCentsT" readonly></th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">Total</th>
+                                        <th scope="row">
+                                            <label for="totalDenominationsT" hidden="hidden"></label>
+                                            <input type="number" id="totalDenominationsT" class="form-control" name="totalDenominations" readonly>
+                                        </th>
+                                        <th scope="row">
+                                            <label for="totalSumT" hidden="hidden"></label>
+                                            <input type="text" id="totalSumT" class="form-control form-control-danger" name="totalSumT" readonly>
+                                        </th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE") ? "hidden" : " " ?>>
+                                <div class="col-sm-6 col-md-6 col-form-label">
+                                    <input name="trans_id" value="<?= $transactionVoucher['id'] ?>" hidden="hidden">
+                                    <input name="approvalStatus" value="APPROVED" hidden="hidden">
+                                    <button type="submit" name="first_approve_trans" class="btn btn-success btn-block">Approve</button>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-form-label">
+                                    <button type="submit" name="revise_trans" class="btn btn-danger btn-block" id="reviseButton" data-toggle="modal" data-target="#Medium-modal">Revise</button>
+                                </div>
+                            </div>
+                            <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? " " : "hidden" ?>>
+                                <div class="col-sm-6 col-md-6 col-form-label">
+                                    <input name="trans_id" value="<?= $transactionVoucher['id'] ?>" hidden="hidden">
+                                    <input name="approvalStatus" value="APPROVED" hidden="hidden">
+                                    <button type="submit" name="first_approve_trans" class="btn btn-success btn-block">Approve</button>
+                                </div>
+                                <div class="col-sm-6 col-md-6 col-form-label">
+                                    <a type="button" class="btn btn-primary btn-block" href="cash_management.php?menu=main">Back</a>
+                                </div>
+                            </div>
+                            <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE" || $transactionVoucher['firstApprovalStatus'] == "PENDING") ? "hidden" : "" ?>>
+                                <div class="col-sm-12 col-md-12 col-form-label">
+                                    <a type="button" class="btn btn-primary btn-block" href="cash_management.php?menu=main">Back</a>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th scope="col">Denomination</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Value</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th scope="row">100</th>
-                                    <th scope="row">
-                                        <label for="denomination100" hidden="hidden"></label>
-                                        <input type="number" class="form-control"
-                                               id="denomination100" readonly
-                                               name="denomination100"
-                                               value="<?= $transactionVoucher['denomination100'] ?>"
-                                        ></th>
-                                    <th scope="row">
-                                        <label for="denomination100T" hidden="hidden"></label>
-                                        <input type="number" class="form-control"
-                                               id="denomination100T"
-                                               name="denomination100T" readonly></th>
-                                </tr>
-                                <tr>
-                                    <th scope="row">50</th>
-                                    <th scope="row">
-                                        <label for="denomination50" hidden="hidden"></label>
-                                        <input type="number" class="form-control"
-                                               id="denomination50" readonly
-                                               name="denomination50"
-                                               value="<?= $transactionVoucher['denomination50'] ?>"
-                                        ></th>
-                                    <th scope="row">
-                                        <label for="denomination50T" hidden="hidden"></label>
-                                        <input type="number" class="form-control"
-                                               id="denomination50T" name="denomination50T"
-                                               readonly></th>
-                                </tr>
-                                <tr>
-                                    <th scope="row">20</th>
-                                    <th scope="row">
-                                        <label for="denomination20" hidden="hidden"></label>
-                                        <input type="number" class="form-control"
-                                               id="denomination20" readonly
-                                               name="denomination20"
-                                               value="<?= $transactionVoucher['denomination20'] ?>"
-                                        ></th>
-                                    <th scope="row">
-                                        <label for="denomination20T" hidden="hidden"></label>
-                                        <input type="number" class="form-control"
-                                               id="denomination20T" name="denomination20T"
-                                               readonly></th>
-                                </tr>
-                                <tr>
-                                    <th scope="row">10</th>
-                                    <th scope="row">
-                                        <label for="denomination10" hidden="hidden"></label>
-                                        <input type="number" class="form-control"
-                                               id="denomination10" readonly
-                                               name="denomination10"
-                                               value="<?= $transactionVoucher['denomination10'] ?>"
-                                        ></th>
-                                    <th scope="row">
-                                        <label for="denomination10T" hidden="hidden"></label>
-                                        <input type="number" class="form-control"
-                                               id="denomination10T" name="denomination10T"
-                                               readonly></th>
-                                </tr>
-                                <tr>
-                                    <th scope="row">5</th>
-                                    <th scope="row">
-                                        <label for="denomination5" hidden="hidden"></label>
-                                        <input type="number" class="form-control"
-                                               id="denomination5" readonly
-                                               name="denomination5"
-                                               value="<?= $transactionVoucher['denomination5'] ?>"
-                                        ></th>
-                                    <th scope="row">
-                                        <label for="denomination5T" hidden="hidden"></label>
-                                        <input type="number" class="form-control"
-                                               id="denomination5T" name="denomination5T"
-                                               readonly></th>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <th scope="row">
-                                        <label for="denomination2" hidden="hidden"></label>
-                                        <input type="number" class="form-control"
-                                               id="denomination2" readonly
-                                               name="denomination2"
-                                               value="<?= $transactionVoucher['denomination2'] ?>"
-                                        ></th>
-                                    <th scope="row">
-                                        <label for="denomination2T" hidden="hidden"></label>
-                                        <input type="number" class="form-control"
-                                               id="denomination2T" name="denomination2T"
-                                               readonly></th>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <th scope="row">
-                                        <label for="denomination1" hidden="hidden"></label>
-                                        <input type="number" class="form-control"
-                                               id="denomination1" readonly
-                                               name="denomination1"
-                                               value="<?= $transactionVoucher['denomination1'] ?>"
-                                        ></th>
-                                    <th scope="row">
-                                        <label for="denomination1T" hidden="hidden"></label>
-                                        <input type="number" class="form-control"
-                                               id="denomination1T" name="denomination1T"
-                                               readonly></th>
-                                </tr>
-                                <tr>
-                                    <th scope="row">0.01</th>
-                                    <th scope="row">
-                                        <label for="denominationCents" hidden="hidden"></label>
-                                        <input type="number" class="form-control"
-                                               id="denominationCents" readonly
-                                               name="denominationCents"
-                                               value="<?= $transactionVoucher['denominationCents'] ?>"
-                                        ></th>
-                                    <th scope="row">
-                                        <label for="denominationCentsT" hidden="hidden"></label>
-                                        <input type="number" class="form-control"
-                                               id="denominationCentsT"
-                                               name="denominationCentsT" readonly></th>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Total</th>
-                                    <th scope="row">
-                                        <label for="totalDenominationsT" hidden="hidden"></label>
-                                        <input type="number" id="totalDenominationsT"
-                                               class="form-control"
-                                               name="totalDenominations" readonly></th>
-                                    <th scope="row">
-                                        <label for="totalSumT" hidden="hidden"></label>
-                                        <input type="text" id="totalSumT"
-                                               class="form-control form-control-danger" name="totalSumT"
-                                               readonly></th>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE") ? "hidden" : " " ?>>
-                            <div class="col-sm-6 col-md-6 col-form-label">
-                                <button type="button" class="btn btn-success btn-block"
-                                        id="approveButton"
-                                        onclick="approveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED','')">
-                                    Approve
-                                </button>
-                            </div>
-                            <div class="col-sm-6 col-md-6 col-form-label">
-                                <button type="button"
-                                        class="btn btn-danger btn-block"
-                                        id="reviseButton"
-                                        data-toggle="modal"
-                                        data-target="#Medium-modal"
-                                >Revise
-                                </button>
-                            </div>
-                        </div>
-                        <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? " " : "hidden" ?>>
-                            <div class="col-sm-6 col-md-6 col-form-label">
-                                <button type="button"
-                                        class="btn btn-success btn-block"
-                                        id="approveButton"
-                                        onclick="approveTransaction(<?= $transactionVoucher['id']; ?>, 'APPROVED','')">
-                                    Approve
-                                </button>
-                            </div>
-                            <div class="col-sm-6 col-md-6 col-form-label">
-                                <a type="button" class="btn btn-primary btn-block" href="cash_management.php?menu=main">Back
-                                </a>
-                            </div>
-                        </div>
-                        <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE" || $transactionVoucher['firstApprovalStatus'] == "PENDING") ? "hidden" : "" ?>>
-                            <div class="col-sm-12 col-md-12 col-form-label">
-                                <a type="button" class="btn btn-primary btn-block" href="cash_management.php?menu=main">Back
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    </form>
                     <!-- Form -->
                     <div class="col-md-4 col-sm-12 mb-30">
                         <div class="pd-20 card-box height-100-p">
-                            <div
-                                    class="modal fade"
-                                    id="Medium-modal"
-                                    tabindex="-1"
-                                    role="dialog"
-                                    aria-labelledby="myLargeModalLabel"
-                                    aria-hidden="true"
-                            >
+                            <div class="modal fade" id="Medium-modal" tabindex="-1" role="dialog">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" id="myLargeModalLabel">
-                                                Revise Comment
-                                            </h4>
-                                            <button
-                                                    type="button"
-                                                    class="close"
-                                                    data-dismiss="modal"
-                                                    aria-hidden="true"
-                                            >
-                                                ×
-                                            </button>
-                                        </div>
+                                            <h4 class="modal-title" id="myLargeModalLabel">Revise Comment</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></div>
                                         <div class="modal-body">
                                             <form method="POST" action="">
                                                 <label for="id" hidden="hidden"></label>
