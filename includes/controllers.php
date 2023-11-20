@@ -164,13 +164,13 @@ function access_logs()
 
 
 // ######################  Get RECENT DISBURSEMENTS from MUSONI #################################
-function disbursements($fromDate,$toDate){
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/musoni/getLoansByDisbursementDate/'.$fromDate.'/'.$toDate);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $disbursements_response = curl_exec($ch);
-    curl_close($ch);
-    $disbursements_data = json_decode($disbursements_response, true);
+    function disbursements($fromDate,$toDate){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/musoni/getLoansByDisbursementDate/'.$fromDate.'/'.$toDate);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $disbursements_response = curl_exec($ch);
+        curl_close($ch);
+        $disbursements_data = json_decode($disbursements_response, true);
 
     if ($disbursements_data !== null) {
         $disbursements = $disbursements_data['disbursedLoans'];
@@ -180,20 +180,20 @@ function disbursements($fromDate,$toDate){
     }
 }
 
-function disbursed_by_range($display_range){
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/musoni/loans/disbursed-by-range/'.$display_range);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $disbursements_response = curl_exec($ch);
-    curl_close($ch);
+    function disbursed_by_range($display_range){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/musoni/loans/disbursed-by-range/'.$display_range);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $disbursements_response = curl_exec($ch);
+        curl_close($ch);
 
-    $data = json_decode($disbursements_response, true);
+        $data = json_decode($disbursements_response, true);
 //        $disbursement_data = [];
 //        foreach ($data as $loan) {
 //            $disbursement_data[] = $data['totalPrincipalDisbursed'];
 //        }
-    return $data;
-}
+        return $data;
+    }
 
 function branch_targets(){
     $ch = curl_init();
@@ -438,15 +438,15 @@ if (isset($_POST['uploadxds'])) {
 }
 
 // ######################  Get USER BY ID from CMS #################################
-function users(){
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/users');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $users_response = curl_exec($ch);
-    curl_close($ch);
-    $users = json_decode($users_response, true);
-    return $users;
-}
+    function users(){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/users');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $users_response = curl_exec($ch);
+        curl_close($ch);
+        $users = json_decode($users_response, true);
+        return $users;
+    }
 
 function staff(){
     $ch = curl_init();
@@ -1669,6 +1669,17 @@ if(isset($_POST['update_ticket'])) {
         header('location: predisbursed_tickets.php');
     }
     curl_close($ch);
+}
+
+if(isset($_POST['update_ticket'])) {
+    $loanId = $_POST['loanId'];
+    $fullName = $_POST['fullName'];
+    $bocoSignature = $_POST['bocoSignature'];
+    $lessFees = $_POST['lessFees'];
+    $applicationFee = $_POST['applicationFee'];
+    $predisDate = date("Y-m-d H:i:s");
+    $pipelineStatus = "predisbursment_ticket";
+    updateTicket($loanId, $fullName, $bocoSignature, $lessFees, $applicationFee, $predisDate, $pipelineStatus);
 }
 
 function updateBocoSignature($checked,$userId ,$bocoSignature){
@@ -3019,7 +3030,6 @@ function pastel_acc_balances($account){
     return $resp;
 }
 
-
 if(isset($_POST['create_vault'])){
     // API endpoint URL
     $url ="http://localhost:7878/api/utg/cms/vault/save";
@@ -3055,6 +3065,41 @@ if(isset($_POST['create_vault'])){
     curl_close($ch);
     if($response){
         echo '<script>window.location.href = "cash_management.php?menu=main&tabId=vaults";</script>';
+    }
+}
+
+if(isset($_POST['create_withdrawal_purpose'])){
+    // API endpoint URL
+    $url ="http://localhost:7878/api/utg/cms/transaction-purpose/save";
+
+    // Data to send in the POST request
+    $postData = array(
+        'name' => $_POST['name'],
+    );
+
+    $data = json_encode($postData);
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+
+    // Execute the POST request and store the response in a variable
+    $response = curl_exec($ch);
+
+    // Check for cURL errors
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+    }
+
+    // Close cURL session
+    curl_close($ch);
+    if($response){
+        echo '<script>window.location.href = "cash_management.php?menu=main";</script>';
     }
 }
 
@@ -3484,4 +3529,13 @@ if(isset($_POST['second_revert_trans'])) {
 }
 
 
+function withdrawal_purposes($action) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/transaction-purpose/$action");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $vaults = json_decode($server_response, true);
+    return $vaults;
+}
 ?>
