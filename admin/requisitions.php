@@ -58,7 +58,7 @@ include('../includes/header.php');
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-blue" data-toggle="tab" href="#budgets" role="tab" aria-selected="false" >
-                        Budgets
+                        Budgets Vs. Expenditure
                     </a>
                 </li>
                 <li class="nav-item">
@@ -172,7 +172,6 @@ include('../includes/header.php');
             }
             $nextNumber = $lastKnownNumber + 1;
             $poNumber = "P" . str_pad($nextNumber, 6, "0", STR_PAD_LEFT);
-
 
             ?>
 

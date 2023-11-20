@@ -14,20 +14,11 @@
             <table class="table hover table stripe multiple-select-row data-table-export nowrap">
             <thead >
             <tr>
-                <th  style="font-size: 12px; padding: 0px;" class="table-plus datatable-nosort">Category</th>
-                <th  style="font-size: 12px;padding: 0px;">Year</th>
-                <th  style="font-size: 12px;padding: 0px;">Jan</th>
-                <th  style="font-size: 12px;padding: 0px;">Feb</th>
-                <th  style="font-size: 12px;padding: 0px;">Mar</th>
-                <th  style="font-size: 12px;padding: 0px;">Apr</th>
-                <th  style="font-size: 12px;padding: 0px;">May</th>
-                <th  style="font-size: 12px;padding: 0px;">Jun</th>
-                <th  style="font-size: 12px;padding: 0px;">Jul</th>
-                <th  style="font-size: 12px;padding: 0px;">Aug</th>
-                <th  style="font-size: 12px;padding: 0px;">Sep</th>
-                <th  style="font-size: 12px;padding: 0px;">Oct</th>
-                <th  style="font-size: 12px;padding: 0px;">Nov</th>
-                <th  style="font-size: 12px;padding: 0px;">Dec</th>
+                <th >Date</th>
+                <th >Budget</th>
+                <th >Expenditure</th>
+                <th >Variance</th>
+
                 <th  style="font-size: 12px;padding: 0px;">Actions</th>
             </tr>
             </thead>
@@ -36,20 +27,16 @@
                 $budgets = poBudget('/all');
                 foreach ($budgets as $row):?>
                 <tr>
-                    <td  style="font-size: 12px; padding: 0px;" class="table-plus"><?php echo $row['category']; ?></td>
-                    <td  style="font-size: 12px; padding: 0px;"><?php echo $row['year']; ?></td>
-                    <td  style="font-size: 12px; padding: 0px;"><?php echo $row['january']; ?></td>
-                    <td  style="font-size: 12px; padding: 0px;"><?php echo $row['february']; ?></td>
-                    <td  style="font-size: 12px; padding: 0px;"><?php echo $row['march']; ?></td>
-                    <td  style="font-size: 12px; padding: 0px;"><?php echo $row['april']; ?></td>
-                    <td  style="font-size: 12px; padding: 0px;"><?php echo $row['may']; ?></td>
-                    <td  style="font-size: 12px; padding: 0px;"><?php echo $row['june']; ?></td>
-                    <td  style="font-size: 12px; padding: 0px;"><?php echo $row['july']; ?></td>
-                    <td  style="font-size: 12px; padding: 0px;"><?php echo $row['august']; ?></td>
-                    <td  style="font-size: 12px; padding: 0px;"><?php echo $row['september']; ?></td>
-                    <td  style="font-size: 12px; padding: 0px;"><?php echo $row['october']; ?></td>
-                    <td  style="font-size: 12px; padding: 0px;"><?php echo $row['november']; ?></td>
-                    <td  style="font-size: 12px; padding: 0px;"><?php echo $row['december']; ?></td>
+                    <td  style="font-size: 12px; padding: 0px;"><?php echo date('d-m-Y',$row['createdAt']); ?></td>
+                    <td  style="font-size: 12px; padding: 0px;"><?php echo $row['budget']; ?></td>
+                    <td  style="font-size: 12px; padding: 0px;"><?php echo $row['expenses']; ?></td>
+                    <td>
+                        <?php if ($row['variance'] >= 0){ ?>
+                            <span class="badge badge-success" data-bgcolor="#2DB83D" data-color="#fff"><?php echo number_format($row['variance'],'2','.',',') ;?></span>
+                        <?php } else { ?>
+                            <span class="badge badge-warning" data-color="#fff"><?php echo number_format($row['variance'],'2','.',',') ;?></span>
+                        <?php } ?>
+                    </td>
                     <td  style="font-size: 12px; padding: 0px;">
                         <div class="dropdown">
                             <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">

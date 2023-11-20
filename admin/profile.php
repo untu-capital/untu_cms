@@ -168,7 +168,7 @@
 													<div class="img-container">
 														<img
 															id="image"
-															src="../vendors/images/photo1.jpg"
+															src="../vendors/images/photo2.jpg"
 															alt="Picture"
 														/>
 													</div>
@@ -217,13 +217,8 @@
 										</li>
 									</ul>
 								</div>
-                                <h5 class="mb-20 h5 text-blue">Change Password</h5>
-                                <form method="post" action="">
-                                    <input class="form-control" type="password" name="new_password" placeholder="Type new password">
-                                    <input class="form-control" type="hidden" name="userid" required value="<?php echo $_SESSION['userId'] ?>">
-                                    <br>
-                                    <button class="btn btn-success" type = "submit" name= "change_password" >Change Password</button>
-                                </form>
+							
+
 							</div>
 						</div>
 						<div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mb-30">
