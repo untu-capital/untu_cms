@@ -7,7 +7,7 @@
             ?>
 
             <div class="row">
-                <div class="col-9"><h5 class="card-title text-blue" style="text-decoration: underline;">PO NUMBER: #<?php echo $req['poNumber'] ?></h5></div>
+                <div class="col-9"><h5 class="card-title text-blue"  style="text-decoration: underline;">PO NUMBER: #<?php echo $req['poNumber'] ?></h5></div>
                 <div class="col-3"><h5 class="card-title text-blue" style="text-decoration: underline;">Status: <?php echo $req['poStatus'] ?></h5></div>
             </div>
 
@@ -23,13 +23,13 @@
                                             <div class="col-md-6 col-sm-12">
                                                 <div class="form-group">
                                                     <label>Requisition Name:</label>
-                                                    <input type="text" class="form-control" disabled placeholder="<?php echo $req['poName'] ?>" />
+                                                    <input type="text" class="form-control" name="req_name" disabled value="<?php echo $req['poName'] ?>" />
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-sm-12">
                                                 <div class="form-group">
                                                     <label>Requisition Date:</label>
-                                                    <input type="text" class="form-control" placeholder="<?php echo date('d M Y', strtotime($req['createdAt'])); ?>" disabled/>
+                                                    <input type="text" class="form-control" name="req_date" value="<?php echo date('d M Y', strtotime($req['createdAt'])); ?>" disabled/>
                                                 </div>
                                             </div>
                                         </div>
@@ -57,7 +57,7 @@
                                             <div class="col-md-4 col-sm-12">
                                                 <div class="form-group">
                                                     <label>Total Amount:</label>
-                                                    <input type="text" class="form-control" value="$ <?php echo number_format($totalAmount, 2); ?>" disabled />
+                                                    <input type="text" class="form-control" name="req_amount" value="$ <?php echo number_format($totalAmount, 2); ?>" disabled />
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-12">
@@ -73,7 +73,7 @@
                         </div>
                     </div>
 
-                    <?php if ($req['userId'] == $_SESSION['userid'] ){ ?>
+                    <?php if ($req['userId'] == $_SESSION['userid']  && is_null($req['teller'])){ ?>
                     <h5 class="card-title text-blue" ></h5>
                     <form method="post" action="" id="add_transaction">
                         <table class="table hover table-striped multiple-select-row nowrap table-bordered" id="table_field">
@@ -214,7 +214,7 @@
                             <textarea name="notes" class="form-control"><?php $req_notes = requisitions('/'.$_GET['req_id']); echo htmlspecialchars($req_notes['notes']); ?></textarea>
                         </div>
 
-                        <h5 class="card-title text-blue" ><b>Prepared By :</b> <?php $user =user($_SESSION['userid']); echo $user['firstName']." ".$user['lastName']; ?></h5>
+                        <h5 class="card-title text-blue" ><b>Prepared By :</b> <?php echo $_SESSION['fullname']; ?></h5>
 
                         <div class="custom-control custom-checkbox mb-5">
                             <input name="add_approver" type="checkbox" class="custom-control-input" id="customCheck1-1">
@@ -251,7 +251,7 @@
                         </div>
                     </form>
 
-                    <?php } elseif ($req['userId'] != $_SESSION['userid'] ){ ?>
+                    <?php } elseif ($req['userId'] != $_SESSION['userid'] || !is_null($req['teller']) || $req['teller'] !== "") { ?>
 
                         <h5 class="card-title text-blue" ></h5>
                         <form method="post" action="" id="add_transaction">
@@ -279,10 +279,6 @@
                         </form>
 
                         <form action="" method="post" enctype="multipart/form-data">
-<!--                            <div class="form-group col-6">-->
-<!--                                <h5><label class="card-title text-blue" style="text-decoration: underline;">Attachments:</label></h5>-->
-<!--                                <input type="file" name="attachments[]" class="form-control-file form-control height-auto" multiple />-->
-<!--                            </div>-->
 
                             <!--                    TODO: DISPLAY ATTACHMENTS-->
                             <div class="form-group col-6">
@@ -369,19 +365,62 @@
 
                             <input class="form-control" type="hidden" name="req_id" value="<?php echo $_GET['req_id'] ?>" required>
                             <input class="form-control" type="hidden" name="po_number" value="<?php echo $req_approvers['poNumber'] ?>" required>
+                            <?php if ($_SESSION['role'] == "ROLE_BOCO" && (!is_null($req['teller']) || $req['teller'] !== "")){ ?>
+
+                                <input class="form-control" type="hidden" name="paidStatus" value="PAID" required>
+                                <input type="hidden" class="form-control" name="req_reference" value="<?php echo $req['poNumber'] ?>" />
+                                <input type="hidden" class="form-control" name="req_name" value="<?php echo $req['poName'] ?>" />
+                                <input type="hidden" class="form-control" name="req_amount" value=<?php echo $totalAmount; ?> />
+                                <input type="hidden" class="form-control" name="req_initiator" value="<?php echo $_SESSION['fullname']; ?>" />
+
+                                <?php if ($req['poStatus'] != "PAID"){ ?>
+                                    <button name="paid_requisition" type="submit" class="btn btn-info btn-lg btn-block">Disburse Cash</button>
+                                <?php } else{ ?>
+                                    <button name="paid_requisition" type="submit" class="btn btn-dark btn-lg btn-block" disabled>Cash Disbursed</button>
+                                <?php } ?>
+                            <?php } else { ?>
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-6">
                                     <?php if ($_SESSION['role'] == "ROLE_BOARD" || $_SESSION['role'] == "ROLE_FIN" ){ ?>
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5 class="card-title text-blue" ><b>Select Tailor to Disburse Amount: </b> </h5>
+                                            </div>
+                                            <div class="form-group col">
+                                                <select id="name" class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="teller" style="width: 100%; height: 38px" required>
+                                                    <optgroup label="select user">
+                                                        <?php
+                                                        $user = user($req['teller']);
+                                                        echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
+                                                        $users = untuStaff();
+                                                        foreach ($users as $user) {
+                                                            echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
+                                                        }
+                                                        ?>
+                                                    </optgroup>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <input class="form-control" type="hidden" name="cmsStatus" value="PAYMENT APPROVED" required>
                                         <button name="cms_approve_requisition" type="submit" class="btn btn-success btn-lg btn-block">Approve Requisition</button>
                                     <?php } else{ ?>
+                                        <input class="form-control" type="hidden" name="status" value="PENDING APPROVAL" required>
                                     <button name="po_approve_requisition" type="submit" class="btn btn-success btn-lg btn-block">Approve Requisition</button>
                                     <?php } ?>
                                 </div>
-                                <div class="col-6"></div>
+                                <div class="col-4"></div>
                                 <div class="col-2">
-                                    <button name="request_revisions" type="submit" class="btn btn-outline-dark btn-lg btn-block">Request Revisions</button>
+                                    <input class="form-control" type="hidden" name="declineStatus" value="DECLINED" required>
+                                    <?php if ($_SESSION['role'] == "ROLE_BOARD" || $_SESSION['role'] == "ROLE_FIN" ){ ?>
+                                        <button name="request_revisions" type="submit" class="btn btn-outline-dark btn-lg btn-block">Decline</button>
+                                    <?php } else{ ?>
+                                        <button name="request_revision" type="submit" class="btn btn-outline-dark btn-lg btn-block">Decline</button>
+                                    <?php } ?>
                                 </div>
                             </div>
+                            <?php } ?>
+
                         </form>
                     <?php }?>
                 </div>

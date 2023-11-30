@@ -194,7 +194,7 @@ if(isset($_POST['auth'])){
         <tr>
             <th>Creation Date</th>
             <th>Name</th>
-            <th>Athaurisation Level</th>
+            <th>Authorisation Level</th>
             <th>Branch</th>
 
             <th class="datatable-nosort">Action</th>

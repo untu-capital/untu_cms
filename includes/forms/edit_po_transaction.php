@@ -3,93 +3,6 @@
 
 //$errors = array();
 $req = req_trans("/getById/".$_GET['trans_id']);
-// Escape user inputs for security
-if(isset($_POST['Submit'])){
-    $campaignname = $_POST['campaign_name'];
-    $city = $_POST['city'];
-    $branch = $_POST['branch'];
-    $zonearea= $_POST['zone'];
-    $sector = $_POST['sector'];
-    $subsector = $_POST['subsector'];
-    $valuechain = $_POST['value_chain'];
-    $resourceneed = $_POST['resource_need'];
-    $startdate = $_POST['start_date'];
-    $enddate = $_POST['end_date'];
-    $loanofficer = $_POST['loan_officer'];
-
-    if ($enddate < $startdate) {
-        // End date is greater than start date
-        echo '<script>alert("End date must be greater than start date.");history.go(-1);</script>';
-        // Add your desired logic here
-    } else {
-        $url = "http://localhost:7878/api/utg/api/market_campaigns";
-
-        $data_array = array(
-            'poName' => "UChat (Whatsapp Chatbot)",
-            'poTotal' =>  "110",
-            'notes' =>  "asdfghj"
-
-        );
-
-        $data = json_encode($data_array);
-
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true );
-
-        $resp = curl_exec($ch);
-
-        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        $headerStr = substr($resp, 0, $headerSize);
-        $bodyStr = substr($resp, $headerSize);
-
-        // Check HTTP status code
-        if (!curl_errno($ch)) {
-            // $_SESSION['info'] = "";
-            // $_SESSION['error'] = "";
-            switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-                case 200:  # OK redirect to dashboard
-                    ?>        <script>
-                    $(function() {
-                        $("#myModal").modal();//if you want you can have a timeout to hide the window after x seconds
-                    });
-                </script>
-                    <?php
-
-                    break;
-                case 400:  # Bad Request
-                    $decoded = json_decode($bodyStr);
-                    foreach($decoded as $key => $val) {
-                        //echo $key . ': ' . $val . '<br>';
-                    }
-                    // echo $val;
-                    $_SESSION['error'] = "Failed. Please try again, ".$val;
-                    header('location: campaign_and_marketing.php?menu=add_campaign');
-                    break;
-
-                case 401: # Unauthorixed - Bad credientials
-                    $_SESSION['error'] = 'Application failed.. Please try again!';
-                    header('location: campaign_and_marketing.php?menu=add_campaign');
-
-                    break;
-                default:
-                    $_SESSION['error'] = 'Not able to send application'. "\n";
-                    header('location: campaign_and_marketing.php?menu=add_campaign');
-            }
-        } else {
-            $_SESSION['error'] = 'Application failed.. Please try again!'. "\n";
-            header('location: campaign_and_marketing.php?menu=add_campaign');
-
-        }
-        curl_close($ch);
-    }
-
-}
 
 ?>
 
@@ -192,7 +105,8 @@ if(isset($_POST['Submit'])){
 
             <div class="col-md-6 col-sm-12">
                 <div class="form-group">
-                    <input class="form-control" type="hidden" name="trans_id" value="<?php echo $_GET['trans_id'] ?>" required>
+                    <input class="form-control" type="hidden" name="req_trans_id" value="<?php echo $_GET['trans_id'] ?>" required>
+                    <input class="form-control" type="hidden" name="req_id" value="<?php echo $req['poRequisitionId'] ?>" required>
                     <button type="submit" class="btn btn-danger" value="Submit" name="update_po_trans">Update Transaction</button>
                 </div>
             </div>

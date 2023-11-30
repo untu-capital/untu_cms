@@ -46,6 +46,11 @@ include('../includes/header.php');
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link text-blue" data-toggle="tab" href="#teller_requisitions" role="tab" aria-selected="true" >
+                        Process Requisition(s)
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link text-blue" data-toggle="tab" href="#suppliers" role="tab" aria-selected="false">
                         Suppliers
                     </a>
@@ -60,6 +65,10 @@ include('../includes/header.php');
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="requisitions" role="tabpanel">
                     <?php include('../includes/tables/purchase_order/requisitions_table.php'); ?>
+                </div>
+                <div class="tab-pane fade" id="teller_requisitions" role="tabpanel">
+                    <?php  $requisitionsUrl = "/getByTeller/".$_SESSION['userId'];
+                    include('../includes/tables/purchase_order/requisitions_table.php'); ?>
                 </div>
                 <div class="tab-pane fade" id="suppliers" role="tabpanel">
                     <?php include('../includes/tables/purchase_order/list-suppliers.php'); ?>

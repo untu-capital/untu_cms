@@ -9,9 +9,7 @@
             <div class="col-10">
                 <h4 class="text-blue h4">
                     <?php
-                        if ($state == 'progress'){echo "Applications In Progress";}
-                        elseif($state == 'reject'){echo "Rejected Applications";}
-                        else {echo "Purchase Order Requisitions";}
+                        echo " Purchase Order Requisitions ( ". $req_status ." )";
                     ?>
                 </h4>
             </div>
@@ -31,6 +29,7 @@
                     <th>Count</th>
                     <th>Requisition Approval</th>
                     <th>Finance Approval</th>
+                    <th>Teller</th>
 					<th>Status</th>
 					<th class="datatable-nosort"></th>
 				</tr>
@@ -42,7 +41,6 @@
                         $req = requisitions('/'.$data['id']);
                         $req_trans = req_trans("/getByRequisitionId/".$data['id']);
 
-
                         // Assuming you have retrieved the transactions and stored them in a variable called $req
                         $transactionCount = count($req_trans); // Calculate the total count of transactions
                         $totalAmount = 0; // Initialize the total amount variable
@@ -53,7 +51,6 @@
                                 $totalAmount += (int)$transaction['poAmount']; // Sum up the transaction amounts (cast to integer for numeric addition)
                             }
                         }
-
                         ?>
 				<tr>
                     <td><?php echo convertDateFormat($data['createdAt']); ?></td>
@@ -65,14 +62,22 @@
                         echo $user['firstName']." ".$user['lastName']; ?></td>
                     <td><?php $user = user($data['cmsApprover']);
                         echo $user['firstName']." ".$user['lastName']; ?></td>
+                    <td><?php $user = user($data['teller']);
+                        echo $user['firstName']." ".$user['lastName']; ?></td>
                     <td>
                         <!-- <span class="badge badge-pill" data-bgcolor="#FF0000" data-color="#fff">
 						<?= htmlspecialchars ($data['poStatus']) ?></span> -->
 
-                        <?php if ($data['poStatus'] =="PAID") {
-                            echo "<label style='padding: 7px;' class='badge badge-success'>$data[poStatus]</label>";
-                        } else {
+                        <?php if ($data['poStatus'] =="PENDING APPROVAL") {
                             echo "<label style='padding: 7px;' class='badge badge-warning'>$data[poStatus]</label>";
+                        } elseif ($data['poStatus'] =="PAID") {
+                            echo "<label style='padding: 7px;' class='badge badge-success'>$data[poStatus]</label>";
+                        } elseif ($data['poStatus'] =="PAYMENT APPROVED") {
+                            echo "<label style='padding: 7px;' class='badge badge-info'>$data[poStatus]</label>";
+                        } elseif ($data['poStatus'] =="DECLINED") {
+                            echo "<label style='padding: 7px;' class='badge badge-primary'>$data[poStatus]</label>";
+                        } else {
+                            echo "<label style='padding: 7px;' class='badge badge-dark'>$data[poStatus]</label>";
                         }
                         ?>
                     </td>
@@ -84,6 +89,8 @@
                                 <?php if ($_SESSION['role'] == "ROLE_BOARD" || $_SESSION['role'] == "ROLE_FIN" && $data['poStatus'] == "PENDING APPROVAL"){ ?>
 <!--                                    <a class="dropdown-item" href="cash_management.php?menu=approve&id=--><?php //=$data["id"] ?><!--" ><i class="dw dw-edit2"></i> View/(Approve)</a>-->
                                     <a class="dropdown-item" href="req_info.php?menu=req&req_id=<?php echo $data['id']; ?>"><i class="dw dw-eye"></i> View</a>
+                                <?php } elseif ($_SESSION['role'] == "ROLE_BOCO" && $data['teller'] != ""){ ?>
+                                    <a class="dropdown-item" href="req_info.php?menu=req&req_id=<?php echo $data['id']; ?>"><i class="dw dw-eye"></i> Views</a>
                                 <?php } else{ ?>
                                     <a class="dropdown-item" href="req_info.php?menu=req&req_id=<?php echo $data['id']; ?>"><i class="dw dw-eye"></i> View</a>
                                 <?php } ?>

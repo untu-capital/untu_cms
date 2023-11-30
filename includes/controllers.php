@@ -2460,6 +2460,7 @@ if(isset($_POST['add_req_trans'])) {
 if (isset($_POST['update_po_trans'])) {
 
     $req_trans_id = $_POST['req_trans_id'];
+    $req_id = $_POST['req_id'];
 
     $data_array = array(
         'poItem' => $_POST['item'],
@@ -2499,7 +2500,7 @@ if (isset($_POST['update_po_trans'])) {
 //                echo "<script>alert('$systemOut')</script>";
                 $_SESSION['info'] = "Purchase Order Transaction approved Successfully";
                 audit($_SESSION['userid'], "Purchase Order Transaction approved Successfully", $_SESSION['branch']);
-                header('location: requisitions.php?menu=main');
+                header('location: req_info.php?menu=req&req_id='.$req_id);
                 break;
             default:
                 $_SESSION['error'] = 'Failed to approved PO Transaction.';
@@ -2605,7 +2606,7 @@ if (isset($_POST['save_requisition'])) {
 if (isset($_POST['po_approve_requisition'])) {
 
         $data_array = array(
-            'poStatus' => "PENDING APPROVAL",
+            'poStatus' => $_POST['status'],
             'poApprover' => $_SESSION['userId'],
         );
 
@@ -2655,7 +2656,120 @@ if (isset($_POST['po_approve_requisition'])) {
 if (isset($_POST['cms_approve_requisition'])) {
 
     $data_array = array(
-        'poStatus' => "PAYMENT APPROVED",
+        'poStatus' => $_POST['cmsStatus'],
+        'cmsApprover' => $_SESSION['userId'],
+        'teller' => $_POST['teller']
+    );
+
+    // Convert the data array to JSON
+    $data = json_encode($data_array);
+
+    $url = "http://localhost:7878/api/utg/requisitions/cmsApproveRequest/".$_GET['req_id'];
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HEADER, true);
+
+    // Execute cURL request
+    $response = curl_exec($curl);
+    $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($response, 0, $headerSize);
+    $bodyStr = substr($response, $headerSize);
+    $headers = headersToArray($headerStr);
+
+    // Check for errors
+    if (!curl_errno($curl)) {
+        switch ($http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE)) {
+            case 200:
+//                echo "<script>alert('$systemOut')</script>";
+                $_SESSION['info'] = "Purchase Order Transaction approved Successfully";
+                audit($_SESSION['userid'], "Purchase Order Transaction approved Successfully", $_SESSION['branch']);
+                header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+                break;
+            default:
+                $_SESSION['error'] = 'Failed to approved PO Transaction.';
+                audit($_SESSION['userid'], "Failed to approved Purchase Order Transaction", $_SESSION['branch']);
+                header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+        }
+    } else {
+        $_SESSION['error'] = 'Failed to approved Purchase Order Transaction.. Please try again!';
+        audit($_SESSION['userid'], "Failed to approved Purchase Order Transaction", $_SESSION['branch']);
+        header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+    }
+    curl_close($curl);
+
+}
+
+
+if(isset($_POST['paid_requisition'])) {
+    // Collect form data and assign to variables
+    $userName = $_POST['req_initiator'] ?? "";
+
+    $toAccount = getVaultAccountByType("Expense Account") ?? "";
+    $fromAccount = getVaultAccount($_SESSION['userid'], "Petty Cash") ?? "";
+
+    $reference = $_POST['req_reference'] ?? "";
+    $amount = $_POST['req_amount'] ?? "";
+    $transactionType = "PO-TRANS";
+    $description = $_POST['req_name'] ?? "Purchase Order Transaction";
+
+    $data_array = array(
+        'poStatus' => $_POST['paidStatus']
+    );
+
+    // Convert the data array to JSON
+    $data = json_encode($data_array);
+
+    $url = "http://localhost:7878/api/utg/requisitions/paidRequisition/".$_GET['req_id'];
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HEADER, true);
+
+    // Execute cURL request
+    $response = curl_exec($curl);
+    $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($response, 0, $headerSize);
+    $bodyStr = substr($response, $headerSize);
+    $headers = headersToArray($headerStr);
+
+    // Check for errors
+    if (!curl_errno($curl)) {
+        switch ($http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE)) {
+            case 200:
+                $_SESSION['info'] = "Purchase Order Transaction paid Successfully";
+                audit($_SESSION['userid'], "Purchase Order Transaction paid Successfully", $_SESSION['branch']);
+
+                pastel_transaction($userName, $toAccount, $fromAccount, $reference, $amount, $transactionType, $description);
+
+                header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+                break;
+            default:
+                $_SESSION['error'] = 'Failed to make PO Transaction payment.';
+                audit($_SESSION['userid'], "Failed to pay Purchase Order Transaction", $_SESSION['branch']);
+                header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+        }
+    } else {
+        $_SESSION['error'] = 'Failed to pay Purchase Order Transaction.. Please try again!';
+        audit($_SESSION['userid'], "Failed to make Purchase Order Transaction payment", $_SESSION['branch']);
+        header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+    }
+    curl_close($curl);
+
+}
+
+if (isset($_POST['request_revisions'])) {
+
+    $data_array = array(
+        'poStatus' => $_POST['declineStatus'],
         'cmsApprover' => $_SESSION['userId'],
     );
 
@@ -2696,6 +2810,56 @@ if (isset($_POST['cms_approve_requisition'])) {
     } else {
         $_SESSION['error'] = 'Failed to approved Purchase Order Transaction.. Please try again!';
         audit($_SESSION['userid'], "Failed to approved Purchase Order Transaction", $_SESSION['branch']);
+        header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+    }
+    curl_close($curl);
+
+}
+
+if (isset($_POST['request_revision'])) {
+
+    $data_array = array(
+        'poStatus' => $_POST['declineStatus'],
+        'poApprover' => $_SESSION['userId'],
+    );
+
+    // Convert the data array to JSON
+    $data = json_encode($data_array);
+
+    $url = "http://localhost:7878/api/utg/requisitions/poApproveRequest/".$_GET['req_id'];
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HEADER, true);
+
+    // Execute cURL request
+    $response = curl_exec($curl);
+    $headerSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($response, 0, $headerSize);
+    $bodyStr = substr($response, $headerSize);
+    $headers = headersToArray($headerStr);
+
+    // Check for errors
+    if (!curl_errno($curl)) {
+        switch ($http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE)) {
+            case 200:
+//                echo "<script>alert('$systemOut')</script>";
+                $_SESSION['info'] = "Purchase Order Transaction approved Successfully";
+                audit($_SESSION['userid'], "Purchase Order Transaction approved Successfully", $_SESSION['branch']);
+                header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+                break;
+            default:
+                $_SESSION['error'] = 'Failed to approve PO Transaction.';
+                audit($_SESSION['userid'], "Failed to approve Purchase Order Transaction", $_SESSION['branch']);
+                header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
+        }
+    } else {
+        $_SESSION['error'] = 'Failed to approve Purchase Order Transaction.. Please try again!';
+        audit($_SESSION['userid'], "Failed to approve Purchase Order Transaction", $_SESSION['branch']);
         header('location: req_info.php?menu=req&req_id=' . $_POST['req_id']);
     }
     curl_close($curl);
@@ -3537,5 +3701,25 @@ function withdrawal_purposes($action) {
     curl_close($ch);
     $vaults = json_decode($server_response, true);
     return $vaults;
+}
+
+function getVaultAccount($userId, $vaultAccType) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/cms_vault_permission/byUserIdAndVaultType/$userId/$vaultAccType");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $vaultAcc = json_decode($server_response, true);
+    return $vaultAcc;
+}
+
+function getVaultAccountByType($vaultAccType) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/vault/get/byType/$vaultAccType");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+    curl_close($ch);
+    $vaultAcc = json_decode($server_response, true);
+    return $vaultAcc;
 }
 ?>

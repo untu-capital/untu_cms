@@ -367,7 +367,16 @@ include('../includes/header.php');
                             <div class="tab-pane fade" id="po_payments" role="tabpanel">
 <!--                                --><?php //include('../includes/tables/cash_management/list-petty-cash.php'); ?>
 
-                                <?php  $requisitionsUrl = "/getByApproverIdNull";
+
+                                <?php
+                                    $req_status = "Waiting for Approval";
+                                    $requisitionsUrl = "/financeApproval";
+                                include('../includes/tables/purchase_order/requisitions_table.php'); ?>
+
+
+                                <?php
+                                    $req_status = "Approved / Declined";
+                                    $requisitionsUrl = "/approvedByFinance";
                                 include('../includes/tables/purchase_order/requisitions_table.php'); ?>
                             </div>
 <!--                            <div class="tab-pane fade row" id="cash_receipts" role="tabpanel">-->
@@ -635,7 +644,7 @@ include('../includes/header.php');
                                             <div class="col-md-4 col-sm-12">
                                                 <div class="form-group">
                                                     <label>Branch Name</label>
-                                                    <select id="branch" class="custom-select form-control" name="update_branch">
+                                                    <select id="branch" class="custom-select2 form-control" name="update_branch" style="width: 100%; height: 38px">
                                                         <?php
                                                             $branch = branch_by_id($auth_by_id['branchId']);
                                                             echo "<option value='$branch[id]'>$branch[branchName] Branch</option>";
