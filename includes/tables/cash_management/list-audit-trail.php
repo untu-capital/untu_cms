@@ -1,19 +1,3 @@
-<?php
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/audit-trails/all");
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$server_response = curl_exec($ch);
-
-curl_close($ch);
-$data = json_decode($server_response, true);
-// Check if the JSON decoding was successful
-if ($data !== null) {
-    $table = $data;
-
-} else {
-    echo "Error decoding JSON data";
-}
-?>
 
 <div class="pd-ltr-20 xs-pd-20-10">
     <div class="min-height-200px">
@@ -31,43 +15,30 @@ if ($data !== null) {
                 <table class="table hover multiple-select-row data-table-export nowrap">
                     <thead>
                     <tr>
-
-                        <th class="table-plus datatable-nosort">Initiator</th>
-                        <th>Amount</th>
+                        <th class="table-plus datatable-nosort">Date</th>
+                        <th>Action Performed</th>
+                        <th>Action Level</th>
                         <th>From Vault</th>
                         <th>To Vault</th>
-                        <th>Initiated At</th>
-
-                        <th>First Approved By</th>
-                        <th>First Approved At</th>
-
-                        <th>Second Approved By</th>
-                        <th>Second Approved At</th>
-
+                        <th>Branch</th>
+                        <th>User Role</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($table as $row):?>
-
+                    <?php
+                        $cms_trail = cmsAuditTrail();
+                        foreach ($cms_trail as $row):?>
                         <tr>
-                            <td class="table-plus"><?php echo $row['initiator']; ?></td>
-                            <td><?php echo $row['amount']; ?></td>
-                            <td><?php echo $row['fromVault']; ?></td>
-                            <td><?php echo $row['toVault']; ?></td>
                             <td><?php
-                                $timestamp = strtotime($row['initiatedAt']);
-                                echo date("F j, Y, g:i a", $timestamp); ?></td>
-
-                            <td><?php echo $row['firstApprover']; ?></td>
-                            <td><?php
-                                $timestamp = strtotime($row['firstApprovedAt']);
-                                echo date("F j, Y, g:i a", $timestamp) ? $row['firstApprover'] != null : $row['firstApprovedAt']  ; ?></td>
-
-                            <td><?php echo $row['secondApprover']; ?></td>
-                            <td><?php
-                                $timestamp = strtotime($row['secondApprovedAt']);
-                                echo date("F j, Y, g:i a", $timestamp) ? $row['secondApprover'] != null : $row['secondApprovedAt']  ; ?></td>
-
+                                $timestamp = strtotime($row['createdAt']);
+                                echo date("d-m-Y, g:i a", $timestamp); ?>
+                            </td>
+                            <td><?php echo $row['action']; ?></td>
+                            <td><?php echo $row['auth_level']; ?></td>
+                            <td><?php echo $row['from_account']; ?></td>
+                            <td><?php echo $row['to_account']; ?></td>
+                            <td><?php echo $row['branch']; ?></td>
+                            <td><?php echo $row['role']; ?></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>

@@ -355,8 +355,8 @@ include('../includes/header.php');
                             </div>
 
                             <div class="form-group row" <?php echo ($transactionVoucher['secondApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE" || $transactionVoucher['secondApprovalStatus'] == "REVISE") ? "hidden" : " " ?>>
-                                <input type="hidden" value="<?= $transactionVoucher['fromVault']['account'] ?>" class="form-control" name="toVaultAcc" readonly>
-                                <input type="hidden" value="<?= $transactionVoucher['toVault']['account'] ?>" class="form-control" name="fromVaultAcc" readonly>
+                                <input type="hidden" value="<?= $transactionVoucher['fromVault']['account'] ?>" class="form-control" name="fromVaultAcc" readonly>
+                                <input type="hidden" value="<?= $transactionVoucher['toVault']['account'] ?>" class="form-control" name="toVaultAcc" readonly>
                                 <div class="col-sm-6 col-md-6 col-form-label">
                                     <input name="trans_id" value="<?= $transactionVoucher['id'] ?>" hidden>
                                     <input name="approvalStatus" value="APPROVED" hidden>
@@ -371,7 +371,7 @@ include('../includes/header.php');
                                 </div>
                                 <div class="col-sm-6 col-md-6 col-form-label">
                                     <button type="button" class="btn btn-warning btn-block" data-toggle="modal" id="reviseButton"
-                                        <?php echo $transactionVoucher['firstApprovalStatus'] == "APPROVED" ? " " : "hidden" ?> >data-target="#Medium-modal">Revert
+                                        <?php echo $transactionVoucher['firstApprovalStatus'] == "APPROVED" ? " " : "hidden" ?> >Revert
                                     </button>
                                     <button type="button" class="btn btn-warning btn-block" data-toggle="modal" id="hreviseButton" data-target="#HMedium-modal"
                                         <?php echo $transactionVoucher['firstApprovalStatus'] == "PENDING" ? " " : "hidden" ?>>Revert

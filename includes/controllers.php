@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(0);
+//error_reporting(0);
 
 $audit = "";
 $cc_level = 'bcc_final';
@@ -3328,6 +3328,17 @@ function deleteTransaction($id){
     curl_setopt($ch, CURLOPT_HEADER, true);
     $resp = curl_exec($ch);
     curl_close($ch);
+}
+
+function cmsAuditTrail(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/audit_trail/all");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $server_response = curl_exec($ch);
+
+    curl_close($ch);
+    return json_decode($server_response, true);
+
 }
 
 //===============================End CMS Controller ==========================================================================================

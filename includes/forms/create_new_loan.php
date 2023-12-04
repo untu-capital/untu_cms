@@ -39,7 +39,7 @@
             <div class="col-md-3 col-sm-12">
                 <div class="form-group">
                     <label>Date Of Birth *</label>
-                    <input id="birthday" class="date-picker form-control" name = "dob" required="required" placeholder="DD MM YYYY" value="<?php echo $user_loans[0]['dateOfBirth']; ?>" min="<?php $date = date("Y-m-d", strtotime("-65 years")); echo $date;?>" max="<?php $date = date("Y-m-d", strtotime("-18 years"));
+                    <input id="birthday" class="date-picker form-control" name = "dob" required="required" autocomplete="off" placeholder="DD MM YYYY" value="<?php echo $user_loans[0]['dateOfBirth']; ?>" min="<?php $date = date("Y-m-d", strtotime("-65 years")); echo $date;?>" max="<?php $date = date("Y-m-d", strtotime("-18 years"));
                     ?>">
                 </div>
             </div>
@@ -165,7 +165,7 @@
             <div class="col-md-4 col-sm-12">
                 <div class="form-group">
                     <label>Business Start Date</label>
-                    <input id="businessStartDate" name="businessStartDate" value="<?php echo $user_loans[0]['businessStartDate']; ?>" min="1905-01-01" max="2022-12-31" class="date-picker form-control" placeholder="DD MM YYYY">
+                    <input id="businessStartDate" name="businessStartDate" autocomplete="off" value="<?php echo $user_loans[0]['businessStartDate']; ?>" min="1905-01-01" max="2022-12-31" class="date-picker form-control" placeholder="DD MM YYYY">
                 </div>
             </div>
             <div class="col-md-4 col-sm-12">
