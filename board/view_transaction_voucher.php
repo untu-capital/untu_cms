@@ -351,8 +351,8 @@ include('../includes/header.php');
                             </div>
 
                             <div class="form-group row" <?php echo ($transactionVoucher['secondApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE"   || $transactionVoucher['secondApprovalStatus'] == "REVISE") ? "hidden" : " " ?>>
-                                <input type="hidden" value="<?= $transactionVoucher['fromVault']['account'] ?>" class="form-control" name="toVaultAcc" readonly>
-                                <input type="hidden" value="<?= $transactionVoucher['toVault']['account'] ?>" class="form-control" name="fromVaultAcc" readonly>
+                                <input type="hidden" value="<?= $transactionVoucher['fromVault']['account'] ?>" class="form-control" name="fromVaultAcc" readonly>
+                                <input type="hidden" value="<?= $transactionVoucher['toVault']['account'] ?>" class="form-control" name="toVaultAcc" readonly>
                                 <div class="col-sm-6 col-md-6 col-form-label">
                                     <input name="trans_id" value="<?= $transactionVoucher['id'] ?>" hidden>
                                     <input name="approvalStatus" value="APPROVED" hidden>
