@@ -47,6 +47,13 @@ include ('check_role.php');
 					
 				<?php include('../includes/dashboard/welcome_widget.php'); ?>
 
+                <!-- powerBi widget -->
+                <div class="card-box pd-20 height-100-p mb-30">
+                    <div class="row align-items-center">
+                        <iframe class="card-body" title="credit_loans" width="1140" height="515" src="https://app.powerbi.com/reportEmbed?reportId=de0def08-11a1-48a7-84de-6a985f030144&autoAuth=true&ctid=66d250cc-d4c9-4aa7-beec-9a10acf3be25" frameborder="0" allowFullScreen="true"></iframe>
+                    </div>
+                </div>
+
 				<?php include('../includes/tables/users_table.php'); ?>
 
 				<?php include('../includes/footer.php');?>

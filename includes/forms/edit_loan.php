@@ -4,7 +4,7 @@ if (isset($_POST['update_loan_application'])) {
     $firstname = $_POST['firstname'];
     $middleName = $_POST['middleName'];
     $lastname = $_POST['lastname'];
-    $dob = $_POST['dob'];
+    $dob = date('Y-m-d', strtotime($_POST['dob']));
     $id_number = $_POST['id_number'];
     $gender = $_POST['gender'];
     $marital = $_POST['marital'];
@@ -17,7 +17,7 @@ if (isset($_POST['update_loan_application'])) {
     $city = $_POST['city'];
     $branchName = $_POST['branchName'];
     $industry_code = $_POST['industry_code'];
-    $businessStartDate = $_POST['businessStartDate'];
+    $businessStartDate = date('Y-m-d', strtotime($_POST['businessStartDate']));
     $businessName = $_POST['businessName'];
     $pob = $_POST['pob'];
     $next_of_kin_name = $_POST['next_of_kin_name'];
