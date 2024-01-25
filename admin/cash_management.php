@@ -826,7 +826,8 @@ include('../includes/header.php');
                 </form>
             </div>
 
-        <?php }elseif ($_GET['menu'] == 'update_vault'){ ?>
+        <?php }
+        elseif ($_GET['menu'] == 'update_vault'){ ?>
 
             <?php
             $id = $_GET['vaultId'];

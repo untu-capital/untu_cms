@@ -151,7 +151,7 @@ include('../includes/header.php');
                 // Close cURL session
                 curl_close($ch);
 
-//                header("Location: list_vaults.php");
+//                header("Location: list_customers.php");
 //                exit;
             }
             ?>
@@ -255,7 +255,7 @@ include('../includes/header.php');
                 // Close cURL session
                 curl_close($ch);
 
-//                header("Location: list_vaults.php");
+//                header("Location: list_customers.php");
 //                exit;
             }
             ?>

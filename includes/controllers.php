@@ -173,7 +173,6 @@ function second_approver_update_transaction_status($id, $status, $comment ){
     header("Location: cash_management.php?menu=main");
 }
 
-
 if ($_SESSION['role'] == "ROLE_OP"){
     $cc_level = 'mcc_final';
     $schedule_meeting = '';
