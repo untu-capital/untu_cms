@@ -1,8 +1,7 @@
 <?php
 include('../session/session.php');
 include('check_role.php');
-include('../includes/controllers.php');
-include('../includes/treasury-management-controller.php');
+include('../includes/services/treasury-management-service.php');
 $nav_header = "Treasury Management Dashboard";
 ?>
 
