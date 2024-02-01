@@ -1,5 +1,5 @@
 <?php
-//<==========START CUSTOMER CONTROLLER=========>
+//<==========START CUSTOMER SERVICE=========>
 
 // CREATE CUSTOMER
 if (isset($_POST['create_customer_info'])) {
@@ -155,5 +155,5 @@ if ($_GET['menu'] == 'delete_customer'){ ?>
 
 <?php }
 
-//<==========END CUSTOMER CONTROLLER=========>
+//<==========END CUSTOMER SERVICE=========>
 ?>
