@@ -28,6 +28,7 @@
 					<th>Name</th>					
 					<th>Date Created</th>
 					<th>Total Amount</th>
+
                     <th>Requisition Approval</th>
                     <th>Finance Approval</th>
 					<th>Status</th>
@@ -52,6 +53,7 @@
 					<td class="table-plus"><?php echo $data['poName']; ?>
                     <td><?php echo convertDateFormat($data['createdAt']); ?></td>
 					<td><?php echo "$ ".$data['poTotal'].".00"; ?></td>
+
 					<td><?php $user = user($data['poApprover']);
                         echo $user['firstName']." ".$user['lastName']; ?></td>
                     <td><?php $user = user($data['cmsApprover']);

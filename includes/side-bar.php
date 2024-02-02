@@ -797,6 +797,19 @@
                             </ul>
                         </li>
                         <?php } ?>
+
+                            <?php if ($_SESSION['cmsUser']['role'] != null){ ?>
+                                <li class="dropdown">
+                                    <a href="javascript:;" class="dropdown-toggle">
+                                        <span class="micon bi bi-cash-coin"></span><span class="mtext">Treasury Management</span>
+                                    </a>
+                                    <ul class="submenu">
+                                        <li><a href="treasury_management.php?menu=main">Dashboard</a></li>
+                                        <li><a href="reports.php?menu=main">Reports</a></li>
+
+                                    </ul>
+                                </li>
+                            <?php } ?>
                         <li>
                             <a href="events_calendar.php" class="dropdown-toggle no-arrow">
 								<span class="micon bi bi-calendar4-week"></span
