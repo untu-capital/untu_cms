@@ -327,14 +327,14 @@ include('../includes/header.php');
 <!--                                    Cash Transactions Voucher-->
 <!--                                </a>-->
 <!--                            </li>-->
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#vault_auth" role="tab" aria-selected="false">Vaults Authorization</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-blue" data-toggle="tab" href="#authorisers" role="tab" aria-selected="false">
-                                    Branch Authorizers
-                                </a>
-                            </li>
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link" data-toggle="tab" href="#vault_auth" role="tab" aria-selected="false">Vaults Authorization</a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link text-blue" data-toggle="tab" href="#authorisers" role="tab" aria-selected="false">-->
+<!--                                    Branch Authorizers-->
+<!--                                </a>-->
+<!--                            </li>-->
 
                             <li class="nav-item">
                                 <a class="nav-link text-blue" data-toggle="tab" href="#vaults" role="tab" aria-selected="false">

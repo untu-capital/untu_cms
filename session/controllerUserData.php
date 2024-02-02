@@ -3,13 +3,14 @@
 <?php
 session_start();
 
-//// Check if last activity was set
-//if (isset($_SESSION['last_activity']) && time() - $_SESSION['last_activity'] > 1800) {
-//    session_unset(); // unset $_SESSION variable
-//    session_destroy(); // destroy session data in storage
-//    header("Location: login.php"); // redirect to login page
-//}
-//$_SESSION['last_activity'] = time(); // update last activity time stamp
+// Check if last activity was set
+if (isset($_SESSION['last_activity']) && time() - $_SESSION['last_activity'] > 1800) {
+    session_unset(); // unset $_SESSION variable
+    session_destroy(); // destroy session data in storage
+    header("Location: login.php"); // redirect to login page
+}
+$_SESSION['last_activity'] = time(); // update last activity time stamp
+
 
 // require "connection.php";
 $audit = "";

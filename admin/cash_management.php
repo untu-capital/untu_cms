@@ -549,7 +549,7 @@ include('../includes/header.php');
                         function goBack() {
                             window.history.back();
                         }
-                    </script
+                    </script>
                 </div>
             </div>
         <?php }

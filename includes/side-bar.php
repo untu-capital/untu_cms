@@ -409,14 +409,22 @@
                                     <li><a href="requisitions.php?menu=main">Requisitions</a></li>
                                 </ul>
                             </li>
-                                <li class="dropdown">
-                                    <a href="javascript:;" class="dropdown-toggle">
-                                        <span class="micon bi bi-cash-coin"></span><span class="mtext">Cash Management</span>
-                                    </a>
-                                    <ul class="submenu">
-                                        <li><a href="cash_management.php?menu=main">Dashboard</a></li>
-                                    </ul>
-                                </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+                                    <span class="micon bi bi-cash-coin"></span><span class="mtext">Cash Management</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="cash_management.php?menu=main">Dashboard</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+                                    <span class="micon bi bi-coin"></span><span class="mtext">Treasury Management</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="treasury_management.php?menu=main">Dashboard</a></li>
+                                </ul>
+                            </li>
                             <li class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span

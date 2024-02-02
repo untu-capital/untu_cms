@@ -3147,10 +3147,58 @@ if(isset($_POST['revoke_permission'])) {
 
 }
 
+//function pastel_transaction($userName, $toAccount, $fromAccount, $reference, $amount, $transactionType, $description){
+//
+//    $data_array = array(
+//        'userName' => $userName,
+//        'toAccount' => $toAccount,
+//        'fromAccount' => $fromAccount,
+//        'reference' => $reference,
+//        'amount' => $amount,
+//        'transactionType' => $transactionType,
+//        'description' => $description,
+//        'currency' => '001',
+//        'transactionDate' => date('Y-m-d'),
+//        'exchangeRate' => '1'
+//    );
+//    $data = json_encode($data_array);
+//    $ch = curl_init();
+//    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/postGl/save");
+//    curl_setopt($ch, CURLOPT_POST, true);
+//    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+//    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+//    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//    curl_setopt($ch, CURLOPT_HEADER, true );
+//    $resp = curl_exec($ch);
+//    curl_close($ch);
+//    audit($_SESSION['userid'], "Created Pastel $description ", $_SESSION['branch']);
+//}
+//
+//function pastel_acc_balances($account){
+//
+//    $data_array = array(
+//        'account' => $account
+//    );
+//    $data = json_encode($data_array);
+//    $ch = curl_init();
+//    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/postGl/getVaultBalance");
+//    curl_setopt($ch, CURLOPT_POST, true);
+//    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+//    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+//    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//    $resp = curl_exec($ch);
+//    curl_close($ch);
+//
+//    // Return the response body without the headers
+//    return $resp;
+//}
+
+
 function pastel_transaction($userName, $toAccount, $fromAccount, $reference, $amount, $transactionType, $description){
 
     $data_array = array(
-        'userName' => $userName,
+        'aPIUsername' => "Admin",
+        'aPIPassword' => "Admin",
         'toAccount' => $toAccount,
         'fromAccount' => $fromAccount,
         'reference' => $reference,
@@ -3161,6 +3209,7 @@ function pastel_transaction($userName, $toAccount, $fromAccount, $reference, $am
         'transactionDate' => date('Y-m-d'),
         'exchangeRate' => '1'
     );
+
     $data = json_encode($data_array);
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/postGl/save");
@@ -3174,20 +3223,11 @@ function pastel_transaction($userName, $toAccount, $fromAccount, $reference, $am
     audit($_SESSION['userid'], "Created Pastel $description ", $_SESSION['branch']);
 }
 
-if (isset($_POST['cms_transact'])){
-    $ToAccount = $_POST['ToAccount'];
-    $FromAccount = $_POST['FromAccount'];
-    $Reference = $_POST['Reference'];
-    $Amount = $_POST['Amount'];
-    $TransactionType = $_POST['TransactionType'];
-    $Description = $_POST['Description'];
-
-    pastel_transaction($ToAccount, $FromAccount, $Reference, $Amount, $TransactionType, $Description);
-}
-
 function pastel_acc_balances($account){
 
     $data_array = array(
+        // 'APIUsername' => "Admin",
+        // 'APIPassword' => "Admin",
         'account' => $account
     );
     $data = json_encode($data_array);
@@ -3202,6 +3242,18 @@ function pastel_acc_balances($account){
 
     // Return the response body without the headers
     return $resp;
+}
+
+
+if (isset($_POST['cms_transact'])){
+    $ToAccount = $_POST['ToAccount'];
+    $FromAccount = $_POST['FromAccount'];
+    $Reference = $_POST['Reference'];
+    $Amount = $_POST['Amount'];
+    $TransactionType = "CAS-TRN";
+    $Description = $_POST['Description'];
+
+    pastel_transaction($ToAccount, $FromAccount, $Reference, $Amount, $TransactionType, $Description);
 }
 
 if(isset($_POST['create_vault'])){
@@ -3616,7 +3668,7 @@ if(isset($_POST['second_approve_trans'])) {
     $fromAccount = $_POST['fromVaultAcc'] ?? "";
     $reference = $_POST['trans_id'] ?? "";
     $amount = $_POST['amount'] ?? "";
-    $transactionType = "CASH-TRANS-VOUCHER";
+    $transactionType = "CAS-TRN";
     $description = $_POST['withdrawalPurpose'] ?? "";
 
     $url = "http://localhost:7878/api/utg/cms/transaction-voucher/second-approve";
@@ -3713,7 +3765,6 @@ if(isset($_POST['second_revert_trans'])) {
 
 }
 
-
 function withdrawal_purposes($action) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/transaction-purpose/$action");
@@ -3744,3 +3795,80 @@ function getVaultAccountByType($vaultAccType) {
     return $vaultAcc;
 }
 ?>
+
+
+<!--################################################################################################################################################################-->
+
+<!--###############  -------------------------------------------     TREASURY MANAGEMENT SYSTEM      -----------------------------------------  ####################-->
+
+<!--################################################################################################################################################################-->
+
+<?php
+    if(isset($_POST['create_deal_note'])) {
+
+        // Collect form data and assign to variables
+        $dnId = $_POST['id'] ?? "";
+        $dnInvestor = $_POST['investor'] ?? "";
+        $dnAmount = $_POST['amount'] ?? "";
+        $dnDisbursementDate = $_POST['disbursement_date'] ?? "";
+        $dnMaturityDate = $_POST['maturity_date'] ?? "";
+        $dnTenure = $_POST['tenure'] ?? "";
+        $dnInterestRate = $_POST['interest_rate'] ?? "";
+        $dnSigning = $_POST['signing'] ?? "";
+
+        $url = "http://localhost:7878/api/utg/cms/treasury_management/deal_note/save";
+        $data_array = array(
+            'id' => $dnId,
+            'investor' => $dnInvestor,
+            'amount' => $dnAmount,
+            'disbursement_date' => $dnDisbursementDate,
+            'maturity_date' => $dnMaturityDate,
+            'tenure' => $dnTenure,
+            'interest_rate' => $dnInterestRate,
+            'signing' => $dnSigning
+        );
+
+        $data = json_encode($data_array);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true );
+        $resp = curl_exec($ch);
+
+        // convert headers to array
+        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $headerStr = substr($resp, 0, $headerSize);
+        $bodyStr = substr($resp, $headerSize);
+        $headers = headersToArray( $headerStr );
+
+        // Check HTTP status code
+        if (!curl_errno($ch)) {
+            switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+                case 200:
+                    $_SESSION['info'] = "Transaction Voucher approved Successfully";
+                    audit($_SESSION['userid'], "Transaction Voucher approved Successfully", $_SESSION['branch']);
+
+                    pastel_transaction($userName, $toAccount, $fromAccount, $reference, $amount, $transactionType, $description);
+
+                    header('location: cash_management.php?menu=main#approved');
+                    break;
+                default:
+                    $_SESSION['error'] = 'Failed to approved PO Transaction.';
+                    audit($_SESSION['userid'], "Failed to approved Transaction Voucher", $_SESSION['branch']);
+                    header('location: cash_management.php?menu=main#approved');
+            }
+        } else {
+            $_SESSION['error'] = 'Failed to approved Transaction Voucher.. Please try again!';
+            audit($_SESSION['userid'], "Failed to approved Transaction Voucher", $_SESSION['branch']);
+            header('location: cash_management.php?menu=main#approved');
+        }
+        curl_close($ch);
+
+    }
+
+?>
+
+

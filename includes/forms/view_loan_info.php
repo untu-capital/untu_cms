@@ -1279,21 +1279,23 @@
                                 <tr>
                                     <td><input class="form-control" type="text" name="txtLoanAmount"  min=0 required></td>
                                     <td>
-                                        <select class="custom-select2 form-control" style="width: 100%; height: 38px" required name="txtTenure" autocomplete="off" >
-                                            <option value="0">Select Tenure</option>
-                                            <option value="1">1 months</option>
-                                            <option value="2">2 months</option>
-                                            <option value="3">3 months</option>
-                                            <option value="4">4 months</option>
-                                            <option value="5">5 months</option>
-                                            <option value="6">6 months</option>
-                                            <option value="7">7 months</option>
-                                            <option value="8">8 months</option>
-                                            <option value="9">9 months</option>
-                                            <option value="10">10 months</option>
-                                            <option value="11">11 months</option>
-                                            <option value="12">12 months</option>
-                                        </select></td>
+                                        <input class="form-control" type="number" placeholder="Enter months" name="txtTenure" required>
+<!--                                        <select class="custom-select2 form-control" style="width: 100%; height: 38px" name="txtTenure" autocomplete="off" >-->
+<!--                                            <option value="0">Select Tenure</option>-->
+<!--                                            <option value="1">1 months</option>-->
+<!--                                            <option value="2">2 months</option>-->
+<!--                                            <option value="3">3 months</option>-->
+<!--                                            <option value="4">4 months</option>-->
+<!--                                            <option value="5">5 months</option>-->
+<!--                                            <option value="6">6 months</option>-->
+<!--                                            <option value="7">7 months</option>-->
+<!--                                            <option value="8">8 months</option>-->
+<!--                                            <option value="9">9 months</option>-->
+<!--                                            <option value="10">10 months</option>-->
+<!--                                            <option value="11">11 months</option>-->
+<!--                                            <option value="12">12 months</option>-->
+<!--                                        </select>-->
+                                    </td>
                                     <td><input class="form-control" type="text" name="txtInterestRate"  min=0 required></td>
                                     <td><select class="custom-select2 form-control" name="txtBasis" autocomplete="off" style="width: 100%; height: 38px" required>
                                             <option value="reducing balance">reducing balance</option>
@@ -1917,21 +1919,23 @@
                                 <tr>
                                     <td><input class="form-control" type="text" name="txtLoanAmount"  min=0 required></td>
                                     <td>
-                                        <select class="btn btn-clipboard" name="txtTenure" autocomplete="off" placeholder="" >
-                                            <option value="0">Select</option>
-                                            <option value="1">1 months</option>
-                                            <option value="2">2 months</option>
-                                            <option value="3">3 months</option>
-                                            <option value="4">4 months</option>
-                                            <option value="5">5 months</option>
-                                            <option value="6">6 months</option>
-                                            <option value="7">7 months</option>
-                                            <option value="8">8 months</option>
-                                            <option value="9">9 months</option>
-                                            <option value="10">10 months</option>
-                                            <option value="11">11 months</option>
-                                            <option value="12">12 months</option>
-                                        </select></td>
+                                        <input class="form-control" type="number" placeholder="Enter months" autocomplete="off" name="txtTenure" required>
+<!--                                        <select class="btn btn-clipboard" name="txtTenure" placeholder="" >-->
+<!--                                            <option value="0">Select</option>-->
+<!--                                            <option value="1">1 months</option>-->
+<!--                                            <option value="2">2 months</option>-->
+<!--                                            <option value="3">3 months</option>-->
+<!--                                            <option value="4">4 months</option>-->
+<!--                                            <option value="5">5 months</option>-->
+<!--                                            <option value="6">6 months</option>-->
+<!--                                            <option value="7">7 months</option>-->
+<!--                                            <option value="8">8 months</option>-->
+<!--                                            <option value="9">9 months</option>-->
+<!--                                            <option value="10">10 months</option>-->
+<!--                                            <option value="11">11 months</option>-->
+<!--                                            <option value="12">12 months</option>-->
+<!--                                        </select>-->
+                                    </td>
                                     <td><input class="form-control" type="text" name="txtInterestRate"  min=0 required></td>
                                     <td><select class="btn btn-clipboard" name="txtBasis" autocomplete="off" placeholder="" >
                                             <option value="reducing balance">reducing balance</option>

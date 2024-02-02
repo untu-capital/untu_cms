@@ -20,16 +20,20 @@
 
             <!-- Export Datatable start -->
             <div class="card-box mb-30">
+
                 <div class="pd-20">
                     <div class="row">
                         <div class="col-10">
                             <h4 class="text-blue h4">Vaults</h4>
                         </div>
+                        <?php if ($_SESSION['role'] == "ROLE_ADMIN") { ?>
                         <div class="col-2">
                             <a class="btn-lg btn-block btn-success text-white text-center" href="cash_management.php?menu=add_vault"><i class="icon-copy bi bi-plus-lg"></i>Add Vault</a>
                         </div>
+                        <?php } ?>
                     </div>
                 </div>
+
                 <div class="pb-20">
                     <table  class="table hover table stripe multiple-select-row data-table-export nowrap">
                         <thead>
@@ -56,28 +60,14 @@
                             <td><?php echo '$ ' . number_format($row['currentAmount'], 2, '.', ','); ?></td>
                             <td>
                                 <div class="dropdown">
-                                    <a
-                                            class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle"
-                                            href="#"
-                                            role="button"
-                                            data-toggle="dropdown"
-                                    >
+                                    <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                                         <i class="dw dw-more"></i>
                                     </a>
-                                    <div
-                                            class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list"
-                                    >
-                                        <a class="dropdown-item"
-                                           href="cash_management.php?menu=update_vault&vaultId=<?php echo urlencode($row['id']); ?>"
-
-                                        ><i class="dw dw-edit2"></i> Edit Vault</a>
-
-                                        <a class="dropdown-item"
-                                           href="cash_management.php?menu=delete_vault&vaultId=<?php echo urlencode($row['id']); ?>"
-
-                                        ><i class="dw dw-delete-3"></i>
-                                            Delete</a>
-
+                                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+                                        <a class="dropdown-item" href="cash_management.php?menu=update_vault&vaultId=<?php echo urlencode($row['id']); ?>"><i class="dw dw-edit2"></i> Edit Vault</a>
+                                        <?php if ($_SESSION['role'] == "ROLE_ADMIN") { ?>
+                                            <a class="dropdown-item" href="cash_management.php?menu=delete_vault&vaultId=<?php echo urlencode($row['id']); ?>"><i class="dw dw-delete-3"></i>Delete</a>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             </td>
