@@ -12,10 +12,9 @@
         <div class="sidebar-menu">
 
             <?php if ($check_role == "ROLE_LO") { ?>
-
                 <ul id="accordion-menu">
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-house"></span
                                 ><span class="mtext">Home</span>
                         </a>
@@ -24,7 +23,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-file-earmark-text"></span
                                 ><span class="mtext">Loan Applications</span>
                         </a>
@@ -34,7 +33,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span
                                 ><span class="mtext">C.R.M</span>
                         </a>
@@ -51,7 +50,7 @@
                         </a>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-gear"></span
                                 ><span class="mtext">Settings Page</span>
                         </a>
@@ -67,7 +66,7 @@
 
                 <ul id="accordion-menu">
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-house"></span
                                 ><span class="mtext">Home</span>
                         </a>
@@ -76,7 +75,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-file-earmark-text"></span
                                 ><span class="mtext">Loan Applications</span>
                         </a>
@@ -87,7 +86,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-table"></span
                                 ><span class="mtext">Tickets</span>
                         </a>
@@ -98,7 +97,7 @@
                     </li>
                     <?php if ($_SESSION['poUser']['role'] != null) { ?>
                         <li class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle">
+                            <a href="javascript:" class="dropdown-toggle">
                                 <span class="micon bi bi-cash-stack"></span><span class="mtext">Purchase Order</span>
                             </a>
                             <ul class="submenu">
@@ -108,7 +107,7 @@
                     <?php } ?>
                     <?php if ($_SESSION['cmsUser']['role'] != null) { ?>
                         <li class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle">
+                            <a href="javascript:" class="dropdown-toggle">
                                 <span class="micon bi bi-cash-coin"></span><span class="mtext">Cash Management</span>
                             </a>
                             <ul class="submenu">
@@ -117,7 +116,7 @@
                         </li>
                     <?php } ?>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-folder"></span
                                 ><span class="mtext">Pipeline Reporting</span>
                         </a>
@@ -127,7 +126,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span
                                 ><span class="mtext">C.R.M</span>
                         </a>
@@ -144,7 +143,7 @@
                         </a>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-gear"></span
                                 ><span class="mtext">Settings Page</span>
                         </a>
@@ -161,7 +160,7 @@
 
                 <ul id="accordion-menu">
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-house"></span
                                 ><span class="mtext">Home</span>
                         </a>
@@ -170,7 +169,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
                             <span class="micon bi bi-file-earmark-text"></span><span
                                     class="mtext">Loan Applications</span>
                         </a>
@@ -181,7 +180,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
                             <span class="micon bi bi-layout-text-window-reverse"></span><span class="mtext">MCC Scheduling</span>
                         </a>
                         <ul class="submenu">
@@ -190,7 +189,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
                             <span class="micon bi bi-table"></span><span class="mtext">Tickets</span>
                         </a>
                         <ul class="submenu">
@@ -200,7 +199,7 @@
                     </li>
                     <?php if ($_SESSION['poUser']['role'] != null) { ?>
                         <li class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle">
+                            <a href="javascript:" class="dropdown-toggle">
                                 <span class="micon bi bi-cash-stack"></span><span class="mtext">Purchase Order</span>
                             </a>
                             <ul class="submenu">
@@ -210,7 +209,7 @@
                     <?php } ?>
                     <?php if ($_SESSION['cmsUser']['role'] != null) { ?>
                         <li class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle">
+                            <a href="javascript:" class="dropdown-toggle">
                                 <span class="micon bi bi-cash-coin"></span><span class="mtext">Cash Management</span>
                             </a>
                             <ul class="submenu">
@@ -219,7 +218,7 @@
                         </li>
                     <?php } ?>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-folder"></span
                                 ><span class="mtext">Pipeline Reporting</span>
                         </a>
@@ -229,7 +228,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span
                                 ><span class="mtext">C.R.M</span>
                         </a>
@@ -241,7 +240,7 @@
                     </li>
                     <?php if ($_SESSION['poUser']['role'] != null) { ?>
                         <li class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle">
+                            <a href="javascript:" class="dropdown-toggle">
                                 <span class="micon bi bi-cash-stack"></span><span class="mtext">Purchase Order</span>
                             </a>
                             <ul class="submenu">
@@ -251,7 +250,7 @@
                     <?php } ?>
                     <?php if ($_SESSION['cmsUser']['role'] != null) { ?>
                         <li class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle">
+                            <a href="javascript:" class="dropdown-toggle">
                                 <span class="micon bi bi-cash-coin"></span><span class="mtext">Cash Management</span>
                             </a>
                             <ul class="submenu">
@@ -260,7 +259,7 @@
                         </li>
                     <?php } ?>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
                             <span class="micon bi bi-folder"></span><span class="mtext">Clients Database</span>
                         </a>
                         <ul class="submenu">
@@ -274,7 +273,7 @@
                         </a>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
                             <span class="micon bi bi-gear"></span><span class="mtext">Settings Page</span>
                         </a>
                         <ul class="submenu">
@@ -290,7 +289,7 @@
 
                 <ul id="accordion-menu">
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-house"></span
                                 ><span class="mtext">Home</span>
                         </a>
@@ -299,7 +298,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-file-earmark-text"></span
                                 ><span class="mtext">Loan Applications</span>
                         </a>
@@ -310,7 +309,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-layout-text-window-reverse"></span
                                 ><span class="mtext">MCC Scheduling</span>
                         </a>
@@ -320,7 +319,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-table"></span
                                 ><span class="mtext">Tickets</span>
                         </a>
@@ -330,7 +329,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-folder"></span
                                 ><span class="mtext">Pipeline Reporting</span>
                         </a>
@@ -340,7 +339,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span
                                 ><span class="mtext">C.R.M</span>
                         </a>
@@ -351,7 +350,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
                             <span class="micon bi bi-folder"></span
                             ><span class="mtext">Clients Database</span>
                         </a>
@@ -367,7 +366,7 @@
                         </a>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-gear"></span
                                 ><span class="mtext">Settings Page</span>
                         </a>
@@ -384,7 +383,7 @@
 
                 <ul id="accordion-menu">
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-house"></span
                                 ><span class="mtext">Home</span>
                         </a>
@@ -393,7 +392,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-file-earmark-text"></span
                                 ><span class="mtext">Loan Applications</span>
                         </a>
@@ -402,7 +401,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-folder"></span
                                 ><span class="mtext">Activity Report(s)</span>
                         </a>
@@ -412,7 +411,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span
                                 ><span class="mtext">Manage Parameters</span>
                         </a>
@@ -421,7 +420,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
                             <span class="micon bi bi-cash-stack"></span><span class="mtext">Purchase Order</span>
                         </a>
                         <ul class="submenu">
@@ -429,7 +428,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
                             <span class="micon bi bi-cash-coin"></span><span class="mtext">Cash Management</span>
                         </a>
                         <ul class="submenu">
@@ -437,7 +436,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span
                                 ><span class="mtext">Documents Manager</span>
                         </a>
@@ -449,12 +448,14 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span
                                 ><span class="mtext">Treasury Management</span>
                         </a>
                         <ul class="submenu">
-                            <li><a href="treasury_management.php?menu=main">Dashboard</a></li>                        </ul>
+                            <li><a href="treasury_management.php?menu=main">Dashboard</a></li>
+                            <li><a href="special_assets_tracker.php?menu=main">Special Assets</a></li>
+                        </ul>
                     </li>
                     <li>
                         <a href="events_calendar.php" class="dropdown-toggle no-arrow">
@@ -463,7 +464,7 @@
                         </a>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-gear"></span
                                 ><span class="mtext">Settings Page</span>
                         </a>
@@ -480,7 +481,7 @@
 
                 <ul id="accordion-menu">
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-house"></span
                                 ><span class="mtext">Home</span>
                         </a>
@@ -490,7 +491,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
                             <span class="micon bi bi-file-earmark-text"></span><span
                                     class="mtext">Loan Applications</span>
                         </a>
@@ -502,7 +503,7 @@
                     </li>
                     <?php if ($_SESSION['poUser']['role'] != null) { ?>
                         <li class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle">
+                            <a href="javascript:" class="dropdown-toggle">
                                 <span class="micon bi bi-cash-stack"></span><span class="mtext">Purchase Order</span>
                             </a>
                             <ul class="submenu">
@@ -512,7 +513,7 @@
                     <?php } ?>
                     <?php if ($_SESSION['cmsUser']['role'] != null) { ?>
                         <li class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle">
+                            <a href="javascript:" class="dropdown-toggle">
                                 <span class="micon bi bi-cash-coin"></span><span class="mtext">Cash Management</span>
                             </a>
                             <ul class="submenu">
@@ -521,7 +522,7 @@
                         </li>
                     <?php } ?>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-folder"></span
                                 ><span class="mtext">Pipeline Reporting</span>
                         </a>
@@ -537,7 +538,7 @@
                         </a>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-gear"></span
                                 ><span class="mtext">Settings Page</span>
                         </a>
@@ -552,7 +553,7 @@
 
                 <ul id="accordion-menu">
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-house"></span
                                 ><span class="mtext">Home</span>
                         </a>
@@ -561,7 +562,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-file-earmark-text"></span
                                 ><span class="mtext">Loan Applications</span>
                         </a>
@@ -572,7 +573,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-layout-text-window-reverse"></span
                                 ><span class="mtext">MCC Scheduling</span>
                         </a>
@@ -582,7 +583,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-table"></span
                                 ><span class="mtext">Tickets</span>
                         </a>
@@ -592,7 +593,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-folder"></span
                                 ><span class="mtext">Pipeline Reporting</span>
                         </a>
@@ -602,7 +603,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span
                                 ><span class="mtext">C.R.M</span>
                         </a>
@@ -613,7 +614,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
                             <span class="micon bi bi-folder"></span
                             ><span class="mtext">Clients Database</span>
                         </a>
@@ -629,7 +630,7 @@
                         </a>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-gear"></span
                                 ><span class="mtext">Settings Page</span>
                         </a>
@@ -644,7 +645,7 @@
 
                 <ul id="accordion-menu">
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-house"></span
                                 ><span class="mtext">Home</span>
                         </a>
@@ -653,7 +654,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-file-earmark-text"></span
                                 ><span class="mtext">Loan Applications</span>
                         </a>
@@ -664,7 +665,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-layout-text-window-reverse"></span
                                 ><span class="mtext">BCC Scheduling</span>
                         </a>
@@ -674,7 +675,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-table"></span
                                 ><span class="mtext">Tickets</span>
                         </a>
@@ -684,7 +685,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-folder"></span
                                 ><span class="mtext">Pipeline Reporting</span>
                         </a>
@@ -695,7 +696,7 @@
                     </li>
                     <?php if ($_SESSION['poUser']['role'] != null) { ?>
                         <li class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle">
+                            <a href="javascript:" class="dropdown-toggle">
                                 <span class="micon bi bi-cash-stack"></span><span class="mtext">Purchase Order</span>
                             </a>
                             <ul class="submenu">
@@ -705,7 +706,7 @@
                     <?php } ?>
                     <?php if ($_SESSION['cmsUser']['role'] != null) { ?>
                         <li class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle">
+                            <a href="javascript:" class="dropdown-toggle">
                                 <span class="micon bi bi-cash-coin"></span><span class="mtext">Cash Management</span>
                             </a>
                             <ul class="submenu">
@@ -714,7 +715,7 @@
                         </li>
                     <?php } ?>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span
                                 ><span class="mtext">C.R.M</span>
                         </a>
@@ -731,7 +732,7 @@
                         </a>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-gear"></span
                                 ><span class="mtext">Settings Page</span>
                         </a>
@@ -748,7 +749,7 @@
 
                 <ul id="accordion-menu">
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-house"></span
                                 ><span class="mtext">Home</span>
                         </a>
@@ -757,7 +758,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-house"></span
                                 ><span class="mtext">Users</span>
                         </a>
@@ -766,7 +767,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-file-earmark-text"></span
                                 ><span class="mtext">Loan Applications</span>
                         </a>
@@ -777,7 +778,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-table"></span
                                 ><span class="mtext">Tickets</span>
                         </a>
@@ -788,7 +789,7 @@
                     </li>
                     <?php if ($_SESSION['poUser']['role'] != null) { ?>
                         <li class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle">
+                            <a href="javascript:" class="dropdown-toggle">
                                 <span class="micon bi bi-cash-stack"></span><span class="mtext">Purchase Order</span>
                             </a>
                             <ul class="submenu">
@@ -798,7 +799,7 @@
                     <?php } ?>
                     <?php if ($_SESSION['cmsUser']['role'] != null) { ?>
                         <li class="dropdown">
-                            <a href="javascript:;" class="dropdown-toggle">
+                            <a href="javascript:" class="dropdown-toggle">
                                 <span class="micon bi bi-cash-coin"></span><span class="mtext">Cash Management</span>
                             </a>
                             <ul class="submenu">
@@ -813,7 +814,7 @@
                         </a>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-gear"></span
                                 ><span class="mtext">Settings Page</span>
                         </a>
@@ -830,7 +831,7 @@
 
                 <ul id="accordion-menu">
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-house"></span
                                 ><span class="mtext">Home</span>
                         </a>
@@ -839,7 +840,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-file-earmark-text"></span
                                 ><span class="mtext">Loan Applications</span>
                         </a>
@@ -850,7 +851,7 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-table"></span
                                 ><span class="mtext">Loan Statement(s)</span>
                         </a>
@@ -865,7 +866,7 @@
                         </a>
                     </li>
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-gear"></span
                                 ><span class="mtext">Settings Page</span>
                         </a>
