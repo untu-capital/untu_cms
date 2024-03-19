@@ -35,6 +35,15 @@
                             </li>
                             <li class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle">
+								<span class="micon bi bi-folder"></span
+                                ><span class="mtext">Pipeline Reporting</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="branch_pipeline_report.php">My Pipeline</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span
                                 ><span class="mtext">C.R.M</span>
                                 </a>
@@ -423,6 +432,14 @@
                                 </a>
                                 <ul class="submenu">
                                     <li><a href="treasury_management.php?menu=main">Dashboard</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+                                    <span class="micon bi bi-cash-coin"></span><span class="mtext">Recoveries Tracker</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="recoveries_tracker.php?menu=main">Dashboard</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">

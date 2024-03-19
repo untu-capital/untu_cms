@@ -1,15 +1,19 @@
 <?php
-    include('../session/session.php');
-    include ('check_role.php');
-    include('../includes/controllers.php');
-    $state = $_GET['state'];
-    $nav_header = "Requisitions";
+include('../session/session.php');
+include('check_role.php');
+include('../includes/controllers.php');
+$state = $_GET['state'];
+$nav_header = "Requisitions";
 
-    $url ='';
-    if ($state == 'progress'){$url = '/loanStatus/ACCEPTED';}
-    elseif($state == 'reject'){$url = '/loanStatus/REJECTED';}
-    else {$url;}
-    $requisitionsUrl = "";
+$url = '';
+if ($state == 'progress') {
+    $url = '/loanStatus/ACCEPTED';
+} elseif ($state == 'reject') {
+    $url = '/loanStatus/REJECTED';
+} else {
+    $url;
+}
+$requisitionsUrl = "";
 
 ?>
 
@@ -38,125 +42,138 @@ include('../includes/header.php');
 
         <?php include('../includes/dashboard/topbar_widget.php'); ?>
 
-        <?php if ($_GET['menu'] == 'main'){?>
-        <div class="tab">
-            <ul class="nav nav-pills" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active text-blue" data-toggle="tab" href="#requisitions" role="tab" aria-selected="true" >
-                        Requisitions
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#suppliers" role="tab" aria-selected="false">
-                        Suppliers
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#categories" role="tab" aria-selected="false" >
-                        Categories
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#budgets" role="tab" aria-selected="false" >
-                        Budgets Vs. Expenditure
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#po_user_role" role="tab" aria-selected="false" >
-                        PO User Roles
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#departments" role="tab" aria-selected="false" >
-                        Departments
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#branches" role="tab" aria-selected="false" >
-                        Bsn Sectors
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#reports" role="tab" aria-selected="false" >
-                        Reports
-                    </a>
-                </li>
+        <?php if ($_GET['menu'] == 'main') { ?>
+            <div class="tab">
+                <ul class="nav nav-pills" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active text-blue" data-toggle="tab" href="#requisitions" role="tab"
+                           aria-selected="true">
+                            Requisitions
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-blue" data-toggle="tab" href="#suppliers" role="tab"
+                           aria-selected="false">
+                            Suppliers
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-blue" data-toggle="tab" href="#categories" role="tab"
+                           aria-selected="false">
+                            Categories
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-blue" data-toggle="tab" href="#budgets" role="tab"
+                           aria-selected="false">
+                            Budgets Vs. Expenditure
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-blue" data-toggle="tab" href="#po_user_role" role="tab"
+                           aria-selected="false">
+                            PO User Roles
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-blue" data-toggle="tab" href="#departments" role="tab"
+                           aria-selected="false">
+                            Departments
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-blue" data-toggle="tab" href="#branches" role="tab"
+                           aria-selected="false">
+                            Bsn Sectors
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-blue" data-toggle="tab" href="#reports" role="tab"
+                           aria-selected="false">
+                            Reports
+                        </a>
+                    </li>
 
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="requisitions" role="tabpanel">
-                    <?php include('../includes/tables/purchase_order/requisitions_table.php'); ?>
-                </div>
-                <div class="tab-pane fade" id="suppliers" role="tabpanel">
-                    <?php include('../includes/tables/purchase_order/list-suppliers.php'); ?>
-                </div>
-                <div class="tab-pane fade" id="categories" role="tabpanel">
-                    <?php include('../includes/tables/purchase_order/list-categories.php'); ?>
-                </div>
-                <div class="tab-pane fade" id="budgets" role="tabpanel">
-                    <?php include('../includes/tables/list-budget.php'); ?>
-                </div>
-                <div class="tab-pane fade" id="po_user_role" role="tabpanel">
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="requisitions" role="tabpanel">
+                        <?php include('../includes/tables/purchase_order/requisitions_table.php'); ?>
+                    </div>
+                    <div class="tab-pane fade" id="suppliers" role="tabpanel">
+                        <?php include('../includes/tables/purchase_order/list-suppliers.php'); ?>
+                    </div>
+                    <div class="tab-pane fade" id="categories" role="tabpanel">
+                        <?php include('../includes/tables/purchase_order/list-categories.php'); ?>
+                    </div>
+                    <div class="tab-pane fade" id="budgets" role="tabpanel">
+                        <?php include('../includes/tables/list-budget.php'); ?>
+                    </div>
+                    <div class="tab-pane fade" id="po_user_role" role="tabpanel">
 
-                    <form method="post" action="">
-                        <div class="row">
-                            <div class="pd-20 col-4">
-                                <div class="form-group">
-                                    <br>
-                                    <label>Select User :</label>
-                                    <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="user" style="width: 100%; height: 38px">
-                                        <optgroup label="Pick a user">
-                                            <?php
-                                            $users = untuStaff();
-                                            foreach ($users as $user) {
-                                                echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
-                                            } ?>
-                                        </optgroup>
-                                    </select>
+                        <form method="post" action="">
+                            <div class="row">
+                                <div class="pd-20 col-4">
+                                    <div class="form-group">
+                                        <br>
+                                        <label>Select User :</label>
+                                        <select class="custom-select2 form-control" data-style="btn-outline-primary"
+                                                data-size="5" name="user" style="width: 100%; height: 38px">
+                                            <optgroup label="Pick a user">
+                                                <?php
+                                                $users = untuStaff();
+                                                foreach ($users as $user) {
+                                                    echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
+                                                } ?>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="pd-20 col-4">
+                                    <div class="form-group">
+                                        <br>
+                                        <label>Select P.O Role :</label>
+                                        <select class="custom-select2 form-control" data-style="btn-outline-primary"
+                                                data-size="5" name="role" style="width: 100%; height: 38px">
+                                            <optgroup label="Assign Role">
+                                                <option value="">Unassign Role</option>
+                                                ;
+                                                <?php
+                                                $roles = roles();
+                                                foreach ($roles as $role) {
+                                                    echo "<option value='$role[id]'>$role[description] ($role[name])</option>";
+                                                } ?>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="pd-20 col-4">
+                                    <div class="form-group">
+                                        <br>
+                                        <label> .</label>
+                                        <button type="submit" name="update_po_role"
+                                                class="btn btn-success btn-lg btn-block">Update Role
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
+                        </form>
 
-                            <div class="pd-20 col-4">
-                                <div class="form-group">
-                                    <br>
-                                    <label>Select P.O Role :</label>
-                                    <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="role" style="width: 100%; height: 38px">
-                                        <optgroup label="Assign Role">
-                                            <option value="">Unassign Role</option>;
-                                            <?php
-                                            $roles = roles();
-                                            foreach ($roles as $role) {
-                                                echo "<option value='$role[id]'>$role[description] ($role[name])</option>";
-                                            } ?>
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="pd-20 col-4">
-                                <div class="form-group">
-                                    <br>
-                                    <label> .</label>
-                                    <button type="submit" name="update_po_role" class="btn btn-success btn-lg btn-block">Update Role</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-
-                    <?php include('../includes/tables/purchase_order/po_users_table.php'); ?>
-                </div>
-                <div class="tab-pane fade" id="departments" role="tabpanel">
-                    <?php include('../includes/tables/purchase_order/list-department.php'); ?>
-                </div>
-                <div class="tab-pane fade" id="branches" role="tabpanel">
-                    <?php include('../includes/tables/business_sector_table.php'); ?>
-                </div>
-                <div class="tab-pane fade" id="reports" role="tabpanel">
-                    <?php include('../includes/tables/purchase_order/report_table.php'); ?>
+                        <?php include('../includes/tables/purchase_order/po_users_table.php'); ?>
+                    </div>
+                    <div class="tab-pane fade" id="departments" role="tabpanel">
+                        <?php include('../includes/tables/purchase_order/list-department.php'); ?>
+                    </div>
+                    <div class="tab-pane fade" id="branches" role="tabpanel">
+                        <?php include('../includes/tables/business_sector_table.php'); ?>
+                    </div>
+                    <div class="tab-pane fade" id="reports" role="tabpanel">
+                        <?php include('../includes/tables/purchase_order/report_table.php'); ?>
+                    </div>
                 </div>
             </div>
-        </div>
-        <?php } elseif ($_GET['menu'] == 'add_requisition'){
+        <?php } elseif ($_GET['menu'] == 'add_requisition') {
 
 
             // Call the requisitions function to get the data
@@ -186,12 +203,14 @@ include('../includes/header.php');
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Requisition Name</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="name" placeholder="Enter Requisition Name" required/>
+                            <input class="form-control" type="text" name="name" placeholder="Enter Requisition Name"
+                                   required/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-12 col-md-2 col-form-label">
-                            <input class="form-control" type="hidden" name="po_number" value="<?php echo $poNumber; ?>" required/>
+                            <input class="form-control" type="hidden" name="po_number" value="<?php echo $poNumber; ?>"
+                                   required/>
                             <button class="btn btn-success" type="submit" name="create_requisition">Save</button>
                         </div>
                         <div class="col-sm-12 col-md-2 col-form-label">
@@ -201,11 +220,11 @@ include('../includes/header.php');
                 </form>
             </div>
 
-        <?php } elseif ($_GET['menu'] == 'add_supplier'){?>
+        <?php } elseif ($_GET['menu'] == 'add_supplier') { ?>
             <?php
-            if(isset($_POST['create'])){
+            if (isset($_POST['create'])) {
                 // API endpoint URL
-                $url ="http://localhost:7878/api/utg/pos/supplier/save";
+                $url = "http://localhost:7878/api/utg/pos/supplier/save";
 
                 // Data to send in the POST request
                 $postData = array(
@@ -225,7 +244,7 @@ include('../includes/header.php');
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HEADER, true );
+                curl_setopt($ch, CURLOPT_HEADER, true);
 
                 // Execute the POST request and store the response in a variable
                 $response = curl_exec($ch);
@@ -251,7 +270,8 @@ include('../includes/header.php');
                 <form method="POST" action="requisitions.php?menu=add_supplier">
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Name</label>
-                        <div class="col-sm-12 col-md-10"><input class="form-control" type="text" name="name" placeholder="Supplier Name" required/></div>
+                        <div class="col-sm-12 col-md-10"><input class="form-control" type="text" name="name"
+                                                                placeholder="Supplier Name" required/></div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Address</label>
@@ -262,7 +282,8 @@ include('../includes/header.php');
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Contact Person</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" name="contactPerson" type="text" placeholder="Contact Person" required/>
+                            <input class="form-control" name="contactPerson" type="text" placeholder="Contact Person"
+                                   required/>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -274,7 +295,8 @@ include('../includes/header.php');
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Telephone</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" name="phone" placeholder="+263 700 000 000" type="tel" required/>
+                            <input class="form-control" name="phone" placeholder="+263 700 000 000" type="tel"
+                                   required/>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -288,7 +310,7 @@ include('../includes/header.php');
                 </form>
             </div>
 
-        <?php } elseif ($_GET['menu'] == 'update_supplier'){ ?>
+        <?php } elseif ($_GET['menu'] == 'update_supplier') { ?>
 
             <?php
             $id = $_GET['supplierId'];
@@ -360,31 +382,36 @@ include('../includes/header.php');
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Name</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="name" placeholder="Supplier Name" value="<?php echo $table['name'] ?>" required/>
+                            <input class="form-control" type="text" name="name" placeholder="Supplier Name"
+                                   value="<?php echo $table['name'] ?>" required/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Address</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" name="address" type="text" placeholder="Address" value="<?php echo $table['address'] ?>" required/>
+                            <input class="form-control" name="address" type="text" placeholder="Address"
+                                   value="<?php echo $table['address'] ?>" required/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Contact Person</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" name="contactPerson" type="text" placeholder="Contact Person" value="<?php echo $table['contactPerson'] ?>" required/>
+                            <input class="form-control" name="contactPerson" type="text" placeholder="Contact Person"
+                                   value="<?php echo $table['contactPerson'] ?>" required/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Comment</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" name="comment" type="text" placeholder="Comment" value="<?php echo $table['comment'] ?>" required/>
+                            <input class="form-control" name="comment" type="text" placeholder="Comment"
+                                   value="<?php echo $table['comment'] ?>" required/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Telephone</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" name="phone" placeholder="+263 700 000 000" type="tel" value="<?php echo $table['phone'] ?>" required/>
+                            <input class="form-control" name="phone" placeholder="+263 700 000 000" type="tel"
+                                   value="<?php echo $table['phone'] ?>" required/>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -400,23 +427,22 @@ include('../includes/header.php');
             </div>
             <!-- Default Basic Forms End -->
 
-        <?php } elseif ($_GET['menu'] == 'create_budget'){
+        <?php } elseif ($_GET['menu'] == 'create_budget') {
 
-                    include('../includes/forms/create_po_budget.php');
+            include('../includes/forms/create_po_budget.php');
 
-                } elseif ($_GET['menu'] == 'update_budget'){
+        } elseif ($_GET['menu'] == 'update_budget') {
 
-                    include('../includes/forms/update_po_budget.php');
+            include('../includes/forms/update_po_budget.php');
 
             ?>
 
 
-
-        <?php } elseif ($_GET['menu'] == 'add_department'){?>
+        <?php } elseif ($_GET['menu'] == 'add_department') { ?>
             <?php
-            if(isset($_POST['create'])){
+            if (isset($_POST['create'])) {
                 // API endpoint URL
-                $url ="http://localhost:7878/api/utg/pos/department/save";
+                $url = "http://localhost:7878/api/utg/pos/department/save";
 
                 // Data to send in the POST request
                 $postData = array(
@@ -430,7 +456,7 @@ include('../includes/header.php');
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HEADER, true );
+                curl_setopt($ch, CURLOPT_HEADER, true);
                 // Execute the POST request and store the response in a variable
                 $response = curl_exec($ch);
                 // Check for cURL errors
@@ -469,12 +495,12 @@ include('../includes/header.php');
             </div>
             <!-- Default Basic Forms End -->
 
-        <?php } elseif ($_GET['menu'] == 'update_department'){?>
+        <?php } elseif ($_GET['menu'] == 'update_department') { ?>
 
             <?php
             $id = $_GET['id'];
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/department/". $id);
+            curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/department/" . $id);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $server_response = curl_exec($ch);
 
@@ -488,13 +514,13 @@ include('../includes/header.php');
                 echo "Error decoding JSON data";
             }
 
-            if(isset($_POST['update'])){
+            if (isset($_POST['update'])) {
                 // API endpoint URL
-                $url ="http://localhost:7878/api/utg/pos/department/update";
+                $url = "http://localhost:7878/api/utg/pos/department/update";
 
                 // Data to send in the POST request
                 $postData = array(
-                    'id'=>  $_POST['id'],
+                    'id' => $_POST['id'],
                     'name' => $_POST['name'],
                 );
 
@@ -505,7 +531,7 @@ include('../includes/header.php');
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HEADER, true );
+                curl_setopt($ch, CURLOPT_HEADER, true);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 
                 // Execute the POST request and store the response in a variable
@@ -535,7 +561,8 @@ include('../includes/header.php');
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Name</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="name" value="<?php echo $table['name'] ?>" required/>
+                            <input class="form-control" type="text" name="name" value="<?php echo $table['name'] ?>"
+                                   required/>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -550,12 +577,12 @@ include('../includes/header.php');
             </div>
             <!-- Default Basic Forms End -->
 
-        <?php } elseif ($_GET['menu'] == 'add_category'){?>
+        <?php } elseif ($_GET['menu'] == 'add_category') { ?>
 
             <?php
-            if(isset($_POST['create'])){
+            if (isset($_POST['create'])) {
                 // API endpoint URL
-                $url ="http://localhost:7878/api/utg/pos/category/save";
+                $url = "http://localhost:7878/api/utg/pos/category/save";
 
                 // Data to send in the POST request
                 $postData = array(
@@ -569,7 +596,7 @@ include('../includes/header.php');
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HEADER, true );
+                curl_setopt($ch, CURLOPT_HEADER, true);
 
                 // Execute the POST request and store the response in a variable
                 $response = curl_exec($ch);
@@ -612,12 +639,12 @@ include('../includes/header.php');
                 </form>
             </div>
 
-        <?php } elseif ($_GET['menu'] == 'update_category'){?>
+        <?php } elseif ($_GET['menu'] == 'update_category') { ?>
 
             <?php
             $id = $_GET['id'];
             $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/category/". $id);
+            curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/category/" . $id);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             $server_response = curl_exec($ch);
 
@@ -631,13 +658,13 @@ include('../includes/header.php');
                 echo "Error decoding JSON data";
             }
 
-            if(isset($_POST['update'])){
+            if (isset($_POST['update'])) {
                 // API endpoint URL
-                $url ="http://localhost:7878/api/utg/pos/category/update";
+                $url = "http://localhost:7878/api/utg/pos/category/update";
 
                 // Data to send in the POST request
                 $postData = array(
-                    'id'=>  $_POST['id'],
+                    'id' => $_POST['id'],
                     'name' => $_POST['name'],
                 );
 
@@ -650,7 +677,7 @@ include('../includes/header.php');
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
                 curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HEADER, true );
+                curl_setopt($ch, CURLOPT_HEADER, true);
                 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 
                 // Execute the POST request and store the response in a variable
@@ -680,7 +707,8 @@ include('../includes/header.php');
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Name</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="name" value="<?php echo $table['name'] ?>" required/>
+                            <input class="form-control" type="text" name="name" value="<?php echo $table['name'] ?>"
+                                   required/>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -695,14 +723,14 @@ include('../includes/header.php');
             </div>
             <!-- Default Basic Forms End -->
 
-        <?php } elseif ($_GET['menu'] == 'add_budget'){?>
+        <?php } elseif ($_GET['menu'] == 'add_budget') { ?>
 
-        <?php }
-        elseif ($_GET['menu'] == 'add_department'){?>
+        <?php } elseif ($_GET['menu'] == 'add_department') {
+            ?>
 
         <?php } ?>
 
-        <?php include('../includes/footer.php');?>
+        <?php include('../includes/footer.php'); ?>
     </div>
 </div>
 
@@ -738,13 +766,15 @@ include('../includes/header.php');
 
 <!-- Google Tag Manager (noscript) -->
 <noscript
-><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
+>
+    <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
+            height="0"
+            width="0"
+            style="display: none; visibility: hidden"
     ></iframe
-    ></noscript>
+    >
+</noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 </body>

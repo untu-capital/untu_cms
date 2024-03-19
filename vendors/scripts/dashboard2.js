@@ -120,7 +120,7 @@ Highcharts.chart('chart', {
 		marker: {
 			symbol: 'circle'
 		},
-		data: [0, 10, 5, 30, 40, 20, 10, 0, 10, 5, 30, 40]
+		data: [0, 10, 5, 30, 40, 20, 10, 0, 10, 5, 30]
 	},
 	{
 		name: 'Harare',
@@ -128,7 +128,7 @@ Highcharts.chart('chart', {
 		marker: {
 			symbol: 'circle'
 		},
-		data: [40, 20, 10, 40, 15, 15, 20, 40, 20, 10, 40, 15]
+		data: [40, 20, 10, 40, 15, 15, 20, 40, 20, 10, 40, 35]
 	},
 	{
 		name: 'Bulawayo',

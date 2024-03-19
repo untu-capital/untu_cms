@@ -1,18 +1,14 @@
 <?php
 	include('../session/session.php');
 include ('check_role.php');
-	include('../includes/controllers.php');
-	$nav_header = "Client Retention";
+	include('charts_data.php');
 
-	// small widgets titles
-	$widget_title = ["4", "3", "2", "1", "2", "12"];
+	$nav_header = "Dashboard";
+    $bp_title = "Branch Loan Book Movement";
+    $lop_title = "Loan Officer Productivity";
 
-	// small widgets descriptions
-	$widget_descr = ["Tickets Signed: Harare", "Tickets Signed: HarareA", "Tickets Signed: Bulawayo", "Tickets Signed: Gweru", "Tickets Signed: Gokwe", "Total Tickets Signed"];
-
-    $fromDate = "2024-03-12";
-    $toDate = "2024-03-14";
-
+	include('../includes/controllers.php');	
+	
 ?>
 
 <!DOCTYPE html>
@@ -23,18 +19,6 @@ include ('check_role.php');
 	?>
 	<!-- /HTML HEAD -->
 	<body>
-        <div class="pre-loader">
-			<div class="pre-loader-box">
-				<div class="loader-logo">
-					<img src="vendors/images/deskapp-logo.svg" alt="" />
-				</div>
-				<div class="loader-progress" id="progress_div">
-					<div class="bar" id="bar1"></div>
-				</div>
-				<div class="percent" id="percent1">0%</div>
-				<div class="loading-text">Loading...</div>
-			</div>
-		</div>
 
 		<!-- Top NavBar -->
 			<?php include('../includes/top-nav-bar.php'); ?>
@@ -52,14 +36,15 @@ include ('check_role.php');
 					
 				<?php include('../includes/dashboard/topbar_widget.php'); ?>
 					
-				<?php include('../includes/dashboard/lead_summary_widget.php'); ?>
+				<?php include('../includes/dashboard/lo_productivity_bar_graph.php'); ?>
+				
+				<?php include('../includes/tables/lo_pipeline_table.php'); ?>
 
-				<?php include('../includes/tables/mature_loans_table.php'); ?>
+                <?php include('../includes/forms/create_pipeline_report.php'); ?>
 
-				<?php include('../includes/footer.php');?>
 			</div>
 		</div>
-		
+        <?php include('../includes/footer.php');?>
 		<!-- js -->
 		<script src="../vendors/scripts/core.js"></script>
 		<script src="../vendors/scripts/script.min.js"></script>
@@ -70,7 +55,24 @@ include ('check_role.php');
 		<script src="../src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
 		<script src="../src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 		<script src="../src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
-		<script src="../vendors/scripts/dashboard.js"></script>
+		<script>
+			var branch = <?php echo json_encode($branches); ?>
+			var color = <?php echo json_encode($colors); ?>
+			var data = <?php echo json_encode($dataJson); ?>
+		</script>
+		<script src="../src/plugins/jQuery-Knob-master/jquery.knob.min.js"></script>
+		<script src="../src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
+		<script src="../src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
+
+        <script src="../src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
+		<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+		<script src="../src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
+		<script src="../vendors/scripts/highchart-setting.js"></script>
+
+        <script src="../src/plugins/jvectormap/jquery-jvectormap-2.0.3.min.js"></script>
+		<script src="../src/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+		<script src="../vendors/scripts/dashboard2.js"></script>
+		<script src="../vendors/scripts/dashboard3.js"></script>
 
 		<!-- buttons for Export datatable -->
 		<script src="../src/plugins/datatables/js/dataTables.buttons.min.js"></script>
@@ -82,6 +84,8 @@ include ('check_role.php');
 		<script src="../src/plugins/datatables/js/vfs_fonts.js"></script>
 		<!-- Datatable Setting js -->
 		<script src="../vendors/scripts/datatable-setting.js"></script>
+		
+
 		
 		<!-- Google Tag Manager (noscript) -->
 		<noscript

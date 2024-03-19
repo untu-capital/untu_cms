@@ -149,6 +149,7 @@ if (isset($_POST['update_loan_application'])) {
                         <option value="Single">Single</option>
                         <option value="Married">Married</option>
                         <option value="Divorced">Divorced</option>
+                        <option value="Widowed">Widowed</option>
                         <option value="Other">Other</option>
                     </select>
                 </div>

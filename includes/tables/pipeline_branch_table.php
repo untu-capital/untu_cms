@@ -18,6 +18,7 @@
                     <th scope="col">Status</th>
                     <th scope="col">Loan Officer</th>
                     <th scope="col">%age</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +35,7 @@
                         <td><?php echo $data['loanStatus']; ?></td>
                         <td><?php echo $data['loanOfficer']; ?></td>
                         <td><?php echo "%"; ?></td>
+                            <td ><a href="#">Edit</a></td>
                         </tr>
                     <?php $i++; } ?>
             </tbody>

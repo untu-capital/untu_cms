@@ -17,7 +17,7 @@
             <th>Goal/Objective</th>
             <th>Key Performance Indicators</th>
             <th>Campaign Period</th>
-            <th>LoanOfficer</th>
+<!--            <th>LoanOfficer</th>-->
             <th>Status</th>
             <th class="datatable-nosort">Action</th>
         </tr>
@@ -46,7 +46,7 @@
                 <td><?= htmlspecialchars($data["objectives"]) ?></td>
                 <td><?= htmlspecialchars($data["keyPerformanceIndicator"]) ?></td>
                 <td><?php echo date('d-M-Y', strtotime($data['startDate']))." To ".date('d-M-Y', strtotime($data['endDate'])) ;?></td>
-                <td><?= htmlspecialchars($data["allocatedLoanOfficer"]) ?></td>
+<!--                <td>--><?php //= htmlspecialchars($data["allocatedLoanOfficer"]) ?><!--</td>-->
                 <td>
                     <?php if ($status == "open") {
                         echo "<label style='padding: 7px;' class='badge badge-success'>Open</label>";

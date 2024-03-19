@@ -4,7 +4,7 @@
 $errors = array();
 
 // Escape user inputs for security
-if(isset($_POST['Submit'])){
+if(isset($_POST['submit_campaign'])){
     $campaignname = $_POST['campaign_name'];
     $city = $_POST['city'];
     $branch = $_POST['branch'];
@@ -22,20 +22,25 @@ if(isset($_POST['Submit'])){
         echo '<script>alert("End date must be greater than start date.");history.go(-1);</script>';
         // Add your desired logic here
     } else {
-        $url = "http://localhost:7878/api/utg/api/market_campaigns";
 
         $data_array = array(
-            'poName' => "UChat (Whatsapp Chatbot)",
-            'poTotal' =>  "110",
-            'notes' =>  "asdfghj"
-
+            'campaignName' => $campaignname,
+            'branchName' => $branch,
+            'city' => $city,
+            'zoneArea' => $zonearea,
+            'sector' => $sector,
+            'subSector' => $subsector,
+            'valueChain' => $valuechain,
+            'resourceNeed' => $resourceneed,
+            'startDate' => $startdate,
+            'endDate' => $enddate
         );
 
         $data = json_encode($data_array);
 
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/market_campaigns");
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
@@ -92,16 +97,6 @@ if(isset($_POST['Submit'])){
 }
 
 ?>
-<!--<head>-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
-<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
-<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
-<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
-<!---->
-<!--</head>-->
-<!-- Modal -->
-
-
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -143,10 +138,10 @@ if(isset($_POST['Submit'])){
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label>Branch Name</label>
-                        <select class="custom-select form-control"name="branch" id="branch" required>
+                        <select class="custom-select2 form-control"name="branch" id="branch" style="width: 100%; height: 38px" required>
                             <option value="">Select Branch</option>
                             <?php
-                                $branches = branches();
+                                $branches = branch();
                                 foreach ($branches as $branch) {
                                 echo "<option value='$branch[branchName]'>$branch[branchName] Branch</option>";
                             }
@@ -160,7 +155,7 @@ if(isset($_POST['Submit'])){
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label>City/Town</label>
-                        <select class="custom-select form-control" name="city" id="city" required>
+                        <select class="custom-select2 form-control" name="city" id="city" style="width: 100%; height: 38px" required>
                             <option value="">Select City</option>
                             <?php
                                 $cities = cities();
@@ -174,7 +169,7 @@ if(isset($_POST['Submit'])){
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label>Zone/Area</label>
-                        <select class="custom-select form-control" name="zone" id="zone"  autocomplete="off" required="required">
+                        <select class="custom-select2 form-control" name="zone" id="zone" style="width: 100%; height: 38px" autocomplete="off">
                             <option value="">Select Zone</option>
                             <?php
                             $zones = zones();
@@ -191,7 +186,7 @@ if(isset($_POST['Submit'])){
                     <div class="form-group">
                         <label>Sector</label>
 
-                        <select class="custom-select form-control" name="sector" id="sector"  autocomplete="off" required="required">
+                        <select class="custom-select2 form-control" name="sector" id="sector" style="width: 100%; height: 38px" autocomplete="off" required="required">
                             <option value="">Select Sector</option>
                             <?php
                                 $bsn_sector = bsn_sector();
@@ -205,7 +200,7 @@ if(isset($_POST['Submit'])){
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label>Sub-sector</label>
-                        <input type="text" class="form-control" name="subsector" id="subsector" required>
+                        <input type="text" class="form-control" name="subsector" id="subsector">
                     </div>
                 </div>
             </div>
@@ -213,13 +208,13 @@ if(isset($_POST['Submit'])){
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label>Value Chain(if applicable)</label>
-                        <input type="text" class="form-control" name="value_chain" id="value_chain" required>
+                        <input type="text" class="form-control" name="value_chain" id="value_chain" >
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label>Specify Location/(Venue)</label>
-                        <input type="text" class="form-control" name="location" id="location" required>
+                        <input type="text" class="form-control" name="location" id="location" >
                     </div>
                 </div>
             </div>
@@ -250,24 +245,24 @@ if(isset($_POST['Submit'])){
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6 col-sm-12">
-                    <div class="form-group">
-                        <label>Assign Loan Officer (Optional)</label>
-                        <select class="custom-select form-control" id= "loan_officer" name="loan_officer" required>
-                            <option value="">Select Loan Officer</option>
-                            <?php
-                            $user_role = user_role('LoanOfficer');
-                            foreach ($user_role as $role) {
-                                echo "<option value='$role[id]'>$role[firstName] $role[lastName]</option>";
-                            }
-                            ?>
-                        </select>
-                    </div>
-                </div>
+<!--                <div class="col-md-6 col-sm-12">-->
+<!--                    <div class="form-group">-->
+<!--                        <label>Assign Loan Officer (Optional)</label>-->
+<!--                        <select class="custom-select2 form-control" id= "loan_officer" style="width: 100%; height: 38px" name="loan_officer" >-->
+<!--                            <option value="">Select Loan Officer</option>-->
+<!--                            --><?php
+//                            $user_role = user_role('LoanOfficer');
+//                            foreach ($user_role as $role) {
+//                                echo "<option value='$role[id]'>$role[firstName] $role[lastName]</option>";
+//                            }
+//                            ?>
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                </div>-->
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <label>Resource Need</label>
-                        <input type="text" class="form-control" name="resource_need" id="resource_need" required>
+                        <input type="text" class="form-control" name="resource_need" id="resource_need" >
                     </div>
                 </div>
             </div>
@@ -291,7 +286,7 @@ if(isset($_POST['Submit'])){
 //                }
                 ?>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-danger" value="Submit" name="Submit">Submit</button>
+                    <button type="submit" class="btn btn-danger" value="Submit" name="submit_campaign">Submit</button>
                 </div>
             </div>
         </form>

@@ -122,7 +122,8 @@ if(isset($_POST['Submit'])){
         <h4 class="text-blue h4">
             <?php if ($_SESSION['role'] == "ROLE_LO"){ ?>
             Manage my Leads
-            <?php } else {echo "Recent Leads";} ?>
+            <?php } else {
+                echo "Recent Leads";} ?>
         </h4>
     </div>
     <div class="pd-20" >
@@ -151,7 +152,7 @@ if(isset($_POST['Submit'])){
             <tbody>
                 <?php $leads_url = "";
                 if ($_SESSION['role'] == "ROLE_BM"){
-                    $leads_url = "/branch/".$_SESSION['branch'];
+                    $leads_url = "/branch/".str_replace(" ","%20",$_SESSION['branch']);
                 } elseif ($_SESSION['role'] == "ROLE_LO"){
                     $leads_url = "/loanOfficer/".$_SESSION['userId'];
                 }

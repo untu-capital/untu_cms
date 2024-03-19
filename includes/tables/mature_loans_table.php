@@ -31,19 +31,19 @@
 					$disbursements = disbursements($fromDate,$toDate);
 					foreach ($disbursements as $data): ?>
 				<tr>
-					<td><?php echo formatJsonDate($data['expectedMaturityDate']); ?></td>
+					<td><?php echo formatJsonDate($data['loanData']['expectedMaturityDate']); ?></td>
 					<!-- <td class="table-plus"><?php //echo $data['accountNo']; ?></td> -->
-					<td><?php echo $data['clientName']; ?></td>
+					<td><?php echo $data['loanData']['clientName']; ?></td>
 					<!-- <td><?php //echo $data['loanProductName']; ?></td> -->
-					<td><?php echo "$ ".$data['principal']; ?></td>
-					<td><?php echo $data['numberOfRepayments']." months"; ?></td>
-					<td><?php echo $data['interestRatePerPeriod']." %"; ?></td>
+					<td><?php echo "$ ".$data['loanData']['principal']; ?></td>
+					<td><?php echo $data['loanData']['numberOfRepayments']." months"; ?></td>
+					<td><?php echo $data['loanData']['interestRatePerPeriod']." %"; ?></td>
 					<!-- <td><?php //echo formatJsonDate($data['actualDisbursementDate']); ?></td> -->
 					<!-- <td><?php //echo $data['totalExpectedRepayment']; ?></td> -->
 					<!-- <td><?php //echo $data['totalRepayment']; ?></td> -->
-					<td><?php echo "$ ".$data['totalOutstanding']; ?></td>
-					<td><?php echo $data['officeName']; ?></td>
-					<td><?php echo $data['loanOfficerName']; ?></td>
+					<td><?php echo "$ ".$data['loanData']['totalOutstanding']; ?></td>
+					<td><?php echo $data['loanData']['officeName']; ?></td>
+					<td><?php echo $data['loanData']['loanOfficerName']; ?></td>
 					<td> <a class="dropdown-item" href="#"><i class="dw dw-eye"></i></a> </td>
 				</tr>
 				<?php endforeach; ?>

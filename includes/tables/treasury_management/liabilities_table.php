@@ -4,76 +4,6 @@
 ?>
 
 <div class="pd-20">
-    <button class="btn btn-lg btn-primary" type="submit" name="add_deal_note" id="showFormButton"
-            style="margin-bottom: 15px;">Create Deal Note
-    </button>
-    <div class="pd-20 card-box mb-30">
-        <form action="" method="POST" id="myForm">
-            <div class="clearfix">
-                <h4 class="text-blue h4">Generate Deal Note</h4>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-sm-12">
-                    <div class="form-group">
-                        <label>Select Liability:</label>
-                        <select class="custom-select2 form-control" name="liabilities"
-                                style="width: 100%; height: 38px">
-                            <option value=""></option>
-                            <?php
-                            $branches = branch();
-                            foreach ($branches as $branch) {
-                                echo "<option value='$branch[id]'>$branch[branchName] Branch</option>";
-                            }
-                            ?>
-                        </select>
-                    </div>
-                </div>
-
-
-            </div>
-
-            <div class="row">
-                <div class="col-md-8 col-sm-12">
-                    <div class="form-group">
-                        <label>Coupon Dates : </label>
-                        <textarea type="text" name="coupon_dates" placeholder="[ Dates are auto generated ]" class="form-control" disabled></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-2 col-sm-12">
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block" value="auth" name="auth">Submit</button>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-12">
-                    <div class="form-group">
-                        <button class="btn btn-primary btn-block" onclick="goBack()">Cancel</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-
-        <script>
-            // Get references to the button and form
-            var showFormButton = document.getElementById("showFormButton");
-            var myForm = document.getElementById("myForm");
-
-            // Add a click event listener to the button
-            showFormButton.addEventListener("click", function () {
-                // Show the form by changing its display style
-                myForm.style.display = "block";
-            });
-        </script>
-
-        <script>
-            // JavaScript function to go back to the previous page
-            function goBack() {
-                window.history.back();
-            }
-        </script>
-
-    </div>
 
     <table class="table hover table stripe multiple-select-row data-table-export nowrap">
         <thead>
@@ -124,7 +54,6 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                             <a class="dropdown-item" href="treasury_management.php?menu=download_deal_note&id=<?= $data["id"] ?>&generate_deal_note=true"><i class="dw dw-download"></i>Download D.N</a>
-
                             <a class="dropdown-item" href="treasury_management.php?menu=view_statement&id=<?= $data["id"] ?>"><i class="dw dw-view"></i>View Statement</a>
                             <a class="dropdown-item" href="treasury_management.php?menu=sign_deal_note&id=<?= $data["id"] ?>"><i class="dw dw-writing"></i> Sign Deal Note</a>
                         </div>
