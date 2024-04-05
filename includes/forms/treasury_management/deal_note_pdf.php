@@ -7,6 +7,10 @@ if (isset($_GET['generate_deal_note'])) {
 
     require_once('../includes/fpdf/fpdf.php');
 
+    $deal_note = deal_note($_GET['id']);
+//    print_r($deal_note);
+//    echo $deal_note['counterParty'];
+
     class myDealNOtePDF extends FPDF
     {
         function header()
@@ -24,7 +28,9 @@ if (isset($_GET['generate_deal_note'])) {
             $this->Ln(45); // Adjust Y position after the logo
 
             $this->SetFont('Arial', 'B', 15);
-            $this->Cell(0, 20, 'Deal Note for Note Investment', 0, 1, 'C');
+
+            $deal_note = deal_note($_GET['id']);
+            $this->Cell(0, 20, 'Deal Note for '.$deal_note['counterParty'], 0, 1, 'C');
         }
 
 //        function footer()
@@ -48,60 +54,67 @@ if (isset($_GET['generate_deal_note'])) {
             // Your form implementation goes here
         }
 
-        function viewTable()
+        function viewTable($deal_note)
         {
             $this->SetX(20);
             $this->SetFont('Arial', '', 12);
             $this->Cell(50, 15, 'Counterparty :', 0, 0); // Example content, replace with actual data
-            $this->Cell(145, 15, 'Untu Capital Ltd. ', 0, 1); // Example content, replace with actual data
+            $this->Cell(145, 15, $deal_note['counterParty'], 0, 1); // Example content, replace with actual data
 
             $this->SetX(20);
             $this->SetFont('Arial', '', 12);
             $this->Cell(50, 15, 'Amount :', 0, 0); // Example content, replace with actual data
-            $this->Cell(145, 15, 'US$ 50,000.00', 0, 1); // Example content, replace with actual data
+            $this->Cell(145, 15, '$ ' . number_format($deal_note['amount'], 2), 0, 1); // Example content, replace with actual data
 
-            $this->SetX(20);
-            $this->SetFont('Arial', '', 12);
-            $this->Cell(50, 15, 'PA Status :', 0, 0); // Example content, replace with actual data
-            $this->Cell(145, 15, 'Yes', 0, 1); // Example content, replace with actual data
-
+            if ($deal_note['paStatus'] === 'YES') {
+                $this->SetX(20);
+                $this->SetFont('Arial', '', 12);
+                $this->Cell(50, 15, 'PA Status :', 0, 0); // Example content, replace with actual data
+                $this->Cell(145, 15, $deal_note['paStatus'], 0, 1); // Example content, replace with actual data
+            }
 
             $this->SetX(20);
             $this->SetFont('Arial', '', 12);
             $this->Cell(50, 15, 'Start Date :', 0, 0); // Example content, replace with actual data
-            $this->Cell(145, 15, '21 December 2024', 0, 1); // Example content, replace with actual data
+            $this->Cell(145, 15, $deal_note['startDate'], 0, 1); // Example content, replace with actual data
 
             $this->SetX(20);
             $this->SetFont('Arial', '', 12);
             $this->Cell(50, 15, 'Tenure :', 0, 0); // Example content, replace with actual data
-            $this->Cell(145, 15, '365 Days', 0, 1); // Example content, replace with actual data
+            $this->Cell(145, 15, $deal_note['tenure'].' Days', 0, 1); // Example content, replace with actual data
 
             $this->SetX(20);
             $this->SetFont('Arial', '', 12);
             $this->Cell(50, 15, 'Interest Rate :', 0, 0); // Example content, replace with actual data
-            $this->Cell(145, 15, '10 % per annum', 0, 1); // Example content, replace with actual data
+            $this->Cell(145, 15, $deal_note['interestRate'].' %', 0, 1); // Example content, replace with actual data
 
             $this->SetX(20);
             $this->SetFont('Arial', '', 12);
             $this->Cell(50, 15, 'Coupon Payment :', 0, 0); // Example content, replace with actual data
-            $this->Cell(145, 15, 'Quarterly', 0, 1); // Example content, replace with actual data
+            $this->Cell(145, 15, $deal_note['couponPayment'], 0, 1); // Example content, replace with actual data
 
             $this->SetX(20);
             $this->SetFont('Arial', '', 12);
             $this->Cell(50, 15, 'Coupon Amount :', 0, 0); // Example content, replace with actual data
-            $this->Cell(145, 15, 'US$ 1,250.00 ', 0, 1); // Example content, replace with actual data
+            $this->Cell(145, 15, '$ ' . number_format($deal_note['couponAmount'], 2), 0, 1); // Example content, replace with actual data
 
             $this->SetX(20);
             $this->SetFont('Arial', '', 12);
             $this->Cell(50, 15, 'Principal :', 0, 0); // Example content, replace with actual data
-            $this->Cell(145, 15, 'Bullet payment at Maturity', 0, 1); // Example content, replace with actual data
+            $this->Cell(145, 15, $deal_note['principal'], 0, 1); // Example content, replace with actual data
 
             $this->SetX(20);
             $this->SetFont('Arial', '', 12);
             $this->Cell(50, 8, 'Coupon Dates :', 0, 0); // Example content, replace with actual data
-            $this->MultiCell(120, 8, '21 March 2024, 21 June 2024, 21 September 2024 & 21 December 2024 ', 0, 1); // Example content, replace with actual data
 
+            // Concatenate the formatted dates from the $deal_note['couponDates'] array
+            $couponDates = '';
+            foreach ($deal_note['couponDates'] as $date) {
+                $couponDates .= date('j F Y', strtotime($date)) . ', '; // Format the date as 'day Month year'
+            }
+            $couponDates = rtrim($couponDates, ', '); // Remove the trailing comma and space
 
+            $this->MultiCell(120, 8, $couponDates, 0, 1); // Output the concatenated dates
             $this->Ln(30);
             $this->SetX(20);
             $this->SetFont('Arial', '', 12);
@@ -119,7 +132,7 @@ if (isset($_GET['generate_deal_note'])) {
     $pdf->AliasNbPages();
     $pdf->AddPage('P', 'A4', 0);
     $pdf->headerTable();
-    $pdf->viewTable();
+    $pdf->viewTable($deal_note);
     $pdf->form();
     $pdf->Output();
 }

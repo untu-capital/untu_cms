@@ -15,7 +15,6 @@
             </div>
         </div>
 
-
         <div class="form-group row">
             <label class="col-sm-12 col-md-2 col-form-label">Sector</label>
             <div class="col-sm-12 col-md-10">
@@ -43,8 +42,6 @@
             </div>
         </div>
 
-
-
         <div class="form-group row">
             <label class="col-sm-12 col-md-2 col-form-label">Sought Loan (USD $)</label>
             <div class="col-sm-12 col-md-10">
@@ -59,13 +56,10 @@
                     <option value="Prospect">Prospect</option>
                     <option value="Assessment">Assessment</option>
                     <option value="Pending Disbursement">Pending Disbursement</option>
-<!--                    <option value="Disbursed">Disbursed</option>-->
+                    <option value="Disbursement">Disbursed</option>
                 </select>
             </div>
         </div>
-
-
-
 
         <div class="form-group row" hidden="hidden">
             <label class="col-sm-12 col-md-2 col-form-label">Loan Officer</label>
@@ -74,12 +68,10 @@
             </div>
         </div>
 
-
         <div class="form-group row">
             <label class="col-sm-12 col-md-2 col-form-label"></label>
             <div class="col-sm-12 col-md-10">
                 <button type="submit" class="btn btn-danger" value="Submit" name="add_to_pipeline">Submit</button>
-
             </div>
 
     </form>

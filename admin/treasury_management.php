@@ -3,6 +3,7 @@
     include('../session/session.php');
     include ('check_role.php');
     include('../includes/controllers.php');
+    include ('../controllers/treasury.php');
     include('../includes/forms/treasury_management/deal_note_pdf.php');
     $nav_header = "Treasury Management Dashboard";
 
@@ -130,7 +131,7 @@
                                         <div class="pd-20 col-4">
                                             <div class="form-group">
                                                 <br>
-                                                <label>Select CMS Role :</label>
+                                                <label>Select TMS Role :</label>
                                                 <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="role" style="width: 100%; height: 38px">
                                                     <optgroup label="Assign Role">
                                                         <option value="">Unassign Role</option>;
@@ -148,7 +149,7 @@
                                             <div class="form-group">
                                                 <br>
                                                 <label> .</label>
-                                                <button type="submit" name="update_cms_role" class="btn btn-success btn-lg btn-block">Update Role</button>
+                                                <button type="submit" name="update_tms_role" class="btn btn-success btn-lg btn-block">Update Role</button>
                                             </div>
                                         </div>
                                     </div>
@@ -398,148 +399,10 @@
         <?php }
 
         elseif ($_GET['menu'] == 'add_customer'){
-        ?>
-            <div class="pd-20 card-box mb-30">
-                <div class="clearfix">
-                    <div class="pull-left">
-                        <h4 class="text-blue h4">Add Customer Information Details</h4>
-                    </div>
-                </div>
-                <hr>
-                <div class="wizard-content">
-                    <form method="POST" action="" class="tab-wizard wizard-circle wizard">
-                        <h5>Counterparty Details</h5>
-                        <section>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="name">Name :</label>
-                                        <input id="name" name="name" type="text" class="form-control"/>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="email">Email Address :</label>
-                                        <input id="email" name="email" type="text" class="form-control"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="phoneNumber">Phone Number :</label>
-                                        <input id="phoneNumber" name="phoneNumber" type="text" class="form-control"/>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="phoneNumberOther">Phone Number (other) :</label>
-                                        <input id="phoneNumberOther" name="phoneNumberOther" type="text"
-                                               class="form-control"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="address">Physical Address :</label>
-                                        <textarea id="address" name="address" rows="4" type="text"
-                                                  class="form-control"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        <!-- Step 2 -->
-                        <h5>Contact Person</h5>
-                        <section>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="contactPersonName">Full Name:</label>
-                                        <input id="contactPersonName" name="contactPersonName" type="text"
-                                               class="form-control"/>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="contactPersonJobTitle">Job Title :</label>
-                                        <input id="contactPersonJobTitle" name="contactPersonJobTitle" type="text"
-                                               class="form-control"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        <!-- Step 3 -->
-                        <h5>Banking Details (ZWL)</h5>
-                        <section>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="zwlBankName">Bank Name:</label>
-                                        <input id="zwlBankName" name="zwlBankName" type="text" class="form-control"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="zwlBankBranch">Branch</label>
-                                        <input id="zwlBankBranch" name="zwlBankBranch" type="text"
-                                               class="form-control"/>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="zwlBankAccountNumber">Account Number</label>
-                                        <input id="zwlBankAccountNumber" name="zwlBankAccountNumber" type="number"
-                                               class="form-control"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="zwlSwiftCode">Swift Code :</label>
-                                        <input id="zwlSwiftCode" name="zwlSwiftCode" class="form-control" type="text"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        <!-- Step 3 -->
-                        <h5>Banking Details (USD)</h5>
-                        <section>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="usdBankName">Bank Name:</label>
-                                        <input id="usdBankName" name="usdBankName" type="text" class="form-control"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="usdBankBranch">Branch</label>
-                                        <input id="usdBankBranch" name="usdBankBranch" type="text"
-                                               class="form-control"/>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="usdBankAccountNumber">Account Number</label>
-                                        <input id="usdBankAccountNumber" name="usdBankAccountNumber" type="number"
-                                               class="form-control"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="usdSwiftCode">Swift Code :</label>
-                                        <input id="usdSwiftCode" name="usdSwiftCode" class="form-control" type="text"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        <div class="form-group row">
-                            <div class="col-sm-12 col-md-2 col-form-label">
-                                <button class="btn btn-success" type="submit" name="create_customer_info">Save</button>
-                            </div>
-                            <div class="col-sm-12 col-md-2 col-form-label">
-                                <a href="treasury_management.php?menu=main" class="btn btn-primary">Cancel</a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-        <?php }
+            include('../includes/forms/treasury_management/create_customer.php');
+         }
         elseif ($_GET['menu'] == 'view_customer'){
-        $data = getCustomerInfo($_GET['customerId']);
+        $data = customer_info($_GET['customerId']);
         ?>
             <div class="pd-20 card-box mb-30">
                 <div class="clearfix">
@@ -625,75 +488,42 @@
                             </div>
                         </section>
                         <!-- Step 3 -->
-                        <h5>Banking Details (ZWL)</h5>
+                        <h5>Banking Details</h5>
                         <section>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="zwlBankName">Bank Name:</label>
-                                        <input id="zwlBankName" name="zwlBankName" type="text" class="form-control"
-                                               value="<?php echo $data['zwlBankName'] ?? ''; ?>"
+                                        <label for="BankName">Bank Name:</label>
+                                        <input id="BankName" name="BankName" type="text" class="form-control"
+                                               value="<?php echo $data['BankName'] ?? ''; ?>"
                                                readonly="readonly"/>
                                     </div>
                                     <div class="form-group">
-                                        <label for="zwlBankBranch">Branch</label>
-                                        <input id="zwlBankBranch" name="zwlBankBranch" type="text" class="form-control"
-                                               value="<?php echo $data['zwlBankBranch'] ?? ''; ?>"
+                                        <label for="BankBranch">Branch</label>
+                                        <input id="BankBranch" name="BankBranch" type="text" class="form-control"
+                                               value="<?php echo $data['BankBranch'] ?? ''; ?>"
                                                readonly="readonly"/>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="zwlBankAccountNumber">Account Number</label>
-                                        <input id="zwlBankAccountNumber" name="zwlBankAccountNumber" type="number"
+                                        <label for="BankAccountNumber">Account Number</label>
+                                        <input id="BankAccountNumber" name="BankAccountNumber" type="number"
                                                class="form-control"
-                                               value="<?php echo $data['zwlBankAccountNumber'] ?? ''; ?>"
+                                               value="<?php echo $data['BankAccountNumber'] ?? ''; ?>"
                                                readonly="readonly"/>
                                     </div>
                                     <div class="form-group">
-                                        <label for="zwlSwiftCode">Swift Code :</label>
-                                        <input id="zwlSwiftCode" name="zwlSwiftCode" class="form-control" type="text"
-                                               value="<?php echo $data['zwlSwiftCode'] ?? ''; ?>"
+                                        <label for="SwiftCode">Swift Code :</label>
+                                        <input id="SwiftCode" name="SwiftCode" class="form-control" type="text"
+                                               value="<?php echo $data['SwiftCode'] ?? ''; ?>"
                                                readonly="readonly"/>
                                     </div>
                                 </div>
                             </div>
                         </section>
-                        <!-- Step 4 -->
-                        <h5>Banking Details (USD)</h5>
-                        <section>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="usdBankName">Bank Name:</label>
-                                        <input id="usdBankName" name="usdBankName" type="text" class="form-control"
-                                               value="<?php echo $data['usdBankName'] ?? ''; ?>"
-                                               readonly="readonly"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="usdBankBranch">Branch</label>
-                                        <input id="usdBankBranch" name="usdBankBranch" type="text" class="form-control"
-                                               value="<?php echo $data['usdBankBranch'] ?? ''; ?>"
-                                               readonly="readonly"/>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="usdBankAccountNumber">Account Number</label>
-                                        <input id="usdBankAccountNumber" name="usdBankAccountNumber" type="number"
-                                               class="form-control"
-                                               value="<?php echo $data['usdBankAccountNumber'] ?? ''; ?>"
-                                               readonly="readonly"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="usdSwiftCode">Swift Code :</label>
-                                        <input id="usdSwiftCode" name="usdSwiftCode" class="form-control" type="text"
-                                               value="<?php echo $data['usdSwiftCode'] ?? '';
-                                               ?>" readonly="readonly"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
+
+
                         <div class="form-group row">
                             <div class="col-sm-12 col-md-2 col-form-label">
                                 <a href="treasury_management.php?menu=main" class="btn btn-primary">Back</a></div>
@@ -704,7 +534,7 @@
 
         <?php }
         elseif ($_GET['menu'] == 'update_customer'){
-        $data = getCustomerInfo($_GET['customerId']);
+        $data = customer_info($_GET['customerId']);
         ?>
             <div class="pd-20 card-box mb-30">
                 <div class="clearfix">
@@ -797,75 +627,46 @@
                             </div>
                         </section>
                         <!-- Step 3 -->
-                        <h5>Banking Details (ZWL)</h5>
+                        <h5>Banking Details</h5>
                         <section>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="zwlBankName">Bank Name:</label>
-                                        <input id="zwlBankName" name="zwlBankName" type="text" class="form-control"
-                                               value="<?php echo $data['zwlBankName'] ?? ''; ?>"
+                                        <label for="BankName">Bank Name:</label>
+                                        <input id="BankName" name="BankName" type="text" class="form-control"
+                                               value="<?php echo $data['BankName'] ?? ''; ?>"
                                         />
                                     </div>
                                     <div class="form-group">
-                                        <label for="zwlBankBranch">Branch</label>
-                                        <input id="zwlBankBranch" name="zwlBankBranch" type="text" class="form-control"
-                                               value="<?php echo $data['zwlBankBranch'] ?? ''; ?>"
+                                        <label for="BankBranch">Branch</label>
+                                        <input id="BankBranch" name="BankBranch" type="text" class="form-control"
+                                               value="<?php echo $data['BankBranch'] ?? ''; ?>"
                                         />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="zwlBankAccountNumber">Account Number</label>
-                                        <input id="zwlBankAccountNumber" name="zwlBankAccountNumber" type="number"
-                                               class="form-control"
-                                               value="<?php echo $data['zwlBankAccountNumber'] ?? ''; ?>"
-                                        />
+                                        <label for="BankAccountNumber">Account Number</label>
+                                        <input id="BankAccountNumber" name="BankAccountNumber" type="number" class="form-control" value="<?php echo $data['BankAccountNumber'] ?? ''; ?>"/>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="zwlSwiftCode">Swift Code :</label>
-                                        <input id="zwlSwiftCode" name="zwlSwiftCode" class="form-control" type="text"
-                                               value="<?php echo $data['zwlSwiftCode'] ?? ''; ?>"
-                                        />
+                                    <div class="row">
+                                        <div class="form-group col-6">
+                                            <label for="SwiftCode">Swift Code :</label>
+                                            <input id="SwiftCode" name="SwiftCode" class="form-control" type="text" value="<?php echo $data['SwiftCode'] ?? ''; ?>"/>
+                                        </div>
+                                        <div class="form-group col-6">
+                                            <label for="currency">Currency Denomination</label>
+                                            <select class="custom-select2 form-control" name="currency" autocomplete="off" style="width: 100%; height: 38px" >
+                                                <option value="USD">USD</option>
+                                                <option value="ZWL">ZWL</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </section>
-                        <!-- Step 4 -->
-                        <h5>Banking Details (USD)</h5>
-                        <section>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="usdBankName">Bank Name:</label>
-                                        <input id="usdBankName" name="usdBankName" type="text" class="form-control"
-                                               value="<?php echo $data['usdBankName'] ?? ''; ?>"
-                                        />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="usdBankBranch">Branch</label>
-                                        <input id="usdBankBranch" name="usdBankBranch" type="text" class="form-control"
-                                               value="<?php echo $data['usdBankBranch'] ?? ''; ?>"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="usdBankAccountNumber">Account Number</label>
-                                        <input id="usdBankAccountNumber" name="usdBankAccountNumber" type="number"
-                                               class="form-control"
-                                               value="<?php echo $data['usdBankAccountNumber'] ?? ''; ?>"
-                                        />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="usdSwiftCode">Swift Code :</label>
-                                        <input id="usdSwiftCode" name="usdSwiftCode" class="form-control" type="text"
-                                               value="<?php echo $data['usdSwiftCode'] ?? ''; ?>"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
+
+
                         <div class="form-group row">
                             <div class="col-sm-12 col-md-2 col-form-label">
                                 <button class="btn btn-success" type="submit" name="update_customer_info">Save</button>

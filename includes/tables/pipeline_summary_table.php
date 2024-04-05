@@ -28,8 +28,23 @@
                         $cnt = 1;
                         $pipeline_reports = pipeline_report();
                         foreach ($pipeline_reports as $pipeline_report){
-                        ?>
-					<tr>
+                            if ($_SESSION['role'] === "ROLE_BM" ) {
+                            if ($pipeline_report['branchName'] === $_SESSION['branch']){
+                                ?>
+                            <tr>
+                                <th scope="row"><?php echo $cnt; ?></th>
+                                <td><?php echo $pipeline_report['branchName']; ?></td>
+                                <td><?php echo $pipeline_report['disbursements']; ?></td>
+                                <td><?php echo $pipeline_report['pendingDisbursements']; ?></td>
+                                <td><?php echo $pipeline_report['prospects']; ?></td>
+                                <td><?php echo $pipeline_report['assessments']; ?></td>
+                                <td><?php echo $pipeline_report['totalPipeline']; ?></td>
+                                <td><?php echo $pipeline_report['newClients']; ?></td>
+                                <td><?php echo $pipeline_report['repeatClients']; ?></td>
+
+                            </tr>
+                                <?php  $cnt++; }} else { ?>
+                    <tr>
                         <th scope="row"><?php echo $cnt; ?></th>
                         <td><?php echo $pipeline_report['branchName']; ?></td>
                         <td><?php echo $pipeline_report['disbursements']; ?></td>
@@ -40,8 +55,9 @@
                         <td><?php echo $pipeline_report['newClients']; ?></td>
                         <td><?php echo $pipeline_report['repeatClients']; ?></td>
 
-					</tr>
-					<?php $cnt++; }?>
+                    </tr>
+                    <?php
+                    $cnt++; }}?>
 					</tbody>
 				</table>
             </div>

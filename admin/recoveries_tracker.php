@@ -72,40 +72,6 @@ include('../includes/header.php');
                                         <?php include('../includes/tables/recoveries/recovery_musoni_info.php'); ?>
                                     </div>
                                 </div>
-<!--                                <div class="row">-->
-<!--                                    <div class="col-sm-12 col-md-6">-->
-<!--                                        <div class="card card-box ">-->
-<!--                                            <div class="card-body"><h5 class="card-title text-blue" style="text-decoration: underline;">Personal Information</h5>-->
-<!--                                                <p class="card-text">-->
-<!--                                                    <li><b class="label">Office:</b> Bulawayo Recoveries</li>-->
-<!--                                                    <li><b class="label">Client name:</b> Melody Mupenzwa</li>-->
-<!--                                                    <li><b class="label">Loan Officer Name:</b> Bare Simbarashe</li>-->
-<!--                                                    <br>-->
-<!--                                                </p>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!---->
-<!--                                    <div class="col-sm-12 col-md-6">-->
-<!--                                        <div class="card card-box ">-->
-<!--                                            <div class="card-body">-->
-<!--                                                <h5 class="card-title text-blue" style="text-decoration: underline;">Loan Information</h5>-->
-<!--                                                <p class="card-text">-->
-<!--                                                    <li><b style="padding-right: 10px;" class="label">Total Due:</b> $10 000</li>-->
-<!--                                                    <li><b style="padding-right: 25px;" class="label">Days In Arrears:</b> 1295 days</li>-->
-<!--                                                    <li><b style="padding-right: 25px;" class="label">Days Since Payment:</b> 1280 days</li>-->
-<!--                                                    <li><b style="padding-right: 35px;" class="label">Amount:</b> $100 000</li>-->
-<!--                                                    <li><b style="padding-right: 15px;" class="label">Principal Due:</b> $6600</li>-->
-<!--                                                    <li><b class="label">Status:</b>-->
-<!--                                                        --><?php //if ($loans['loanStatus'] == "ACCEPTED") {
-//                                                            echo "<label style='padding: 10px;' class='badge badge-danger'>Off Track</label>";
-//                                                        }  else { echo "<label style='padding: 6px;' class='badge badge-success'>On Track</label>"; } ?>
-<!--                                                    </li>-->
-<!---->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
                             </div>
 
 
@@ -122,50 +88,11 @@ include('../includes/header.php');
                                             </div>
                                         </div>
 
-
-
-<!--                                        <div class="row">-->
-<!--                                            <div class="col-md-6 col-sm-12">-->
-<!--                                                <div class="form-group">-->
-<!--                                                    <label>Agreed Amount</label>-->
-<!--                                                    <input type="text" class="form-control" name="amount" id="amount" required>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                            <div class="col-md-6 col-sm-12">-->
-<!--                                                <div class="form-group">-->
-<!--                                                    <label>Handed Over To</label>-->
-<!--                                                    <select class="custom-select2 form-control" name="legal" id="legal" style="width: 100%; height: 38px" required>-->
-<!--                                                        <option value=null>Collectors</option>-->
-<!--                                                        <option value="USD">Danziger</option>-->
-<!--                                                        <option value="ZWL">Nyamundanda</option>-->
-<!--                                                        <option value="ZWL">Branch</option>-->
-<!--                                                    </select>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!---->
-<!--                                        <div class="row">-->
-<!--                                            <div class="col-md-6 col-sm-12">-->
-<!--                                                <div class="form-group">-->
-<!--                                                    <label>Movement</label>-->
-<!--                                                    <input type="text" class="form-control" name="movement" id="movement" required>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!---->
-<!--                                            <div class="col-md-6 col-sm-12">-->
-<!--                                                <div class="form-group">-->
-<!--                                                    <label>Timeline</label>-->
-<!--                                                    <input type="text" class="form-control date-picker" name="time_line" id="time_line" required>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-
                                         <div class="row">
                                             <div class="col-md-6 col-sm-12">
                                                 <div class="form-group">
                                                     <label><h5>Next Step</h5></label>
-<!--                                                    <h5 class="card-title text-blue" style="text-decoration: underline;">Next Step</h5>-->
-                                                    <input type="text" class="form-control" name="next_step" id="next_step" value=" Summons"readonly required>
+                                                    <input type="text" class="form-control" name="next_step" id="next_step" value=" Summons" readonly required>
                                                 </div>
                                             </div>
                                         </div>

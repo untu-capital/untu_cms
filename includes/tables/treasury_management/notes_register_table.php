@@ -16,20 +16,17 @@
                 <div class="col-md-4 col-sm-12">
                     <div class="form-group">
                         <label>Select Liability:</label>
-                        <select class="custom-select2 form-control" name="liabilities"
-                                style="width: 100%; height: 38px">
+                        <select class="custom-select2 form-control" name="liabilities" style="width: 100%; height: 38px">
                             <option value=""></option>
                             <?php
-                            $branches = branch();
-                            foreach ($branches as $branch) {
-                                echo "<option value='$branch[id]'>$branch[branchName] Branch</option>";
+                            $deal_notes = liabilities_list();
+                            foreach ($deal_notes as $data) {
+                                echo "<option value='$data[id]'>$data[counterpart] - $data[liabilityType] </option>";
                             }
                             ?>
                         </select>
                     </div>
                 </div>
-
-
             </div>
 
             <div class="row">
@@ -43,7 +40,7 @@
             <div class="row">
                 <div class="col-md-2 col-sm-12">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block" value="auth" name="auth">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-block" value="auth" name="create_deal_note">Submit</button>
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-12">
@@ -78,43 +75,64 @@
     <table class="table hover table stripe multiple-select-row data-table-export nowrap">
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Investor (USD/ZWL)</th>
+<!--            <th>ID</th>-->
+            <th>Investor</th>
             <th>Amount Disbursed</th>
-            <th>Disbursement Date</th>
-            <th>Maturity Date</th>
-            <th>Tenure (months)</th>
-            <th>Rate (%)</th>
-            <th>Signing</th>
+            <th>Start Date</th>
+            <th>Tenure</th>
+            <th>Interest Rate (%)</th>
+            <th>Coupon Payment</th>
+            <th>Coupon Amount</th>
+            <th>Principal</th>
+            <th>Finance</th>
+            <th>CEO</th>
+            <th>Coupon Dates</th>
             <th class="datatable-nosort">Action</th>
         </tr>
         </thead>
         <tbody>
         <?php
-        $authorisation = authorisation("");
-        foreach ($authorisation as $data):
-            ?>
-            <?php
-            $authbranch = branch_by_id($data['branchId']);
-            $authuser = user($data['userId']);
+        $deal_notes = deal_notes();
+        foreach ($deal_notes as $data):
             ?>
 
             <tr>
-                <td><?php echo date('d-M-Y', strtotime($data['createdAt'])); ?></td>
-                <td class="table-plus"><?php echo $authuser['firstName'] . " " . $authuser['lastName']; ?></td>
-                <td class="table-plus"><?php echo $data['authLevel']; ?></td>
-                <td class="table-plus"><?php echo $data['authLevel']; ?></td>
-                <td class="table-plus"><?php echo $data['authLevel']; ?></td>
-                <td class="table-plus"><?php echo $data['authLevel']; ?></td>
-                <td><?php echo $authbranch['branchName']; ?></td>
+<!--                <td>--><?php //echo date('d-M-Y', strtotime($data['createdAt'])); ?><!--</td>-->
+                <td class="table-plus"><?php echo $data['counterParty'] . ' (' . $data['currency'] . ')'; ?></td>
+                <td class="table-plus"><?php echo '$ '.number_format($data['amount'], 2); ?></td>
+                <td class="table-plus"><?php echo $data['startDate']; ?></td>
+                <td class="table-plus"><?php echo $data['tenure'].' Days'; ?></td>
+                <td class="table-plus"><?php echo $data['interestRate']; ?></td>
+                <td class="table-plus"><?php echo $data['couponPayment']; ?></td>
+                <td class="table-plus"><?php echo '$ '.number_format($data['couponAmount'], 2); ?></td>
+                <td class="table-plus"><?php echo $data['principal']; ?></td>
                 <td>
-                    <?php if ($data['branchStatus'] == 1) { ?>
+                    <?php if ($data['finance_signing'] == "SIGNED") { ?>
                         <span class="badge badge-success" data-bgcolor="#2DB83D"
                               data-color="#fff"><?php echo "Signed"; ?></span>
-                    <?php } else { ?>
-                        <span class="badge badge-warning" data-color="#fff"><?php echo "Not Signed"; ?></span>
+                    <?php } elseif ($data['finance_signing'] == "DECLINED"){ ?>
+                        <span class="badge badge-danger" data-color="#fff"><?php echo "Deal Note Declined"; ?></span>
+                   <?php }else { ?>
+                        <span class="badge badge-warning" data-color="#fff"><?php echo "Waiting for Signature"; ?></span>
                     <?php } ?>
                 </td>
+                <td>
+                    <?php if ($data['ceo_signing'] == "SIGNED") { ?>
+                        <span class="badge badge-success" data-bgcolor="#2DB83D"
+                              data-color="#fff"><?php echo "Signed"; ?></span>
+                    <?php } elseif ($data['ceo_signing'] == "DECLINED"){ ?>
+                        <span class="badge badge-danger" data-color="#fff"><?php echo "Deal Note Declined"; ?></span>
+                   <?php }else { ?>
+                        <span class="badge badge-warning" data-color="#fff"><?php echo "Waiting for Signature"; ?></span>
+                    <?php } ?>
+                </td>
+
+                <td class="table-plus">
+                    <?php foreach ($data['couponDates'] as $date): ?>
+                        <?php echo date('Y-m-d', strtotime($date)); ?><br>
+                    <?php endforeach; ?>
+                </td>
+
 
                 <td>
                     <div class="dropdown">

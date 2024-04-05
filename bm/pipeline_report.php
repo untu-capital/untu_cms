@@ -58,7 +58,7 @@ if(isset($_POST['Submit'])){
 
         <?php include('../includes/dashboard/topbar_widget.php'); ?>
 
-        <?php include('../includes/forms/pipeline_report_date_range.php'); ?>
+<!--        --><?php //include('../includes/forms/pipeline_report_date_range.php'); ?>
 
         <?php include('../includes/dashboard/branches_productivity_widget.php'); ?>
 

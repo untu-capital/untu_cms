@@ -37,9 +37,9 @@
                                 style="width: 100%; height: 38px">
                             <option value="">Select Counterparty</option>
                             <?php
-                            $branches = branch();
-                            foreach ($branches as $branch) {
-                                echo "<option value='$branch[id]'>$branch[branchName] Branch</option>";
+                            $counterparties = customer_list();
+                            foreach ($counterparties as $counterparty) {
+                                echo "<option value='$counterparty[name]'>$counterparty[name]</option>";
                             }
                             ?>
                         </select>
@@ -49,10 +49,10 @@
                     <div class="form-group">
                         <label>Type of Liability</label>
                         <select class="custom-select2 form-control" name="liability" id="liability" style="width: 100%; height: 38px" required>
-                            <option value="mtn">MTN</option>
-                            <option value="receivable">Receivable</option>
-                            <option value="short_term">Short Term Dept</option>
-                            <option value="long_term">Long Term Dept</option>
+                            <option value="MTN">MTN</option>
+                            <option value="RECEIVABLE">Receivable</option>
+                            <option value="SHORT_TERM_DEBT">Short Term Debt</option>
+                            <option value="LONG_TERM_DEBT">Long Term Debt</option>
                         </select>
                     </div>
                 </div>
@@ -61,8 +61,8 @@
                         <label>PA Status</label>
                         <select class="custom-select2 form-control" name="pa_status" style="width: 100%; height: 38px">
                             <option value="">Select Status</option>
-                            <option value="yes">YES</option>
-                            <option value="no">NO</option>
+                            <option value="YES">YES</option>
+                            <option value="NO">NO</option>
                         </select>
                     </div>
                 </div>
@@ -80,9 +80,9 @@
                         <label>Currency ($)</label>
                         <select class="custom-select2 form-control" name="currency" id="currency"
                                 style="width: 100%; height: 38px" required>
-                            <option value=null>Select Option</option>
-                            <option value="usd">USD</option>
-                            <option value="zwl">ZWL</option>
+<!--                            <option value=null>Select Option</option>-->
+                            <option value="USD">USD</option>
+                            <option value="ZWL">ZWL</option>
                         </select>
                     </div>
                 </div>
@@ -104,15 +104,15 @@
                 <div class="col-md-2 col-sm-12">
                     <div class="form-group">
                         <label>Interest Rate (%) :<i class="mdi mdi-subdirectory-arrow-left:"></i></label>
-                        <input class="form-control" type="number" name="interest_rate">
+                        <input class="form-control" type="number" step="0.01" name="interest_rate">
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-12">
                     <div class="form-group">
                         <label>Interest Frequency:<i class="mdi mdi-subdirectory-arrow-left:"></i></label>
                         <select class="custom-select2 form-control" name="interest_frequency" id="interest_frequency" style="width: 100%; height: 38px" required>
-                            <option value="year">Yearly</option>
-                            <option value="month">Monthly</option>
+                            <option value="YEARLY">Yearly</option>
+                            <option value="MONTHLY">Monthly</option>
                         </select>
                     </div>
                 </div>
@@ -122,8 +122,8 @@
                         <select class="custom-select2 form-control" name="revolving" id="revolving"
                                 style="width: 100%; height: 38px" required>
                             <option value="">Select Option</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
+                            <option value="YES">Yes</option>
+                            <option value="NO">No</option>
                         </select>
                     </div>
                 </div>
@@ -138,10 +138,9 @@
                         <label>Principal Repayment Type</label>
                         <select class="custom-select2 form-control" name="principal_repayment" id="principal_repayment"
                                 style="width: 100%; height: 38px" required>
-                            <option value=null>Select Option</option>
-                            <option value="monthly">Monthly</option>
-                            <option value="quarterly">Quarterly</option>
-                            <option value="maturity">At Maturity</option>
+                            <option value="MONTHLY">Monthly</option>
+                            <option value="QUARTERLY">Quarterly</option>
+                            <option value="MATURITY">At Maturity</option>
                         </select>
                     </div>
                 </div>
@@ -149,9 +148,10 @@
                     <div class="form-group">
                         <label>Interest Repayment Type</label>
                         <select class="custom-select2 form-control" name="interest_repayment" id="interest-repayment" style="width: 100%; height: 38px" required>
-                            <option value="monthly">Monthly</option>
-                            <option value="quarterly">Quarterly</option>
-                            <option value="maturity">Maturity</option>
+                            <option value=null>Select Option</option>
+                            <option value="MONTHLY">Monthly</option>
+                            <option value="QUARTERLY">Quarterly</option>
+                            <option value="MATURITY">Maturity</option>
                         </select>
                     </div>
                 </div>
@@ -174,9 +174,10 @@
                     <div class="form-group">
                         <label>Principal At: <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
                         <select class="custom-select2 form-control" name="principal_at" style="width: 100%; height: 38px">
-                            <option value="">Select Option</option>
-                            <option value="#">Bullet payment at Maturity</option>
-                            <option value="#">Bullet payment at Maturity</option>
+                            <option value=null>Select Option</option>
+                            <option value="MONTHLY">Monthly</option>
+                            <option value="QUARTERLY">Quarterly</option>
+                            <option value="MATURITY">Bullet payment at Maturity</option>
                         </select>
                     </div>
                 </div>

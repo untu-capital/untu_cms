@@ -25,10 +25,10 @@
             </thead>
             <tbody>
             <?php
-                $users = cms_user();
+                $users = tms_user();
             foreach($users as $user):?>
                 <?php
-                $roles = get_roles($user["cmsUser"]["role"]); ?>
+                $roles = get_roles($user["tmsUser"]["role"]); ?>
                 <tr>
                     <td><?= htmlspecialchars ($user["firstName"])." ".htmlspecialchars ($user["lastName"]) ?></td>
                     <td><?= htmlspecialchars ($user["username"]) ?></td>

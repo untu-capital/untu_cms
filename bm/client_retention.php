@@ -10,6 +10,9 @@ include ('check_role.php');
 	// small widgets descriptions
 	$widget_descr = ["Tickets Signed: Harare", "Tickets Signed: HarareA", "Tickets Signed: Bulawayo", "Tickets Signed: Gweru", "Tickets Signed: Gokwe", "Total Tickets Signed"];
 
+    $fromDate = "2024-03-12";
+    $toDate = "2024-03-14";
+
 ?>
 
 <!DOCTYPE html>

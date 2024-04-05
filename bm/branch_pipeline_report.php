@@ -35,22 +35,24 @@ include ('check_role.php');
 			<div class="pd-ltr-20">
 					
 				<?php include('../includes/dashboard/topbar_widget.php'); ?>
-					
+
 				<?php include('../includes/dashboard/lo_productivity_bar_graph.php'); ?>
 				
 				<?php include('../includes/tables/pipeline_branch_table.php'); ?>
 
-                <?php include('../includes/forms/create_pipeline_report.php'); ?>
+<!--                --><?php //include('../includes/forms/create_pipeline_report.php'); ?>
 
 			</div>
 		</div>
         <?php include('../includes/footer.php');?>
+
 		<!-- js -->
 		<script src="../vendors/scripts/core.js"></script>
 		<script src="../vendors/scripts/script.min.js"></script>
 		<script src="../vendors/scripts/process.js"></script>
 		<script src="../vendors/scripts/layout-settings.js"></script>
 		<script src="../src/plugins/apexcharts/apexcharts.min.js"></script>
+        <script src="../vendors/scripts/apexcharts-setting.js"></script>
 		<script src="../src/plugins/datatables/js/jquery.dataTables.min.js"></script>
 		<script src="../src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
 		<script src="../src/plugins/datatables/js/dataTables.responsive.min.js"></script>
@@ -88,14 +90,9 @@ include ('check_role.php');
 
 		
 		<!-- Google Tag Manager (noscript) -->
-		<noscript
-			><iframe
+		<noscript><iframe
 				src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
-				height="0"
-				width="0"
-				style="display: none; visibility: hidden"
-			></iframe
-		></noscript>
+				height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
 		<!-- End Google Tag Manager (noscript) -->
 		
 	</body>

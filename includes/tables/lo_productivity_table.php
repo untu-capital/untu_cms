@@ -20,18 +20,21 @@
             </tr>
         </thead>
         <tbody>
-            <?php
-            $cnt = 1;
-            $productivity_reports = lo_productivity_report();
-            foreach ($productivity_reports as $productivity){
+        <?php
+        $cnt = 1;
+        $productivity_reports = lo_productivity_report();
+        foreach ($productivity_reports as $productivity) {
+            // Check if the user role is ROLE_BM and branch name matches with session branch
+            if ($_SESSION['role'] === "ROLE_BM" ) {
+                if ($productivity['branchName'] === $_SESSION['branch']){
                 ?>
                 <tr>
                     <th scope="row"><?php echo $cnt; ?></th>
                     <td><?php echo $productivity['branchName']; ?></td>
                     <td>
                         <?php
-                            $user = user($productivity['loanOfficer']);
-                            echo $user['firstName'].' '.$user['lastName'];
+                        $user = user($productivity['loanOfficer']);
+                        echo $user['firstName'] . ' ' . $user['lastName'];
                         ?>
                     </td>
                     <td><?php echo $productivity['disbursed']; ?></td>
@@ -39,10 +42,34 @@
                     <td><?php echo $productivity['total']; ?></td>
                     <td><?php echo $productivity['averageTarget']; ?></td>
                     <td><?php echo $productivity['variance']; ?></td>
-
                 </tr>
-                <?php $cnt++; }?>
+                <?php
+                $cnt++;
+            } } else {
+                // If the condition is not met, print all <tr> elements
+                ?>
+                <tr>
+                    <th scope="row"><?php echo $cnt; ?></th>
+                    <td><?php echo $productivity['branchName']; ?></td>
+                    <td>
+                        <?php
+                        $user = user($productivity['loanOfficer']);
+                        echo $user['firstName'] . ' ' . $user['lastName'];
+                        ?>
+                    </td>
+                    <td><?php echo $productivity['disbursed']; ?></td>
+                    <td><?php echo $productivity['pipelineCases']; ?></td>
+                    <td><?php echo $productivity['total']; ?></td>
+                    <td><?php echo $productivity['averageTarget']; ?></td>
+                    <td><?php echo $productivity['variance']; ?></td>
+                </tr>
+                <?php
+                $cnt++;
+            }
+        }
+        ?>
         </tbody>
+
     </table>
     <div class="collapse collapse-box" id="basic-table">
         <div class="code-box">

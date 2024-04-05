@@ -258,6 +258,16 @@
                                     <li><a href="clients_dataset.php?menu=assigned">Assigned Clients</a></li>
                                 </ul>
                             </li>
+
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+                                    <span class="micon bi bi-cash-coin"></span><span class="mtext">Recoveries Tracker</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="recoveries_tracker.php?menu=main">Dashboard</a></li>
+                                </ul>
+                            </li>
+
                             <li>
                                 <a href="events_calendar.php" class="dropdown-toggle no-arrow">
 								<span class="micon bi bi-calendar4-week"></span><span class="mtext">Events Calendar</span>
@@ -350,6 +360,17 @@
                                     <li><a href="clients_dataset.php?menu=assigned">Assigned Clients</a></li>
                                 </ul>
                             </li>
+
+
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+                                    <span class="micon bi bi-cash-coin"></span><span class="mtext">Recoveries Tracker</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="recoveries_tracker.php?menu=main">Dashboard</a></li>
+                                </ul>
+                            </li>
+
 						<li>
 							<a href="events_calendar.php" class="dropdown-toggle no-arrow">
 								<span class="micon bi bi-calendar4-week"></span
@@ -619,6 +640,16 @@
                                     <li><a href="clients_dataset.php?menu=assigned">Assigned Clients</a></li>
                                 </ul>
                             </li>
+
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+                                    <span class="micon bi bi-cash-coin"></span><span class="mtext">Recoveries Tracker</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="recoveries_tracker.php?menu=main">Dashboard</a></li>
+                                </ul>
+                            </li>
+
                             <li>
                                 <a href="events_calendar.php" class="dropdown-toggle no-arrow">
 								<span class="micon bi bi-calendar4-week"></span
@@ -721,6 +752,16 @@
 								<li><a href="client_retention.php">Client Retention</a></li>
 							</ul>
 						</li>
+
+                        <li class="dropdown">
+                            <a href="javascript:;" class="dropdown-toggle">
+                                <span class="micon bi bi-cash-coin"></span><span class="mtext">Recoveries Tracker</span>
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="recoveries_tracker.php?menu=main">Dashboard</a></li>
+                            </ul>
+                        </li>
+
 						<li>
 							<a href="events_calendar.php" class="dropdown-toggle no-arrow">
 								<span class="micon bi bi-calendar4-week"></span
@@ -802,6 +843,16 @@
                                 <li><a href="cash_management.php?menu=main">Dashboard</a></li>
                             </ul>
                         </li>
+                        <?php } ?>
+                        <?php if ($_SESSION['tmsUser']['role'] != null){ ?>
+                            <li class="dropdown">
+                                <a href="javascript:;" class="dropdown-toggle">
+                                    <span class="micon bi bi-cash-stack"></span><span class="mtext">Treasury Management</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="treasury_management.php?menu=main">Dashboard</a></li>
+                                </ul>
+                            </li>
                         <?php } ?>
                         <li>
                             <a href="events_calendar.php" class="dropdown-toggle no-arrow">

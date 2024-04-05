@@ -39,10 +39,6 @@
     <div class="pb-20">
         <table class="table table-striped table-bordered" id="table_field">
             <tr>
-<!--                <th>Updated On:</th>-->
-<!--                <th>Cause of Arrears</th>-->
-<!--                <th>Agreed Action Points</th>-->
-<!--                <th>Comment</th>-->
                 <th>Repayment Type</th>
                 <th>Agreed Amount ($)</th>
                 <th>Legal</th>
@@ -51,35 +47,41 @@
                 <th>Timeline</th>
             </tr>
 
-            <?php $last_action = get_repayments($_GET['recovery_id']); ?>
+            <?php $last_action = last_saved_action_plan($_GET['recovery_id']); ?>
             <tr>
-<!--                <td>--><?php //echo date("d M Y");?><!--</td>-->
-
-<!--                <td>--><?php //echo $last_action['causeOfArrears']; ?><!--</td>-->
-<!--                <td>--><?php //echo $last_action['agreedActionPoints']; ?><!--</td>-->
-<!--                <td>--><?php //echo $last_action['comments']; ?><!--</td>-->
                 <td><?php echo $last_action['repaymentType']; ?></td>
                 <td><?php echo "$" . number_format($last_action['agreedAmount'], 2); ?></td>
                 <td><?php echo $last_action['legalEntity']; ?></td>
 <!--                <td>--><?php //echo $last_action['status']; ?><!--</td>-->
                 <td>
-                        <span class="badge badge-pill" data-color="#fff"
-                            <?php if ($last_action['status'] === 'ON_TRACK'): ?>
-                                data-bgcolor="#d64b4b"
-                            <?php elseif ($last_action['status'] === 'OFF_TRACK'): ?>
-                                data-bgcolor="#2DB83D"
-                            <?php else: ?>
-                                data-bgcolor="#7d8cff"
-                            <?php endif; ?>>
-                            <?php echo $last_action['status']; ?>
-                        </span>
+                    <span class="badge badge-pill" data-color="#fff"
+                        <?php if ($last_action['status'] === 'ON_TRACK'): ?>
+                            data-bgcolor="#d64b4b"
+                            <?php echo "On Track"; ?>
+                        <?php elseif ($last_action['status'] === 'OFF_TRACK'): ?>
+                            data-bgcolor="#2DB83D"
+                            <?php echo "Off Track"; ?>
+                        <?php else: ?>
+                            data-bgcolor="#7d8cff"
+                            <?php echo "Unknown"; ?>
+                        <?php endif; ?>>
+                    </span>
                 </td>
+
                 <td><?php echo "$" . number_format($last_action['movementAmount'], 2); ?></td>
 
+                <td>
+                    <?php
+                    $start_date = strtotime($last_action['startDate']);
+                    if ($last_action['repaymentType'] === 'WEEKLY') {
+                        $new_date = strtotime('+1 week', $start_date);
+                    } elseif ($last_action['repaymentType'] === 'MONTHLY') {
+                        $new_date = strtotime('+1 month', $start_date);
+                    }
+                    echo date('d F Y', $new_date);
+                    ?>
+                </td>
 
-
-
-                <td><?php echo $last_action['nextTimeline']; ?></td>
 
             </tr>
 

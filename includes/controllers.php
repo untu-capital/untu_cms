@@ -468,6 +468,16 @@ function cms_user(){
     return $cms_user;
 }
 
+function tms_user(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/users/tmsUser');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $cms_user_response = curl_exec($ch);
+    curl_close($ch);
+    $tms_user = json_decode($cms_user_response, true);
+    return $tms_user;
+}
+
 function po_user(){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/users/poUser');
@@ -621,8 +631,52 @@ function pipeline_report(){
 
 }
 
+function branch_pipeline_report($branchName){
+    $ch = curl_init("http://localhost:7878/api/utg/credit_application_pipeline/getPipelineByBranch/".$branchName);
+    curl_setopt($ch, CURLOPT_HTTPGET, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    $response_data = json_decode($response, true);
+
+    $pipeline_reports = [];
+    foreach ($response_data as $pipeline_report) {
+
+
+        $pipeline_reports[] = $pipeline_report;
+//        print_r($pipeline_reports);
+    }
+    return $pipeline_reports;
+
+}
+
 function lo_productivity_report(){
     $ch = curl_init("http://localhost:7878/api/utg/credit_application_pipeline/getLoanOfficerProductivity");
+    curl_setopt($ch, CURLOPT_HTTPGET, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    $response_data = json_decode($response, true);
+
+    $pipeline_reports = [];
+    foreach ($response_data as $pipeline_report) {
+
+
+        $pipeline_reports[] = $pipeline_report;
+//        print_r($pipeline_reports);
+    }
+    return $pipeline_reports;
+
+}
+
+function getLoTotalPipelineAndDisbursements(){
+
+    if ($_SESSION['role'] == "ROLE_BM"){
+        $url = "http://localhost:7878/api/utg/credit_application_pipeline/getLoTotalPipelineAndDisbursementsByBranch/".str_replace(' ','%20',$_SESSION['branch']);
+    }else {
+        $url = "http://localhost:7878/api/utg/credit_application_pipeline/getLoTotalPipelineAndDisbursements";
+    }
+    $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_HTTPGET, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
@@ -702,7 +756,60 @@ if (isset($_POST['add_to_pipeline'])) {
     curl_close($ch);
 }
 
+if (isset($_POST['update_pipeline'])) {
+    $applicant = $_POST['applicant'];
+    $sector = $_POST['sector'];
+    $repeatClient = $_POST['repeat_client'];
+    $soughtLoan = $_POST['sought_loan'];
+    $loanStatus = $_POST['loan_status'];
+    $loanOfficer = $_POST['loan_officer'];
+    $id = $_POST['pipeline_id'];
 
+    $data_array = array(
+        'userId' => $_SESSION['userId'],
+        'branchName' => $_SESSION['branch'],
+        'applicant' => $applicant,
+        'sector' => $sector,
+        'repeatClient' => $repeatClient,
+        'soughtLoan' => $soughtLoan,
+        'loanStatus' => $loanStatus,
+        'loanOfficer' => $loanOfficer
+    );
+
+    $data = json_encode($data_array);
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/credit_application_pipeline/update/".$id);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    $resp = curl_exec($ch);
+
+// convert headers to array
+    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($resp, 0, $headerSize);
+    $bodyStr = substr($resp, $headerSize);
+    $headers = headersToArray( $headerStr );
+
+    // Check HTTP status code
+    if (!curl_errno($ch)) {
+        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+            case 200:
+                $_SESSION['info'] = "Created LO Pipeline Successfully";
+                audit($_SESSION['userid'], "Created LO Pipeline Successfully", $_SESSION['branch']);
+                break;
+            default:
+                $_SESSION['error'] = 'Failed to Created LO Pipeline ';
+                audit($_SESSION['userid'], "Failed to Created LO Pipeline ", $_SESSION['branch']);
+        }
+    } else {
+        $_SESSION['error'] = 'Failed to Created LO Pipeline .. Please try again!';
+        audit($_SESSION['userid'], "Failed to Created LO Pipeline ", $_SESSION['branch']);
+    }
+    curl_close($ch);
+}
 
 
 
@@ -3239,6 +3346,27 @@ if(isset($_POST['update_cms_role'])) {
     audit($_SESSION['userid'], "Admin updated user ($user) Cash Management Sys Role", $_SESSION['branch']);
 }
 
+if(isset($_POST['update_tms_role'])) {
+    $user = $_POST['user'];
+    $role = $_POST['role'];
+
+    $data_array = array(
+        'role' => $role
+    );
+    $data = json_encode($data_array);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/users/updateTmsUserRole/".$user);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    $resp = curl_exec($ch);
+    curl_close($ch);
+
+    audit($_SESSION['userid'], "Admin updated user ($user)\'s Treasury Management Sys Role", $_SESSION['branch']);
+}
+
 if(isset($_POST['add_vault_permissions'])) {
     $user = $_POST['user'];
     $vault_acc = $_POST['vault_acc'];
@@ -3925,308 +4053,3 @@ function getVaultAccountByType($vaultAccType) {
 }
 ?>
 
-
-<!--################################################################################################################################################################-->
-
-<!--###############  -------------------------------------------     TREASURY MANAGEMENT SYSTEM      -----------------------------------------  ####################-->
-
-<!--################################################################################################################################################################-->
-
-<?php
-    if(isset($_POST['create_liability'])) {
-
-        // Collect form data and assign to variables
-        $counterparty = $_POST['counterparty'] ?? "";
-        $liability = $_POST['liability'] ?? "";
-        $pa_status = $_POST['pa_status'] ?? "";
-        $start_date = $_POST['start_date'] ?? "";
-        $currency = $_POST['currency'] ?? "";
-        $amount = $_POST['amount'] ?? "";
-        $tenure = $_POST['tenure'] ?? "";
-        $interest_rate = $_POST['interest_rate'] ?? "";
-
-        $interest_frequency = $_POST['interest_frequency'] ?? "";
-        $revolving = $_POST['revolving'] ?? "";
-        $principal_repayment = $_POST['principal_repayment'] ?? "";
-        $interest_repayment = $_POST['interest_repayment'] ?? "";
-        $repayment_date = $_POST['repayment_date'] ?? "";
-        $maturity_date = $_POST['maturity_date'] ?? "";
-        $principal_at = $_POST['principal_at'] ?? "";
-        $other_features = $_POST['other_features'] ?? "";
-
-        $url = "http://localhost:7878/api/utg/cms/treasury_management/liabilities/save";
-
-        $data_array = array(
-            'counterparty' => $counterparty,
-            'liability' => $liability,
-            'pa_status' => $pa_status,
-            'start_date' => $start_date,
-            'currency' => $currency,
-            'amount' => $amount,
-            'tenure' => $tenure,
-            'interest_rate' => $interest_rate,
-            'interest_frequency' => $interest_frequency,
-            'revolving' => $revolving,
-            'principal_repayment' => $principal_repayment,
-            'interest_repayment' => $interest_repayment,
-            'repayment_date' => $repayment_date,
-            'maturity_date' => $maturity_date,
-            'principal_at' => $principal_at,
-            'other_features' => $other_features
-        );
-
-
-        $data = json_encode($data_array);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true );
-        $resp = curl_exec($ch);
-
-        // convert headers to array
-        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        $headerStr = substr($resp, 0, $headerSize);
-        $bodyStr = substr($resp, $headerSize);
-        $headers = headersToArray( $headerStr );
-
-        // Check HTTP status code
-        if (!curl_errno($ch)) {
-            switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-                case 200:
-                    $_SESSION['info'] = "Deal NOte Created Successfully";
-                    audit($_SESSION['userid'], "Deal NOte Created Successfully", $_SESSION['branch']);
-
-                    header('location: treasury_management.php?menu=main');
-                    break;
-                default:
-                    $_SESSION['error'] = 'Failed to Create Deal NOte';
-                    audit($_SESSION['userid'], "Failed to Create Deal NOte", $_SESSION['branch']);
-                    header('location: treasury_management.php?menu=main');
-            }
-        } else {
-            $_SESSION['error'] = 'Failed to Create Deal NOte.. Please try again!';
-            audit($_SESSION['userid'], "Failed to approved Transaction Voucher", $_SESSION['branch']);
-            header('location: treasury_management.php?menu=main');
-        }
-        curl_close($ch);
-    }
-
-
-    if (isset($_POST['create_deal_note'])) {
-
-        // Collect form data and assign to variables
-        $dnId = $_POST['id'] ?? "";
-        $dnInvestor = $_POST['investor'] ?? "";
-        $dnAmount = $_POST['amount'] ?? "";
-        $dnDisbursementDate = $_POST['disbursement_date'] ?? "";
-        $dnMaturityDate = $_POST['maturity_date'] ?? "";
-        $dnTenure = $_POST['tenure'] ?? "";
-        $dnInterestRate = $_POST['interest_rate'] ?? "";
-        $dnSigning = $_POST['signing'] ?? "";
-
-        $url = "http://localhost:7878/api/utg/cms/treasury_management/deal_note/save";
-        $data_array = array(
-            'id' => $dnId,
-            'investor' => $dnInvestor,
-            'amount' => $dnAmount,
-            'disbursement_date' => $dnDisbursementDate,
-            'maturity_date' => $dnMaturityDate,
-            'tenure' => $dnTenure,
-            'interest_rate' => $dnInterestRate,
-            'signing' => $dnSigning
-        );
-
-        $data = json_encode($data_array);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true );
-        $resp = curl_exec($ch);
-
-        // convert headers to array
-        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        $headerStr = substr($resp, 0, $headerSize);
-        $bodyStr = substr($resp, $headerSize);
-        $headers = headersToArray( $headerStr );
-
-        // Check HTTP status code
-        if (!curl_errno($ch)) {
-            switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-                case 200:
-                    $_SESSION['info'] = "Deal NOte Created Successfully";
-                    audit($_SESSION['userid'], "Deal NOte Created Successfully", $_SESSION['branch']);
-
-                    header('location: treasury_management.php?menu=main');
-                    break;
-                default:
-                    $_SESSION['error'] = 'Failed to Create Deal NOte';
-                    audit($_SESSION['userid'], "Failed to Create Deal NOte", $_SESSION['branch']);
-                    header('location: treasury_management.php?menu=main');
-            }
-        } else {
-            $_SESSION['error'] = 'Failed to Create Deal NOte.. Please try again!';
-            audit($_SESSION['userid'], "Failed to approved Transaction Voucher", $_SESSION['branch']);
-            header('location: treasury_management.php?menu=main');
-        }
-        curl_close($ch);
-    }
-
-//####################################### ----------------  START CUSTOMER SERVICE    -------------------- ########################################
-
-// CREATE CUSTOMER
-if (isset($_POST['create_customer_info'])) {
-
-    // API endpoint URL
-    $url = "http://localhost:7878/api/utg/treasury_management/customer-info";
-
-    // Data to send in the POST request
-    $postData = array(
-        'id' => $_POST['id'],
-        'name' => $_POST['name'],
-        'email' => $_POST['email'],
-        'phoneNumber' => $_POST['phoneNumber'],
-        'phoneNumberOther' => $_POST['phoneNumberOther'],
-        'address' => $_POST['address'],
-        'contactPersonName' => $_POST['contactPersonName'],
-        'contactPersonJobTitle' => $_POST['contactPersonJobTitle'],
-        'zwlBankName' => $_POST['zwlBankName'],
-        'zwlBankBranch' => $_POST['zwlBankBranch'],
-        'zwlBankAccountNumber' => $_POST['zwlBankAccountNumber'],
-        'zwlSwiftCode' => $_POST['zwlSwiftCode'],
-        'usdBankName' => $_POST['usdBankName'],
-        'usdBankBranch' => $_POST['usdBankBranch'],
-        'usdBankAccountNumber' => $_POST['usdBankAccountNumber'],
-        'usdSwiftCode' => $_POST['usdSwiftCode']
-    );
-
-    $data = json_encode($postData);
-
-    $ch = curl_init();
-
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true);
-
-    // Execute the POST request and store the response in a variable
-    $response = curl_exec($ch);
-
-    // Check for cURL errors
-    if (curl_errno($ch)) {
-        echo 'Curl error: ' . curl_error($ch);
-    }
-
-    // Close cURL session
-    curl_close($ch);
-    if ($response) {
-        echo '<script>window.location.href = "treasury_management.php?menu=main";</script>';
-    }
-}
-
-// READ CUSTOMER
-function getCustomerInfo($id)
-{
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/treasury_management/customer-info/' . $id);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $transaction_response = curl_exec($ch);
-    curl_close($ch);
-
-    return json_decode($transaction_response, true);
-}
-
-// LIST CUSTOMERS
-function listCustomerInfo()
-{
-    $url = "http://localhost:7878/api/utg/treasury_management/customer-info";
-
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $server_response = curl_exec($ch);
-    curl_close($ch);
-    return json_decode($server_response, true);
-}
-
-// UPDATE CUSTOMER
-if (isset($_POST['update_customer_info'])) {
-
-    // API endpoint URL
-    $url = "http://localhost:7878/api/utg/treasury_management/customer-info";
-
-    // Data to send in the POST request
-    $postData = array(
-        'id' => $_POST['id'],
-        'name' => $_POST['name'],
-        'email' => $_POST['email'],
-        'phoneNumber' => $_POST['phoneNumber'],
-        'phoneNumberOther' => $_POST['phoneNumberOther'],
-        'address' => $_POST['address'],
-        'contactPersonName' => $_POST['contactPersonName'],
-        'contactPersonJobTitle' => $_POST['contactPersonJobTitle'],
-        'zwlBankName' => $_POST['zwlBankName'],
-        'zwlBankBranch' => $_POST['zwlBankBranch'],
-        'zwlBankAccountNumber' => $_POST['zwlBankAccountNumber'],
-        'zwlSwiftCode' => $_POST['zwlSwiftCode'],
-        'usdBankName' => $_POST['usdBankName'],
-        'usdBankBranch' => $_POST['usdBankBranch'],
-        'usdBankAccountNumber' => $_POST['usdBankAccountNumber'],
-        'usdSwiftCode' => $_POST['usdSwiftCode']
-    );
-
-    $data = json_encode($postData);
-    echo $data;
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-
-    // Execute the POST request and store the response in a variable
-    $response = curl_exec($ch);
-
-    // Check for cURL errors
-    if (curl_errno($ch)) {
-        echo 'Curl error: ' . curl_error($ch);
-    }
-    // Close cURL session
-    curl_close($ch);
-    if ($response) {
-        echo '<script>window.location.href = "treasury_management.php?menu=main";</script>';
-    }
-    }
-
-    // DELETE CUSTOMER
-    if ($_GET['menu'] == 'delete_customer'){
-        $id = $_GET['customerId'];
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/treasury_management/customer-info/". $id);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-
-        $server_response = curl_exec($ch);
-
-        curl_close($ch);
-        $data = json_decode($server_response, true);
-
-        if ($data !== null) {
-            $table = $data;
-
-        } else {
-            echo '<script>window.location.href = "treasury_management.php?menu=main";</script>';
-            echo "Error decoding JSON data";
-        }
-    }
-
-    ?>

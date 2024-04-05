@@ -106,16 +106,18 @@ var options2 = {
 var chart = new ApexCharts(document.querySelector("#chart2"), options2);
 chart.render();
 
+
+
+// Retrieve loan officers list from PHP session
+// var loanOfficersList = <?php echo json_encode($_SESSION['loanOfficersList']); ?>;
+
 var options3 = {
 	series: [{
-		name: 'Net Profit',
-		data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+		name: 'Total Pipeline',
+		data: totalPipelineList
 	}, {
-		name: 'Revenue',
-		data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-	}, {
-		name: 'Free Cash Flow',
-		data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
+		name: 'Total Disbursed',
+		data: totalDisbursedList
 	}],
 	chart: {
 		type: 'bar',
@@ -140,11 +142,11 @@ var options3 = {
 		colors: ['transparent']
 	},
 	xaxis: {
-		categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+		categories: loanOfficersList,
 	},
 	yaxis: {
 		title: {
-			text: '$(thousands)'
+			text: '$ (Total Pipeline vs Disbursements)'
 		}
 	},
 	fill: {
@@ -153,13 +155,16 @@ var options3 = {
 	tooltip: {
 		y: {
 			formatter: function (val) {
-				return "$" + val + "thousands"
+				return "$ " + val + " USD";
 			}
 		}
 	}
 };
 var chart = new ApexCharts(document.querySelector("#chart3"), options3);
 chart.render();
+
+
+
 
 var options4 = {
 	series: [{

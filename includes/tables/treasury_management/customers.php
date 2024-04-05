@@ -25,7 +25,7 @@
                     </thead>
                     <tbody>
                     <?php
-                    $data = listCustomerInfo();
+                    $data = customer_list();
                     foreach ($data as $row):?>
                         <tr>
                             <td class="table-plus"><?php echo $row['name']; ?></td>
