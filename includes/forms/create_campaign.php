@@ -22,7 +22,7 @@ if(isset($_POST['Submit'])){
         echo '<script>alert("End date must be greater than start date.");history.go(-1);</script>';
         // Add your desired logic here
     } else {
-        $url = "http://localhost:7878/api/utg/api/market_campaigns";
+        $url = "http://localhost:7878/api/utg/market_campaigns";
 
         $data_array = array(
             'campaignID' => 1234,
@@ -38,8 +38,15 @@ if(isset($_POST['Submit'])){
             'endDate' => $enddate,
             'allocatedLoanOfficer' => $loanofficer,
             'campaignStatus' => "open",
+            'venue' => "Chisipite Park",
+            'targetAudience'=>'Farmers',
+            'objectives' =>'To inform leads',
+            'keyPerformanceIndicator'=> 'Get many clients as possible',
+            'allocatedLoanOfficer'=> 'kelvin'
 
         );
+
+
 
         $data = json_encode($data_array);
 
