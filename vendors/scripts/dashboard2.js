@@ -114,22 +114,23 @@ Highcharts.chart('chart', {
 		x: 0,
 		y: 0
 	},
-	series: [{
-		name: 'HarareA',
-		color: '#00789c',
-		marker: {
-			symbol: 'circle'
-		},
-		data: [0, 10, 5, 30, 40, 20, 10, 0, 10, 5, 30]
-	},
-	{
-		name: 'Harare',
-		color: '#236adc',
-		marker: {
-			symbol: 'circle'
-		},
-		data: [40, 20, 10, 40, 15, 15, 20, 40, 20, 10, 40, 35]
-	},
+	series: [
+	// 	{
+	// 	name: 'HarareA',
+	// 	color: '#00789c',
+	// 	marker: {
+	// 		symbol: 'circle'
+	// 	},
+	// 	data: [0, 10, 5, 30, 40, 20, 10, 0, 10, 5, 30, 40]
+	// },
+	// {
+	// 	name: 'Harare',
+	// 	color: '#236adc',
+	// 	marker: {
+	// 		symbol: 'circle'
+	// 	},
+	// 	data: [40, 20, 10, 40, 15, 15, 20, 40, 20, 10, 40, 15]
+	// },
 	{
 		name: 'Bulawayo',
 		color: '#ff686b',
@@ -137,25 +138,27 @@ Highcharts.chart('chart', {
 			symbol: 'circle'
 		},
 		data: [0, 15, 5, 30, 40, 30, 28, 0, 15, 5, 30, 40]
-	},
-	{
-		name: 'Gweru',
-		color: '#264653',
-		marker: {
-			symbol: 'circle'
-		},
-		data: [35, 25, 10, 40, 15, 5, 38, 35, 25, 10, 40, 15]
-	},
-	{
-		name: 'Gokwe',
-		color: '#4cb848',
-		marker: {
-			symbol: 'circle'
-		},
-		data: [15, 35, 20, 30, 25, 15, 28, 15, 35, 20, 30, 25]
-	}]
-});
+	}
+	// {
+	// 	name: 'Gweru',
+	// 	color: '#264653',
+	// 	marker: {
+	// 		symbol: 'circle'
+	// 	},
+	// 	data: [35, 25, 10, 40, 15, 5, 38, 35, 25, 10, 40, 15]
+	// },
+	// {
+	// 	name: 'Gokwe',
+	// 	color: '#4cb848',
+	// 	marker: {
+	// 		symbol: 'circle'
+	// 	},
+	// 	data: [15, 35, 20, 30, 25, 15, 28, 15, 35, 20, 30, 25]
+	// }
 
+	]
+});
+//Complience chart
 Highcharts.chart('compliance-trend', {
 	chart: {
 		type: 'column'
@@ -168,7 +171,7 @@ Highcharts.chart('compliance-trend', {
 		enabled: false
 	},
 	xAxis: {
-		categories: ['1th Sep', '2th Sep', '3th Sep', '4th Sep', '5th Sep', '6th Sep', '7th Sep', '8th Sep', '9th Sep', '10th Sep'],
+		categories: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October'],
 		crosshair: true,
 		lineWidth:1,
 		lineColor: '#979797',
@@ -214,16 +217,111 @@ Highcharts.chart('compliance-trend', {
 		}
 	},
 	series: [{
-		name: 'Success',
+		name: 'Receipts',
 		maxPointWidth: 10,
 		data: [50, 30, 40, 70, 20, 50, 30, 40, 70, 20,]
-	}, {
-		name: 'Warning',
+	 },
+		// {
+	// 	name: 'Warning',
+	// 	maxPointWidth: 10,
+	// 	data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0,]
+	// },
+		{
+		name: 'Payments',
 		maxPointWidth: 10,
-		data: [0, 20, 30, 20, 10, 50, 30, 40, 10, 20,]
-	}, {
-		name: 'Error',
-		maxPointWidth: 10,
-		data: [50, 50, 30, 10, 70, 0, 40, 20, 20, 60,]
+		data: [50, 50, 30, 10, 70, 1, 40, 20, 20, 60,]
+	}]
+});
+
+
+// chart 2
+$.getJSON(
+	'https://cdn.rawgit.com/highcharts/highcharts/057b672172ccc6c08fe7dbb27fc17ebca3f5b770/samples/data/usdeur.json',
+	function (data) {
+
+		Highcharts.chart('chart2', {
+			chart: {
+				zoomType: 'x'
+			},
+			title: {
+				text: 'USD to EUR exchange rate over time'
+			},
+			subtitle: {
+				text: document.ontouchstart === undefined ?
+					'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+			},
+			xAxis: {
+				type: 'datetime'
+			},
+			yAxis: {
+				title: {
+					text: 'Exchange rate'
+				}
+			},
+			legend: {
+				enabled: false
+			},
+			plotOptions: {
+				area: {
+					fillColor: {
+						linearGradient: {
+							x1: 0,
+							y1: 0,
+							x2: 0,
+							y2: 1
+						},
+						stops: [
+							[0, Highcharts.getOptions().colors[0]],
+							[1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+						]
+					},
+					marker: {
+						radius: 2
+					},
+					lineWidth: 1,
+					states: {
+						hover: {
+							lineWidth: 1
+						}
+					},
+					threshold: null
+				}
+			},
+
+			series: [{
+				type: 'area',
+				name: 'USD to EUR',
+				data: data
+			}]
+		});
+
+
+	}
+);
+
+// equality chart
+
+Highcharts.chart('eqaulity-chart', {
+	title: {
+		text: 'Pie point CSS'
+	},
+	xAxis: {
+		categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+	},
+	series: [{
+		type: 'pie',
+		allowPointSelect: true,
+		keys: ['name', 'y', 'selected', 'sliced'],
+		data: [
+			['Apples', 29.9, false],
+			['Pears', 71.5, false],
+			['Oranges', 106.4, false],
+			['Plums', 129.2, false],
+			['Bananas', 144.0, false],
+			['Peaches', 176.0, false],
+			['Prunes', 135.6, true, true],
+			['Avocados', 148.5, false]
+		],
+		showInLegend: true
 	}]
 });

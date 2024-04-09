@@ -28,6 +28,7 @@
                 <th>PO Iterm</th>
                 <th>Date Created</th>
                 <th>Total Amount</th>
+                <th>Currency</th>
                 <th>Orignater</th>
                 <th>Category</th>
                 <th>Supplier</th>
@@ -57,6 +58,7 @@
                     <td class="table-plus"><?php echo $data['poItem']; ?>
                     <td><?php echo convertDateFormat($req['createdAt']); ?></td>
                     <td><?php echo "$ ".$data['poAmount'].".00"; ?></td>
+                    <td><?php echo $data['poCurrency']; ?></td>
 <!--                    <td>--><?php //echo $req['userId']; ?><!--</td>-->
                     <td><?php $user =user($req['userId']); echo $user['firstName']." ".$user['lastName']; ?></td>
 

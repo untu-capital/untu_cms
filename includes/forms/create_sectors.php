@@ -8,18 +8,16 @@ if(isset($_POST['Submit'])){
     $name = $_POST['name'];
 
 
-    if ($enddate < $startdate) {
-        // End date is greater than start date
-        echo '<script>alert("End date must be greater than start date.");history.go(-1);</script>';
-        // Add your desired logic here
-    } else {
-        $url = "http://localhost:7878/api/utg/api/industries/save";
+//    if ($enddate < $startdate) {
+//        // End date is greater than start date
+//        echo '<script>alert("End date must be greater than start date.");history.go(-1);</script>';
+//        // Add your desired logic here
+//    } else {
+        $url = "http://localhost:7878/api/utg/industries/save";
 
         $data_array = array(
           
             'name'=> $name,
-
-
 
         );
 
@@ -79,7 +77,7 @@ if(isset($_POST['Submit'])){
 
         }
         curl_close($ch);
-    }
+//    }
 
 }
 

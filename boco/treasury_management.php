@@ -60,7 +60,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#customer_info" role="tab" aria-selected="false">Customer Info</a>
                             </li>
-                            
+
                             <li class="nav-item">
                                 <a class="nav-link text-blue" data-toggle="tab" href="#liabilities" role="tab" aria-selected="false">
                                     Liabilities Info
@@ -707,6 +707,7 @@
         <?php include('../includes/footer.php');?>
     </div>
 </div>
+
 
 <!-- js -->
 <script src="../vendors/scripts/core.js"></script>

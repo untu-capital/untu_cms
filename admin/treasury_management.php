@@ -60,7 +60,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#customer_info" role="tab" aria-selected="false">Customer Info</a>
                             </li>
-                            
+
                             <li class="nav-item">
                                 <a class="nav-link text-blue" data-toggle="tab" href="#liabilities" role="tab" aria-selected="false">
                                     Liabilities Info
@@ -726,6 +726,9 @@
 <script src="../src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 <script src="../src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 <script src="../vendors/scripts/dashboard.js"></script>
+<!--<script src="../vendors/scripts/dashboard.js"></script>-->
+
+<script src="../vendors/scripts/dashboard2.js"></script>
 
 <!-- buttons for Export datatable -->
 <script src="../src/plugins/datatables/js/dataTables.buttons.min.js"></script>
