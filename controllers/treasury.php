@@ -359,4 +359,89 @@ function deal_note($id)
     return json_decode($transaction_response, true);
 }
 
+function note_investment_statement($id){
+    $dealNote = deal_note($id);
+
+    $data = json_encode($dealNote);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7272/api/treasury/note_investment_statement");
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+    $resp = curl_exec($ch);
+    $error = curl_error($ch); // Added to capture any CURL errors
+    curl_close($ch);
+
+    if ($resp === false) {
+        echo "CURL Error: " . $error; // Output any CURL errors
+        return;
+    }
+
+    // Find the position of the first occurrence of "\r\n\r\n"
+    $headerEnd = strpos($resp, "\r\n\r\n");
+
+    // Extract the JSON content from the response body
+    $jsonContent = substr($resp, $headerEnd + 4);
+
+    $note_investment_statement = json_decode($jsonContent, true);
+
+    if ($note_investment_statement !== null) {
+        return $note_investment_statement;
+    } else {
+        echo "Error decoding JSON data";
+        // Optionally, output the response body for debugging purposes
+        echo "Response Body: " . $jsonContent;
+    }
+}
+
+function amortisation($id){
+
+    $dealNote = deal_note($id);
+
+
+    $data_array = array(
+        "amount" => $dealNote['amount'],
+        "tenure" => 120,
+        "repayments" => "monthly",
+        "currency" => "$dealNote[currency]",
+        "counterpart" => "$dealNote[counterParty]",
+        "period" => "$dealNote[couponDates]", // Make sure this is the correct period
+        "interest" => "$dealNote[interestRate]",
+        "startDate" => "$dealNote[startDate]" // Make sure this is the correct start date
+    );
+
+
+    $data = json_encode($data_array);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7272/api/treasury/amortisation/create");
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $resp = curl_exec($ch);
+    $error = curl_error($ch); // Added to capture any CURL errors
+    curl_close($ch);
+
+    if ($resp === false) {
+        echo "CURL Error: " . $error; // Output any CURL errors
+        return;
+    }
+
+    $amortisation_data = json_decode($resp, true);
+
+    if ($amortisation_data !== null) {
+        return $amortisation_data;
+    } else {
+        echo "Error decoding JSON data";
+        // Optionally, output the response body for debugging purposes
+        echo "Response Body: " . $resp;
+    }
+}
+
+
+
+
+
 ?>

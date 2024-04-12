@@ -10,6 +10,7 @@
             <table class="table hover table stripe multiple-select-row data-table-export nowrap">
 			<thead>
 				<tr>
+					<th>Select</th>
 					<th>Office name</th>
 					<th>Loan officer</th>
 					<th>Client name</th>
@@ -30,7 +31,8 @@
 //                    if ($_SESSION['branch'] == 'Head Office') {
                         ?>
                         <tr>
-                            <td><?php echo formatJsonDate($data['office']); ?></td>
+                            <td><?php echo $data['office']; ?></td>
+                            <td><?php echo $data['office']; ?></td>
                             <td><?php echo $data['loanOfficer']; ?></td>
                             <td><?php echo $data['clientName']; ?></td>
                             <td><?php echo "$" . number_format($data['amount'], 2); ?></td>

@@ -105,7 +105,7 @@
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
                                 <div class="pd-20">
-<!--                                    --><?php //include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
+                                    <?php include('../includes/dashboard/treasury/index.php'); ?>
                                 </div>
                             </div>
                             <div class="tab-pane fade row" id="user_access" role="tabpanel">
@@ -726,9 +726,7 @@
 <script src="../src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 <script src="../src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 <script src="../vendors/scripts/dashboard.js"></script>
-<!--<script src="../vendors/scripts/dashboard.js"></script>-->
-
-<script src="../vendors/scripts/dashboard2.js"></script>
+<!--<script src="../vendors/scripts/dashboard2.js"></script>-->
 
 <!-- buttons for Export datatable -->
 <script src="../src/plugins/datatables/js/dataTables.buttons.min.js"></script>

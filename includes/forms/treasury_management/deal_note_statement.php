@@ -23,16 +23,18 @@
             </div>
         </div>
 
+        <?php $deal_note = deal_note($_GET['id']); ?>
+
         <!--                    <h4 class="text-center mb-30 weight-600">INVOICE</h4>-->
         <div class="row pb-30">
             <div class="col-md-5">
-                <h5 class="mb-15">Note Investment Statement</h5>
+                <h5 class="mb-15"><?php echo $deal_note['liabilityType'] ?></h5>
                 <p class="font-14 mb-5">
                     Investment Type : &nbsp;<strong class="weight-600">Fixed Rate Note</strong>
                 </p>
                 <p class="font-14 mb-5">
                     Interest Rate : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <strong class="weight-600">10.00 % </strong>
+                    <strong class="weight-600"><?php echo $deal_note['tenure'].' %' ?></strong>
                 </p>
             </div>
             <div class="col-md-7">
@@ -47,9 +49,9 @@
                     </div>
                     <div class="col-md-8">
                         <div class="text-right">
-                            <p class="font-14 mb-5">30.11.2023</p>
-                            <p class="font-14 mb-5"><strong class="weight-600">Nyaradza Life Assurance Cover</strong></p>
-                            <p class="font-14 mb-5">USD</p>
+                            <p class="font-14 mb-5"><?php echo date("d.m.Y") ?></p>
+                            <p class="font-14 mb-5"><strong class="weight-600"><?php echo $deal_note['counterParty'] ?></strong></p>
+                            <p class="font-14 mb-5"><?php echo $deal_note['currency'] ?></p>
                         </div>
                     </div>
                 </div>
@@ -68,20 +70,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td class="table-plus">29-03-2018</td>
-                    <td>Note Investment</td>
-                    <td>50,000.00</td>
-                    <td>-</td>
-                    <td>$50,000.00</td>
-                </tr>
-                <tr>
-                    <td class="table-plus">30-03-2018</td>
-                    <td>Interest Charge</td>
-                    <td>27.78</td>
-                    <td>-</td>
-                    <td>$50,027.78</td>
-                </tr>
+                <?php $statements = note_investment_statement($_GET['id']);
+                    foreach ($statements as $statement){ ?>
+                        <tr>
+                            <td><?php echo $statement['date']; ?></td>
+                            <td><?php echo $statement['transactionType']; ?></td>
+                            <td><?php echo $statement['credit']; ?></td>
+                            <td><?php echo $statement['debit']; ?></td>
+                            <td><?php echo $statement['balance']; ?></td>
+                        </tr>
+                <?php } ?>
                 <tr>
                     <td class="table-plus"><strong class="weight-600">Closing Balance</strong></td>
                     <td></td>
@@ -153,24 +151,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td class="table-plus"><strong class="weight-600">29-03-2018</strong></td>
-                            <td>1,250.00</td>
-                            <td>-</td>
-                            <td>$50,000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="table-plus"><strong class="weight-600">30-03-2018</strong></td>
-                            <td>1,250.00</td>
-                            <td>-</td>
-                            <td>$50,000.00</td>
-                        </tr>
-                        <tr>
-                            <td class="table-plus"><strong class="weight-600">30-03-2018</strong></td>
-                            <td>1,250.00</td>
-                            <td>$50,000.00</td>
-                            <td>-</td>
-                        </tr>
+                        <?php
+                        $amortisation_statement = amortisation($_GET['id']);
+                        foreach ($amortisation_statement['periods'] as $period){ ?>
+                            <tr>
+                                <td class="table-plus"><strong class="weight-600"><?php echo $period['date']; ?></strong></td>
+                                <td><?php echo '$' . number_format($period['interestDue'], 2); ?></td>
+                                <td><?php echo '$' . number_format($period['principalDue'], 2); ?></td>
+                                <td><?php echo '$' . number_format($period['repaymentDue'], 2); ?></td>
+                            </tr>
+                        <?php } ?>
+
                         <tr>
                             <td class="table-plus"><strong class="weight-600">Quarterly Payment</strong></td>
                             <td><span class="weight-600">1,250.00</span></td>
