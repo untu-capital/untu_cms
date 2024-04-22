@@ -93,6 +93,12 @@ include('../includes/header.php');
                             Reports
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-blue" data-toggle="tab" href="#parameters" role="tab"
+                           aria-selected="false">
+                            Parameters
+                        </a>
+                    </li>
 
                 </ul>
                 <div class="tab-content">
@@ -104,6 +110,9 @@ include('../includes/header.php');
                     </div>
                     <div class="tab-pane fade" id="categories" role="tabpanel">
                         <?php include('../includes/tables/purchase_order/list-categories.php'); ?>
+                    </div>
+                    <div class="tab-pane fade" id="parameters" role="tabpanel">
+                        <?php include('../includes/tables/purchase_order/parameters.php'); ?>
                     </div>
                     <div class="tab-pane fade" id="budgets" role="tabpanel">
                         <?php include('../includes/tables/list-budget.php'); ?>
@@ -232,7 +241,8 @@ include('../includes/header.php');
                     'address' => $_POST['address'],
                     'phone' => $_POST['phone'],
                     'contactPerson' => $_POST['contactPerson'],
-                    'comment' => $_POST['comment']
+                    'comment' => $_POST['comment'],
+                    'taxClearance' => $_POST['tax_clearance']
                 );
 
                 $data = json_encode($postData);
@@ -299,6 +309,23 @@ include('../includes/header.php');
                                    required/>
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-md-2 col-form-label">Tax Clearance</label>
+                        <div class="col-sm-12 col-md-10">
+<!--                            <input class="form-control" name="tax" placeholder="+263 700 000 000" type="tel"-->
+<!--                                   required/>-->
+                            <select class="custom-select2 form-control" name="tax_clearance" style="width: 100%; height: 38px">
+                                <optgroup >
+                                    <option value="Yes" >Yes</option>
+                                    <option value="No" >No</option>
+
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+
+
                     <div class="form-group row">
                         <div class="col-sm-12 col-md-2 col-form-label">
                             <button class="btn btn-success" type="submit" name="create">Save</button>
@@ -340,7 +367,8 @@ include('../includes/header.php');
                     'address' => $_POST['address'],
                     'phone' => $_POST['phone'],
                     'contactPerson' => $_POST['contactPerson'],
-                    'comment' => $_POST['comment']
+                    'comment' => $_POST['comment'],
+                    'taxClearance' => $_POST['tax_clearance']
                 );
 
                 $data = json_encode($postData);
@@ -414,6 +442,23 @@ include('../includes/header.php');
                                    value="<?php echo $table['phone'] ?>" required/>
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-md-2 col-form-label">Tax Clearance</label>
+                        <div class="col-sm-12 col-md-10">
+                            <!--                            <input class="form-control" name="tax" placeholder="+263 700 000 000" type="tel"-->
+                            <!--                                   required/>-->
+                            <select class="custom-select2 form-control" name="tax_clearance" style="width: 100%; height: 38px">
+                                <optgroup >
+                                    <option value="<?php echo $table['phone'] ?>" > <?php echo $table['taxClearance'] ?></option>
+                                    <option value="No" >Yes</option>
+                                    <option value="No" >No</option>
+
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+
                     <div class="form-group row">
                         <div class="col-sm-12 col-md-2 col-form-label">
                             <button class="btn btn-success" type="submit" name="supplier">Save</button>
@@ -639,6 +684,78 @@ include('../includes/header.php');
                 </form>
             </div>
 
+
+        <?php } elseif ($_GET['menu'] == 'add_parameter') { ?>
+
+            <?php
+            if (isset($_POST['create'])) {
+                // API endpoint URL
+                $url = "http://localhost:7878/api/utg/pos/parameter/save";
+
+                // Data to send in the POST request
+                $postData = array(
+                    'tax' => $_POST['tax'],
+                    'cumulative' => $_POST['cumulative'],
+                );
+
+                $data = json_encode($postData);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HEADER, true);
+
+                // Execute the POST request and store the response in a variable
+                $response = curl_exec($ch);
+
+                // Check for cURL errors
+                if (curl_errno($ch)) {
+                    echo 'Curl error: ' . curl_error($ch);
+                }
+
+                // Close cURL session
+                curl_close($ch);
+
+//                header("Location: list-categories.php");
+//                exit;
+            }
+            ?>
+
+            <!-- Default Basic Forms Start -->
+            <div class="pd-20 card-box mb-30">
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <h4 class="text-blue h4">Add Parameters</h4>
+                    </div>
+                </div>
+                <form method="POST" action="requisitions.php?menu=add_parameter">
+
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-md-2 col-form-label">Threshold For Cumulative Invoices</label>
+                        <div class="col-sm-12 col-md-10">
+                            <input class="form-control" type="text" name="cumulative" placeholder="TCI" required/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-md-2 col-form-label">Withholding Tax Percentage</label>
+                        <div class="col-sm-12 col-md-10">
+                            <input class="form-control" type="text" name="tax" placeholder="Tax Percentage" required/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12 col-md-2 col-form-label">
+                            <button class="btn btn-success" type="submit" name="create">Save</button>
+                        </div>
+                        <div class="col-sm-12 col-md-2 col-form-label">
+                            <a href="requisitions.php?menu=main" class="btn btn-primary">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
         <?php } elseif ($_GET['menu'] == 'update_category') { ?>
 
             <?php
@@ -711,6 +828,101 @@ include('../includes/header.php');
                                    required/>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12 col-md-2 col-form-label">
+                            <button name="update" class="btn btn-success" type="submit">Update</button>
+                        </div>
+                        <div class="col-sm-12 col-md-2 col-form-label">
+                            <a href="requisitions.php?menu=main" class="btn btn-primary">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+
+        <?php } elseif ($_GET['menu'] == 'update_parameter') { ?>
+
+            <?php
+            $id = $_GET['id'];
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/parameter/" . $id);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_response = curl_exec($ch);
+
+            curl_close($ch);
+            $data = json_decode($server_response, true);
+            // Check if the JSON decoding was successful
+            if ($data !== null) {
+                $table = $data;
+
+            } else {
+                echo "Error decoding JSON data";
+            }
+
+            if (isset($_POST['update'])) {
+                // API endpoint URL
+                $url = "http://localhost:7878/api/utg/pos/parameter/update";
+
+                // Data to send in the POST request
+                $postData = array(
+                    'id' => $_POST['id'],
+                    'tax' => $_POST['tax'],
+                    'cumulative' => $_POST['cumulative'],
+                );
+
+                $data = json_encode($postData);
+
+                $ch = curl_init();
+
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HEADER, true);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+
+                // Execute the POST request and store the response in a variable
+                $response = curl_exec($ch);
+
+                // Check for cURL errors
+                if (curl_errno($ch)) {
+                    echo 'Curl error: ' . curl_error($ch);
+                }
+
+                // Close cURL session
+                curl_close($ch);
+
+//                header("Location: list-categories.php");
+//                exit;
+            }
+            ?>
+            <!-- Default Basic Forms Start -->
+            <div class="pd-20 card-box mb-30">
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <h4 class="text-blue h4">Update Parameters</h4>
+                    </div>
+                </div>
+                <form method="post" action="requisitions.php?menu=main">
+                    <input name="id" value="<?php echo $table['id'] ?>" hidden="hidden">
+
+
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-md-2 col-form-label">Threshold For Cumulative Invoices</label>
+                        <div class="col-sm-12 col-md-10">
+                            <input class="form-control" type="text" name="cumulative" placeholder="TCI" value="<?php echo $table['cumulative'] ?>"required/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-md-2 col-form-label">Withholding Tax Percentage</label>
+                        <div class="col-sm-12 col-md-10">
+                            <input class="form-control" type="text" name="tax" placeholder="Tax Percentage" value="<?php echo $table['tax'] ?>" required/>
+                        </div>
+                    </div>
+
+
                     <div class="form-group row">
                         <div class="col-sm-12 col-md-2 col-form-label">
                             <button name="update" class="btn btn-success" type="submit">Update</button>
