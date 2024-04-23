@@ -294,8 +294,7 @@
                             </li>
                         </ul>
 
-					<?php }
-                    elseif ($check_role == "ROLE_OP"){?>
+					<?php } elseif ($check_role == "ROLE_OP"){?>
 
 					    <ul id="accordion-menu">
 						<li class="dropdown">

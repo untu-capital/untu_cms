@@ -14,26 +14,26 @@
 		</h4>
 	</div>
 	<div class="pb-20">
-        <table class="table table-striped">
+<!--        <table class="table table-striped">-->
+        <table class="data-table table-striped table hover multiple-select-row nowrap">
             <div class="row">
                 <div class="col-8">
 
                 </div>
 
-                <div class="col-4">
-                    <div class="col-md-12 col-sm-12">
-                        <div class="row">
-                            <div class="form-group col-8">
-<!--                                <label>Search</label>-->
-                                <input type="text" class="form-control" placeholder="Search">
-                            </div>
-                            <div class="form-group col-4">
-                                <button class="btn btn-block btn-success">Search</button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
+<!--                <div class="col-4">-->
+<!--                    <div class="col-md-12 col-sm-12">-->
+<!--                        <div class="row">-->
+<!--                            <div class="form-group col-8">-->
+<!--                                <input type="text" class="form-control" placeholder="Search">-->
+<!--                            </div>-->
+<!--                            <div class="form-group col-4">-->
+<!--                                <button class="btn btn-block btn-success">Search</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!---->
+<!--                    </div>-->
+<!--                </div>-->
 
 
             </div>
@@ -107,8 +107,8 @@
                                 data-bgcolor="#2DB83D"
                             <?php else: ?>
                                 data-bgcolor="#7d8cff"
-                            <?php endif; ?>
-							<?php echo $data['loanStatus']; ?>
+                            <?php endif; ?>>
+                            <?php echo $data['loanStatus']; ?>
 						</span>
                         </td>
                         <td><?php echo $data['branchName']; ?></td>

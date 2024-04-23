@@ -53,67 +53,63 @@ include('../includes/header.php');
 
         <?php include('../includes/dashboard/topbar_widget.php'); ?>
 
-        <?php if ($_GET['menu'] == 'main') { ?>
-            <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
-                <div class="pd-20 card-box">
-                    <h5 class="h4 text-blue mb-20">CMS Configurations</h5>
-                    <div class="tab">
-                        <ul class="nav nav-tabs customtab" role="tablist">
+        <?php if ($_GET['menu'] == 'main'){ ?>
+        <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+            <div class="pd-20 card-box">
+                <h5 class="h4 text-blue mb-20">CMS Configurations</h5>
+                <div class="tab">
+                    <ul class="nav nav-tabs customtab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#acc_balance" role="tab"
+                               aria-selected="true">Account Balances</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#cash_trans" role="tab"
+                               aria-selected="false">My Transaction Vouchers</a>
+                        </li>
+                        <?php if ($_SESSION['branch'] == "Head Office"): ?>
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#acc_balance" role="tab"
-                                   aria-selected="true">Account Balances</a>
+                                <a class="nav-link" data-toggle="tab" href="#all_cash_trans" role="tab"
+                                   aria-selected="false">All Cash Transaction</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#assign_role" role="tab"
-                                   aria-selected="false">Cash Transaction Voucher</a>
-                            </li>
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link" data-toggle="tab" href="#po_payments" role="tab"-->
-<!--                                   aria-selected="false">Petty Cash Payments</a>-->
-<!--                            </li>-->
-
-
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link text-blue" data-toggle="tab" href="#vaults" role="tab"-->
-<!--                                   aria-selected="false">-->
-<!--                                    Cash Receipts-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link text-blue" data-toggle="tab" href="#auditTrail" role="tab"-->
-<!--                                   aria-selected="false">-->
-<!--                                    Cash Reconciliation-->
-<!--                                </a>-->
-<!--                            </li>-->
-                        </ul>
-                        <div class="tab-content">
-                            <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
-                                <div class="pd-20">
-                                    <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
-                                </div>
+                        <?php endif; ?>
+                    </ul>
+                    <div class="tab-content">
+                        <!-- Account Balances Tab -->
+                        <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
+                            <div class="pd-20">
+                                <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
                             </div>
-                            <div class="tab-pane fade row" id="assign_role" role="tabpanel">
-                                <?php include('../includes/tables/cash_management/cash_withdrawal_vouchers_table.php'); ?>
-                            </div>
-
-<!--                            <div class="tab-pane fade" id="po_payments" role="tabpanel">-->
-<!--                                --><?php //include('../includes/tables/cash_management/list-petty-cash.php'); ?>
-<!--                            </div>-->
-
-
-<!--                            <div class="tab-pane fade" id="vaults" role="tabpanel">-->
-<!--                                --><?php //include('../includes/tables/cash_management/cash_receipts.php'); ?>
-<!--                            </div>-->
-<!--                            <div class="tab-pane fade" id="auditTrail" role="tabpanel">-->
-<!--                                --><?php //include('../includes/tables/cash_management/list-audit-trail.php'); ?>
-<!--                            </div>-->
+                        </div>
+                        <!-- My Transaction Vouchers Tab -->
+                        <div class="tab-pane fade row" id="cash_trans" role="tabpanel">
+                            <?php include('../includes/tables/cash_management/cash_withdrawal_vouchers_table.php'); ?>
+                        </div>
+                        <!-- All Cash Transaction Tab -->
+                        <div class="tab-pane fade row" id="all_cash_trans" role="tabpanel">
+                            <?php if ($_SESSION['branch'] == "Head Office"): ?>
+                                <?php include('../includes/tables/cash_management/all_cash_withdrawal_vouchers_table.php'); ?>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!--        --><?php //include('../includes/tables/users_table.php'); ?>
-
+        <!-- JavaScript to handle timeouts -->
+        <script>
+            setTimeout(function() {
+                var accBalanceTab = document.getElementById('acc_balance');
+                if (!accBalanceTab || accBalanceTab.innerHTML.trim() === '') {
+                    // If the Account Balances tab failed to load, hide it
+                    if (accBalanceTab) {
+                        accBalanceTab.style.display = 'none';
+                    }
+                    // You can add further handling here, such as displaying a message
+                    console.log('Account Balances tab failed to load within the timeout.');
+                }
+            }, 10000); // Adjust timeout as needed (in milliseconds)
+        </script>
         <?php } elseif ($_GET['menu'] == 'add_vault') {
             ?>
             <?php
@@ -129,8 +125,7 @@ include('../includes/header.php');
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Account</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="account" placeholder="Vault Account"
-                                   required/></div>
+                            <input class="form-control" type="text" name="account" placeholder="Vault Account" required/></div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Name</label>
