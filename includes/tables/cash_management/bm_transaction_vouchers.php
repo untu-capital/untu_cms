@@ -13,6 +13,7 @@
             <thead class="small">
             <tr>
                 <th>Application Date</th>
+                <th>Reference No</th>
 
                 <th>First Approver</th>
 
@@ -33,6 +34,7 @@
             foreach ($transactions as $row):?>
                     <tr>
                         <td><?= htmlspecialchars($row["applicationDate"]) ?></td>
+                        <td><?= htmlspecialchars($row["referenceNumber"]) ?></td>
 <!--                        <td>--><?php //= date("d-M-Y H:i", htmlspecialchars($row["applicationDate"])) ?><!--</td>-->
 
 

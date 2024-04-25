@@ -787,6 +787,11 @@ include('../includes/header.php');
                             <input class="form-control" type="text" name="name" placeholder="Vault Name" required/></div>
                     </div>
                     <div class="form-group row">
+                        <label class="col-sm-12 col-md-2 col-form-label">Vault Code</label>
+                        <div class="col-sm-12 col-md-10">
+                            <input class="form-control" type="text" name="code" placeholder="Vault Code" required/></div>
+                    </div>
+                    <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Type</label>
                         <div class="col-sm-12 col-md-10">
                             <select class="custom-select2 form-control" name="type" style="width: 100%; height: 38px">
@@ -857,6 +862,7 @@ include('../includes/header.php');
                     'account' => $_POST['account'],
                     'name' => $_POST['vaultName'],
                     'type' => $_POST['type'],
+                    'code' => $_POST['code'],
                     'branchId' => $_POST['branch'],
                 );
 
@@ -905,6 +911,12 @@ include('../includes/header.php');
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Name</label>
                         <div class="col-sm-12 col-md-10">
                             <input class="form-control" type="text" name="vaultName" placeholder="Vault Account" value="<?php echo $table['name'] ?>" required/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-md-2 col-form-label">Vault Code</label>
+                        <div class="col-sm-12 col-md-10">
+                            <input class="form-control" type="text" name="code" placeholder="Vault Account" value="<?php echo $table['code'] ?>" required/>
                         </div>
                     </div>
                     <div class="form-group row">

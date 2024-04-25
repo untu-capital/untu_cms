@@ -3128,6 +3128,7 @@ if(isset($_POST['create_vault'])){
         'account' => $_POST['account'],
         'name' => $_POST['name'],
         'type' => $_POST['type'],
+        'code' => $_POST['code'],
         'branchId' => $_POST['branch'],
     );
 

@@ -59,7 +59,7 @@ include('../includes/header.php');
                 <div class="pd-20 card-box mb-30">
                     <div>
                         <div class="row">
-                            <div class="col-md-6 col-sm-12">
+                            <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <label for="transactionId" hidden="hidden"></label>
                                     <input id="transactionId" value="<?= $transactionVoucher['id']?>" hidden="hidden">
@@ -73,7 +73,15 @@ include('../includes/header.php');
                                            class="form-control" name="initiator" id="initiator" readonly>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-sm-12">
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="initiator">Reference Number</label>
+                                    <input type="text"
+                                           value="<?= $transactionVoucher['referenceNumber']?>"
+                                           class="form-control" name="referenceNumber" id="referenceNumber" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
                                     <label for="applicationDate">Application Date</label>
                                     <input type="text" value="<?= $transactionVoucher['applicationDate'] ?>"

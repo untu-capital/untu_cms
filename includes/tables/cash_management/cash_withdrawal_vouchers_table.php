@@ -19,6 +19,7 @@
             <thead class="small">
             <tr>
                 <th>Application No</th>
+                <th>Reference No</th>
                 <th>First Approver</th>
                 <th>Second Approver</th>
                 <th>Amount</th>
@@ -35,6 +36,7 @@
             foreach ($voucher as $row):?>
                 <tr>
                     <td><?= htmlspecialchars($row["applicationNo"]) ?></td>
+                    <td><?= htmlspecialchars($row["referenceNumber"]) ?></td>
 
                     <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["firstApprover"]['lastName'])." - " ?>
 

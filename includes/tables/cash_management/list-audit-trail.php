@@ -34,6 +34,7 @@ if ($data !== null) {
 
                         <th class="table-plus datatable-nosort">Initiator</th>
                         <th>Amount</th>
+                        <th>Reference No</th>
                         <th>From Vault</th>
                         <th>To Vault</th>
                         <th>Initiated At</th>
@@ -52,6 +53,7 @@ if ($data !== null) {
                         <tr>
                             <td class="table-plus"><?php echo $row['initiator']; ?></td>
                             <td><?php echo $row['amount']; ?></td>
+                            <td><?php echo $row['referenceNumber']; ?></td>
                             <td><?php echo $row['fromVault']; ?></td>
                             <td><?php echo $row['toVault']; ?></td>
                             <td><?php

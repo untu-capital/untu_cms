@@ -14,14 +14,11 @@
             <thead class="small">
             <tr>
                 <th>Application Date</th>
-
-                <th>First Approver</th>
-
-                <th>Second Approver</th>
-
+                <th>Reference No</th>
+                <th>First Approver</th
+                <th>Second Approver</th
                 <th>Amount</th>
                 <th>Withdrawal Purpose</th>
-
                 <th>From Vault</th>
                 <th>To Vault</th>
 
@@ -34,6 +31,7 @@
             foreach ($transactions as $row):?>
                     <tr>
                         <td><?= htmlspecialchars($row["applicationDate"]) ?></td>
+                        <td><?= htmlspecialchars($row["referenceNumber"]) ?></td>
 
                         <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["firstApprover"]['lastName'])." - " ?>
 

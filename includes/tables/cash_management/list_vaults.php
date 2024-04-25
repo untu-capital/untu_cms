@@ -36,6 +36,7 @@
                         <tr>
                             <th class="table-plus datatable-nosort">Account</th>
                             <th>Type</th>
+                            <th>Code</th>
                             <th>name</th>
                             <th>Branch</th>
                             <th>Max Amount</th>
@@ -50,6 +51,7 @@
                         <tr>
                             <td class="table-plus"><?php echo $row['account']; ?></td>
                             <td><?php echo $row['type']; ?></td>
+                            <td><?php echo $row['code']; ?></td>
                             <td><?php echo $row['name']; ?></td>
                             <td><?php echo $row['branch']['branchName']; ?></td>
                             <td><?php echo '$ ' . number_format($row['maxAmount'], 2, '.', ','); ?></td>
