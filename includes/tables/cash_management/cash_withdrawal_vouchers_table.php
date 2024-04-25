@@ -18,7 +18,7 @@
             <table class="table hover table stripe multiple-select-row data-table-export nowrap">
             <thead class="small">
             <tr>
-                <th>Application No</th>
+                <th>Application Date</th>
                 <th>Reference No</th>
                 <th>First Approver</th>
                 <th>Second Approver</th>
@@ -35,7 +35,7 @@
             $voucher = cms_withdrawal_voucher($_SESSION['userId']);
             foreach ($voucher as $row):?>
                 <tr>
-                    <td><?= htmlspecialchars($row["applicationNo"]) ?></td>
+                    <td><?= htmlspecialchars($row["applicationDate"]) ?></td>
                     <td><?= htmlspecialchars($row["referenceNumber"]) ?></td>
 
                     <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["firstApprover"]['lastName'])." - " ?>

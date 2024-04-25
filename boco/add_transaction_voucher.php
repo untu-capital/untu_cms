@@ -63,7 +63,7 @@ include('../includes/header.php');
                 <label for="initiator" hidden="hidden"></label>
                 <input id="initiator" value="<?= $userId  ?>" name="initiator" hidden="hidden">
                 <div class="row">
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-md-4 col-sm-12">
                         <div class="form-group">
                             <label for="currency">currency</label>
                             <select onselect="validateFormOnSelect()" class="custom-select2 form-control" id="currency" name="currency" style="width: 100%; height: 38px">
@@ -76,7 +76,13 @@ include('../includes/header.php');
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group">
+                            <label for="applicationDate">Application Date</label>
+                            <input type="date" class="form-control" name="applicationDate" required id="applicationDate">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
                         <div class="form-group">
                             <label for="amount">Amount</label>
                             <input type="number" class="form-control" name="amount" required oninput="calculateValue()" id="amount">

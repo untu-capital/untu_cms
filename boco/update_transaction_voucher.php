@@ -96,25 +96,15 @@ include('../includes/header.php');
                     </div>
 
                     <div class="row">
-                        <div class="col-md-4 col-sm-12">
+                        <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                                <label for="amount">Amount</label>
-                                <input type="text"
-                                       value="<?= $transactionVoucher['amount'] ?>"
-                                       class="form-control" name="amount" id="amount">
+                                <label for="applicationDate">Application Date</label>
+                                <input type="date"
+                                       value="<?= $transactionVoucher['applicationDate'] ?>"
+                                       class="form-control" name="applicationDate" id="applicationDate">
                             </div>
                         </div>
-                        <div class="col-md-8 col-sm-12">
-                            <div class="form-group">
-                                <label for="amountInWords">Amount In Words</label>
-                                <input type="text" value="<?= $transactionVoucher['amountInWords'] ?>"
-                                       class="form-control" name="amountInWords" id="amountInWords">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 col-sm-12">
+                        <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label for="currency">Currency</label>
                                 <select
@@ -129,7 +119,27 @@ include('../includes/header.php');
 
                                 </select></div>
                         </div>
-                        <div class="col-md-8 col-sm-12">
+                    </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="amount">Amount</label>
+                                    <input type="text"
+                                           value="<?= $transactionVoucher['amount'] ?>"
+                                           class="form-control" name="amount" id="amount">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="amountInWords">Amount In Words</label>
+                                    <input type="text" value="<?= $transactionVoucher['amountInWords'] ?>"
+                                           class="form-control" name="amountInWords" id="amountInWords">
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label for="transactionPurposeSelect">Withdrawal Purpose</label>
                                 <select

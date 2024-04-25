@@ -15,6 +15,7 @@ if(isset($_POST['initiate_transaction'])) {
     $postData = array(
         'initiator' => $_POST['initiator'],
         'currency' => $_POST['currency'],
+        'applicationDate' => $_POST['applicationDate'],
         'amount' => $_POST['amount'],
         'fromVault' => $_POST['fromVault'],
         'toVault' => $_POST['toVault'],
@@ -65,6 +66,7 @@ if(isset($_POST['update_transaction'])) {
         'id' => $_POST['id'],
         'fromVault' => $_POST['fromVault'],
         'toVault' => $_POST['toVault'],
+        'applicationDate'=> $_POST['applicationDate'],
         'amount' => $_POST['amount'],
         'amountInWords' => $_POST['amountInWords'],
         'currency' => $_POST['currency'],
