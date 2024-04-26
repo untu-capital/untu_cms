@@ -28,7 +28,7 @@ $branch = $_SESSION['branch'];
 //?>
 
 <!DOCTYPE html>
-<html>
+<html lang="">
 <!-- HTML HEAD -->
 <?php
 include('../includes/header.php');
@@ -85,7 +85,7 @@ include('../includes/header.php');
                             </div>
 
                             <div class="tab-pane fade row" id="pending" role="tabpanel">
-                                <?php $approvalStatus = "PENDING"; include('../includes/tables/cash_management/bm_transaction_vouchers.php'); ?>
+                                <?php $approvalStatus = "PENDING"; include('../includes/tables/cash_management/bm_bulk_transaction_vouchers.php'); ?>
                             </div>
                             <div class="tab-pane fade" id="approved" role="tabpanel">
                                 <?php $approvalStatus = "APPROVED"; include('../includes/tables/cash_management/bm_transaction_vouchers.php'); ?>

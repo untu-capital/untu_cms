@@ -241,7 +241,7 @@ if(isset($_POST['update_auth'])) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="">
 
 <style>
     /* Styles for the popup message */
@@ -355,7 +355,7 @@ include('../includes/header.php');
                             </div>
 
                             <div class="tab-pane fade row" id="pending" role="tabpanel">
-                                <?php $approvalStatus = "PENDING"; include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
+                                <?php $approvalStatus = "PENDING"; include('../includes/tables/cash_management/finance_bulk_transaction_vouchers.php'); ?>
                             </div>
                             <div class="tab-pane fade" id="approved" role="tabpanel">
                                 <?php $approvalStatus = "APPROVED"; include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>

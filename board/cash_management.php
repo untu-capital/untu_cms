@@ -10,23 +10,6 @@ $branch = $_SESSION['branch'];
 //
 ?>
 
-<?php
-//$ch = curl_init();
-//curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/branches/getAllBranches");
-//curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-//$server_response = curl_exec($ch);
-//
-//curl_close($ch);
-//$data = json_decode($server_response, true);
-//// Check if the JSON decoding was successful
-//if ($data !== null) {
-//    $branches = $data;
-//
-//} else {
-//    echo "Error decoding JSON data";
-//}
-//?>
-
 <!DOCTYPE html>
 <html lang="">
 <!-- HTML HEAD -->
@@ -57,7 +40,7 @@ include('../includes/header.php');
                 <div class="pd-20 card-box">
                     <h5 class="h4 text-blue mb-20">CMS Dashboard</h5>
                     <div class="tab">
-                        <ul class="nav nav-tabs customtab" role="tablist">
+                        <ul class="nav nav-pills " role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#acc_balance" role="tab"
                                    aria-selected="true">Account Balances</a>
@@ -77,27 +60,25 @@ include('../includes/header.php');
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
-                                <div class="pd-20">
-                                    <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
-                                </div>
+                                <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
                             </div>
-
-                            <div class="tab-pane fade row" id="pending" role="tabpanel">
-                                <?php $approvalStatus = "PENDING"; include('../includes/tables/cash_management/board_transaction_vouchers.php'); ?>
+                            <div class="tab-pane fade" id="pending" role="tabpanel">
+                                <?php $approvalStatus = "PENDING";
+                                include('../includes/tables/cash_management/board_bulk_transaction_vouchers.php'); ?>
                             </div>
                             <div class="tab-pane fade" id="approved" role="tabpanel">
-                                <?php $approvalStatus = "APPROVED"; include('../includes/tables/cash_management/board_transaction_vouchers.php'); ?>
+                                <?php $approvalStatus = "APPROVED";
+                                include('../includes/tables/cash_management/board_transaction_vouchers.php'); ?>
                             </div>
                             <div class="tab-pane fade" id="revise" role="tabpanel">
-                                <?php $approvalStatus = "REVISE"; include('../includes/tables/cash_management/board_transaction_vouchers.php'); ?>
+                                <?php $approvalStatus = "REVISE";
+                                include('../includes/tables/cash_management/board_transaction_vouchers.php'); ?>
                             </div>
 
                         </div>
                     </div>
                 </div>
             </div>
-
-
         <?php }
         ?>
 
@@ -112,12 +93,6 @@ include('../includes/header.php');
 <script src="../vendors/scripts/process.js"></script>
 <script src="../vendors/scripts/layout-settings.js"></script>
 <script src="../src/plugins/apexcharts/apexcharts.min.js"></script>
-
-<!-- js -->
-<script src="../src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
-<script src="../src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
-<script src="../vendors/scripts/highchart-setting.js"></script>
-
 <script src="../src/plugins/datatables/js/jquery.dataTables.min.js"></script>
 <script src="../src/plugins/datatables/js/dataTables.bootstrap4.min.js"></script>
 <script src="../src/plugins/datatables/js/dataTables.responsive.min.js"></script>

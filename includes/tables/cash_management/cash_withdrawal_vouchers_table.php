@@ -13,7 +13,6 @@
             </div>
         </div>
     </div>
-
     <div class="pb-20">
             <table class="table hover table stripe multiple-select-row data-table-export nowrap">
             <thead class="small">
