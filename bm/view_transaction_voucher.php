@@ -48,7 +48,47 @@ include('../includes/header.php');
 <?php include('../includes/side-bar.php'); ?>
 <!-- /sidebar-left -->
 <div class="mobile-menu-overlay"></div>
+<!-- Start Modals-->
+<!-- The Modal -->
+<div class="modal" id="approvedTransaction">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Transaction Status Changed Successfully</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                The transaction has been status changed successfully.
+            </div>
 
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="failedTransaction">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Transaction Change Status Failed.</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                Oops! Something went wrong. The transaction status could not be updated. Please review all details and try
+                again.
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Try Again</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Modals-->
 <div class="main-container">
     <div class="pd-ltr-20">
 
@@ -69,7 +109,7 @@ include('../includes/header.php');
                             </div>
                             <div class="col-md-4 col-sm-12">
                                 <div class="form-group">
-                                    <label for="initiator">Reference Number</label>
+                                    <label for="referenceNumber">Reference Number</label>
                                     <input type="text"
                                            value="<?= $transactionVoucher['referenceNumber']?>"
                                            class="form-control" name="referenceNumber" id="referenceNumber" readonly>
@@ -459,7 +499,7 @@ include('../includes/header.php');
                                                 <label for="id" hidden="hidden"></label>
                                                 <input name="id" id="id" value="<?= $transactionVoucher['id']; ?>" hidden="hidden">
                                                 <label for="status" hidden="hidden"></label>
-                                                <input name="status" value="REVISE" hidden="hidden">
+                                                <input name="status" id="status" value="REVISE" hidden="hidden">
                                                 <div class="row">
                                                     <div class="col-md-12 col-sm-12">
                                                         <div class="form-group">

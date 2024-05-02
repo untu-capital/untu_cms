@@ -1,5 +1,46 @@
 <!-- table widget -->
 <div class="card-box mb-30">
+    <!-- Start Modals-->
+    <!-- The Modal -->
+    <div class="modal" id="approvedTransactions">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Transactions Status Changes</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    The transactions status has been change successfully.
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- The Modal -->
+    <div class="modal" id="failedTransactions">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Transaction Failed</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    Oops! Something went wrong. The transaction could not be saved. Please review all details and try
+                    again.
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Try Again</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- End Modals-->
     <!-- The Modal -->
     <div class="modal" id="myModal">
         <div class="modal-dialog">
@@ -69,8 +110,12 @@
             $transactions = cms_finance_manager_transaction_vouchers($_SESSION['userId'], $approvalStatus);
             foreach ($transactions as $row):?>
                     <tr>
-                        <td><input type="checkbox" id="checkbox<?= htmlspecialchars($row["id"]) ?>"
-                                   onclick="handleCheckboxClick(<?= htmlspecialchars($row["id"]) ?>)"></td>
+                        <td>
+                            <label for="checkbox<?= htmlspecialchars($row["id"]) ?>" hidden="hidden">
+                            </label>
+                            <input type="checkbox" id="checkbox<?= htmlspecialchars($row["id"]) ?>"
+                                   onclick="handleCheckboxClick(<?= htmlspecialchars($row["id"]) ?>)">
+                        </td>
                         <td><?= htmlspecialchars($row["applicationDate"]) ?></td>
                         <td><?= htmlspecialchars($row["referenceNumber"]) ?></td>
 

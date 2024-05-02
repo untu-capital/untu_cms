@@ -48,7 +48,46 @@ include('../includes/header.php');
 <?php include('../includes/side-bar.php'); ?>
 <!-- /sidebar-left -->
 <div class="mobile-menu-overlay"></div>
+<!-- Start Modals-->
+<!-- The Modal -->
+<div class="modal" id="updatedTransaction">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Transaction updated</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                The transaction has been updated successfully.
+            </div>
 
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="failedTransaction">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Transaction Failed</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                Oops! Something went wrong. The transaction could not be saved. Please review all details and try again.
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Try Again</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Modals-->
 <div class="main-container">
     <div class="pd-ltr-20">
 

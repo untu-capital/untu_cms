@@ -67,24 +67,6 @@ include('../includes/header.php');
                                 <a class="nav-link" data-toggle="tab" href="#assign_role" role="tab"
                                    aria-selected="false">Cash Transaction Voucher</a>
                             </li>
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link" data-toggle="tab" href="#po_payments" role="tab"-->
-<!--                                   aria-selected="false">Petty Cash Payments</a>-->
-<!--                            </li>-->
-
-
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link text-blue" data-toggle="tab" href="#vaults" role="tab"-->
-<!--                                   aria-selected="false">-->
-<!--                                    Cash Receipts-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link text-blue" data-toggle="tab" href="#auditTrail" role="tab"-->
-<!--                                   aria-selected="false">-->
-<!--                                    Cash Reconciliation-->
-<!--                                </a>-->
-<!--                            </li>-->
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
@@ -95,24 +77,11 @@ include('../includes/header.php');
                             <div class="tab-pane fade row" id="assign_role" role="tabpanel">
                                 <?php include('../includes/tables/cash_management/cash_withdrawal_vouchers_table.php'); ?>
                             </div>
-
-<!--                            <div class="tab-pane fade" id="po_payments" role="tabpanel">-->
-<!--                                --><?php //include('../includes/tables/cash_management/list-petty-cash.php'); ?>
-<!--                            </div>-->
-
-
-<!--                            <div class="tab-pane fade" id="vaults" role="tabpanel">-->
-<!--                                --><?php //include('../includes/tables/cash_management/cash_receipts.php'); ?>
-<!--                            </div>-->
-<!--                            <div class="tab-pane fade" id="auditTrail" role="tabpanel">-->
-<!--                                --><?php //include('../includes/tables/cash_management/list-audit-trail.php'); ?>
-<!--                            </div>-->
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!--        --><?php //include('../includes/tables/users_table.php'); ?>
 
         <?php }
         elseif ($_GET['menu'] == 'add_vault') {

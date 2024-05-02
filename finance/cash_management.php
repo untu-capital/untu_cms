@@ -317,16 +317,6 @@ include('../includes/header.php');
                                 <a class="nav-link" data-toggle="tab" href="#po_payments" role="tab"
                                    aria-selected="false">P.O Payments</a>
                             </li>
-
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link" data-toggle="tab" href="#cash_receipts" role="tab" aria-selected="false">Cash Receipts (Musoni - Pastel)</a>-->
-<!--                            </li>-->
-<!---->
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link text-blue" data-toggle="tab" href="#cash_trans_voucher" role="tab" aria-selected="false">-->
-<!--                                    Cash Transactions Voucher-->
-<!--                                </a>-->
-<!--                            </li>-->
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#vault_auth" role="tab" aria-selected="false">Vaults Authorization</a>
                             </li>
@@ -384,7 +374,7 @@ include('../includes/header.php');
                                         <div class="pd-20 col-4">
                                             <div class="form-group">
                                                 <br>
-                                                <label>Select User :</label>
+                                                <label for="userSelect">Select User :</label>
                                                 <select id="userSelect" class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="user" style="width: 100%; height: 38px">
                                                     <optgroup label="Pick a user">
                                                         <?php
@@ -400,14 +390,13 @@ include('../includes/header.php');
                                         <div class="pd-20 col-2">
                                             <div class="form-group">
                                                 <br>
-                                                <label>Select Vault Type :</label>
+                                                <label for="vaultTypeSelect">Select Vault Type :</label>
                                                 <select id="vaultTypeSelect" class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="vault_type" style="width: 100%; height: 38px">
                                                     <!--                                               <optgroup label="Select Vault Type">-->
                                                     <option value="" >Select Vault Type</option>
                                                     <option value="Petty Cash">Petty Cash</option>
                                                     <option value="Internal Vault">Internal Vault</option>
                                                     <option value="External Vault">External Vault</option>
-                                                    </optgroup>
                                                 </select>
                                             </div>
                                         </div>
@@ -415,7 +404,7 @@ include('../includes/header.php');
                                         <div class="pd-20 col-4">
                                             <div class="form-group">
                                                 <br>
-                                                <label>Select Vault Account :</label>
+                                                <label for="vaultSelect">Select Vault Account :</label>
                                                 <select id="vaultSelect" class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="vault_acc" style="width: 100%; height: 38px">
                                                     <optgroup label="Select Vault Account">
                                                         <?php
@@ -471,13 +460,13 @@ include('../includes/header.php');
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <label>Branch Name</label>
+                                    <label for="name">Branch Name</label>
                                     <input type="text" class="form-control" name="name" id="name" required>
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <label>Branch Address <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
+                                    <label for="address">Branch Address <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
                                     <input type="text" class="form-control" name="address" id="address" required>
                                 </div>
                             </div>
@@ -485,21 +474,17 @@ include('../includes/header.php');
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <label>Branch Phone</label>
+                                    <label for="phone" >Branch Phone</label>
                                     <input type="text" class="form-control" name="phone" id="phone" required>
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
-
-<!--                                    <label>Status <i class="mdi mdi-subdirectory-arrow-left:"></i></label>-->
-<!--                                    <input type="text" class="form-control" name="status" id="status" required>-->
                                     <div class="form-group">
-                                        <label>Select Status :</label>
-                                        <select class="custom-select form-control">
+                                        <label for="selectStatus">Select Status :</label>
+                                        <select id="selectStatus" class="custom-select form-control">
                                             <option value="">Select Status</option>
                                             <option value="Active" name="status" id="status">Active</option>
                                             <option value="Disabled" name="status" id="status">Disabled</option>
-
                                         </select>
                                     </div>
 
@@ -509,14 +494,14 @@ include('../includes/header.php');
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <label>Code Number</label>
+                                    <label for="code">Code Number</label>
                                     <input type="number" class="form-control" name="code" id="code" required>
 
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <label>Branch Code</label>
+                                    <label for="branchcode">Branch Code</label>
                                     <input type="text" class="form-control" name="branchcode" id="branchcode" required>
                                 </div>
                             </div>
@@ -526,7 +511,7 @@ include('../includes/header.php');
 
                             <div class="col-md-6 col-sm-12">
                                 <div class="form-group">
-                                    <label>Vault Acc Number</label>
+                                    <label for="vault">Vault Acc Number</label>
                                     <input type="text" class="form-control" name="vault" id="vault" required>
                                 </div>
                             </div>
@@ -545,7 +530,7 @@ include('../includes/header.php');
                             <div class="col-md-1 col-sm-12">
 
                                 <div class="form-group">
-                                    <button  class="btn btn-primary"onclick="goBack()">Cancel</button>
+                                    <button  class="btn btn-primary" onclick="goBack()">Cancel</button>
                                 </div>
                             </div>
 
@@ -634,7 +619,7 @@ include('../includes/header.php');
                                         <div class="row">
                                             <div class="col-md-4 col-sm-12">
                                                 <div class="form-group">
-                                                    <label>Branch Name</label>
+                                                    <label for="branch">Branch Name</label>
                                                     <select id="branch" class="custom-select form-control" name="update_branch">
                                                         <?php
                                                             $branch = branch_by_id($auth_by_id['branchId']);
@@ -649,8 +634,8 @@ include('../includes/header.php');
                                             </div>
                                             <div class="col-md-4 col-sm-12">
                                                 <div class="form-group">
-                                                    <label>Authentication Level <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
-                                                    <select class="custom-select form-control" name="role">
+                                                    <label for="role">Authentication Level <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
+                                                    <select  id="role" class="custom-select form-control" name="role">
                                                         <option value="<?=$auth_by_id['authLevel'] ?>"> <?=$auth_by_id['authLevel'] ?></option>
                                                         <option value="Initiator" name="role" >Initiator</option>
                                                         <option value="First Approver" name="role" >First Approver</option>
@@ -660,7 +645,6 @@ include('../includes/header.php');
                                             <div class="col-md-4 col-sm-12">
                                                 <div class="form-group">
                                                     <label>Name <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
-<!--                                                    <input type="text" class="form-control" name="name" value="--><?php //$user = user($auth_by_id['userId']); echo $user['firstName'].' '.$user['lastName'] ?><!--" id="name" required>-->
                                                     <select id="name" class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="update_name" style="width: 100%; height: 38px" required>
                                                         <optgroup label="select user">
                                                             <?php
@@ -722,9 +706,9 @@ include('../includes/header.php');
                 </div>
                 <form method="POST" action="">
                     <div class="form-group row">
-                        <label class="col-sm-12 col-md-2 col-form-label">Vault Account</label>
+                        <label for="account" class="col-sm-12 col-md-2 col-form-label">Vault Account</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="account" placeholder="Vault Account" required/></div>
+                            <input  id="account" class="form-control" type="text" name="account" placeholder="Vault Account" required/></div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Name</label>

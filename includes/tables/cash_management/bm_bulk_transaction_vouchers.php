@@ -1,5 +1,46 @@
 <!-- table widget -->
 <div class="card-box mb-30">
+    <!-- Start Modals-->
+    <!-- The Modal -->
+    <div class="modal" id="approvedTransactions">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Transactions Status Changes</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    The transactions status has been change successfully.
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- The Modal -->
+    <div class="modal" id="failedTransactions">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Transaction Failed</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    Oops! Something went wrong. The transaction could not be saved. Please review all details and try
+                    again.
+                </div>
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Try Again</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- End Modals-->
     <!-- The Modal -->
     <div class="modal" id="myModal">
         <div class="modal-dialog">
@@ -35,7 +76,8 @@
             </div>
             <div class="col-3">
                 <!-- Button to Open the Modal -->
-                <button id="bulkFirstApproveModal" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                <button id="bulkFirstApproveModal" type="button" class="btn btn-success" data-toggle="modal"
+                        data-target="#myModal">
                     Approve All
                 </button>
             </div>
@@ -67,40 +109,43 @@
             <?php
             $transactions = cms_withdrawal_voucher_by_firstApprover($_SESSION['userId'], $approvalStatus);
             foreach ($transactions as $row):?>
-                    <tr>
-                        <td><input type="checkbox" id="checkbox<?= htmlspecialchars($row["id"]) ?>" onclick="handleCheckboxClick(<?= htmlspecialchars($row["id"]) ?>)"></td>
-                        <td><?= htmlspecialchars($row["applicationDate"]) ?></td>
-                        <td><?= htmlspecialchars($row["referenceNumber"]) ?></td>
-                        <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["firstApprover"]['lastName'])." - " ?>
-                            <?php if ($row['firstApprovalStatus'] == "APPROVED") {
-                                echo "<label style='padding: 6px;' class='badge badge-success'>Approved</label>";
-                            } elseif ($row['firstApprovalStatus'] == "PENDING") {
-                                echo "<label style='padding: 6px;' class='badge badge-warning'>Pending</label>";
-                            } else {
-                                echo "<label style='padding: 6px;' class='badge badge-danger'>Revise</label>";
-                            } ?></td>
+                <tr>
+                    <td>
+                        <label for="checkbox<?= htmlspecialchars($row["id"]) ?>" hidden="hidden">
+                        </label><input type="checkbox" id="checkbox<?= htmlspecialchars($row["id"]) ?>"
+                                                                                                onclick="handleCheckboxClick(<?= htmlspecialchars($row["id"]) ?>)"></td>
+                    <td><?= htmlspecialchars($row["applicationDate"]) ?></td>
+                    <td><?= htmlspecialchars($row["referenceNumber"]) ?></td>
+                    <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["firstApprover"]['lastName']) . " - " ?>
+                        <?php if ($row['firstApprovalStatus'] == "APPROVED") {
+                            echo "<label style='padding: 6px;' class='badge badge-success'>Approved</label>";
+                        } elseif ($row['firstApprovalStatus'] == "PENDING") {
+                            echo "<label style='padding: 6px;' class='badge badge-warning'>Pending</label>";
+                        } else {
+                            echo "<label style='padding: 6px;' class='badge badge-danger'>Revise</label>";
+                        } ?></td>
 
-                        <td><?= htmlspecialchars($row["secondApprover"]['firstName']) . " " . htmlspecialchars($row["secondApprover"]['lastName'])." - " ?>
-                            <?php if ($row['secondApprovalStatus'] == "APPROVED") {
-                                echo "<label style='padding: 6px;' class='badge badge-success'>Approved</label>";
-                            } elseif ($row['secondApprovalStatus'] == "REVISE") {
-                                echo "<label style='padding: 6px;' class='badge badge-danger'>Revise</label>";
-                            } else {
-                                echo "<label style='padding: 6px;' class='badge badge-warning'>Pending</label>";
-                            } ?></td>
+                    <td><?= htmlspecialchars($row["secondApprover"]['firstName']) . " " . htmlspecialchars($row["secondApprover"]['lastName']) . " - " ?>
+                        <?php if ($row['secondApprovalStatus'] == "APPROVED") {
+                            echo "<label style='padding: 6px;' class='badge badge-success'>Approved</label>";
+                        } elseif ($row['secondApprovalStatus'] == "REVISE") {
+                            echo "<label style='padding: 6px;' class='badge badge-danger'>Revise</label>";
+                        } else {
+                            echo "<label style='padding: 6px;' class='badge badge-warning'>Pending</label>";
+                        } ?></td>
 
 
-                        <td><?= '$' . number_format($row["amount"], 2)." (".htmlspecialchars($row["currency"]).")" ?></td>
-                        <td><?= htmlspecialchars($row["withdrawalPurpose"]) ?></td>
+                    <td><?= '$' . number_format($row["amount"], 2) . " (" . htmlspecialchars($row["currency"]) . ")" ?></td>
+                    <td><?= htmlspecialchars($row["withdrawalPurpose"]) ?></td>
 
-                        <td><?= htmlspecialchars($row["fromVault"]["name"]) ?></td>
-                        <td><?= htmlspecialchars($row["toVault"]["name"]) ?></td>
-                        <td>
-                            <a class="dropdown-item"
-                               href="../bm/view_transaction_voucher.php?transactionId=<?= $row['id'] ?>"
-                            ><i class="dw dw-eye"></i> View</a>
-                        </td>
-                    </tr>
+                    <td><?= htmlspecialchars($row["fromVault"]["name"]) ?></td>
+                    <td><?= htmlspecialchars($row["toVault"]["name"]) ?></td>
+                    <td>
+                        <a class="dropdown-item"
+                           href="../bm/view_transaction_voucher.php?transactionId=<?= $row['id'] ?>"
+                        ><i class="dw dw-eye"></i> View</a>
+                    </td>
+                </tr>
             <?php endforeach; ?>
             </tbody>
         </table>
@@ -111,7 +156,7 @@
     function handleCheckboxClick(id) {
         const checkbox = document.getElementById("checkbox" + id); // Assuming checkbox IDs have a pattern like "checkbox1", "checkbox2", etc.
         if (checkbox.checked) {
-            objectList.push({ id: id, comment: "APPROVED", approvalStatus: "APPROVED" });
+            objectList.push({id: id, comment: "APPROVED", approvalStatus: "APPROVED"});
         } else {
             // If checkbox is unchecked, remove the corresponding object from the objectList
             const indexToRemove = objectList.findIndex(obj => obj.id === id);
@@ -130,7 +175,7 @@
     }
 
     // Call updateObjectListInput() before submitting the form
-    document.getElementById("bulkFirstApprove").addEventListener("submit", function(event) {
+    document.getElementById("bulkFirstApprove").addEventListener("submit", function (event) {
         updateObjectListInput();
         console.log("Value ", document.getElementById("firstApproveListInput").value)
     });

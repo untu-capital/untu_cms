@@ -27,15 +27,37 @@ if (isset($_POST['initiate_transaction'])) {
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 
     $response = curl_exec($ch);
+    // Get the HTTP response status code
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
+    if ($status == 201) {
+        // Transaction successfully saved, show modal popup for 0.5 seconds
+        echo "<script>
+                    setTimeout(function(){
+                        $('#savedTransaction').modal('show');
+                    },2000);
+                  </script>";
+
+        // Redirect to another page after 1 seconds
+        echo "<script>
+                    setTimeout(function(){
+                        window.location.href = 'cash_management.php?menu=main';
+                    }, 4000); // Navigate after 1 seconds popup duration
+                  </script>";
+    }
+    else {
+        // PHP code to display the modal for failed transaction
+        echo "<script>
+                    setTimeout(function(){
+                        $('#failedTransaction').modal('show');
+                    }, 1000);
+                  </script>";
+    }
     if (curl_errno($ch)) {
         echo 'Curl error: ' . curl_error($ch);
     }
 
     curl_close($ch);
-    echo $response;
-    header("Location: cash_management.php?menu=main");
-//    exit;
 }
 
 if (isset($_POST['update_transaction'])) {
@@ -58,15 +80,36 @@ if (isset($_POST['update_transaction'])) {
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
 
     $response = curl_exec($ch);
+//    Get Response Status
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if ($status == 200) {
+        // Transaction successfully saved, show modal popup for 0.5 seconds
+        echo "<script>
+                    setTimeout(function(){
+                        $('#updatedTransaction').modal('show');
+                    }, 2000);
+                  </script>";
+
+        // Redirect to another page after 1 seconds
+        echo "<script>
+                    setTimeout(function(){
+                        window.location.href = 'cash_management.php?menu=main';
+                    }, 4000); // Navigate after 1 seconds popup duration
+                  </script>";
+    }
+    else {
+        // PHP code to display the modal for failed transaction
+        echo "<script>
+        $('#failedTransaction').modal('show');
+      </script>";
+    }
 
     if (curl_errno($ch)) {
         echo 'Curl error: ' . curl_error($ch);
     }
 
     curl_close($ch);
-
-    header("Location: cash_management.php?menu=main");
-//    exit;
 }
 
 if (isset($_POST['firstApprove01'])) {
@@ -77,6 +120,7 @@ if (isset($_POST['secondApprove01'])) {
     second_approver_update_transaction_status($_POST['id'], $_POST['status'], $_POST['comment']);
 }
 
+//First Approve
 function first_approver_update_transaction_status($id, $status, $comment)
 {
     // Data to send in the POST request
@@ -95,16 +139,37 @@ function first_approver_update_transaction_status($id, $status, $comment)
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 
     $response = curl_exec($ch);
+    //    Get Response Status
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if ($status == 200) {
+        // Transaction first approved successfully saved, show modal popup for 0.5 seconds
+        echo "<script>
+                    setTimeout(function(){
+                        $('#approvedTransaction').modal('show');
+                    }, 1000);
+                  </script>";
+
+        // Redirect to another page after 1 seconds
+        echo "<script>
+                    setTimeout(function(){
+                        window.location.href = 'cash_management.php?menu=main';
+                    }, 4000); // Navigate after 1 seconds popup duration
+                  </script>";
+    }
+    else {
+        // PHP code to display the modal for failed transaction
+        echo "<script>
+        $('#failedTransaction').modal('show');
+      </script>";
+    }
 
     if (curl_errno($ch)) {
         echo 'Curl error: ' . curl_error($ch);
     }
 
     curl_close($ch);
-
-    header("Location: cash_management.php?menu=main");
 }
-
 // Bulk First Approve
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["firstApproveList"])) {
     // Get the JSON data from the hidden input field
@@ -124,29 +189,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["firstApproveList"])) {
 
     $response = curl_exec($ch);
 
+    //    Get Response Status
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if ($status == 200) {
+        // Transactions first approved successfully saved, show modal popup for 0.5 seconds
+        echo "<script>
+                    setTimeout(function(){
+                        $('#approvedTransactions').modal('show');
+                    }, 100);
+                  </script>";
+
+    }
+    else {
+        // PHP code to display the modal for failed transaction
+        echo "<script>
+        $('#failedTransactions').modal('show');
+      </script>";
+    }
     if (curl_errno($ch)) {
         echo 'Curl error: ' . curl_error($ch);
     }
-
     curl_close($ch);
-
-    header("Location: cash_management.php?menu=main");
-
-//    // Decode the JSON data into a PHP array
-//    $objectList = json_decode($jsonData, true);
-//    // Create an array to store JSON objects
-//    $jsonObjects = [];
-//
-//
-//// Now you can use $objectList in your PHP code
-//// For example, you can loop through the objects and do something with them
-//    foreach ($objectList as $object) {
-//        // Do something with each object
-//        // For example:
-//        echo "ID: " . $object['id'] . ", Comment: " . $object['comment'] . ", Approval Status: " . $object['approvalStatus'] . "<br>";
-//    }
-
 }
+//Second Approve
 function second_approver_update_transaction_status($id, $status, $comment)
 {
     // Data to send in the POST request
@@ -166,14 +232,38 @@ function second_approver_update_transaction_status($id, $status, $comment)
 
     $response = curl_exec($ch);
 
+    //    Get Response Status
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if ($status == 200) {
+        // Transaction second approved successfully saved, show modal popup for 0.5 seconds
+        echo "<script>
+                    setTimeout(function(){
+                        $('#approvedTransaction').modal('show');
+                    }, 1000);
+                  </script>";
+
+        // Redirect to another page after 1 seconds
+        echo "<script>
+                    setTimeout(function(){
+                        window.location.href = 'cash_management.php?menu=main';
+                    }, 4000); // Navigate after 1 seconds popup duration
+                  </script>";
+    }
+    else {
+        // PHP code to display the modal for failed transaction
+        echo "<script>
+        $('#failedTransaction').modal('show');
+      </script>";
+    }
+
     if (curl_errno($ch)) {
         echo 'Curl error: ' . curl_error($ch);
     }
 
     curl_close($ch);
-
-    header("Location: cash_management.php?menu=main");
 }
+// Bulk Second Approve
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["secondApproveList"])) {
     // Get the JSON data from the hidden input field
     $jsonData = $_POST['secondApproveList'];
@@ -191,30 +281,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["secondApproveList"])) 
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 
     $response = curl_exec($ch);
+    //    Get Response Status
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if ($status == 200) {
+        // Transaction second approved successfully saved, show modal popup for 0.5 seconds
+        echo "<script>           
+                    setTimeout(function(){
+                        $('#approvedTransactions').modal('show');
+                    }, 1000);
+                  </script>";
+    }
+    else {
+        // PHP code to display the modal for failed transaction
+        echo "<script>
+        $('#failedTransaction').modal('show');
+      </script>";
+    }
 
     if (curl_errno($ch)) {
         echo 'Curl error: ' . curl_error($ch);
     }
 
     curl_close($ch);
-
-    header("Location: cash_management.php?menu=main");
-
-//    // Decode the JSON data into a PHP array
-//    $objectList = json_decode($jsonData, true);
-//    // Create an array to store JSON objects
-//    $jsonObjects = [];
-//
-//
-//// Now you can use $objectList in your PHP code
-//// For example, you can loop through the objects and do something with them
-//    foreach ($objectList as $object) {
-//        // Do something with each object
-//        // For example:
-//        echo "ID: " . $object['id'] . ", Comment: " . $object['comment'] . ", Approval Status: " . $object['approvalStatus'] . "<br>";
-//    }
-
 }
+
 if ($_SESSION['role'] == "ROLE_OP") {
     $cc_level = 'mcc_final';
     $schedule_meeting = '';
