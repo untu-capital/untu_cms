@@ -26,6 +26,7 @@
 					<th>PO Number</th>
 					<th>Name</th>
 					<th>Total Amount</th>
+					<th>ZIMRA Tax</th>
                     <th>Count</th>
                     <th>Requisition Approval</th>
                     <th>Finance Approval</th>
@@ -56,7 +57,33 @@
                     <td><?php echo convertDateFormat($data['createdAt']); ?></td>
                     <td><?php echo $data['poNumber']; ?></td>
 					<td class="table-plus"><?php echo $data['poName']; ?>
-					<td><?php echo "$ ".number_format($totalAmount,'2','.',','); ?></td>
+					<td><?php
+						$sup = suppliers("/" . $transaction['poSupplier']);
+
+						if ($sup['taxClearance'] === 'No' && $totalAmount > 1000) {
+
+						$discountedAmount = $totalAmount * 0.7;
+						echo "$ ".number_format($discountedAmount,'2','.',',');						} else {
+
+							echo "$ ".number_format($totalAmount,'2','.',',');
+						}
+					?>
+
+					</td>
+					<td><?php
+						$sup = suppliers("/" . $transaction['poSupplier']);
+
+
+						if ($sup['taxClearance'] === 'No' && $totalAmount > 1000) {
+                            $tax=0;
+							$discountedAmount = $totalAmount * 0.3;
+							echo "$ ".number_format($discountedAmount,'2','.',',');						} else {
+
+							echo "$ ".number_format($tax,'2','.',',');
+						}
+						?>
+
+					</td>
                     <td><?php echo $transactionCount; ?></td>
 					<td><?php $user = user($data['poApprover']);
                         echo $user['firstName']." ".$user['lastName']; ?></td>

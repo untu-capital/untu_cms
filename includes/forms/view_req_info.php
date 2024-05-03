@@ -4,11 +4,13 @@
             <?php
                 $req = requisitions('/'.$_GET['req_id']);
                 $req_trans = req_trans("/getByRequisitionId/".$_GET['req_id']);
+
             ?>
 
             <div class="row">
-                <div class="col-9"><h5 class="card-title text-blue"  style="text-decoration: underline;">PO NUMBER: #<?php echo $req['poNumber'] ?></h5></div>
-                <div class="col-3"><h5 class="card-title text-blue" style="text-decoration: underline;">Status: <?php echo $req['poStatus'] ?></h5></div>
+                <div class="col-4"><h5 class="card-title text-blue"  style="text-decoration: underline;">PO Number: #<?php echo $req['poNumber'] ?></h5></div>
+                <div class="col-4"><h5 class="card-title text-blue" style="text-decoration: underline;">By: <?php $user =user($req['userId']); echo $user['firstName']." ".$user['lastName']; ?></h5></div>
+                <div class="col-4"><h5 class="card-title text-blue" style="text-decoration: underline;">Status: <?php echo $req['poStatus'] ?></h5></div>
             </div>
 
             <div class="tab-content">
@@ -54,10 +56,31 @@
                                                     <input type="text" class="form-control" value="<?php echo $transactionCount; ?>" disabled />
                                                 </div>
                                             </div>
+<!--                                            <div class="col-md-4 col-sm-12">-->
+<!--                                                <div class="form-group">-->
+<!--                                                    <label>Total Amount:</label>-->
+<!--                                                    <input type="text" class="form-control" name="req_amount" value="$ --><?php //echo number_format($totalAmount, 2); ?><!--" disabled />-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+
                                             <div class="col-md-4 col-sm-12">
                                                 <div class="form-group">
                                                     <label>Total Amount:</label>
-                                                    <input type="text" class="form-control" name="req_amount" value="$ <?php echo number_format($totalAmount, 2); ?>" disabled />
+                                                    <?php
+                                                    foreach($req_trans as $row):
+                                                    endforeach;
+                                                    $sup = suppliers("/" . $row['poSupplier']);
+
+                                                    if ($sup['taxClearance'] === 'No' && $totalAmount > 1000) {
+
+                                                        $discountedAmount = $totalAmount * 0.7;
+                                                        echo '<input type="text" class="form-control" name="req_amount" value="$ ' . number_format($discountedAmount, 2) .    ' (Initial Amount : $' . number_format($totalAmount, 2) . ')" disabled />';
+                                                    } else {
+
+                                                        echo '<input type="text" class="form-control" name="req_amount" value="$ ' . number_format($totalAmount, 2) . '" disabled />';
+                                                    }
+                                                     ?>
+
                                                 </div>
                                             </div>
                                             <div class="col-md-4 col-sm-12">
@@ -403,21 +426,54 @@
                                         </div>
 
                                         <input class="form-control" type="hidden" name="cmsStatus" value="PAYMENT APPROVED" required>
-                                        <button name="cms_approve_requisition" type="submit" class="btn btn-success btn-lg btn-block">Approve Requisition</button>
+
+                                    <?php if ($req['poStatus'] == "DECLINED" || $req['poStatus']== "PAYMENT APPROVED" || $req['poStatus']== "PENDING APPROVAL") { ?>
+                                        <button name="cms_approve_requisition" type="submit" class="btn btn-success btn-lg btn-block" disabled onclick="alert('Button Disabled,Failed to Approve')">Approve Requisition</button>
+                                        <?php } else { ?>
+                                            <button name="cms_approve_requisition" type="submit" class="btn btn-success btn-lg btn-block" onclick="alert('Purchase order Approved')">Decline</button>
+                                        <?php } ?>
+
+
                                     <?php } else{ ?>
                                         <input class="form-control" type="hidden" name="status" value="PENDING APPROVAL" required>
-                                    <button name="po_approve_requisition" type="submit" class="btn btn-success btn-lg btn-block">Approve Requisition</button>
+                                    <?php if ($req['poStatus'] == "DECLINED" || $req['poStatus']== "PAYMENT APPROVED" || $req['poStatus']== "PENDING APPROVAL") { ?>
+
+                                        <button name="po_approve_requisition" type="submit" class="btn btn-success btn-lg btn-block" disabled onclick="alert('Button Disabled,Failed to Approve')">Approve Requisition</button>
+
+                                        <?php } else { ?>
+                                            <button name="cms_approve_requisition" type="submit" class="btn btn-success btn-lg btn-block" onclick="alert('Purchase order Approved')">Decline</button>
+                                        <?php } ?>
                                     <?php } ?>
                                 </div>
                                 <div class="col-4"></div>
                                 <div class="col-2">
                                     <input class="form-control" type="hidden" name="declineStatus" value="DECLINED" required>
                                     <?php if ($_SESSION['role'] == "ROLE_BOARD" || $_SESSION['role'] == "ROLE_FIN" ){ ?>
-                                        <button name="request_revisions" type="submit" class="btn btn-outline-dark btn-lg btn-block">Decline</button>
-                                    <?php } else{ ?>
-                                        <button name="request_revision" type="submit" class="btn btn-outline-dark btn-lg btn-block">Decline</button>
+                                        <?php if ($req['poStatus'] == "DECLINED" || $req['poStatus']== "PAYMENT APPROVED" || $req['poStatus']== "PENDING APPROVAL") { ?>
+
+                                            <button name="request_revisions" type="submit" class="btn btn-outline-dark btn-lg btn-block" disabled onclick="alert('Button Disabled,Failed to Decline')">Decline</button>
+                                        <?php } else { ?>
+                                            <button name="request_revisions" type="submit" class="btn btn-outline-dark btn-lg btn-block" onclick="alert('Purchase order declined')">Decline</button>
+                                        <?php } ?>
+                                    <?php } else { ?>
+                                        <?php if ($req['poStatus'] == "DECLINED" || $req['poStatus']== "PAYMENT APPROVED" || $req['poStatus']== "PENDING APPROVAL") { ?>
+                                            <button name="request_revision" type="submit" class="btn btn-outline-dark btn-lg btn-block" disabled onclick="alert('Button Disabled,Failed to Decline')">Decline</button>
+                                        <?php } else { ?>
+                                            <button name="request_revision" type="submit" class="btn btn-outline-dark btn-lg btn-block" onclick="alert('Purchase order declined')">Decline</button>
+                                        <?php } ?>
                                     <?php } ?>
                                 </div>
+
+
+
+<!--                                <div class="col-2">-->
+<!--                                    <input class="form-control" type="hidden" name="declineStatus" value="DECLINED" required>-->
+<!--                                    --><?php //if ($_SESSION['role'] == "ROLE_BOARD" || $_SESSION['role'] == "ROLE_FIN" ){ ?>
+<!--                                        <button name="request_revisions" type="submit" class="btn btn-outline-dark btn-lg btn-block">Decline</button>-->
+<!--                                    --><?php //} else{ ?>
+<!--                                        <button name="request_revision" type="submit" class="btn btn-outline-dark btn-lg btn-block">Decline</button>-->
+<!--                                    --><?php //} ?>
+<!--                                </div>-->
                             </div>
                             <?php } ?>
 

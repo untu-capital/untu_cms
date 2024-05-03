@@ -124,18 +124,21 @@ if(isset($_POST['Submit'])){
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-body text-center font-18">
-                <h3 class="mb-20">Campaign Created Succesfully!</h3>
+                <h3 class="mb-20">Campaign Successfully Created!</h3>
                 <div class="mb-30 text-center">
                     <img src="../vendors/images/success.png" />
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-6">
-                </div>
-                <div class="col-sm-4">
-                    <div class="input-group mb-0">
-                        <a class="btn btn-danger btn-lg btn-block"  href="campaign_and_marketing.php?menu=main">Ok</a>
+                <div class="col-sm-12 text-center"> <!-- Full width column for button -->
+                    <div class="input-group mb-3 d-flex justify-content-center">
+                        <a class="btn btn-danger btn-lg" href="requisitions.php?menu=main">Ok</a>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 mt-3"> <!-- Full width column with margin top -->
+                    <!-- Leave some space below the button -->
                 </div>
             </div>
         </div>
