@@ -5,6 +5,7 @@
     include('../includes/controllers.php');
     include ('../controllers/treasury.php');
     include('../includes/forms/treasury_management/deal_note_pdf.php');
+    include('../includes/forms/treasury_management/asset_deal_note_pdf.php');
     $nav_header = "Treasury Management Dashboard";
 
 //    include('../includes/fpdf/fpdf.php');
@@ -80,6 +81,11 @@
                             <li class="nav-item">
                                 <a class="nav-link text-blue" data-toggle="tab" href="#assets" role="tab" aria-selected="false" >
                                     Assets Info
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-blue" data-toggle="tab" href="#asset_notes_register" role="tab" aria-selected="false">
+                                    Asset Notes Register
                                 </a>
                             </li>
 
@@ -172,6 +178,10 @@
                                 <?php include('../includes/forms/treasury_management/create_liability.php'); ?>
                             </div>
 
+                            <div class="tab-pane fade" id="asset_notes_register" role="tabpanel">
+                                <?php include('../includes/tables/treasury_management/asset_notes_register_table.php'); ?>
+                            </div>
+
                             <div class="tab-pane fade" id="notes_register" role="tabpanel">
                                 <?php include('../includes/tables/treasury_management/notes_register_table.php'); ?>
                             </div>
@@ -195,9 +205,15 @@
         <?php } elseif ($_GET['menu'] == "download_deal_note") {
             include('../includes/forms/treasury_management/deal_note_pdf.php');
          }
+         elseif ($_GET['menu'] == "download_asset_deal_note") {
+            include('../includes/forms/treasury_management/asset_deal_note_pdf.php');
+         }
 
         elseif ($_GET['menu'] == "view_statement") {?>
             <?php include('../includes/forms/treasury_management/deal_note_statement.php');
+        }
+        elseif ($_GET['menu'] == "view_asset_statement") {?>
+            <?php include('../includes/forms/treasury_management/asset_deal_note_statement.php');
         }
 
         elseif ($_GET['menu'] == "view_asset_statement") {?>

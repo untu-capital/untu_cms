@@ -19,7 +19,7 @@
                         <select class="custom-select2 form-control" name="liabilities" style="width: 100%; height: 38px">
                             <option value=""></option>
                             <?php
-                            $deal_notes = liabilities_list();
+                            $deal_notes = asset_list();
                             foreach ($deal_notes as $data) {
                                 echo "<option value='$data[id]'>$data[counterpart] - $data[liabilityType] </option>";
                             }
@@ -92,7 +92,7 @@
         </thead>
         <tbody>
         <?php
-        $deal_notes = deal_notes();
+        $deal_notes = asset_deal_notes();
         foreach ($deal_notes as $data):
             ?>
 
@@ -141,8 +141,8 @@
                             <i class="dw dw-more"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                            <a class="dropdown-item" href="treasury_management.php?menu=download_deal_note&id=<?= $data["id"] ?>&generate_deal_note=true"><i class="dw dw-download"></i>Download D.N</a>
-                            <a class="dropdown-item" href="treasury_management.php?menu=view_statement&id=<?= $data["id"] ?>"><i class="dw dw-view"></i>View Statement</a>
+                            <a class="dropdown-item" href="treasury_management.php?menu=download_asset_deal_note&id=<?= $data["id"] ?>&generate_asset_deal_note=true"><i class="dw dw-download"></i>Download D.N</a>
+                            <a class="dropdown-item" href="treasury_management.php?menu=view_asset_statement&id=<?= $data["id"] ?>"><i class="dw dw-view"></i>View Statement</a>
                             <a class="dropdown-item" href="treasury_management.php?menu=sign_deal_note&id=<?= $data["id"] ?>"><i class="dw dw-writing"></i> Sign Deal Note</a>
                         </div>
                     </div>

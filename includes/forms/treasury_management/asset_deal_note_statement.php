@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <?php $deal_note = deal_note($_GET['id']); ?>
+        <?php $deal_note = asset_deal_note($_GET['id']); ?>
 
         <!--                    <h4 class="text-center mb-30 weight-600">INVOICE</h4>-->
         <div class="row pb-30">
@@ -64,13 +64,13 @@
                 <tr class="invoice-desc-head">
                     <th>Date</th>
                     <th>Transaction Type</th>
-                    <th>Credit (USD)</th>
                     <th>Debit (USD)</th>
+                    <th>Credit (USD)</th>
                     <th>Balance (USD)</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php $statements = note_investment_statement($_GET['id']);
+                <?php $statements = asset_note_investment_statement($_GET['id']);
                 $total_debit = 0;
                     foreach ($statements as $statement){
                         $total_debit += $statement['debit']; ?>
@@ -79,8 +79,8 @@
                                 $date = DateTime::createFromFormat('Y-m-d', $statement['date'] ?? "")->format('d-M-Y') ?? null;
                                 echo $date; ?></td>
                             <td><?php echo $statement['transactionType']; ?></td>
-                            <td><?php echo $statement['credit']; ?></td>
                             <td><?php echo $statement['debit']; ?></td>
+                            <td><?php echo $statement['credit']; ?></td>
                             <td><?php echo $statement['balance']; ?></td>
                         </tr>
                 <?php } ?>

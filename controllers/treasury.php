@@ -169,14 +169,14 @@ if ($_GET['menu'] == 'delete_customer'){
     }
 }
 
-
     if(isset($_POST['create_liability'])) {
 
         // Collect form data and assign to variables
         $counterparty = $_POST['counterparty'] ?? "";
         $liability = $_POST['liability'] ?? "";
         $pa_status = $_POST['pa_status'] ?? "";
-        $start_date = date('Y-m-d', $_POST['start_date'] ?? "");
+        $start_date = DateTime::createFromFormat('d F Y', $_POST['start_date'] ?? "")->format('Y-m-d') ?? null;
+//        $start_date = date('Y-m-d', $_POST['start_date'] ?? "");
         $currency = $_POST['currency'] ?? "";
         $amount = $_POST['amount'] ?? "";
         $tenure = $_POST['tenure'] ?? "";
@@ -186,9 +186,11 @@ if ($_GET['menu'] == 'delete_customer'){
         $revolving = $_POST['revolving'] ?? "";
         $principal_repayment = $_POST['principal_repayment'] ?? "";
         $interest_repayment = $_POST['interest_repayment'] ?? "";
-        $repayment_date = date('Y-m-d', $_POST['repayment_date'] ?? "");
-        $maturity_date = date('Y-m-d', $_POST['maturity_date'] ?? "");
-        $principal_at = $_POST['principal_at'] ?? "";
+        $repayment_date = DateTime::createFromFormat('d F Y', $_POST['repayment_date'] ?? "")->format('Y-m-d') ?? null;
+//        $repayment_date = date('Y-m-d', $_POST['repayment_date'] ?? "");
+        $maturity_date = DateTime::createFromFormat('d F Y', $_POST['maturity_date'] ?? "")->format('Y-m-d') ?? null;
+//        $maturity_date = date('Y-m-d', $_POST['maturity_date'] ?? "");
+//        $principal_at = $_POST['principal_at'] ?? "";
         $other_features = $_POST['other_features'] ?? "";
 
         $url = "http://localhost:7272/api/treasury/liabilities/saveLiability";
@@ -209,7 +211,7 @@ if ($_GET['menu'] == 'delete_customer'){
             'interestRepaymentType' => $interest_repayment,
             'repaymentDates' => $repayment_date,
             'maturityDate' => $maturity_date,
-            'principalAt' => $principal_at,
+//            'principalAt' => $principal_at,
             'otherFeatures' => $other_features
         );
 
@@ -396,30 +398,209 @@ function note_investment_statement($id){
     }
 }
 
-function amortisation($id){
 
-    $dealNote = deal_note($id);
 
+
+//####################################### ----------------  START DEAL NOTES    -------------------- ########################################
+
+//####################################### ----------------  START DEAL NOTES    -------------------- ########################################
+
+
+if(isset($_POST['create_asset'])) {
+
+    $counterparty = $_POST['counterparty'] ?? "";
+    $asset = $_POST['asset'] ?? "";
+    $pa_status = $_POST['pa_status'] ?? "";
+    $start_date = DateTime::createFromFormat('d F Y', $_POST['start_date'] ?? "")->format('Y-m-d') ?? null;
+    $currency = $_POST['currency'] ?? "";
+    $amount = $_POST['amount'] ?? "";
+    $tenure = $_POST['tenure'] ?? "";
+    $interest_rate = $_POST['interest_rate'] ?? "";
+
+    $interest_frequency = $_POST['interest_frequency'] ?? "";
+    $revolving = $_POST['revolving'] ?? "";
+    $principal_repayment = $_POST['principal_repayment'] ?? "";
+    $interest_repayment = $_POST['interest_repayment'] ?? "";
+    $repayment_date = DateTime::createFromFormat('d F Y', $_POST['repayment_date'] ?? "")->format('Y-m-d') ?? null;
+    $maturity_date = DateTime::createFromFormat('d F Y', $_POST['maturity_date'] ?? "")->format('Y-m-d') ?? null;
+    $other_features = $_POST['other_features'] ?? "";
+
+    $url = "http://localhost:7272/api/treasury/assets/saveAsset";
 
     $data_array = array(
-        "amount" => $dealNote['amount'],
-        "tenure" => 120,
-        "repayments" => "monthly",
-        "currency" => "$dealNote[currency]",
-        "counterpart" => "$dealNote[counterParty]",
-        "period" => "$dealNote[couponDates]", // Make sure this is the correct period
-        "interest" => "$dealNote[interestRate]",
-        "startDate" => "$dealNote[startDate]" // Make sure this is the correct start date
+        'counterpart' => $counterparty,
+        'assetType' => $asset,
+        'paStatus' => $pa_status,
+        'startDate' => $start_date,
+        'currencyDenomination' => $currency,
+        'investedAmount' => $amount,
+        'tenorInDays' => $tenure,
+        'interest' => $interest_rate,
+
+        'interestFrequency' => $interest_frequency,
+        'revolving' => $revolving,
+        'principalRepaymentType' => $principal_repayment,
+        'interestRepaymentType' => $interest_repayment,
+        'repaymentDates' => $repayment_date,
+        'maturityDate' => $maturity_date,
+        'otherFeatures' => $other_features
     );
+
 
 
     $data = json_encode($data_array);
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://localhost:7272/api/treasury/amortisation/create");
+    curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+    $resp = curl_exec($ch);
+
+    // convert headers to array
+    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($resp, 0, $headerSize);
+    $bodyStr = substr($resp, $headerSize);
+    $headers = headersToArray( $headerStr );
+
+    // Check HTTP status code
+    if (!curl_errno($ch)) {
+        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+            case 200:
+                $_SESSION['info'] = "Asset Created Successfully";
+                audit($_SESSION['userid'], "Asset Created Successfully", $_SESSION['branch']);
+
+                header('location: treasury_management.php?menu=main');
+                break;
+            default:
+                $_SESSION['error'] = 'Failed to Create Asset';
+                audit($_SESSION['userid'], "Failed to Create Asset", $_SESSION['branch']);
+                header('location: treasury_management.php?menu=main');
+        }
+    } else {
+        $_SESSION['error'] = 'Failed to Create Asset.. Please try again!';
+        audit($_SESSION['userid'], "Failed to create Asset", $_SESSION['branch']);
+        header('location: treasury_management.php?menu=main');
+    }
+    curl_close($ch);
+}
+
+function asset_list(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7272/api/treasury/assets/getAllAssets');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $disbursements_response = curl_exec($ch);
+    curl_close($ch);
+    $disbursements_data = json_decode($disbursements_response, true);
+
+    if ($disbursements_data !== null) {
+        return $disbursements_data;
+    } else {
+        echo "Error decoding JSON data";
+    }
+}
+
+function asset_by_id($id){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7272/api/treasury/assets/getAsset/'.$id);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $disbursements_response = curl_exec($ch);
+    curl_close($ch);
+    $disbursements_data = json_decode($disbursements_response, true);
+
+    if ($disbursements_data !== null) {
+        return $disbursements_data;
+    } else {
+        echo "Error decoding JSON data";
+    }
+}
+
+if (isset($_POST['create_asset_deal_note'])) {
+
+    $dnId = $_POST['liabilities'] ?? "";
+
+    $url = "http://localhost:7272/api/treasury/assetDealnote/create";
+    $data_array = array(
+        'counterParty' => $dnId,
+    );
+
+    $data = json_encode($data_array);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+    $resp = curl_exec($ch);
+
+    // convert headers to array
+    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($resp, 0, $headerSize);
+    $bodyStr = substr($resp, $headerSize);
+    $headers = headersToArray( $headerStr );
+
+    // Check HTTP status code
+    if (!curl_errno($ch)) {
+        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+            case 200:
+                $_SESSION['info'] = "Deal NOte Created Successfully";
+                audit($_SESSION['userid'], "Deal NOte Created Successfully", $_SESSION['branch']);
+
+                header('location: treasury_management.php?menu=main');
+                break;
+            default:
+                $_SESSION['error'] = 'Failed to Create Deal NOte';
+                audit($_SESSION['userid'], "Failed to Create Deal NOte", $_SESSION['branch']);
+                header('location: treasury_management.php?menu=main');
+        }
+    } else {
+        $_SESSION['error'] = 'Failed to Create Deal NOte.. Please try again!';
+        audit($_SESSION['userid'], "Failed to approved Transaction Voucher", $_SESSION['branch']);
+        header('location: treasury_management.php?menu=main');
+    }
+    curl_close($ch);
+}
+
+function asset_deal_notes(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7272/api/treasury/assetDealnote');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $disbursements_response = curl_exec($ch);
+    curl_close($ch);
+    $disbursements_data = json_decode($disbursements_response, true);
+
+    if ($disbursements_data !== null) {
+        return $disbursements_data;
+    } else {
+        echo "Error decoding JSON data";
+    }
+}
+
+function asset_deal_note($id)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7272/api/treasury/assetDealnote/' . $id);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $transaction_response = curl_exec($ch);
+    curl_close($ch);
+
+    return json_decode($transaction_response, true);
+}
+
+function asset_note_investment_statement($id){
+
+    $dealNote = asset_deal_note($id);
+
+    $data = json_encode($dealNote);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7272/api/treasury/assetNoteInvestment/createNoteInvestment");
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
     $resp = curl_exec($ch);
     $error = curl_error($ch); // Added to capture any CURL errors
     curl_close($ch);
@@ -429,19 +610,122 @@ function amortisation($id){
         return;
     }
 
-    $amortisation_data = json_decode($resp, true);
+    // Find the position of the first occurrence of "\r\n\r\n"
+    $headerEnd = strpos($resp, "\r\n\r\n");
 
-    if ($amortisation_data !== null) {
-        return $amortisation_data;
+    // Extract the JSON content from the response body
+    $jsonContent = substr($resp, $headerEnd + 4);
+
+    $note_investment_statement = json_decode($jsonContent, true);
+
+    if ($note_investment_statement !== null) {
+        return $note_investment_statement;
     } else {
         echo "Error decoding JSON data";
         // Optionally, output the response body for debugging purposes
-        echo "Response Body: " . $resp;
+        echo "Response Body: " . $jsonContent;
     }
 }
 
 
 
 
+
+//####################################### ----------------  EQUITIES    -------------------- ########################################
+
+//####################################### ----------------  EQUITIES    -------------------- ########################################
+
+
+
+
+function equities(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7272/api/treasury/equities/all');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $disbursements_response = curl_exec($ch);
+    curl_close($ch);
+    $disbursements_data = json_decode($disbursements_response, true);
+
+    if ($disbursements_data !== null) {
+        return $disbursements_data;
+    } else {
+        echo "Error decoding JSON data";
+    }
+}
+
+function equity_by_id($id){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7272/api/treasury/equities/id/'.$id);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $disbursements_response = curl_exec($ch);
+    curl_close($ch);
+    $disbursements_data = json_decode($disbursements_response, true);
+
+    if ($disbursements_data !== null) {
+        return $disbursements_data;
+    } else {
+        echo "Error decoding JSON data";
+    }
+}
+
+if(isset($_POST['create_equity'])) {
+
+    $counterpart = $_POST['counterpart'] ?? "";
+    $agent = $_POST['agent'] ?? "";
+    $currency = $_POST['currency'] ?? "";
+    $numberOfShares = $_POST['numberOfShares'] ?? "";
+    $pricePerShare = $_POST['pricePerShare'] ?? "";
+    $transactionCosts = $_POST['transactionCosts'] ?? "";
+    $dateOfAcquisition = $_POST['dateOfAcquisition'] ?? "";
+
+    $url = "http://localhost:7272/api/treasury/equities/add";
+
+    $data_array = array(
+        'counterpart' => $counterpart,
+        'agent' => $agent,
+        'currency' => $currency,
+        'numberOfShares' => $numberOfShares,
+        'pricePerShare' => $pricePerShare,
+        'transactionCosts' => $transactionCosts,
+        'dateOfAcquisition' => $dateOfAcquisition
+    );
+
+    $data = json_encode($data_array);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+    $resp = curl_exec($ch);
+
+    // convert headers to array
+    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($resp, 0, $headerSize);
+    $bodyStr = substr($resp, $headerSize);
+    $headers = headersToArray( $headerStr );
+
+    // Check HTTP status code
+    if (!curl_errno($ch)) {
+        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+            case 200:
+                $_SESSION['info'] = "Equity Created Successfully";
+                audit($_SESSION['userid'], "Equity Created Successfully", $_SESSION['branch']);
+
+                header('location: special_assets_tracker.php?menu=main');
+                break;
+            default:
+                $_SESSION['error'] = 'Failed to Create Equity';
+                audit($_SESSION['userid'], "Failed to Create Equity", $_SESSION['branch']);
+                header('location: special_assets_tracker.php?menu=add_equity');
+        }
+    } else {
+        $_SESSION['error'] = 'Failed to Create Equity.. Please try again!';
+        audit($_SESSION['userid'], "Failed to create Equity", $_SESSION['branch']);
+        header('location: special_assets_tracker.php?menu=add_equity');
+    }
+    curl_close($ch);
+}
 
 ?>

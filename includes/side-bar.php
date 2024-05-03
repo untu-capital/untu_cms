@@ -461,6 +461,7 @@
                                 </a>
                                 <ul class="submenu">
                                     <li><a href="treasury_management.php?menu=main">Dashboard</a></li>
+                                    <li><a href="special_assets_tracker.php?menu=main">Special Assets</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">

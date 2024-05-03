@@ -3480,25 +3480,37 @@ function pastel_transaction($userName, $toAccount, $fromAccount, $reference, $am
     audit($_SESSION['userid'], "Created Pastel $description ", $_SESSION['branch']);
 }
 
-function pastel_acc_balances($account){
+function pastel_acc_balances($accounts){
 
-    $data_array = array(
-        // 'APIUsername' => "Admin",
-        // 'APIPassword' => "Admin",
-        'account' => $account
-    );
-    $data = json_encode($data_array);
+//    echo json_encode($accounts);
+
+    $data = json_encode($accounts); // Only encode once
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/postGl/getVaultBalance");
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/postGl/getAllPastelVaultBalances");
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $resp = curl_exec($ch);
-    curl_close($ch);
-
-    // Return the response body without the headers
-    return $resp;
+    if ($resp === false) {
+        // Handle curl error
+        $error = curl_error($ch);
+        curl_close($ch);
+        return "Curl error: " . $error;
+    } else {
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+//        echo "before if ".$http_code;
+        if ($http_code >= 200 && $http_code < 300) {
+            // HTTP status code indicates success
+//            echo "qwertyuiop - ".$http_code;
+            return $resp;
+        } else {
+            // HTTP status code indicates error
+            echo "qqqqqqqqqqqqq - ".$http_code;
+            return "HTTP Error: " . $http_code;
+        }
+    }
 }
 
 
