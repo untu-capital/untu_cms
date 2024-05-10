@@ -38,6 +38,7 @@ if ($data !== null) {
                             <th>Address</th>
                             <th>Phone</th>
                             <th>Contact Person</th>
+                            <th>Tax Clearance</th>
                             <th>Comment</th>
                             <th>Actions</th>
                         </tr>
@@ -49,6 +50,7 @@ if ($data !== null) {
                             <td><?php echo $row['address']; ?></td>
                             <td><?php echo $row['phone']; ?></td>
                             <td><?php echo $row['contactPerson']; ?></td>
+                            <td><?php echo $row['taxIdNo']; ?></td>
                             <td><?php echo $row['comment']; ?></td>
                             <td>
                                 <div class="dropdown">

@@ -46,10 +46,7 @@ include('../includes/header.php');
             <div class="tab">
                 <ul class="nav nav-pills" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active text-blue" data-toggle="tab" href="#requisitions" role="tab"
-                           aria-selected="true">
-                            Requisitions
-                        </a>
+                        <a class="nav-link active text-blue" data-toggle="tab" href="#requisitions" role="tab" aria-selected="true">Requisitions</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-blue" data-toggle="tab" href="#suppliers" role="tab"
@@ -229,7 +226,8 @@ include('../includes/header.php');
                 </form>
             </div>
 
-        <?php } elseif ($_GET['menu'] == 'add_supplier') { ?>
+        <?php }
+        elseif ($_GET['menu'] == 'add_supplier') { ?>
             <?php
             if (isset($_POST['create'])) {
                 // API endpoint URL
@@ -338,8 +336,7 @@ include('../includes/header.php');
                 <form method="POST" action="requisitions.php?menu=add_supplier">
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Name</label>
-                        <div class="col-sm-12 col-md-10"><input class="form-control" type="text" name="name"
-                                                                placeholder="Supplier Name" required/></div>
+                        <div class="col-sm-12 col-md-10"><input class="form-control" type="text" name="name" placeholder="Supplier Name" required/></div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Address</label>
@@ -355,9 +352,9 @@ include('../includes/header.php');
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-12 col-md-2 col-form-label">Comment</label>
+                        <label class="col-sm-12 col-md-2 col-form-label">Description</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" name="comment" type="text" placeholder="Comment" required/>
+                            <input class="form-control" name="comment" type="text" placeholder="Description" required/>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -371,10 +368,8 @@ include('../includes/header.php');
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Tax Clearance</label>
                         <div class="col-sm-12 col-md-10">
-<!--                            <input class="form-control" name="tax" placeholder="+263 700 000 000" type="tel"-->
-<!--                                   required/>-->
                             <select class="custom-select2 form-control" name="tax_clearance" style="width: 100%; height: 38px">
-                                <optgroup >
+                                <optgroup>
                                     <option value="Yes" >Yes</option>
                                     <option value="No" >No</option>
 
@@ -395,9 +390,7 @@ include('../includes/header.php');
                 </form>
             </div>
 
-        <?php } elseif ($_GET['menu'] == 'update_supplier') { ?>
-
-            <?php
+        <?php } elseif ($_GET['menu'] == 'update_supplier') {
             $id = $_GET['supplierId'];
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/supplier/" . $id);
@@ -543,9 +536,9 @@ include('../includes/header.php');
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-12 col-md-2 col-form-label">Comment</label>
+                        <label class="col-sm-12 col-md-2 col-form-label">Description</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" name="comment" type="text" placeholder="Comment"
+                            <input class="form-control" name="comment" type="text" placeholder="Description"
                                    value="<?php echo $table['comment'] ?>" required/>
                         </div>
                     </div>
@@ -1436,16 +1429,19 @@ include('../includes/header.php');
 <!-- Datatable Setting js -->
 <script src="../vendors/scripts/datatable-setting.js"></script>
 
+<script>
+    $(document).ready(function(){
+        // Load data only from active tab
+        $('.nav-link').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href"); // activated tab
+            $(target).load("load_data.php"); // Load content using AJAX
+        });
+    });
+</script>
+
 <!-- Google Tag Manager (noscript) -->
-<noscript
->
-    <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
-            height="0"
-            width="0"
-            style="display: none; visibility: hidden"
-    ></iframe
-    >
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0" style="display: none; visibility: hidden"></iframe>
 </noscript>
 <!-- End Google Tag Manager (noscript) -->
 

@@ -3245,7 +3245,6 @@ if(isset($_POST['delete_supplier'])) {
     curl_setopt($ch, CURLOPT_HEADER, true);
     $resp = curl_exec($ch);
     curl_close($ch);
-
 }
 
 function categories($path){
@@ -3507,7 +3506,6 @@ function pastel_acc_balances($accounts){
             return $resp;
         } else {
             // HTTP status code indicates error
-            echo "qqqqqqqqqqqqq - ".$http_code;
             return "HTTP Error: " . $http_code;
         }
     }

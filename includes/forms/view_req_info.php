@@ -9,7 +9,7 @@
 
             <div class="row">
                 <div class="col-4"><h5 class="card-title text-blue"  style="text-decoration: underline;">PO Number: #<?php echo $req['poNumber'] ?></h5></div>
-                <div class="col-4"><h5 class="card-title text-blue" style="text-decoration: underline;">By: <?php $user =user($req['userId']); echo $user['firstName']." ".$user['lastName']; ?></h5></div>
+                <div class="col-4"><h5 class="card-title text-blue" style="text-decoration: underline;"></div>
                 <div class="col-4"><h5 class="card-title text-blue" style="text-decoration: underline;">Status: <?php echo $req['poStatus'] ?></h5></div>
             </div>
 
@@ -40,6 +40,7 @@
                                             // Assuming you have retrieved the transactions and stored them in a variable called $req
                                             $transactionCount = count($req_trans); // Calculate the total count of transactions
                                             $totalAmount = 0; // Initialize the total amount variable
+                                            $discountedAmount = 0; // Initialize the total amount variable
 
                                             foreach ($req_trans as $transaction) {
                                                 // Check if 'poAmount' key exists before accessing it
@@ -50,10 +51,30 @@
                                             ?>
 
                                             <!-- Update the HTML to display the calculated values -->
-                                            <div class="col-md-4 col-sm-12">
+                                            <div class="col-md-2 col-sm-12">
                                                 <div class="form-group">
                                                     <label>Transactions:</label>
                                                     <input type="text" class="form-control" value="<?php echo $transactionCount; ?>" disabled />
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2 col-sm-12">
+                                                <div class="form-group">
+                                                    <label>Withholding Tax:</label>
+                                                    <?php
+                                                    foreach($req_trans as $row):
+                                                    endforeach;
+                                                    $sup = suppliers("/" . $row['poSupplier']);
+
+                                                    if ($sup['taxIdNo'] === null && $totalAmount > 1000) {
+
+                                                        $discountedAmount = $totalAmount * 0.3;
+                                                        echo '<input type="text" class="form-control" name="req_amount" value="$ ' . number_format($discountedAmount, 2) . '" disabled />';
+                                                    } else {
+
+                                                        echo '<input type="text" class="form-control" name="req_amount" value="$ ' . number_format($totalAmount, 2) . '" disabled />';
+                                                    }
+                                                    ?>
                                                 </div>
                                             </div>
 <!--                                            <div class="col-md-4 col-sm-12">-->
@@ -65,13 +86,13 @@
 
                                             <div class="col-md-4 col-sm-12">
                                                 <div class="form-group">
-                                                    <label>Total Amount:</label>
+                                                    <label>Revised Amount:</label>
                                                     <?php
                                                     foreach($req_trans as $row):
                                                     endforeach;
                                                     $sup = suppliers("/" . $row['poSupplier']);
 
-                                                    if ($sup['taxClearance'] === 'No' && $totalAmount > 1000) {
+                                                    if ($sup['taxIdNo'] === null && $totalAmount > 1000) {
 
                                                         $discountedAmount = $totalAmount * 0.7;
                                                         echo '<input type="text" class="form-control" name="req_amount" value="$ ' . number_format($discountedAmount, 2) .    ' (Initial Amount : $' . number_format($totalAmount, 2) . ')" disabled />';
@@ -237,8 +258,7 @@
                             <textarea name="notes" class="form-control"><?php $req_notes = requisitions('/'.$_GET['req_id']); echo htmlspecialchars($req_notes['notes']); ?></textarea>
                         </div>
 
-                        <h5 class="card-title text-blue" ><b>Prepared By :</b> <?php echo $_SESSION['fullname']; ?></h5>
-
+                        <h5 class="card-title text-blue" ><b>Prepared By :</b> <?php $user =user($req['userId']); echo $user['firstName']." ".$user['lastName']; ?>
                         <div class="custom-control custom-checkbox mb-5">
                             <input name="add_approver" type="checkbox" class="custom-control-input" id="customCheck1-1">
                             <label class="custom-control-label" for="customCheck1-1"><b>Add Approvers</b> (Approver should be your Supervisor or someone who can act in that capacity.)</label>
@@ -362,7 +382,14 @@
                                 <textarea name="notes" class="form-control" disabled><?php $req_notes = requisitions('/'.$_GET['req_id']); echo htmlspecialchars($req_notes['notes']); ?></textarea>
                             </div>
 
-                            <h5 class="card-title text-blue" ><b>Prepared By :</b> <?php $user =user($_SESSION['userid']); echo $user['firstName']." ".$user['lastName']; ?></h5>
+                            <h5 class="card-title text-blue" ><b>Prepared By :</b> <?php $user =user($req['userId']); echo $user['firstName']." ".$user['lastName']; ?></h5>
+
+<!--                            --><?php //echo 'user id '. $_SESSION['userId'];?><!--</form><br>-->
+<!--                            --><?php
+//                                if (in_array($_SESSION['userid'], $req['approvers'])) {
+//                                    echo "Purchase Order ID: ";
+//                                } ?>
+
 
                             <div class="custom-control mb-5">
 <!--                                <input name="add_approver" type="checkbox" class="custom-control-input" id="customCheck1-1">-->
@@ -393,89 +420,103 @@
                                 <input class="form-control" type="hidden" name="paidStatus" value="PAID" required>
                                 <input type="hidden" class="form-control" name="req_reference" value="<?php echo $req['poNumber'] ?>" />
                                 <input type="hidden" class="form-control" name="req_name" value="<?php echo $req['poName'] ?>" />
-                                <input type="hidden" class="form-control" name="req_amount" value=<?php echo $totalAmount; ?> />
+                                <input type="hidden" class="form-control" name="req_amount" value="<?php echo $discountedAmount == 0 ? $totalAmount : $discountedAmount; ?>" />
                                 <input type="hidden" class="form-control" name="req_initiator" value="<?php echo $_SESSION['fullname']; ?>" />
 
                                 <?php if ($req['poStatus'] != "PAID"){ ?>
                                     <button name="paid_requisition" type="submit" class="btn btn-info btn-lg btn-block">Disburse Cash</button>
                                 <?php } else{ ?>
-                                    <button name="paid_requisition" type="submit" class="btn btn-dark btn-lg btn-block" disabled>Cash Disbursed</button>
+                                    <button class="btn btn-dark btn-lg btn-block" disabled>Cash Disbursed</button>
                                 <?php } ?>
-                            <?php } else { ?>
-                            <div class="row">
-                                <div class="col-6">
-                                    <?php if ($_SESSION['role'] == "ROLE_BOARD" || $_SESSION['role'] == "ROLE_FIN" ){ ?>
-                                        <div class="row">
-                                            <div class="col">
-                                                <h5 class="card-title text-blue" ><b>Select Tailor to Disburse Amount: </b> </h5>
-                                            </div>
-                                            <div class="form-group col">
-                                                <select id="name" class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="teller" style="width: 100%; height: 38px" required>
-                                                    <optgroup label="select user">
-                                                        <?php
-                                                        $user = user($req['teller']);
-                                                        echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
-                                                        $users = untuStaff();
-                                                        foreach ($users as $user) {
-                                                            echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
-                                                        }
-                                                        ?>
-                                                    </optgroup>
-                                                </select>
-                                            </div>
+                            <?php } else if ($req['poStatus'] == "OPEN" && in_array($_SESSION['userid'], $req['approvers'])){ ?>
+
+                                <div class="row">
+                                    <div class="col-6">
+<!--                                        --><?php //if ($_SESSION['role'] == "ROLE_BOARD" || $_SESSION['role'] == "ROLE_FIN" ){ ?>
+<!--                                            <div class="row">-->
+<!--                                                <div class="col">-->
+<!--                                                    <h5 class="card-title text-blue" ><b>Select Teller to Disburse Amount: </b> </h5>-->
+<!--                                                </div>-->
+<!--                                                <div class="form-group col">-->
+<!--                                                    <select id="name" class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="teller" style="width: 100%; height: 38px" required>-->
+<!--                                                        <optgroup label="select user">-->
+<!--                                                            --><?php
+//                                                            $user = user($req['teller']);
+//                                                            echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
+//                                                            $users = untuStaff();
+//                                                            foreach ($users as $user) {
+//                                                                echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
+//                                                            }
+//                                                            ?>
+<!--                                                        </optgroup>-->
+<!--                                                    </select>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <input class="form-control" type="hidden" name="cmsStatus" value="PAYMENT APPROVED" required>-->
+<!--                                            <button name="cms_approve_requisition" type="submit" class="btn btn-success btn-lg btn-block">Approve Requisition</button>-->
+<!--                                        --><?php //} else{ ?>
+                                            <input class="form-control" type="hidden" name="status" value="PENDING APPROVAL" required>
+                                            <button name="po_approve_requisition" type="submit" class="btn btn-success btn-lg btn-block">Approve Requisition</button>
+<!--                                        --><?php //} ?>
+                                    </div>
+
+                                    <div class="col-4"></div>
+
+                                    <div class="col-2">
+                                        <input class="form-control" type="hidden" name="declineStatus" value="DECLINED" required>
+<!--                                        --><?php //if ($_SESSION['role'] == "ROLE_BOARD" || $_SESSION['role'] == "ROLE_FIN" ){ ?>
+<!--                                            <button name="request_revisions" type="submit" class="btn btn-outline-dark btn-lg btn-block">Decline</button>-->
+<!--                                        --><?php //} else{ ?>
+                                            <button name="request_revision" type="submit" class="btn btn-outline-dark btn-lg btn-block">Decline</button>
+<!--                                        --><?php //} ?>
+                                    </div>
+
+                                </div>
+                            <?php } else {
+                                if ($req['poStatus'] == "PENDING APPROVAL"){ ?>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <?php if ($_SESSION['role'] == "ROLE_BOARD" || $_SESSION['role'] == "ROLE_FIN" ){ ?>
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <h5 class="card-title text-blue" ><b>Select Teller to Disburse Amount: </b> </h5>
+                                                    </div>
+                                                    <div class="form-group col">
+                                                        <select id="name" class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="teller" style="width: 100%; height: 38px" required>
+                                                            <optgroup label="select user">
+                                                                <?php
+                                                                $user = user($req['teller']);
+                                                                echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
+                                                                $users = untuStaff();
+                                                                foreach ($users as $user) {
+                                                                    echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
+                                                                }
+                                                                ?>
+                                                            </optgroup>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <input class="form-control" type="hidden" name="cmsStatus" value="PAYMENT APPROVED" required>
+                                                <button name="cms_approve_requisition" type="submit" class="btn btn-success btn-lg btn-block">Approve Requisition</button>
+<!--                                            --><?php //} ?>
                                         </div>
 
-                                        <input class="form-control" type="hidden" name="cmsStatus" value="PAYMENT APPROVED" required>
+                                        <div class="col-4"></div>
 
-                                    <?php if ($req['poStatus'] == "DECLINED" || $req['poStatus']== "PAYMENT APPROVED" || $req['poStatus']== "PENDING APPROVAL") { ?>
-                                        <button name="cms_approve_requisition" type="submit" class="btn btn-success btn-lg btn-block" disabled onclick="alert('Button Disabled,Failed to Approve')">Approve Requisition</button>
-                                        <?php } else { ?>
-                                            <button name="cms_approve_requisition" type="submit" class="btn btn-success btn-lg btn-block" onclick="alert('Purchase order Approved')">Decline</button>
-                                        <?php } ?>
-
-
-                                    <?php } else{ ?>
-                                        <input class="form-control" type="hidden" name="status" value="PENDING APPROVAL" required>
-                                    <?php if ($req['poStatus'] == "DECLINED" || $req['poStatus']== "PAYMENT APPROVED" || $req['poStatus']== "PENDING APPROVAL") { ?>
-
-                                        <button name="po_approve_requisition" type="submit" class="btn btn-success btn-lg btn-block" disabled onclick="alert('Button Disabled,Failed to Approve')">Approve Requisition</button>
-
-                                        <?php } else { ?>
-                                            <button name="cms_approve_requisition" type="submit" class="btn btn-success btn-lg btn-block" onclick="alert('Purchase order Approved')">Decline</button>
-                                        <?php } ?>
-                                    <?php } ?>
-                                </div>
-                                <div class="col-4"></div>
-                                <div class="col-2">
-                                    <input class="form-control" type="hidden" name="declineStatus" value="DECLINED" required>
-                                    <?php if ($_SESSION['role'] == "ROLE_BOARD" || $_SESSION['role'] == "ROLE_FIN" ){ ?>
-                                        <?php if ($req['poStatus'] == "DECLINED" || $req['poStatus']== "PAYMENT APPROVED" || $req['poStatus']== "PENDING APPROVAL") { ?>
-
-                                            <button name="request_revisions" type="submit" class="btn btn-outline-dark btn-lg btn-block" disabled onclick="alert('Button Disabled,Failed to Decline')">Decline</button>
-                                        <?php } else { ?>
-                                            <button name="request_revisions" type="submit" class="btn btn-outline-dark btn-lg btn-block" onclick="alert('Purchase order declined')">Decline</button>
-                                        <?php } ?>
-                                    <?php } else { ?>
-                                        <?php if ($req['poStatus'] == "DECLINED" || $req['poStatus']== "PAYMENT APPROVED" || $req['poStatus']== "PENDING APPROVAL") { ?>
-                                            <button name="request_revision" type="submit" class="btn btn-outline-dark btn-lg btn-block" disabled onclick="alert('Button Disabled,Failed to Decline')">Decline</button>
-                                        <?php } else { ?>
-                                            <button name="request_revision" type="submit" class="btn btn-outline-dark btn-lg btn-block" onclick="alert('Purchase order declined')">Decline</button>
-                                        <?php } ?>
-                                    <?php } ?>
-                                </div>
-
-
-
-<!--                                <div class="col-2">-->
-<!--                                    <input class="form-control" type="hidden" name="declineStatus" value="DECLINED" required>-->
-<!--                                    --><?php //if ($_SESSION['role'] == "ROLE_BOARD" || $_SESSION['role'] == "ROLE_FIN" ){ ?>
-<!--                                        <button name="request_revisions" type="submit" class="btn btn-outline-dark btn-lg btn-block">Decline</button>-->
-<!--                                    --><?php //} else{ ?>
-<!--                                        <button name="request_revision" type="submit" class="btn btn-outline-dark btn-lg btn-block">Decline</button>-->
-<!--                                    --><?php //} ?>
-<!--                                </div>-->
-                            </div>
-                            <?php } ?>
+                                        <div class="col-2">
+                                            <input class="form-control" type="hidden" name="declineStatus" value="DECLINED" required>
+<!--                                            --><?php //if ($_SESSION['role'] == "ROLE_BOARD" || $_SESSION['role'] == "ROLE_FIN" ){ ?>
+                                                <button name="request_revisions" type="submit" class="btn btn-outline-dark btn-lg btn-block">Decline</button>
+                                            <?php }
+//                                            else{ ?>
+<!--                                                <button name="request_revision" type="submit" class="btn btn-outline-dark btn-lg btn-block">Decline</button>-->
+<!--                                            --><?php //}
+                                            ?>
+                                        </div>
+                                    </div>
+                                <?php }
+                            }  ?>
 
                         </form>
                     <?php }?>

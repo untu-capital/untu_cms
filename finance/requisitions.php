@@ -103,7 +103,8 @@ include('../includes/header.php');
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="myrequisitions" role="tabpanel">
-                    <?php include('../includes/tables/purchase_order/requisitions_table.php'); ?>
+                    <?php $requisitionsUrl = "/userid/".$_SESSION['userId'];
+                        include('../includes/tables/purchase_order/requisitions_table.php'); ?>
                 </div>
                 <div class="tab-pane fade" id="requisitions" role="tabpanel">
                     <?php  $requisitionsUrl = "/approverId/".$_SESSION['userId'];
@@ -269,9 +270,9 @@ include('../includes/header.php');
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-12 col-md-2 col-form-label">Comment</label>
+                        <label class="col-sm-12 col-md-2 col-form-label">Description</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" name="comment" type="text" placeholder="Comment" />
+                            <input class="form-control" name="comment" type="text" placeholder="Description" />
                         </div>
                     </div>
 
@@ -375,9 +376,9 @@ include('../includes/header.php');
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-12 col-md-2 col-form-label">Comment</label>
+                        <label class="col-sm-12 col-md-2 col-form-label">Description</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" name="comment" type="text" placeholder="Comment" value="<?php echo $table['comment'] ?>" required/>
+                            <input class="form-control" name="comment" type="text" placeholder="Description" value="<?php echo $table['comment'] ?>" required/>
                         </div>
                     </div>
                     <div class="form-group row">
