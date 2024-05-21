@@ -6,7 +6,7 @@ $audit = "";
 $cc_level = 'bcc_final';
 $schedule_meeting = '';
 
-// PURCHASE ORDER
+// CMS
 if (isset($_POST['initiate_transaction'])) {
 
     $url = "http://localhost:7878/api/utg/cms/transaction-voucher/initiate";
@@ -34,6 +34,38 @@ if (isset($_POST['initiate_transaction'])) {
         echo "<script>
                     setTimeout(function(){
                         $('#savedTransaction').modal('show');                        
+                    },1000);
+                  </script>";
+    } else {
+        echo "<script>
+                    setTimeout(function(){
+                        $('#failedTransaction').modal('show');
+                    }, 1000);
+                  </script>";
+    }
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+    }
+
+    curl_close($ch);
+}
+if (isset($_POST['deleteTransactionVoucher'])) {
+    echo  'http://localhost:7878/api/utg/cms/transaction-voucher/delete/'.$_POST["transactionId"];
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/cms/transaction-voucher/delete/'.$_POST['transactionId']);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+
+    $response = curl_exec($ch);
+    // Get the HTTP response status code
+    $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    if ($status == 200) {
+        echo "<script>
+                    setTimeout(function(){
+                        $('#deletedTransaction').modal('show');        
                     },1000);
                   </script>";
     } else {

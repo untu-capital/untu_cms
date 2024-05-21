@@ -1,6 +1,6 @@
 <?php
 include('../session/session.php');
-include ('check_role.php');
+include('check_role.php');
 //include('charts_data.php');
 $nav_header = "Cash Management Dashboard";
 
@@ -47,6 +47,49 @@ include('../includes/header.php');
 <?php include('../includes/side-bar.php'); ?>
 <!-- /sidebar-left -->
 <div class="mobile-menu-overlay"></div>
+<!-- Start Modals-->
+<!-- Deleted Transaction Modal-->
+<div class="modal fade show" data-backdrop="static" id="deletedTransaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center font-18">
+                <h3 class="mb-20">Voucher deleted successfully!</h3>
+                <div class="mb-30 text-center">
+                    <img src="../vendors/images/success.png"  alt=""/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 text-center row"> <!-- Full width column for button -->
+                    <div class="input-group mb-3 d-flex justify-content-center">
+                        <a class="btn btn-secondary btn-lg ml-2" href="cash_management.php?menu=main">Dashboard</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Failed Transaction Modal  -->
+<div class="modal fade" data-backdrop="static" id="failedTransaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center font-18">
+                <h3 class="mb-20">Transaction failed!</h3>
+                <div class="mb-30 text-center">
+                    <img src="../vendors/images/caution-sign.png"  alt=""/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 text-center"> <!-- Full width column for button -->
+                    <div class="input-group mb-3 d-flex justify-content-center">
+                        <a class="btn btn-secondary btn-lg ml-2" href="cash_management.php?menu=main">Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modals-->
 
 <div class="main-container">
     <div class="pd-ltr-20">
@@ -83,21 +126,37 @@ include('../includes/header.php');
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
                                 <div class="pd-20">
-                                    <?php  include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
+                                    <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
                                 </div>
                             </div>
 
                             <div class="tab-pane fade row" id="pending_transaction" role="tabpanel">
-                                <?php $firstApprovalStatus = "PENDING"; $secondApproval = "PENDING"; include('../includes/tables/cash_management/boco_cash_withdrawal_vouchers_table.php'); ?>
+                                <div class="pd-20">
+                                    <?php $firstApprovalStatus = "PENDING";
+                                    $secondApproval = "PENDING";
+                                    include('../includes/tables/cash_management/boco_cash_withdrawal_vouchers_table.php'); ?>
+                                </div>
                             </div>
                             <div class="tab-pane fade row" id="revise_transaction" role="tabpanel">
-                                <?php $firstApprovalStatus = "REVISE"; $secondApproval="REVISE"; include('../includes/tables/cash_management/boco_cash_withdrawal_vouchers_table.php'); ?>
+                                <div class="pd-20">
+                                    <?php $firstApprovalStatus = "REVISE";
+                                    $secondApproval = "REVISE";
+                                    include('../includes/tables/cash_management/boco_cash_withdrawal_vouchers_table.php'); ?>
+                                </div>
                             </div>
                             <div class="tab-pane fade row" id="decline_transaction" role="tabpanel">
-                                <?php $firstApprovalStatus = "DECLINED"; $secondApproval="DECLINED"; include('../includes/tables/cash_management/boco_cash_withdrawal_vouchers_table.php'); ?>
+                                <div class="pd-20">
+                                    <?php $firstApprovalStatus = "DECLINED";
+                                    $secondApproval = "DECLINED";
+                                    include('../includes/tables/cash_management/boco_cash_withdrawal_vouchers_table.php'); ?>
+                                </div>
                             </div>
                             <div class="tab-pane fade row" id="approved_transaction" role="tabpanel">
-                                <?php $firstApprovalStatus = "APPROVED"; $secondApproval = "APPROVED"; include('../includes/tables/cash_management/boco_cash_withdrawal_vouchers_table.php'); ?>
+                                <div class="pd-20">
+                                    <?php $firstApprovalStatus = "APPROVED";
+                                    $secondApproval = "APPROVED";
+                                    include('../includes/tables/cash_management/boco_cash_withdrawal_vouchers_table.php'); ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -122,21 +181,24 @@ include('../includes/header.php');
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Account</label>
                         <div class="col-sm-12 col-md-10">
                             <label for="account" hidden="hidden"></label>
-                            <input id="account" class="form-control" type="text" name="account" placeholder="Vault Account"
+                            <input id="account" class="form-control" type="text" name="account"
+                                   placeholder="Vault Account"
                                    required/></div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Name</label>
                         <div class="col-sm-12 col-md-10">
                             <label for="name" hidden="hidden"></label>
-                            <input id="name" class="form-control" type="text" name="name" placeholder="Vault Name" required/>
+                            <input id="name" class="form-control" type="text" name="name" placeholder="Vault Name"
+                                   required/>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Type</label>
                         <div class="col-sm-12 col-md-10">
                             <label for="type" hidden="hidden"></label>
-                            <select id="type" class="custom-select2 form-control" name="type" style="width: 100%; height: 38px">
+                            <select id="type" class="custom-select2 form-control" name="type"
+                                    style="width: 100%; height: 38px">
                                 <optgroup label="Select Vault Type">
                                     <option value="">Select Vault Type</option>
                                     <option value="Petty Cash">Petty Cash</option>
@@ -150,7 +212,8 @@ include('../includes/header.php');
                         <label class="col-sm-12 col-md-2 col-form-label">Branch</label>
                         <div class="col-sm-12 col-md-10">
                             <label for="branch" hidden="hidden"></label>
-                            <select id="branch" class="custom-select2 form-control" name="branch" style="width: 100%; height: 38px">
+                            <select id="branch" class="custom-select2 form-control" name="branch"
+                                    style="width: 100%; height: 38px">
                                 <optgroup label="Branches">
                                     <option value="">Select Branch</option>
                                     <?php
@@ -175,8 +238,7 @@ include('../includes/header.php');
             </div>
 
         <?php }
-        elseif ($_GET['menu'] == 'update_vault')
-        { ?>
+        elseif ($_GET['menu'] == 'update_vault') { ?>
 
             <?php
 
@@ -201,13 +263,7 @@ include('../includes/header.php');
                 // API endpoint URL
                 $url = "http://localhost:7878/api/utg/cms/vault/update";
                 // Data to send in the POST request
-                $postData = array(
-                    'id' => $_POST['id'],
-                    'account' => $_POST['account'],
-                    'name' => $_POST['vaultName'],
-                    'type' => $_POST['type'],
-                    'branchId' => $_POST['branch'],
-                );
+                $postData = array('id' => $_POST['id'], 'account' => $_POST['account'], 'name' => $_POST['vaultName'], 'type' => $_POST['type'], 'branchId' => $_POST['branch'],);
 
                 $data = json_encode($postData);
                 echo $data;
@@ -248,7 +304,8 @@ include('../includes/header.php');
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Account</label>
                         <div class="col-sm-12 col-md-10">
                             <label for="account" hidden="hidden"></label>
-                            <input id="account" class="form-control" type="text" name="account" placeholder="Vault Account"
+                            <input id="account" class="form-control" type="text" name="account"
+                                   placeholder="Vault Account"
                                    value="<?php echo $table['account'] ?>" required/>
                         </div>
                     </div>
@@ -256,7 +313,8 @@ include('../includes/header.php');
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Name</label>
                         <div class="col-sm-12 col-md-10">
                             <label for="vaultName" hidden="hidden"></label>
-                            <input id="vaultName" class="form-control" type="text" name="vaultName" placeholder="Vault Account"
+                            <input id="vaultName" class="form-control" type="text" name="vaultName"
+                                   placeholder="Vault Account"
                                    value="<?php echo $table['name'] ?>" required/>
                         </div>
                     </div>
@@ -293,21 +351,13 @@ include('../includes/header.php');
             <!-- Default Basic Forms End -->
 
         <?php }
-
         elseif ($_GET['menu'] == 'approve') {
 
             if (isset($_POST['approve'])) {
                 // API endpoint URL
-                $url = "http://localhost:7878/api/utg/cms/petty-cash-payments/".$_POST['id'];
+                $url = "http://localhost:7878/api/utg/cms/petty-cash-payments/" . $_POST['id'];
                 // Data to send in the POST request
-                $postData = array(
-                    'id' => $_POST['id'],
-                    'firstApprover' => $_SESSION['userId'],
-                    'status' => "Approved",
-                    'notes' => $_POST['notes'],
-                    'fromAccount' => "8000/0009/HRE/FCA",
-                    'toAccount' => "3000/8988/EXP/HO"
-                );
+                $postData = array('id' => $_POST['id'], 'firstApprover' => $_SESSION['userId'], 'status' => "Approved", 'notes' => $_POST['notes'], 'fromAccount' => "8000/0009/HRE/FCA", 'toAccount' => "3000/8988/EXP/HO");
 
                 $data = json_encode($postData);
 //              echo $data;
@@ -336,21 +386,9 @@ include('../includes/header.php');
 
 
 //POST TO Pastel
-                            $url = "http://localhost:7878/api/utg/cms/Pastel/".$_POST['id'];
+                            $url = "http://localhost:7878/api/utg/cms/Pastel/" . $_POST['id'];
                             // Data to send in the POST request
-                            $postData = array(
-                                'id' => $_POST['id'],
-                                'ToAccount' =>"8422/000/GWE/FCA",
-                                'TransactionType' => "PO-TRANS",
-                                'ExchangeRate' => "1",
-                                'Description' => "Repayment Transaction",
-                                'FromAccount' =>"8000/000/HO/LR",
-                                'Reference' =>"RP{transId}",
-                                'Currency' =>"001",
-                                'Amount' =>"4000.0",
-                                'APIPassword' =>"Admin",
-                                'APIUsername' => "Admin",
-                                'TransactionDate'=>"13-Sep-2023"
+                            $postData = array('id' => $_POST['id'], 'ToAccount' => "8422/000/GWE/FCA", 'TransactionType' => "PO-TRANS", 'ExchangeRate' => "1", 'Description' => "Repayment Transaction", 'FromAccount' => "8000/000/HO/LR", 'Reference' => "RP{transId}", 'Currency' => "001", 'Amount' => "4000.0", 'APIPassword' => "Admin", 'APIUsername' => "Admin", 'TransactionDate' => "13-Sep-2023"
 
                             );
 
@@ -384,11 +422,11 @@ include('../includes/header.php');
 
                         case 400:  # Bad Request
                             $decoded = json_decode($bodyStr);
-                            foreach($decoded as $key => $val) {
+                            foreach ($decoded as $key => $val) {
                                 //echo $key . ': ' . $val . '<br>';
                             }
                             // echo $val;
-                            $_SESSION['error'] = "Failed. Please try again, ".$val;
+                            $_SESSION['error'] = "Failed. Please try again, " . $val;
                             header('location: cash_management.php?menu=main');
                             break;
 
@@ -398,13 +436,11 @@ include('../includes/header.php');
 
                             break;
                         default:
-                            $_SESSION['error'] = 'Not able to Approve'. "\n";
+                            $_SESSION['error'] = 'Not able to Approve' . "\n";
                             header('location: cash_management.php?menu=main');
                     }
-                }
-
-                else {
-                    $_SESSION['error'] = 'Failed.. Please try again!'. "\n";
+                } else {
+                    $_SESSION['error'] = 'Failed.. Please try again!' . "\n";
                     header('location: cash_management.php?menu=main');
 
                 }
@@ -423,7 +459,7 @@ include('../includes/header.php');
                     </div>
                 </div>
                 <form method="POST" action="cash_management.php?menu=approve">
-                    <?php  $petty = petty_cash_payments_by_id($_GET['id']); ?>
+                    <?php $petty = petty_cash_payments_by_id($_GET['id']); ?>
                     <label for="id" hidden="hidden"></label>
                     <input id="id" name="id" value="<?php echo $_GET['id'] ?>" hidden="hidden">
 
@@ -431,19 +467,19 @@ include('../includes/header.php');
                         <div class="col-md-4 col-sm-12">
                             <div class="form-group">
                                 <h1>PO-By: </h1>
-                                <h3><?=$petty['name']?> </h3>
+                                <h3><?= $petty['name'] ?> </h3>
                             </div>
                         </div>
                         <div class="col-md-3 col-sm-12">
                             <div class="form-group">
                                 <h1>PO-Number: </h1>
-                                <h3><?=$petty['purchaseOrderNumber']?> </h3>
+                                <h3><?= $petty['purchaseOrderNumber'] ?> </h3>
                             </div>
                         </div>
                         <div class="col-md-5 col-sm-12">
                             <div class="form-group">
                                 <h1>Status </h1>
-                                <h3>First Approved By : <?=$petty['firstApprover']?></h3>
+                                <h3>First Approved By : <?= $petty['firstApprover'] ?></h3>
                             </div>
                         </div>
                     </div>
@@ -453,13 +489,17 @@ include('../includes/header.php');
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label for="requesitionName">Requisition Name</label>
-                                <input type="text" disabled class="form-control" value="<?=$petty['requesitionName'] ?>" name="requesitionName" id="requesitionName" required>
+                                <input type="text" disabled class="form-control"
+                                       value="<?= $petty['requesitionName'] ?>" name="requesitionName"
+                                       id="requesitionName" required>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                                <label for="date">Requisition Date <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
-                                <input type="text" disabled class="form-control" name="branchAddress" value="<?=$petty['date'] ?>" id="date" required>
+                                <label for="date">Requisition Date <i
+                                            class="mdi mdi-subdirectory-arrow-left:"></i></label>
+                                <input type="text" disabled class="form-control" name="branchAddress"
+                                       value="<?= $petty['date'] ?>" id="date" required>
                             </div>
                         </div>
                     </div>
@@ -467,13 +507,15 @@ include('../includes/header.php');
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label for="transType">Transaction</label>
-                                <input type="text" disabled class="form-control" value="<?=$petty['transType'] ?>" name="transType" id="transType" required>
+                                <input type="text" disabled class="form-control" value="<?= $petty['transType'] ?>"
+                                       name="transType" id="transType" required>
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label for="amount">Total <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
-                                <input type="text" class="form-control" name="amount" disabled value="<?=$petty['amount'] ?>" id="amount" required>
+                                <input type="text" class="form-control" name="amount" disabled
+                                       value="<?= $petty['amount'] ?>" id="amount" required>
                             </div>
                         </div>
                     </div>
@@ -482,7 +524,8 @@ include('../includes/header.php');
                         <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label for="id" hidden="hidden"></label>
-                                <input type="hidden" disabled class="form-control" value="<?=$petty['id'] ?>" name="id" id="id" required>
+                                <input type="hidden" disabled class="form-control" value="<?= $petty['id'] ?>" name="id"
+                                       id="id" required>
                             </div>
                         </div>
 
@@ -527,13 +570,11 @@ include('../includes/header.php');
             ?>
 
         <?php }
-
         ?>
 
         <?php include('../includes/footer.php'); ?>
     </div>
 </div>
-
 
 <!-- js -->
 <script src="../vendors/scripts/core.js"></script>

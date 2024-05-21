@@ -359,8 +359,8 @@ include('../includes/header.php');
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-sm-12 col-md-12 col-form-label">
-                            <a href="cash_management.php?menu=main" class="btn btn-success btn-block"
+                        <div class="col-sm-4 col-md-4 col-form-label">
+                            <a href="cash_management.php?menu=main" class="btn btn-secondary btn-block"
                                id="withdrawalCashVoucherButton">Back
                             </a>
                         </div>
