@@ -3,15 +3,23 @@
 <div class="card-box mb-30">
     <div class="pd-20">
         <div class="row">
-            <div class="col-10">
-                <h4 class="text-blue h4">Approved Cash Transactions Vouchers</h4>
+            <div class="col-8">
+                <h4 class="text-blue h4"><?= $titleStatus ?> Cash Transactions Vouchers</h4>
             </div>
+            <?php
+            if ($titleStatus === "Pending") echo '
+                <div class="col-4">
+                <a class="btn-lg btn-block btn-success text-white text-center"
+                   href="./cash_management_bulk.php?menu=main"><i class="icon-copy bi"></i>Bulk Approval</a>
+            </div>
+                '
+            ?>
         </div>
     </div>
 
     <div class="pb-20">
         <table class="table hover table stripe multiple-select-row data-table-export nowrap">
-            <thead class="small">
+            <thead>
             <tr>
                 <th>Application Date</th>
                 <th>Reference No</th>
@@ -36,22 +44,35 @@
                         <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["firstApprover"]['lastName'])." - " ?>
 
                             <?php if ($row['firstApprovalStatus'] == "APPROVED") {
-                                echo "<label style='padding: 6px;' class='badge badge-success'>Approved</label>";
-                            } elseif ($row['firstApprovalStatus'] == "PENDING") {
-                                echo "<label style='padding: 6px;' class='badge badge-warning'>Pending</label>";
-                            } else {
-                                echo "<label style='padding: 6px;' class='badge badge-danger'>Revise</label>";
-                            } ?></td>
+                                echo "<label style='padding: 6px;' class='badge badge-success'>APPROVED</label>";
+                            }
+                            if ($row['firstApprovalStatus'] == "PENDING") {
+                                echo "<label style='padding: 6px;' class='badge badge-warning'>PENDING</label>";
+                            }
+                            if ($row['firstApprovalStatus'] == "DECLINED") {
+                                echo "<label style='padding: 6px;' class='badge badge-danger'>DECLINED</label>";
+                            }
+                            if ($row['firstApprovalStatus'] == "REVISE") {
+                                echo "<label style='padding: 6px;' class='badge badge-secondary'>REVERTED</label>";
+                            } ?>
+                        </td>
 
                         <td><?= htmlspecialchars($row["secondApprover"]['firstName']) . " " . htmlspecialchars($row["secondApprover"]['lastName'])." - " ?>
 
                             <?php if ($row['secondApprovalStatus'] == "APPROVED") {
-                                echo "<label style='padding: 6px;' class='badge badge-success'>Approved</label>";
-                            } elseif ($row['secondApprovalStatus'] == "REVISE") {
-                                echo "<label style='padding: 6px;' class='badge badge-danger'>Revise</label>";
-                            } else {
-                                echo "<label style='padding: 6px;' class='badge badge-warning'>Pending</label>";
-                            } ?></td>
+                                echo "<label style='padding: 6px;' class='badge badge-success'>APPROVED</label>";
+                            }
+                            if ($row['secondApprovalStatus'] == "REVISE") {
+                                echo "<label style='padding: 6px;' class='badge badge-secondary'>REVERTED</label>";
+                            }
+                            if ($row['secondApprovalStatus'] == "PENDING") {
+                                echo "<label style='padding: 6px;' class='badge badge-warning'>PENDING</label>";
+                            }
+                            if ($row['secondApprovalStatus'] == "DECLINED") {
+                                echo "<label style='padding: 6px;' class='badge badge-danger'>DECLINED</label>";
+                            }
+                            ?>
+                        </td>
 
 
                         <td><?= '$' . number_format($row["amount"], 2)." (".htmlspecialchars($row["currency"]).")" ?></td>

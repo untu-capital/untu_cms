@@ -31,22 +31,12 @@ if (isset($_POST['initiate_transaction'])) {
     $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     if ($status == 201) {
-        // Transaction successfully saved, show modal popup for 0.5 seconds
         echo "<script>
                     setTimeout(function(){
-                        $('#savedTransaction').modal('show');
-                    },2000);
+                        $('#savedTransaction').modal('show');                        
+                    },1000);
                   </script>";
-
-        // Redirect to another page after 1 seconds
-        echo "<script>
-                    setTimeout(function(){
-                        window.location.href = 'cash_management.php?menu=main';
-                    }, 4000); // Navigate after 1 seconds popup duration
-                  </script>";
-    }
-    else {
-        // PHP code to display the modal for failed transaction
+    } else {
         echo "<script>
                     setTimeout(function(){
                         $('#failedTransaction').modal('show');
@@ -88,21 +78,15 @@ if (isset($_POST['update_transaction'])) {
         echo "<script>
                     setTimeout(function(){
                         $('#updatedTransaction').modal('show');
-                    }, 2000);
+                    }, 1000);
                   </script>";
 
-        // Redirect to another page after 1 seconds
+    } else {
         echo "<script>
                     setTimeout(function(){
-                        window.location.href = 'cash_management.php?menu=main';
-                    }, 4000); // Navigate after 1 seconds popup duration
+                        $('#failedTransaction').modal('show');
+                    }, 1000);
                   </script>";
-    }
-    else {
-        // PHP code to display the modal for failed transaction
-        echo "<script>
-        $('#failedTransaction').modal('show');
-      </script>";
     }
 
     if (curl_errno($ch)) {
@@ -143,25 +127,17 @@ function first_approver_update_transaction_status($id, $status, $comment)
     $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     if ($status == 200) {
-        // Transaction first approved successfully saved, show modal popup for 0.5 seconds
         echo "<script>
                     setTimeout(function(){
-                        $('#approvedTransaction').modal('show');
+                        $('#approvedTransaction').modal('show');                      
                     }, 1000);
                   </script>";
-
-        // Redirect to another page after 1 seconds
+    } else {
         echo "<script>
                     setTimeout(function(){
-                        window.location.href = 'cash_management.php?menu=main';
-                    }, 4000); // Navigate after 1 seconds popup duration
+                        $('#failedTransaction').modal('show');
+                    }, 1000);
                   </script>";
-    }
-    else {
-        // PHP code to display the modal for failed transaction
-        echo "<script>
-        $('#failedTransaction').modal('show');
-      </script>";
     }
 
     if (curl_errno($ch)) {
@@ -170,11 +146,11 @@ function first_approver_update_transaction_status($id, $status, $comment)
 
     curl_close($ch);
 }
+
 // Bulk First Approve
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["firstApproveList"])) {
     // Get the JSON data from the hidden input field
     $jsonData = $_POST['firstApproveList'];
-
     $url = "http://localhost:7878/api/utg/cms/transaction-voucher/bulk-first-approve";
 
 //    $data = json_encode($postData);
@@ -193,25 +169,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["firstApproveList"])) {
     $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     if ($status == 200) {
-        // Transactions first approved successfully saved, show modal popup for 0.5 seconds
         echo "<script>
                     setTimeout(function(){
-                        $('#approvedTransactions').modal('show');
-                    }, 100);
+                        $('#approvedTransactions').modal('show');                     
+                    }, 1000);
                   </script>";
 
     }
     else {
-        // PHP code to display the modal for failed transaction
         echo "<script>
-        $('#failedTransactions').modal('show');
-      </script>";
+                    setTimeout(function(){
+                        $('#failedTransactions').modal('show');
+                    }, 1000);
+                  </script>";
     }
     if (curl_errno($ch)) {
         echo 'Curl error: ' . curl_error($ch);
     }
     curl_close($ch);
 }
+
 //Second Approve
 function second_approver_update_transaction_status($id, $status, $comment)
 {
@@ -240,21 +217,15 @@ function second_approver_update_transaction_status($id, $status, $comment)
         echo "<script>
                     setTimeout(function(){
                         $('#approvedTransaction').modal('show');
+
                     }, 1000);
                   </script>";
-
-        // Redirect to another page after 1 seconds
+    } else {
         echo "<script>
                     setTimeout(function(){
-                        window.location.href = 'cash_management.php?menu=main';
-                    }, 4000); // Navigate after 1 seconds popup duration
+                        $('#failedTransaction').modal('show');
+                    }, 1000);
                   </script>";
-    }
-    else {
-        // PHP code to display the modal for failed transaction
-        echo "<script>
-        $('#failedTransaction').modal('show');
-      </script>";
     }
 
     if (curl_errno($ch)) {
@@ -263,6 +234,7 @@ function second_approver_update_transaction_status($id, $status, $comment)
 
     curl_close($ch);
 }
+
 // Bulk Second Approve
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["secondApproveList"])) {
     // Get the JSON data from the hidden input field
@@ -285,18 +257,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["secondApproveList"])) 
     $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
     if ($status == 200) {
-        // Transaction second approved successfully saved, show modal popup for 0.5 seconds
-        echo "<script>           
+        echo "<script>
                     setTimeout(function(){
                         $('#approvedTransactions').modal('show');
                     }, 1000);
                   </script>";
-    }
-    else {
-        // PHP code to display the modal for failed transaction
+
+    } else {
         echo "<script>
-        $('#failedTransaction').modal('show');
-      </script>";
+                    setTimeout(function(){
+                        $('#failedTransactions').modal('show');
+                    }, 1000);
+                  </script>";
     }
 
     if (curl_errno($ch)) {
@@ -661,14 +633,34 @@ function po_user()
     return $cms_user;
 }
 
-function cms_withdrawal_voucher($userId)
+function cms_withdrawal_voucher($userId, $firstApprovalStatus, $secondApprovalStatus)
 {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/transaction-voucher/all-by-initiator/$userId");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $cms_withdrawal_voucher_response = curl_exec($ch);
     curl_close($ch);
-    return json_decode($cms_withdrawal_voucher_response, true);
+    $decoded_response = json_decode($cms_withdrawal_voucher_response, true);
+
+    if ($firstApprovalStatus === "PENDING" || $secondApprovalStatus === "PENDING") {
+        return array_filter($decoded_response, function ($voucher) use ($firstApprovalStatus) {
+            return $voucher['firstApprovalStatus'] === $firstApprovalStatus || $voucher['secondApprovalStatus'] === $firstApprovalStatus;
+        });
+    }
+    if ($firstApprovalStatus === "REVISE" || $secondApprovalStatus === "REVISE") {
+        return array_filter($decoded_response, function ($voucher) use ($firstApprovalStatus) {
+            return $voucher['firstApprovalStatus'] === $firstApprovalStatus || $voucher['secondApprovalStatus'] === $firstApprovalStatus;
+        });
+    }
+    if ($firstApprovalStatus === "DECLINED" || $secondApprovalStatus === "DECLINED") {
+        return array_filter($decoded_response, function ($voucher) use ($firstApprovalStatus) {
+            return $voucher['firstApprovalStatus'] === $firstApprovalStatus || $voucher['secondApprovalStatus'] === $firstApprovalStatus;
+        });
+    }
+
+    return array_filter($decoded_response, function ($voucher) use ($firstApprovalStatus) {
+        return $voucher['firstApprovalStatus'] === $firstApprovalStatus && $voucher['secondApprovalStatus'] === $firstApprovalStatus;
+    });
 }
 
 function cms_withdrawal_voucher_by_firstApprover($userId, $status)

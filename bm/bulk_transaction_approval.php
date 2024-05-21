@@ -59,53 +59,14 @@ include('../includes/header.php');
                     <div class="tab">
                         <ul class="nav nav-tabs customtab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#acc_balance" role="tab"
-                                   aria-selected="true">Account Balances</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#pending" role="tab"
-                                   aria-selected="false">Pending Transactions Vouchers</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#revise" role="tab"
-                                   aria-selected="false">Revise Transactions Vouchers</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#declined" role="tab"
-                                   aria-selected="false">Declined Transactions Vouchers</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#approved" role="tab"
-                                   aria-selected="false">Approved Transactions Vouchers</a>
+                                <a class="nav-link active" data-toggle="tab" href="#pending" role="tab"
+                                   aria-selected="true">Pending</a>
                             </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
+                            <div class="tab-pane fade show active" id="pending" role="tabpanel">
                                 <div class="pd-20">
-                                    <?php
-                                    include('../includes/dashboard/cms_acc_balance_widget.php');
-                                    ?>
-                                </div>
-                            </div>
-
-                            <div class="tab-pane fade row show" id="pending" role="tabpanel">
-                                <div class="pd-20">
-                                    <?php $titleStatus="Pending"; $firstApprovalStatus = "PENDING"; include('../includes/tables/cash_management/bm_transaction_vouchers.php'); ?>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade show" id="approved" role="tabpanel">
-                                <div class="pd-20">
-                                    <?php  $titleStatus="Approved"; $firstApprovalStatus = "APPROVED"; include('../includes/tables/cash_management/bm_transaction_vouchers.php'); ?>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade show" id="declined" role="tabpanel">
-                                <div class="pd-20">
-                                    <?php  $titleStatus="Declined"; $firstApprovalStatus = "DECLINED"; include('../includes/tables/cash_management/bm_transaction_vouchers.php'); ?>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade show" id="revise" role="tabpanel">
-                                <div class="pd-20">
-                                    <?php  $titleStatus="Revise"; $firstApprovalStatus = "REVISE"; include('../includes/tables/cash_management/bm_transaction_vouchers.php'); ?>
+                                    <?php $titleStatus="Pending"; $firstApprovalStatus = "PENDING"; include('../includes/tables/cash_management/bm_bulk_transaction_vouchers.php'); ?>
                                 </div>
                             </div>
                         </div>
@@ -155,10 +116,10 @@ include('../includes/header.php');
 <noscript
 >
     <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
-            height="0"
-            width="0"
-            style="display: none; visibility: hidden"
+        src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
     ></iframe
     >
 </noscript>

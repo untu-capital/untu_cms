@@ -64,18 +64,40 @@ include('../includes/header.php');
                                    aria-selected="true">Account Balances</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#assign_role" role="tab"
-                                   aria-selected="false">Cash Transaction Voucher</a>
+                                <a class="nav-link" data-toggle="tab" href="#pending_transaction" role="tab"
+                                   aria-selected="false">Pending Transaction Voucher</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#revise_transaction" role="tab"
+                                   aria-selected="false">Revise Transaction Voucher</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#decline_transaction" role="tab"
+                                   aria-selected="false">Declined Transaction Voucher</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#approved_transaction" role="tab"
+                                   aria-selected="false">Approved Transaction Voucher</a>
                             </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
                                 <div class="pd-20">
-                                    <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
+                                    <?php  include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
                                 </div>
                             </div>
-                            <div class="tab-pane fade row" id="assign_role" role="tabpanel">
-                                <?php include('../includes/tables/cash_management/cash_withdrawal_vouchers_table.php'); ?>
+
+                            <div class="tab-pane fade row" id="pending_transaction" role="tabpanel">
+                                <?php $firstApprovalStatus = "PENDING"; $secondApproval = "PENDING"; include('../includes/tables/cash_management/boco_cash_withdrawal_vouchers_table.php'); ?>
+                            </div>
+                            <div class="tab-pane fade row" id="revise_transaction" role="tabpanel">
+                                <?php $firstApprovalStatus = "REVISE"; $secondApproval="REVISE"; include('../includes/tables/cash_management/boco_cash_withdrawal_vouchers_table.php'); ?>
+                            </div>
+                            <div class="tab-pane fade row" id="decline_transaction" role="tabpanel">
+                                <?php $firstApprovalStatus = "DECLINED"; $secondApproval="DECLINED"; include('../includes/tables/cash_management/boco_cash_withdrawal_vouchers_table.php'); ?>
+                            </div>
+                            <div class="tab-pane fade row" id="approved_transaction" role="tabpanel">
+                                <?php $firstApprovalStatus = "APPROVED"; $secondApproval = "APPROVED"; include('../includes/tables/cash_management/boco_cash_withdrawal_vouchers_table.php'); ?>
                             </div>
                         </div>
                     </div>

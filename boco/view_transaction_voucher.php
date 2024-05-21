@@ -124,6 +124,7 @@ include('../includes/header.php');
                                        class="form-control font-weight-bold
                                         <?php echo ($transactionVoucher['firstApprovalStatus'] == "PENDING") ? "bg-warning" : " " ?>
                                         <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? "bg-danger" : " " ?>
+                                        <?php echo ($transactionVoucher['firstApprovalStatus'] == "DECLINED") ? "bg-danger" : " " ?>
                                         <?php echo ($transactionVoucher['firstApprovalStatus'] == "APPROVED") ? "bg-success" : " " ?>"
                                        name="firstApprovalStatus" id="firstApprovalStatus"
                                        readonly>
@@ -167,6 +168,7 @@ include('../includes/header.php');
                                        class="form-control font-weight-bold
                                         <?php echo ($transactionVoucher['secondApprovalStatus'] == "PENDING") ? "bg-warning" : " " ?>
                                         <?php echo ($transactionVoucher['secondApprovalStatus'] == "REVISE") ? "bg-danger" : " " ?>
+                                        <?php echo ($transactionVoucher['secondApprovalStatus'] == "DECLINED") ? "bg-danger" : " " ?>
                                        <?php echo ($transactionVoucher['secondApprovalStatus'] == "APPROVED") ? "bg-success" : " " ?>"
                                        name="secondApprovalStatus" id="secondApprovalStatus"
                                        readonly>
