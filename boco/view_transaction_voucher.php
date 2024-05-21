@@ -59,7 +59,7 @@ include('../includes/header.php');
                 <div class="pd-20 card-box mb-30">
                     <form method="POST" action="" id="withdrawalCashVoucherForm">
                     <div class="row">
-                        <div class="col-md-6 col-sm-12">
+                        <div class="col-md-4 col-sm-12">
                             <div class="form-group">
                                 <label for="initiator">Initiator</label>
                                 <input type="text"
@@ -67,7 +67,14 @@ include('../includes/header.php');
                                        class="form-control" name="initiator" id="initiator" readonly>
                             </div>
                         </div>
-                        <div class="col-md-6 col-sm-12">
+                        <div class="col-md-4 col-sm-12">
+                            <div class="form-group">
+                                <label for="applicationDate">Reference No</label>
+                                <input type="text" value="<?= $transactionVoucher['reference'] ?>"
+                                       class="form-control" name="reference" id="reference" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12">
                             <div class="form-group">
                                 <label for="applicationDate">Application Date</label>
                                 <input type="text" value="<?= $transactionVoucher['applicationDate'] ?>"
@@ -196,7 +203,8 @@ include('../includes/header.php');
                         <div class="col-md-8 col-sm-12">
                             <div class="form-group">
                                 <label for="withdrawalPurpose">Withdrawal Purpose</label>
-                                <input type="text" value="<?= $transactionVoucher['withdrawalPurpose'] ?>"
+                                <input type="text" value="<?php $withdrawalPurpose = withdrawal_purposes($row["withdrawalPurpose"]);
+                                echo $withdrawalPurpose['name']; ?>"
                                        class="form-control" name="withdrawalPurpose" id="withdrawalPurpose" readonly>
                             </div>
                         </div>

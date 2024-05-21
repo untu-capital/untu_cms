@@ -57,25 +57,32 @@ include('../includes/header.php');
             <div class="pd-20 card-box">
                 <h5 class="h4 text-blue mb-20">View Transaction voucher Details</h5>
                 <div class="pd-20 card-box mb-30">
-                    <form method="post" action="">
-                        <div>
-                            <div class="row">
-                                <div class="col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="initiator">Initiator</label>
-                                        <input type="text"
-                                               value="<?= $transactionVoucher['initiator']['firstName'] . ' ' . $transactionVoucher['initiator']['lastName'] ?>"
-                                               class="form-control" name="initiator" id="initiator" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="applicationDate">Application Date</label>
-                                        <input type="text" value="<?= $transactionVoucher['applicationDate'] ?>"
-                                               class="form-control" name="applicationDate" id="applicationDate" readonly>
-                                    </div>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="initiator">Initiator</label>
+                                    <input type="text"
+                                           value="<?= $transactionVoucher['initiator']['firstName'] . ' ' . $transactionVoucher['initiator']['lastName'] ?>"
+                                           class="form-control" name="initiator" id="initiator" readonly>
                                 </div>
                             </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="referenceNumber">Reference Number</label>
+                                    <input type="text"
+                                           value="<?= $transactionVoucher['referenceNumber']?>"
+                                           class="form-control" name="referenceNumber" id="referenceNumber" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="applicationDate">Application Date</label>
+                                    <input type="text" value="<?= $transactionVoucher['applicationDate'] ?>"
+                                           class="form-control" name="applicationDate" id="applicationDate" readonly>
+                                </div>
+                            </div>
+                        </div>
 
                             <div class="row">
                                 <div class="col-md-6 col-sm-12">
@@ -418,7 +425,8 @@ include('../includes/header.php');
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-md-6 col-form-label">
-                                                    <button type="button"
+                                                    <button type="submit"
+                                                            name="secondApprove01"
                                                             class="btn btn-success btn-block"
                                                             id="saveButton"
                                                     >

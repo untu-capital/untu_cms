@@ -48,7 +48,46 @@ include('../includes/header.php');
 <?php include('../includes/side-bar.php'); ?>
 <!-- /sidebar-left -->
 <div class="mobile-menu-overlay"></div>
+<!-- Start Modals-->
+<!-- The Modal -->
+<div class="modal" id="savedTransaction">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Transaction Saved</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                The transaction has been saved successfully.
+            </div>
 
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="failedTransaction">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Transaction Failed</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                Oops! Something went wrong. The transaction could not be saved. Please review all details and try again.
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Try Again</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Modals-->
 <div class="main-container">
     <div class="pd-ltr-20">
 
@@ -61,12 +100,13 @@ include('../includes/header.php');
             </div>
             <form method="POST" action="">
                 <label for="initiator" hidden="hidden"></label>
-                <input id="initiator" value="<?= $userId  ?>" name="initiator" hidden="hidden">
+                <input id="initiator" value="<?= $userId ?>" name="initiator" hidden="hidden">
                 <div class="row">
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-md-4 col-sm-12">
                         <div class="form-group">
                             <label for="currency">currency</label>
-                            <select onselect="validateFormOnSelect()" class="custom-select2 form-control" id="currency" name="currency" style="width: 100%; height: 38px">
+                            <select onselect="validateFormOnSelect()" class="custom-select2 form-control" id="currency"
+                                    name="currency" style="width: 100%; height: 38px">
 
                                 <option value="usd">USD</option>
                                 <option value="zwl">ZWL</option>
@@ -76,27 +116,49 @@ include('../includes/header.php');
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-12">
+                    <div class="col-md-4 col-sm-12">
+                        <div class="form-group">
+                            <label for="applicationDate">Application Date</label>
+                            <input value="" type="date" class="form-control" name="applicationDate" required
+                                   id="applicationDate">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-12">
                         <div class="form-group">
                             <label for="amount">Amount</label>
-                            <input type="number" class="form-control" name="amount" required oninput="calculateValue()" id="amount">
+                            <input type="number" min="0" step="1" class="form-control" name="amount" required oninput="calculateValue()"
+                                   id="amount">
                         </div>
                     </div>
                 </div>
+                <script>
+                    function updateTransactionCode() {
+                        var selectElement = document.getElementById("fromVault");
+                        var selectedIndex = selectElement.selectedIndex;
+                        var vaultCode = selectElement.options[selectedIndex].getAttribute("data-vault-code");
+                        document.getElementById("vaultCodeInput").value = vaultCode;
+                    }
+                </script>
+
+
+
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="fromVault">Withdrawal From</label>
-                            <select onchange="validateFormOnSelect()" class="custom-select2 form-control" id="fromVault" name="fromVault" style="width: 100%; height: 38px">
+                            <select onchange="updateTransactionCode()" class="custom-select2 form-control" id="fromVault"
+                                    name="fromVault" style="width: 100%; height: 38px">
                                 <option value="">Please Select Vault</option>
                                 <?php
                                 $voucher = getVaults($_SESSION['userId']);
-                                foreach ($voucher as $row):?>
-                                    <option value="<?= $row['vault_acc_code'] ?>">
+                                foreach ($voucher as $row):
+                                    $vaults = vaults($row['vault_acc_code']); ?>
+                                    <option value="<?= $row['vault_acc_code'] ?>" data-vault-code="<?= $vaults['code'] ?>">
                                         <?php
-                                            $vaults = vaults($row['vault_acc_code']);
-                                            echo $vaults["name"]." (".$vaults['account'].")"; ?></option>
+                                        echo $vaults["name"] . " (" . $vaults['account'] . ") "; ?>
+                                    </option>
                                 <?php endforeach; ?>
+
                             </select>
                             <div id="error-fromVault" class="has-danger d-none">
                                 <div class="form-control-feedback">Please Select Vault!</div>
@@ -106,7 +168,8 @@ include('../includes/header.php');
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="toVault">Deposit To</label>
-                            <select onchange="validateFormOnSelect()" class="custom-select2 form-control" id="toVault" name="toVault" style="width: 100%; height: 38px">
+                            <select class="custom-select2 form-control" id="toVault"
+                                    name="toVault" style="width: 100%; height: 38px">
                                 <option value="">Please Select Vault</option>
                                 <?php
                                 $voucher = getVaults($_SESSION['userId']);
@@ -114,7 +177,7 @@ include('../includes/header.php');
                                     <option value="<?= $row['vault_acc_code'] ?>">
                                         <?php
                                         $vaults = vaults($row['vault_acc_code']);
-                                        echo $vaults["name"]." (".$vaults['account'].")"; ?></option>
+                                        echo $vaults["name"] . " (" . $vaults['account'] . ")"; ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <div id="error-toVault" class="has-danger  d-none">
@@ -123,11 +186,18 @@ include('../includes/header.php');
                         </div>
                     </div>
                 </div>
+
+                <!-- For displaying $vaultCode -->
+                <div class="row">
+                    <input value="" type="hidden" class="form-control" name="vaultCode" id="vaultCodeInput">
+                </div>
+
+
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="amountInWords">Amount in Words</label>
-                            <input type="text" class="form-control"
+                            <input value=""  type="text" class="form-control"
                                    required
                                    id="amountInWords"
                                    name="amountInWords">
@@ -137,25 +207,31 @@ include('../includes/header.php');
                         <div class="row">
                             <div class="col-md-12 col-sm-10">
                                 <div class="form-group">
-                                    <label for="transactionPurposeSelect">Withdrawal Purpose</label>
-                                    <select onchange="handleSelectChange(this)" class="custom-select2 form-control" name="withdrawalPurpose" id="transactionPurposeSelect" style="width: 100%; height: 38px">
+                                    <label>Withdrawal Purpose</label>
+                                    <select
+                                            class="custom-select2 form-control"
+                                            name="withdrawalPurpose"
+                                            style="width: 100%; height: 38px">
                                         <option value="">Please Select Transaction Purpose</option>
                                         <?php
                                         $purposes = getWithdrawal();
                                         foreach ($purposes as $row):?>
                                             <option value="<?= $row['id'] ?>"><?= htmlspecialchars($row["name"]) ?></option>
                                         <?php endforeach; ?>
-                                        <option value="withdrawalPurpose">Other (Type purpose)</option>
+<!--                                        <option value="withdrawalPurpose">Other (Type purpose)</option>-->
                                     </select>
                                     <div id="error-withdrawalPurpose" class="has-danger d-none">
-                                        <div class="form-control-feedback">Please Select Withdrawal Purpose or Type Your Purpose!</div>
+                                        <div class="form-control-feedback">Please Select Withdrawal Purpose or Type Your
+                                            Purpose!
+                                        </div>
                                     </div>
                                 </div>
 
                                 <!-- Add a custom input field -->
                                 <div class="form-group" id="customPurposeField" style="display: none;">
                                     <label for="customWithdrawalPurpose">Custom Withdrawal Purpose</label>
-                                    <input type="text" class="form-control" name="customWithdrawalPurpose" id="customWithdrawalPurpose">
+                                    <input value="" type="text" class="form-control" name="customWithdrawalPurpose"
+                                           id="customWithdrawalPurpose">
                                 </div>
 
                                 <script>
@@ -181,14 +257,16 @@ include('../includes/header.php');
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="firstApprover">First Approver</label>
-                            <select onchange="validateFormOnSelect()" class="custom-select2 form-control" name="firstApprover" id="firstApprover" style="width: 100%; height: 38px">
+                            <select onchange="validateFormOnSelect()" class="custom-select2 form-control"
+                                    name="firstApprover" id="firstApprover" style="width: 100%; height: 38px">
                                 <option value="">Select First Approver</option>
                                 <?php
-                                $branch = branch_by_id('byName/'.$_SESSION['branch']);
-                                $authorizers = authorisation('/authLevel/'.$branch['id'].'/First%20Approver');
-                                foreach ($authorizers as $authorizer) {?>
-                                    <option value='<?php echo $authorizer['userId'] ?>'><?php $user = user($authorizer['userId']); echo $user['firstName']." ".$user['lastName'] ?></option>";
-                               <?php } ?>
+                                $branch = branch_by_id('byName/' . str_replace(' ', '%20', $_SESSION['branch']));
+                                $authorizers = authorisation('/authLevel/' . $branch['id'] . '/First%20Approver');
+                                foreach ($authorizers as $authorizer) { ?>
+                                    <option value='<?php echo $authorizer['userId'] ?>'><?php $user = user($authorizer['userId']);
+                                        echo $user['firstName'] . " " . $user['lastName'] ?></option>";
+                                <?php } ?>
 
                             </select>
                             <div id="error-firstApprover" class="has-danger  d-none">
@@ -199,13 +277,15 @@ include('../includes/header.php');
                     <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="secondApprover">Second Approver</label>
-                            <select onchange="validateFormOnSelect()" class="custom-select2 form-control" name="secondApprover" id="secondApprover" style="width: 100%; height: 38px">
+                            <select onchange="validateFormOnSelect()" class="custom-select2 form-control"
+                                    name="secondApprover" id="secondApprover" style="width: 100%; height: 38px">
                                 <option value="">Select Second Approver</option>
                                 <?php
-                                $branch = branch_by_id('byName/'.$_SESSION['branch']);
-                                $authorizers = authorisation('/authLevel/'.$branch['id'].'/Second%20Approver');
-                                foreach ($authorizers as $authorizer) {?>
-                                    <option value='<?php echo $authorizer['userId'] ?>'><?php $user = user($authorizer['userId']); echo $user['firstName']." ".$user['lastName'] ?></option>";
+                                $branch = branch_by_id('byName/' . str_replace(' ', '%20', $_SESSION['branch']));
+                                $authorizers = authorisation('/authLevel/' . $branch['id'] . '/Second%20Approver');
+                                foreach ($authorizers as $authorizer) { ?>
+                                    <option value='<?php echo $authorizer['userId'] ?>'><?php $user = user($authorizer['userId']);
+                                        echo $user['firstName'] . " " . $user['lastName'] ?></option>";
                                 <?php } ?>
                             </select>
                             <div id="error-secondApprover" class="has-danger d-none">
@@ -228,14 +308,14 @@ include('../includes/header.php');
                             <th scope="row">100</th>
                             <th scope="row">
                                 <label for="denomination100" hidden="hidden"></label>
-                                <input type="number" class="form-control"
+                                <input type="number" min="0" step="1"  class="form-control"
                                        id="denomination100"
                                        name="denomination100"
-                                       oninput="calculateValue()">
+                                       oninput="calculateValue()" required>
                             </th>
                             <th scope="row">
                                 <label for="denomination100T" hidden="hidden"></label>
-                                <input type="number" class="form-control"
+                                <input type="number" min="0" step="1"  class="form-control"
                                        id="denomination100T"
                                        name="denomination100T" readonly></th>
                         </tr>
@@ -243,14 +323,14 @@ include('../includes/header.php');
                             <th scope="row">50</th>
                             <th scope="row">
                                 <label for="denomination50" hidden="hidden"></label>
-                                <input type="number" class="form-control"
+                                <input  type="number" min="0" step="1"  class="form-control"
                                        id="denomination50"
                                        name="denomination50"
-                                       oninput="calculateValue()">
+                                       oninput="calculateValue()" required>
                             </th>
                             <th scope="row">
                                 <label for="denomination50T" hidden="hidden"></label>
-                                <input type="number" class="form-control"
+                                <input  type="number" min="0" step="1" class="form-control"
                                        id="denomination50T" name="denomination50T"
                                        readonly></th>
                         </tr>
@@ -258,14 +338,14 @@ include('../includes/header.php');
                             <th scope="row">20</th>
                             <th scope="row">
                                 <label for="denomination20" hidden="hidden"></label>
-                                <input type="number" class="form-control"
+                                <input  type="number"  min="0" step="1" class="form-control"
                                        id="denomination20"
                                        name="denomination20"
-                                       oninput="calculateValue()">
+                                       oninput="calculateValue()" required>
                             </th>
                             <th scope="row">
                                 <label for="denomination20T" hidden="hidden"></label>
-                                <input type="number" class="form-control"
+                                <input  type="number" min="0" class="form-control"
                                        id="denomination20T" name="denomination20T"
                                        readonly></th>
                         </tr>
@@ -273,14 +353,14 @@ include('../includes/header.php');
                             <th scope="row">10</th>
                             <th scope="row">
                                 <label for="denomination10" hidden="hidden"></label>
-                                <input type="number" class="form-control"
+                                <input  type="number" min="0" step="1" class="form-control"
                                        id="denomination10"
                                        name="denomination10"
-                                       oninput="calculateValue()">
+                                       oninput="calculateValue()" required>
                             </th>
                             <th scope="row">
                                 <label for="denomination10T" hidden="hidden"></label>
-                                <input type="number" class="form-control"
+                                <input  type="number" min="0" step="1" class="form-control"
                                        id="denomination10T" name="denomination10T"
                                        readonly></th>
                         </tr>
@@ -288,14 +368,14 @@ include('../includes/header.php');
                             <th scope="row">5</th>
                             <th scope="row">
                                 <label for="denomination5" hidden="hidden"></label>
-                                <input type="number" class="form-control"
+                                <input  type="number" min="0" step="1" class="form-control"
                                        id="denomination5"
                                        name="denomination5"
-                                       oninput="calculateValue()">
+                                       oninput="calculateValue()" required>
                             </th>
                             <th scope="row">
                                 <label for="denomination5T" hidden="hidden"></label>
-                                <input type="number" class="form-control"
+                                <input  type="number" min="0" step="1" class="form-control"
                                        id="denomination5T" name="denomination5T"
                                        readonly></th>
                         </tr>
@@ -303,14 +383,14 @@ include('../includes/header.php');
                             <th scope="row">2</th>
                             <th scope="row">
                                 <label for="denomination2" hidden="hidden"></label>
-                                <input type="number" class="form-control"
+                                <input  type="number" min="0" step="1" class="form-control"
                                        id="denomination2"
                                        name="denomination2"
-                                       oninput="calculateValue()">
+                                       oninput="calculateValue()" required>
                             </th>
                             <th scope="row">
                                 <label for="denomination2T" hidden="hidden"></label>
-                                <input type="number" class="form-control"
+                                <input  type="number" min="0" step="1" class="form-control"
                                        id="denomination2T" name="denomination2T"
                                        readonly></th>
                         </tr>
@@ -318,14 +398,14 @@ include('../includes/header.php');
                             <th scope="row">1</th>
                             <th scope="row">
                                 <label for="denomination1" hidden="hidden"></label>
-                                <input type="number" class="form-control"
+                                <input  type="number" min="0" step="1" class="form-control"
                                        id="denomination1"
                                        name="denomination1"
-                                       oninput="calculateValue()">
+                                       oninput="calculateValue()"  required>
                             </th>
                             <th scope="row">
                                 <label for="denomination1T" hidden="hidden"></label>
-                                <input type="number" class="form-control"
+                                <input  type="number" min="0" step="1" class="form-control"
                                        id="denomination1T" name="denomination1T"
                                        readonly></th>
                         </tr>
@@ -333,14 +413,14 @@ include('../includes/header.php');
                             <th scope="row">0.01</th>
                             <th scope="row">
                                 <label for="denominationCents" hidden="hidden"></label>
-                                <input type="number" class="form-control"
+                                <input  type="number" min="0" step="1" class="form-control"
                                        id="denominationCents"
                                        name="denominationCents"
-                                       oninput="calculateValue()">
+                                       oninput="calculateValue()"  required>
                             </th>
                             <th scope="row">
                                 <label for="denominationCentsT" hidden="hidden"></label>
-                                <input type="number" class="form-control"
+                                <input  type="number" min="0" class="form-control"
                                        id="denominationCentsT"
                                        name="denominationCentsT" readonly></th>
                         </tr>
@@ -348,7 +428,7 @@ include('../includes/header.php');
                             <th scope="row">Total</th>
                             <th scope="row">
                                 <label for="totalDenominationsT" hidden="hidden"></label>
-                                <input type="number" id="totalDenominationsT"
+                                <input  type="number" min="0" id="totalDenominationsT"
                                        class="form-control"
                                        name="totalDenominations" readonly></th>
                             <th scope="row">
@@ -362,13 +442,15 @@ include('../includes/header.php');
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12 col-md-2 col-form-label">
-                        <button type="submit" class="btn btn-success" name="add_trans_voucher" >Submit</button>
+                        <input id="reference" name="reference" type="hidden" class="form-control"/>
+                        <button type="submit" class="btn btn-success" name="add_trans_voucher">Submit</button>
                     </div>
                     <div class="col-sm-12 col-md-2 col-form-label">
                         <a href="cash_management.php?menu=main" class="btn btn-primary ">Back
                         </a>
                     </div>
                 </div>
+
                 <!--                                    Javascript function to calculate the amount per denomination and total amount-->
                 <script>
 
@@ -397,7 +479,7 @@ include('../includes/header.php');
                         getAllTransactionsDefault();
                     });
 
-                    function validateFormOnSelect(){
+                    function validateFormOnSelect() {
                         const currency = document.getElementById("currency").value;
                         const error_currency = document.getElementById("error-currency");
                         if (currency.trim() !== "") {

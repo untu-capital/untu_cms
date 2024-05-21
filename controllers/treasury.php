@@ -6,6 +6,32 @@
 
 
 <?php
+
+function audit($userid, $activity, $branch) {
+    $data_array = array(
+        'userid'=> $userid,
+        'branch'=> $branch,
+        'role'=> $_SESSION['role'],
+        'activity'=> $activity,
+        'deviceInfo'=> $_SERVER['HTTP_USER_AGENT'],
+        'ipAddress'=> $_SERVER['REMOTE_ADDR']
+    );
+    $data = json_encode($data_array);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/access_logs");
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+    $resp = curl_exec($ch);
+    curl_close($ch);
+
+//    return "Log recorded successfully";
+}
+
+
+
 if(isset($_POST['create_customer_info'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -709,23 +735,306 @@ if(isset($_POST['create_equity'])) {
     // Check HTTP status code
     if (!curl_errno($ch)) {
         switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-            case 200:
+            case 200 :
                 $_SESSION['info'] = "Equity Created Successfully";
-                audit($_SESSION['userid'], "Equity Created Successfully", $_SESSION['branch']);
+                audit($_SESSION['userid'], " Created Equity Successfully", $_SESSION['branch']);
 
-                header('location: special_assets_tracker.php?menu=main');
+                header('Location: special_assets_tracker.php?menu=main');
                 break;
             default:
                 $_SESSION['error'] = 'Failed to Create Equity';
                 audit($_SESSION['userid'], "Failed to Create Equity", $_SESSION['branch']);
-                header('location: special_assets_tracker.php?menu=add_equity');
+                header('Location: special_assets_tracker.php?menu=add_equity');
         }
     } else {
         $_SESSION['error'] = 'Failed to Create Equity.. Please try again!';
         audit($_SESSION['userid'], "Failed to create Equity", $_SESSION['branch']);
-        header('location: special_assets_tracker.php?menu=add_equity');
+        header('Location: special_assets_tracker.php?menu=add_equity');
     }
     curl_close($ch);
 }
+
+
+if(isset($_POST['create_cash_bank_bal'])) {
+    $source = $_POST['source'] ?? "";
+    $bankAccount = $_POST['bankAccount'] ?? "";
+    $balance = $_POST['balance'] ?? "";
+    $attachment = $_FILES['attachment'] ?? null;
+
+    $attachmentFiles = array();
+    // Check if files were uploaded
+    if(isset($_FILES['attachment'])) {
+        // Loop through the uploaded files
+        foreach ($_FILES['attachment']['tmp_name'] as $key => $tmp_name) {
+            $file_name = $_FILES['attachment']['name'][$key];
+            $file_tmp = $_FILES['attachment']['tmp_name'][$key];
+
+            // Check if a file was uploaded successfully
+            if ($file_name != "") {
+                $temp = explode(".", $file_name);
+                $attachment = pathinfo($file_name, PATHINFO_FILENAME) . '_' . date('Y.m.d') . '.' . end($temp);
+                $uploadfile = '../includes/file_uploads/treasury/' . $attachment;
+
+                // Move the uploaded file to the destination folder
+                if (move_uploaded_file($file_tmp, $uploadfile)) {
+                    $attachmentFiles[] = $uploadfile;
+                }
+            }
+        }
+    }
+
+    $url = "http://localhost:7272/api/treasury/assets/balances/createBank"; // Assuming this is the URL for adding new customer information
+
+    $data_array = array(
+        'source' => $source,
+        'bankAccount' => $bankAccount,
+        'balance' => $balance,
+        'attachment' => $attachmentFiles
+    );
+
+    $data = json_encode($data_array);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $resp = curl_exec($ch);
+
+    // Check for errors
+    if(curl_errno($ch)) {
+        $_SESSION['error'] = 'Failed to create bank information. Please try again!';
+    } else {
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($http_code == 200) {
+            $_SESSION['info'] = "Bank information created successfully";
+            audit($_SESSION['userid'], " Created Bank Balance Successfully", $_SESSION['branch']);
+            header('Location: special_assets_tracker.php?menu=main');
+        } else {
+            $_SESSION['error'] = 'Failed to create bank information';
+        }
+    }
+
+    curl_close($ch);
+}
+
+
+// ##############################################             MANAGE BANK            ##################################
+
+// ##############################################             MANAGE BANK            ##################################
+
+
+
+if(isset($_POST['create_bank_info'])) {
+    $bankName = $_POST['bankName'] ?? "";
+    $accountNumber = $_POST['accountNumber'] ?? "";
+    $branchName = $_POST['branchName'] ?? ""; // Assuming you want to include branchName
+    $currency = $_POST['currency'] ?? "";
+    $source = $_POST['source'] ?? "";
+    $balance = $_POST['balance'] ?? "";
+    $code = $_POST['code'] ?? ""; // Assuming you want to include code
+    $files = $_POST['attachment'] ?? ""; // Assuming you want to include files
+
+    $attachmentFile = ''; // Initialize variable to store file path
+
+    // Check if a file was uploaded
+    if(isset($_FILES['attachment']) && $_FILES['attachment']['error'] === UPLOAD_ERR_OK) {
+        $file_name = $_FILES['attachment']['name'];
+        $file_tmp = $_FILES['attachment']['tmp_name'];
+
+        // Check if a file was uploaded successfully
+        if ($file_name != "") {
+            $temp = explode(".", $file_name);
+            $attachment = pathinfo($file_name, PATHINFO_FILENAME) . '_' . date('Y.m.d') . '.' . end($temp);
+            $attachmentFile = '../includes/file_uploads/treasury/' . $attachment; // Store the file path
+
+            // Move the uploaded file to the destination folder
+            if (move_uploaded_file($file_tmp, $attachmentFile)) {
+                // File moved successfully
+            } else {
+                // File upload failed
+                $_SESSION['error'] = 'Failed to move uploaded file';
+                // Other error handling if needed
+            }
+        }
+    }
+
+
+    $url = "http://localhost:7272/api/treasury/assets/balances/createBank"; // Assuming this is the URL for adding new bank information
+
+    $data_array = array(
+        'bankName' => $bankName,
+        'accountNumber' => $accountNumber,
+        'branchName' => $branchName,
+        'currency' => $currency,
+        'source' => $source,
+        'balance' => $balance,
+        'code' => $code,
+        'files' => $attachmentFile // Include file path in the data array
+    );
+
+    $data = json_encode($data_array);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+    $resp = curl_exec($ch);
+
+    // Convert headers to array
+    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($resp, 0, $headerSize);
+    $bodyStr = substr($resp, $headerSize);
+    $headers = headersToArray( $headerStr );
+
+    // Check HTTP status code
+    if (!curl_errno($ch)) {
+        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+            case 200 :
+                $_SESSION['info'] = "Bank information created successfully";
+                audit($_SESSION['userid'], " Created Bank Balance Successfully", $_SESSION['branch']);
+                header('Location: special_assets_tracker.php?menu=main');
+                // Other logic here if needed
+                break;
+            default:
+                $_SESSION['error'] = 'Failed to create bank information';
+            // Other logic here if needed
+        }
+    } else {
+        $_SESSION['error'] = 'Failed to create bank information. Please try again!';
+        // Other logic here if needed
+    }
+    curl_close($ch);
+}
+
+
+if(isset($_POST['update_bank_info'])) {
+    $id = $_POST['id'] ?? "";
+    $bankName = $_POST['bankName'] ?? "";
+    $currency = $_POST['currency'] ?? "";
+    $balance = $_POST['balance'] ?? "";
+    $source = $_POST['source'] ?? "";
+    $files = $_POST['files'] ?? "";
+
+    // Assuming the URL for updating data is different from the URL for creating
+    $url = "http://localhost:7272/api/treasury/assets/balances/updateBankBalances";
+
+    // Constructing the data array
+    $data_array = array(
+        'id' => $id,
+        'bankName' => $bankName,
+        'currency' => $currency,
+        'balance' => $balance,
+        'source' => $source,
+        'files' => $files
+    );
+
+    $data = json_encode($data_array);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT"); // Change request type to PUT
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true );
+    $resp = curl_exec($ch);
+
+    // Convert headers to array
+    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($resp, 0, $headerSize);
+    $bodyStr = substr($resp, $headerSize);
+    $headers = headersToArray( $headerStr );
+
+    // Check HTTP status code
+    if (!curl_errno($ch)) {
+        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+            case 200 :
+                $_SESSION['info'] = "Bank information updated successfully";
+                // Other logic here if needed
+                break;
+            default:
+                $_SESSION['error'] = 'Failed to update bank information';
+            // Other logic here if needed
+        }
+    } else {
+        $_SESSION['error'] = 'Failed to update bank information. Please try again!';
+        // Other logic here if needed
+    }
+    curl_close($ch);
+}
+
+function bank_list(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7272/api/treasury/assets/balances');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $disbursements_response = curl_exec($ch);
+    curl_close($ch);
+    $disbursements_data = json_decode($disbursements_response, true);
+
+    if ($disbursements_data !== null) {
+        return $disbursements_data;
+    } else {
+        echo "Error decoding JSON data";
+    }
+}
+
+function bank_info($id){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7272/api/treasury/assets/balances/getById/'.$id);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $disbursements_response = curl_exec($ch);
+    curl_close($ch);
+    $disbursements_data = json_decode($disbursements_response, true);
+
+    if ($disbursements_data !== null) {
+        return $disbursements_data;
+    } else {
+        echo "Error decoding JSON data";
+    }
+}
+
+
+function delete_bank($id){
+
+    // Initialize cURL session
+    $ch = curl_init();
+
+    // Set cURL options
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7272/api/utg/treasury/assets/balances/" . $id);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+
+    // Execute cURL request
+    $server_response = curl_exec($ch);
+
+    // Close cURL session
+    curl_close($ch);
+
+    // Check if there was an error in the cURL request
+    if ($server_response === false) {
+        echo "Error occurred during cURL request: " . curl_error($ch);
+        return; // Exit function if there's an error
+    }
+
+    // Decode the JSON response
+    $data = json_decode($server_response, true);
+
+    // Check if JSON decoding was successful
+    if ($data !== null) {
+        // Handle the data as needed (e.g., display or process)
+        // For example, you might redirect the user to a different page
+        echo "Bank deleted successfully.";
+        // You may add more actions here, such as redirecting the user
+    } else {
+        // Handle JSON decoding error
+        echo "Error decoding JSON data";
+        // Redirect the user to a different page
+        echo '<script>window.location.href = "special_assets_tracker.php?menu=main";</script>';
+    }
+}
+
+
 
 ?>

@@ -29,7 +29,7 @@ $branch = $_SESSION['branch'];
 //?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <!-- HTML HEAD -->
 <?php
 include('../includes/header.php');

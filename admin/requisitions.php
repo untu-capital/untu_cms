@@ -166,20 +166,24 @@ include('../includes/header.php');
                             </div>
                         </form>
 
-                        <?php include('../includes/tables/purchase_order/po_users_table.php'); ?>
-                    </div>
-                    <div class="tab-pane fade" id="departments" role="tabpanel">
-                        <?php include('../includes/tables/purchase_order/list-department.php'); ?>
-                    </div>
-                    <div class="tab-pane fade" id="branches" role="tabpanel">
-                        <?php include('../includes/tables/business_sector_table.php'); ?>
-                    </div>
-                    <div class="tab-pane fade" id="reports" role="tabpanel">
-                        <?php include('../includes/tables/purchase_order/report_table.php'); ?>
-                    </div>
+                    <?php include('../includes/tables/purchase_order/po_users_table.php'); ?>
+                </div>
+                <div class="tab-pane fade" id="departments" role="tabpanel">
+                    <?php include('../includes/tables/purchase_order/list-department.php'); ?>
+                </div>
+                <div class="tab-pane fade" id="branches" role="tabpanel">
+                    <?php include('../includes/tables/business_sector_table.php'); ?>
+                </div>
+                <div class="tab-pane fade" id="reports" role="tabpanel">
+                    <?php include('../includes/tables/purchase_order/report_table.php'); ?>
+                </div>
+                <div class="tab-pane fade" id="tax_policies" role="tabpanel">
+                    <?php include('../includes/tables/purchase_order/tax_policies.php'); ?>
                 </div>
             </div>
-        <?php } elseif ($_GET['menu'] == 'add_requisition') {
+        </div>
+        <?php }
+        elseif ($_GET['menu'] == 'add_requisition'){
 
 
             // Call the requisitions function to get the data
@@ -196,6 +200,43 @@ include('../includes/header.php');
             $nextNumber = $lastKnownNumber + 1;
             $poNumber = "P" . str_pad($nextNumber, 6, "0", STR_PAD_LEFT);
 
+            if(isset($_POST['create'])){
+                // API endpoint URL
+                $url ="http://localhost:7878/api/utg/requisitions";
+
+                // Data to send in the POST request
+                $postData = array(
+                    'poNumber' => $poNumber,
+                    'poName' => $_POST['name'],
+                    'poTotal' => 0,
+                    'poCount' => 0,
+                    'poStatus' => "OPEN",
+                    'userId' => $_SESSION['userId']
+                );
+
+                $data = json_encode($postData);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HEADER, true );
+
+                // Execute the POST request and store the response in a variable
+                $response = curl_exec($ch);
+
+                // Check for cURL errors
+                if (curl_errno($ch)) {
+                    echo 'Curl error: ' . curl_error($ch);
+                }
+
+                // Close cURL session
+                curl_close($ch);
+
+                header("Location: requisitions.php?menu=main");
+//                exit;
+            }
             ?>
 
             <!-- Default Basic Forms Start -->
@@ -390,7 +431,73 @@ include('../includes/header.php');
                 </form>
             </div>
 
-        <?php } elseif ($_GET['menu'] == 'update_supplier') {
+        <?php }
+        elseif ($_GET['menu'] == 'add_policy'){?>
+            <?php
+            if(isset($_POST['create'])){
+                // API endpoint URL
+                $url ="http://localhost:7878/api/utg/pos/tax_policy";
+
+                // Data to send in the POST request
+                $postData = array(
+                    'description' => $_POST['description'],
+                );
+
+                $data = json_encode($postData);
+
+                $ch = curl_init();
+
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HEADER, true );
+
+                // Execute the POST request and store the response in a variable
+                $response = curl_exec($ch);
+
+                // Check for cURL errors
+                if (curl_errno($ch)) {
+                    echo 'Curl error: ' . curl_error($ch);
+                }
+
+                // Close cURL session
+                curl_close($ch);
+
+//                header("Location: list_customers.php");
+//                exit;
+            }
+            ?>
+            <div class="pd-20 card-box mb-30">
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <h4 class="text-blue h4">Add Tax Policy</h4>
+                    </div>
+                </div>
+                <form method="POST" action="requisitions.php?menu=add_policy">
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-md-2 col-form-label">Name</label>
+                        <div class="col-sm-12 col-md-10">
+                            <label for="description" hidden="hidden"></label>
+                            <input id="description" class="form-control" type="text" name="description" placeholder="Tax Policy" required/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12 col-md-2 col-form-label">
+                            <button class="btn btn-success" type="submit" name="create">Save</button>
+                        </div>
+                        <div class="col-sm-12 col-md-2 col-form-label">
+                            <a href="requisitions.php?menu=main" class="btn btn-primary">Cancel</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        <?php }
+        elseif ($_GET['menu'] == 'update_supplier'){ ?>
+
+            <?php
             $id = $_GET['supplierId'];
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/supplier/" . $id);
@@ -579,7 +686,95 @@ include('../includes/header.php');
             </div>
             <!-- Default Basic Forms End -->
 
-        <?php } elseif ($_GET['menu'] == 'create_budget') {
+        <?php }
+        elseif ($_GET['menu'] == 'update_policy'){ ?>
+
+            <?php
+            $id = $_GET['policyId'];
+            $ch = curl_init();
+            $url ="http://localhost:7878/api/utg/pos/tax_policy/".$id;
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $server_response = curl_exec($ch);
+
+            curl_close($ch);
+            $data = json_decode($server_response, true);
+            // Check if the JSON decoding was successful
+            if ($data !== null) {
+                $table = $data;
+
+            } else {
+                echo "Error decoding JSON data";
+            }
+
+            if (isset($_POST['supplier'])) {
+                // API endpoint URL
+                $url = "http://localhost:7878/api/utg/pos/tax_policy";
+
+                // Data to send in the POST request
+                $postData = array(
+                    'id' => $_POST['id'],
+                    'description' => $_POST['description'],
+                );
+
+                $data = json_encode($postData);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_HEADER, true);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+
+                // Execute the POST request and store the response in a variable
+                $response = curl_exec($ch);
+
+                // Check for cURL errors
+                if (curl_errno($ch)) {
+                    echo 'Curl error: ' . curl_error($ch);
+                }
+
+                // Close cURL session
+                curl_close($ch);
+
+//                header("Location: list_customers.php");
+//                exit;
+            }
+            ?>
+
+            <!-- Default Basic Forms Start -->
+            <div class="pd-20 card-box mb-30">
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <h4 class="text-blue h4">Update Policy</h4>
+                    </div>
+                </div>
+                <form method="POST" action="requisitions.php?menu=update_policy">
+                    <input name="id" value="<?php echo $table['id'] ?>" hidden="hidden">
+
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-md-2 col-form-label">Name</label>
+                        <div class="col-sm-12 col-md-10">
+                            <label for="description" hidden="hidden"></label>
+                            <input  id="description" class="form-control" type="text" name="description" placeholder="Tax Policy" value="<?php echo $table['description'] ?>" required/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-12 col-md-2 col-form-label">
+                            <button class="btn btn-success" type="submit" name="supplier">Save</button>
+                        </div>
+                        <div class="col-sm-12 col-md-2 col-form-label">
+                            <a href="requisitions.php?menu=main" class="btn btn-primary">Cancel</a>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <!-- Default Basic Forms End -->
+
+        <?php }
+        elseif ($_GET['menu'] == 'create_budget'){
 
             include('../includes/forms/create_po_budget.php');
 

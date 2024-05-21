@@ -3,7 +3,12 @@ include('../session/session.php');
 include('check_role.php');
 include('../controllers/treasury.php');
 $nav_header = "Treasury Management Dashboard";
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +66,7 @@ include('../includes/header.php');
                     <div class="tab">
                         <ul class="nav nav-tabs customtab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link text-blue" data-toggle="tab" href="#bank_and_cash_balances"
+                                <a class="nav-link text-blue active" data-toggle="tab" href="#bank_and_cash_balances"
                                    role="tab"
                                    aria-selected="false">
                                     Bank and Cash Balances
@@ -102,9 +107,16 @@ include('../includes/header.php');
                                     Daily Collections
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-blue" data-toggle="tab" href="#manage_bank"
+                                   role="tab"
+                                   aria-selected="false">
+                                    Manage Bank
+                                </a>
+                            </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane fade" id="bank_and_cash_balances" role="tabpanel">
+                            <div class="tab-pane fade  show active" id="bank_and_cash_balances" role="tabpanel">
                                 <?php include('../includes/tables/treasury_management/bank_and_cash_balances.php'); ?>
                             </div>
                             <div class="tab-pane fade" id="equities" role="tabpanel">
@@ -122,6 +134,9 @@ include('../includes/header.php');
                             <div class="tab-pane fade" id="daily_collections" role="tabpanel">
                                 <?php include('../includes/tables/treasury_management/daily_collections.php'); ?>
                             </div>
+                            <div class="tab-pane fade" id="manage_bank" role="tabpanel">
+                                <?php include('../includes/tables/treasury_management/manage_bank.php'); ?>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -133,7 +148,7 @@ include('../includes/header.php');
             <div class="pd-20 card-box mb-30">
                 <div class="clearfix">
                     <div class="pull-left">
-                        <h4 class="text-blue h4">Add Bank or Cash</h4>
+                        <h4 class="text-blue h4">Add Bank or Cash Balances</h4>
                     </div>
                 </div>
                 <hr>
@@ -143,45 +158,43 @@ include('../includes/header.php');
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">Source :</label>
-                                    <input id="name" name="name" type="text" class="form-control"/>
+                                    <input id="name" name="source" type="text" class="form-control"/>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="type">Type :</label>
-                                    <select id="type" class="form-select form-control"
-                                            aria-label="Default select example">
-                                        <option value="">Bank</option>
-                                        <option value="2">Cash</option>
+                                    <label for="type">Bank Account :</label>
+                                    <?php $banks = bank_list(); ?>
+                                    <select id="type" class="custom-select2 form-control" name="bankAccount" aria-label="Default select example" style="width: 100%; height: 38px">
+                                        <?php foreach ($banks as $bank){ ?>
+                                        <option value="<?php echo $bank['id'] ?>"><?php echo $bank['bankName'] ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="type">Currency :</label>
-                                    <select id="type" class="form-select form-control"
-                                            aria-label="Default select example">
-                                        <option value="">USD</option>
-                                        <option value="2">ZiG</option>
-                                    </select>
+                                    <label for="name">Branch :</label>
+                                    <input id="name" name="branchName" type="text" class="form-control"/>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="type">Balance :</label>
-                                    <input id="name" name="name" type="number" class="form-control"/>
+                                    <input id="name" name="balance" type="number" class="form-control"/>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="name">Attach Statement/Proof :</label>
-                                    <input id="name" name="name" type="file" class="form-control"/>
+                                    <input id="name" name="attachment" type="file" class="form-control"/>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <div class="col-sm-12 col-md-2 col-form-label">
-                                <button class="btn btn-success" type="submit" name="create_customer_info">Save</button>
+                                <button class="btn btn-success" type="submit" name="create_cash_bank_bal">Save</button>
                             </div>
                             <div class="col-sm-12 col-md-2 col-form-label">
                                 <a href="special_assets_tracker.php?menu=main" class="btn btn-primary">Cancel</a>
@@ -328,8 +341,8 @@ include('../includes/header.php');
                 </div>
             </div>
 
-        <?php } elseif ($_GET['menu'] == 'delete_bank_and_cash_balance') { ?>
-            <?php
+        <?php }
+        elseif ($_GET['menu'] == 'delete_bank_and_cash_balance') {
             $id = $_GET['vaultId'];
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/vault/delete/" . $id);
@@ -349,8 +362,222 @@ include('../includes/header.php');
                 echo "Error decoding JSON data";
             }
             ?>
+
         <?php }
-        //<======= Bank and Cash Balances =======>-->
+        //<======= Bank Info =======>-->
+        elseif ($_GET['menu'] == 'add_bank'){
+        ?>
+            <div class="pd-20 card-box mb-30">
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <h4 class="text-blue h4">Add Bank Details</h4>
+                    </div>
+                </div>
+                <hr>
+                <div class="wizard-content">
+                    <form method="POST" action="" class="tab-wizard wizard-circle wizard">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="bankName">Bank Name :</label>
+                                    <input id="bankName" name="bankName" type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="accountNumber">Account Number:</label>
+                                    <input id="accountNumber" name="accountNumber" type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="currency">Currency :</label>
+                                    <select id="currency" class="custom-select2 form-control" name="currency" style="width: 100%; height: 38px"
+                                            aria-label="Default select example">
+                                        <option value="USD">USD</option>
+                                        <option value="ZIG">ZiG</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="balance">Balance:</label>
+                                    <input id="balance" name="balance" type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="attachment">Attach Statement/Proof :</label>
+                                    <input id="attachment" name="attachment" type="file" class="form-control"/>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="source">Source :</label>
+                                    <input id="source" name="source" type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="branchName">Branch Name :</label>
+                                    <input id="branchName" name="branchName" type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="code">Code :</label>
+                                    <input id="code" name="code" type="text" class="form-control"/>
+                                </div>
+                            </div>
+<!--                            <div class="col-md-6">-->
+<!--                                <div class="form-group">-->
+<!--                                    <label for="files">Files :</label>-->
+<!--                                    <input id="files" name="files" type="file" class="form-control"/>-->
+<!--                                </div>-->
+<!--                            </div>-->
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12 col-md-2 col-form-label">
+                                <button class="btn btn-success" type="submit" name="create_bank_info">Create</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        <?php }
+        elseif ($_GET['menu'] == 'view_bank'){
+        $data = bank_info($_GET['bankId']);
+        ?>
+            <div class="pd-20 card-box mb-30">
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <h4 class="text-blue h4">Manage Bank Details</h4>
+                    </div>
+                </div>
+                <hr>
+                <div class="wizard-content">
+                    <form class="tab-wizard wizard-circle wizard">
+                        <section>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="bankName">Bank Name :</label>
+                                        <input id="name" name="bankName" type="text" class="form-control"
+                                               value="<?php echo $data['bankName'] ?? ''; ?>"
+                                               readonly="readonly"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label >Account Number :</label>
+                                        <input id="account" name="accountNumber" type="text" class="form-control"
+                                               value="<?php echo $data['accountNumber'] ?? ''; ?>"
+                                               readonly="readonly"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="branchName">Branch Name :</label>
+                                        <input id="branchName" name="branchName" type="text" class="form-control"
+                                               value="<?php echo $data['branchName'] ?? ''; ?>"
+                                               readonly="readonly"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="code">Code :</label>
+                                        <input id="code" name="code" type="text" class="form-control"
+                                               value="<?php echo $data['code'] ?? ''; ?>"
+                                               readonly="readonly"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="currency">Currency :</label>
+                                        <input id="currency" name="currency" type="text"
+                                               class="form-control"
+                                               value="<?php echo $data['currency'] ?? ''; ?>"
+                                               readonly="readonly"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-12 col-md-2 col-form-label">
+                                    <a href="special_assets_tracker.php?menu=main" class="btn btn-primary">Back</a></div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+
+        <?php }
+        elseif ($_GET['menu'] == 'update_bank'){
+        $data = bank_info($_GET['bankId']);
+        ?>
+            <div class="pd-20 card-box mb-30">
+                <div class="clearfix">
+                    <div class="pull-left">
+                        <h4 class="text-blue h4">Update Bank Info</h4>
+                    </div>
+                </div>
+                <hr>
+                <div class="wizard-content">
+                    <form method="POST" action="" class="tab-wizard wizard-circle wizard">
+                        <section>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="bankName">Bank Name :</label>
+                                        <input id="bankName" name="bankName" type="text" class="form-control"
+                                               value="<?php echo $data['bankName'] ?? ''; ?>"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="currency">Currency :</label>
+                                        <input id="currency" name="currency" type="text" class="form-control"
+                                               value="<?php echo $data['currency'] ?? ''; ?>"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="balance">Balance :</label>
+                                        <input id="balance" name="balance" type="text" class="form-control"
+                                               value="<?php echo $data['balance'] ?? ''; ?>"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="files">Files :</label>
+                                        <input id="files" name="files" type="text" class="form-control"
+                                               value="<?php echo $data['files'] ?? ''; ?>"/>
+                                    </div>
+                                </div>
+                                <!-- Add hidden input for id -->
+                                <input type="hidden" name="id" value="<?php echo $data['id'] ?? ''; ?>">
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-12 col-md-2 col-form-label">
+                                    <button class="btn btn-success" type="submit" name="update_bank_info">Save</button>
+                                </div>
+                                <div class="col-sm-12 col-md-2 col-form-label">
+                                    <a href="special_assets_tracker.php?menu=main" class="btn btn-primary">Cancel</a>
+                                </div>
+                            </div>
+                        </section>
+                    </form>
+
+
+                </div>
+            </div>
+
+        <?php }
+        elseif ($_GET['menu'] == 'delete_bank') {
+            delete_bank($_GET['bankId']);
+        }
+        //<======= Manage Banks  =======>-->
         //<======= Equity =======>
         elseif ($_GET['menu'] == 'add_equity'){
         ?>

@@ -57,7 +57,8 @@
 
 
                     <td><?= '$' . number_format($row["amount"], 2)." (".htmlspecialchars($row["currency"]).")" ?></td>
-                    <td><?= htmlspecialchars($row["withdrawalPurpose"]) ?></td>
+                    <td><?php $withdrawalPurpose = withdrawal_purposes($row["withdrawalPurpose"]);
+                        echo $withdrawalPurpose['name']; ?></td>
                     <td><?= htmlspecialchars($row["fromVault"]["name"]) ?></td>
                     <td><?= htmlspecialchars($row["toVault"]["name"]) ?></td>
                     <td>

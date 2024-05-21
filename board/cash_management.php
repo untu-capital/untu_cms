@@ -81,15 +81,17 @@ include('../includes/header.php');
                                     <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
                                 </div>
                             </div>
-
-                            <div class="tab-pane fade row" id="pending" role="tabpanel">
-                                <?php $approvalStatus = "PENDING"; include('../includes/tables/cash_management/board_transaction_vouchers.php'); ?>
+                            <div class="tab-pane fade" id="pending" role="tabpanel">
+                                <?php $approvalStatus = "PENDING";
+                                include('../includes/tables/cash_management/board_bulk_transaction_vouchers.php'); ?>
                             </div>
                             <div class="tab-pane fade" id="approved" role="tabpanel">
-                                <?php $approvalStatus = "APPROVED"; include('../includes/tables/cash_management/board_transaction_vouchers.php'); ?>
+                                <?php $approvalStatus = "APPROVED";
+                                include('../includes/tables/cash_management/board_transaction_vouchers.php'); ?>
                             </div>
                             <div class="tab-pane fade" id="revise" role="tabpanel">
-                                <?php $approvalStatus = "REVISE"; include('../includes/tables/cash_management/board_transaction_vouchers.php'); ?>
+                                <?php $approvalStatus = "REVISE";
+                                include('../includes/tables/cash_management/board_transaction_vouchers.php'); ?>
                             </div>
 
                         </div>

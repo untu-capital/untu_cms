@@ -72,7 +72,7 @@
                                                         echo '<input type="text" class="form-control" name="req_amount" value="$ ' . number_format($discountedAmount, 2) . '" disabled />';
                                                     } else {
 
-                                                        echo '<input type="text" class="form-control" name="req_amount" value="$ ' . number_format($totalAmount, 2) . '" disabled />';
+                                                        echo '<input type="text" class="form-control" name="req_amount" value="$ ' . 0 . '" disabled />';
                                                     }
                                                     ?>
                                                 </div>
@@ -258,7 +258,7 @@
                             <textarea name="notes" class="form-control"><?php $req_notes = requisitions('/'.$_GET['req_id']); echo htmlspecialchars($req_notes['notes']); ?></textarea>
                         </div>
 
-                        <h5 class="card-title text-blue" ><b>Prepared By :</b> <?php $user =user($req['userId']); echo $user['firstName']." ".$user['lastName']; ?>
+                        <h5 class="card-title text-blue" ><b>Prepared By :</b> <?php $user =user($req['userId']); echo $user['firstName']." ".$user['lastName']; ?></h5>
                         <div class="custom-control custom-checkbox mb-5">
                             <input name="add_approver" type="checkbox" class="custom-control-input" id="customCheck1-1">
                             <label class="custom-control-label" for="customCheck1-1"><b>Add Approvers</b> (Approver should be your Supervisor or someone who can act in that capacity.)</label>

@@ -13,12 +13,12 @@
             </div>
         </div>
     </div>
-
     <div class="pb-20">
             <table class="table hover table stripe multiple-select-row data-table-export nowrap">
             <thead class="small">
             <tr>
-                <th>Application No</th>
+                <th>Application Date</th>
+                <th>Reference No</th>
                 <th>First Approver</th>
                 <th>Second Approver</th>
                 <th>Amount</th>
@@ -34,7 +34,8 @@
             $voucher = cms_withdrawal_voucher($_SESSION['userId']);
             foreach ($voucher as $row):?>
                 <tr>
-                    <td><?= htmlspecialchars($row["applicationNo"]) ?></td>
+                    <td><?= htmlspecialchars($row["applicationDate"]) ?></td>
+                    <td><?= htmlspecialchars($row["reference"]) ?></td>
 
                     <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["firstApprover"]['lastName'])." - " ?>
 
@@ -57,7 +58,9 @@
 
 
                     <td><?= '$' . number_format($row["amount"], 2)." (".htmlspecialchars($row["currency"]).")" ?></td>
-                    <td><?= htmlspecialchars($row["withdrawalPurpose"]) ?></td>
+                    <td><?php
+                        $purpose = withdrawal_purposes($row["withdrawalPurpose"]);
+                        echo ($purpose['name']); ?></td>
                     <td><?= htmlspecialchars($row["fromVault"]["name"]) ?></td>
                     <td><?= htmlspecialchars($row["toVault"]["name"]) ?></td>
                     <td>

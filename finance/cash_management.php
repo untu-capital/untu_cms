@@ -241,7 +241,7 @@ if(isset($_POST['update_auth'])) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="">
 
 <style>
     /* Styles for the popup message */
@@ -296,12 +296,12 @@ include('../includes/header.php');
                     <h5 class="h4 text-blue mb-20">Cash Management</h5>
                     <div class="tab">
                         <ul class="nav nav-tabs customtab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#acc_balance" role="tab" aria-selected="true">Account Balances</a>
-                            </li>
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link active" data-toggle="tab" href="#acc_balance" role="tab" aria-selected="true">Account Balances</a>-->
+<!--                            </li>-->
 
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#pending" role="tab"
+                                <a class="nav-link active" data-toggle="tab" href="#pending" role="tab"
                                    aria-selected="false">Pending Trans Vouchers</a>
                             </li>
                             <li class="nav-item">
@@ -321,7 +321,6 @@ include('../includes/header.php');
 <!--                            <li class="nav-item">-->
 <!--                                <a class="nav-link" data-toggle="tab" href="#cash_receipts" role="tab" aria-selected="false">Cash Receipts (Musoni - Pastel)</a>-->
 <!--                            </li>-->
-<!---->
 <!--                            <li class="nav-item">-->
 <!--                                <a class="nav-link text-blue" data-toggle="tab" href="#cash_trans_voucher" role="tab" aria-selected="false">-->
 <!--                                    Cash Transactions Voucher-->
@@ -348,14 +347,14 @@ include('../includes/header.php');
                             </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
-                                <div class="pd-20">
-                                    <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
-                                </div>
-                            </div>
+<!--                            <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">-->
+<!--                                <div class="pd-20">-->
+<!--                                    --><?php //include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
+<!--                                </div>-->
+<!--                            </div>-->
 
-                            <div class="tab-pane fade row" id="pending" role="tabpanel">
-                                <?php $approvalStatus = "PENDING"; include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
+                            <div class="tab-pane fade show active" id="pending" role="tabpanel">
+                                <?php $approvalStatus = "PENDING"; include('../includes/tables/cash_management/finance_bulk_transaction_vouchers.php'); ?>
                             </div>
                             <div class="tab-pane fade" id="approved" role="tabpanel">
                                 <?php $approvalStatus = "APPROVED"; include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
@@ -459,6 +458,36 @@ include('../includes/header.php');
 
                             <div class="tab-pane fade" id="authorisers" role="tabpanel">
                                 <?php include('../includes/tables/cms/authorisers_table.php'); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <?php } elseif ($_GET['menu'] == "acc_bal") {?>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    if (urlParams.has('success')) {
+                        // Display a popup or alert message
+                        alert('Deleted successfully');
+                    }
+                });
+            </script>
+            <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                <div class="pd-20 card-box">
+                    <h5 class="h4 text-blue mb-20">Cash Management</h5>
+                    <div class="tab">
+                        <ul class="nav nav-tabs customtab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#acc_balance" role="tab" aria-selected="true">Account Balances</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
+                                <div class="pd-20">
+                                    <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -733,7 +762,7 @@ include('../includes/header.php');
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Account</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="account" placeholder="Vault Account" required/></div>
+                            <input  id="account" class="form-control" type="text" name="account" placeholder="Vault Account" required/></div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Name</label>

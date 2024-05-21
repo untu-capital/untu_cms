@@ -48,7 +48,46 @@ include('../includes/header.php');
 <?php include('../includes/side-bar.php'); ?>
 <!-- /sidebar-left -->
 <div class="mobile-menu-overlay"></div>
+<!-- Start Modals-->
+<!-- The Modal -->
+<div class="modal" id="updatedTransaction">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Transaction updated</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                The transaction has been updated successfully.
+            </div>
 
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<div class="modal" id="failedTransaction">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Transaction Failed</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                Oops! Something went wrong. The transaction could not be saved. Please review all details and try again.
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Try Again</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Modals-->
 <div class="main-container">
     <div class="pd-ltr-20">
 
@@ -96,25 +135,15 @@ include('../includes/header.php');
                     </div>
 
                     <div class="row">
-                        <div class="col-md-4 col-sm-12">
+                        <div class="col-md-6 col-sm-12">
                             <div class="form-group">
-                                <label for="amount">Amount</label>
-                                <input type="text"
-                                       value="<?= $transactionVoucher['amount'] ?>"
-                                       class="form-control" name="amount" id="amount">
+                                <label for="applicationDate">Application Date</label>
+                                <input type="date"
+                                       value="<?= $transactionVoucher['applicationDate'] ?>"
+                                       class="form-control" name="applicationDate" id="applicationDate">
                             </div>
                         </div>
-                        <div class="col-md-8 col-sm-12">
-                            <div class="form-group">
-                                <label for="amountInWords">Amount In Words</label>
-                                <input type="text" value="<?= $transactionVoucher['amountInWords'] ?>"
-                                       class="form-control" name="amountInWords" id="amountInWords">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4 col-sm-12">
+                        <div class="col-md-6 col-sm-12">
                             <div class="form-group">
                                 <label for="currency">Currency</label>
                                 <select
@@ -129,7 +158,27 @@ include('../includes/header.php');
 
                                 </select></div>
                         </div>
-                        <div class="col-md-8 col-sm-12">
+                    </div>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="amount">Amount</label>
+                                    <input type="text"
+                                           value="<?= $transactionVoucher['amount'] ?>"
+                                           class="form-control" name="amount" id="amount">
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="amountInWords">Amount In Words</label>
+                                    <input type="text" value="<?= $transactionVoucher['amountInWords'] ?>"
+                                           class="form-control" name="amountInWords" id="amountInWords">
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
                             <div class="form-group">
                                 <label for="transactionPurposeSelect">Withdrawal Purpose</label>
                                 <select
@@ -309,8 +358,8 @@ include('../includes/header.php');
                         <div class="col-sm-12 col-md-2 col-form-label">
                             <button class="btn btn-success"
                                     type="submit"
-                                    name="create"
-                                    id="withdrawalCashVoucherButton">Update
+                                    name="update_transaction"
+                                    >Update
                             </button>
                         </div>
                         <div class="col-sm-12 col-md-2 col-form-label">
@@ -322,102 +371,10 @@ include('../includes/header.php');
                     </form>
                     <!--                                    Javascript function to calculate the amount per denomination and total amount-->
                     <script>
-                        async function getAllTransactionsDefault() {
-
-                            let branchId;
-                            //Fetch Initiator details to retrieve branch details
-                            await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/authorizations/<?= $userId ?>')
-                                .then(response => response.json())
-                                .then(data => {
-                                    branchId = data.branchId;
-                                })
-                                .catch(error => {
-                                    console.error('Error fetching data:', error);
-                                });
-
-                            const firstApprovers = document.getElementById('firstApprover');
-                            //Fetch First Approvers
-                            await fetch(`http://localhost:7878/api/utg/cms/transaction-voucher/first-approvers/${branchId}`)
-                                .then(response => response.json())
-                                .then(data => {
-                                    data.forEach(item => {
-                                        const option = document.createElement('option');
-                                        option.value = item.id; // Set the value attribute of the option
-                                        option.textContent = `${item.firstName} ${item.lastName}`; // Set the text content of the option
-
-                                        firstApprovers.appendChild(option); // Append the option to the select element
-                                    });
-                                })
-                                .catch(error => {
-                                    console.error('Error fetching data:', error);
-                                });
-
-                            const secondApprovers = document.getElementById('secondApprover');
-                            //Fetch Second Approvers
-                            await fetch(`http://localhost:7878/api/utg/cms/transaction-voucher/second-approvers/${branchId}`)
-                                .then(response => response.json())
-                                .then(data => {
-                                    data.forEach(item => {
-                                        const option = document.createElement('option');
-                                        option.value = item.id; // Set the value attribute of the option
-                                        option.textContent = `${item.firstName} ${item.lastName}`; // Set the text content of the option
-
-                                        secondApprovers.appendChild(option); // Append the option to the select element
-                                    });
-                                })
-                                .catch(error => {
-                                    console.error('Error fetching data:', error);
-                                });
-                        }
 
                         document.addEventListener('DOMContentLoaded', function () {
-                            // Your JavaScript function here
-                            getAllTransactionsDefault();
                             calculateValue();
                         });
-
-                        document.getElementById('withdrawalCashVoucherForm').addEventListener('submit', async function (event) {
-                            // Prevent the default form submission
-                            event.preventDefault();
-
-                            // Collect form data
-                            const formData = new FormData(event.target);
-                            const filteredFormData = new FormData();
-
-                            for (const [name, value] of formData.entries()) {
-                                // Exclude fields ending with 'from'
-                                if (!name.endsWith('T')) {
-                                    // Include this field in the form data to be sent
-                                    filteredFormData.append(name, value);
-                                }
-                            }
-
-                            const formDataObject = {};
-
-                            filteredFormData.forEach((value, key) => {
-                                formDataObject[key] = value;
-                            });
-
-                            const jsonData = JSON.stringify(formDataObject);
-                            console.log(jsonData);
-                            // Send form data using Fetch API
-                            await fetch('http://localhost:7878/api/utg/cms/transaction-voucher/update', {
-                                method: 'PUT',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: jsonData,
-                            })
-                                .then(response => response.json()) // Assuming the response is JSON, adjust accordingly
-                                .then(data => {
-                                    console.log(data);
-                                    window.location.href = "http://localhost/untu-systems/boco/cash_management.php?menu=main";
-                                })
-                                .catch(error => {
-                                    // Handle errors here
-                                    console.error('Error:', error);
-                                });
-                        })
 
                         function calculateValue() {
 
