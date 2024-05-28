@@ -462,6 +462,7 @@
                                 </a>
                                 <ul class="submenu">
                                     <li><a href="treasury_management.php?menu=main">Dashboard</a></li>
+                                    <li><a href="index2.php">Dashboard 2</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">

@@ -70,14 +70,19 @@
                                                     foreach($req_trans as $row):
                                                     endforeach;
                                                     $sup = suppliers("/" . $row['poSupplier']);
+                                                    $par = parameters();
+                                                    foreach ($par as $parrr){
 
-                                                    if ($sup['taxClearance'] === 'No' && $totalAmount > 1000) {
+                                                            if ($sup['taxClearance'] === 'No' && $totalAmount > $parrr['cumulative']) {
 
-                                                        $discountedAmount = $totalAmount * 0.7;
-                                                        echo '<input type="text" class="form-control" name="req_amount" value="$ ' . number_format($discountedAmount, 2) .    ' (Initial Amount : $' . number_format($totalAmount, 2) . ')" disabled />';
-                                                    } else {
+                                                                    $discountedAmount = $totalAmount * $parrr['tax'] / 100;
+                                                                    $actualAmount = $totalAmount - $discountedAmount;
+            //                                                        $discountedAmount = $totalAmount * 0.7;
+                                                                        echo '<input type="text" class="form-control" name="req_amount" value="$ ' . number_format($actualAmount, 2) .    ' (Initial Amount : $' . number_format($totalAmount, 2) . ')" disabled />';
+                                                                    } else {
 
-                                                        echo '<input type="text" class="form-control" name="req_amount" value="$ ' . number_format($totalAmount, 2) . '" disabled />';
+                                                                        echo '<input type="text" class="form-control" name="req_amount" value="$ ' . number_format($totalAmount, 2) . '" disabled />';
+                                                                    }
                                                     }
                                                      ?>
 

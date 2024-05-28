@@ -2581,6 +2581,18 @@ function requisitions($url){
     return $requisitions;
 }
 
+// ######################  Get ALL Parameters #################################
+
+function parameters(){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/pos/parameter/all');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $parameter_response = curl_exec($ch);
+    curl_close($ch);
+    $parameter = json_decode($parameter_response, true);
+    return $parameter;
+
+}
 if (isset($_POST['create_requisition'])) {
     // API endpoint URL
     $url = "http://localhost:7878/api/utg/requisitions/save";
