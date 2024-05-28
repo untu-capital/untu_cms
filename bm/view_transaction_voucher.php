@@ -49,46 +49,78 @@ include('../includes/header.php');
 <!-- /sidebar-left -->
 <div class="mobile-menu-overlay"></div>
 <!-- Start Modals-->
-<!-- The Modal -->
-<div class="modal" id="approvedTransaction">
-    <div class="modal-dialog modal-dialog-centered">
+<!-- Approved Transaction Modal  -->
+<div class="modal fade show" data-backdrop="static" id="approvedTransaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Transaction Status Changed Successfully</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="modal-body text-center font-18">
+                <h3 class="mb-20">Transactions status updated successfully!</h3>
+                <div class="mb-30 text-center">
+                    <img src="../vendors/images/success.png"  alt=""/>
+                </div>
             </div>
-            <!-- Modal Body -->
-            <div class="modal-body">
-                The transaction has been status changed successfully.
-            </div>
+            <div class="row">
+                <div class="col-sm-12 text-center row"> <!-- Full width column for button -->
+                    <div class="input-group mb-3 d-flex justify-content-center">
+                        <a class="btn btn-secondary btn-lg ml-2" href="cash_management.php?menu=main">Dashboard</a>
+                    </div>
+                </div>
 
+            </div>
         </div>
     </div>
 </div>
-<!-- The Modal -->
-<div class="modal" id="failedTransaction">
-    <div class="modal-dialog modal-dialog-centered">
+<!-- Failed Transaction Modal  -->
+<div class="modal fade" data-backdrop="static" id="failedTransaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
+            <div class="modal-body text-center font-18">
+                <h3 class="mb-20">Transactions failed!</h3>
+                <div class="mb-30 text-center">
+                    <img src="../vendors/images/caution-sign.png"  alt=""/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 text-center"> <!-- Full width column for button -->
+                    <div class="input-group mb-3 d-flex justify-content-center">
+                        <a class="btn btn-secondary btn-lg ml-2" href="view_transaction_voucher.php">Try Again</a>
+                        <a class="btn btn-secondary btn-lg ml-2" href="cash_management.php?menu=main">Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modals-->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Transaction Change Status Failed.</h4>
+                <h4 class="modal-title">Irreversible Action</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
+
             <!-- Modal Body -->
             <div class="modal-body">
-                Oops! Something went wrong. The transaction status could not be updated. Please review all details and try
-                again.
+                Action irreversible. Review all transactions. Confirm carefully. Proceed with caution.
             </div>
+
             <!-- Modal Footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Try Again</button>
+                <form id="bulkFirstApprove" action="" method="POST">
+                    <input type="hidden" id="firstApproveListInput" name="firstApproveList">
+                    <input type="submit" class="btn btn-success" value="Approve All">
+                </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
 
         </div>
     </div>
 </div>
 <!-- End Modals-->
+
 <div class="main-container">
     <div class="pd-ltr-20">
 
@@ -96,7 +128,7 @@ include('../includes/header.php');
         <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
             <div class="pd-20 card-box">
                 <h5 class="h4 text-blue mb-20">View Transaction voucher Details</h5>
-                <div class="pd-20 card-box mb-30">
+                <div class="pd-20 card-box mb-4">
                     <div>
                         <div class="row">
                             <div class="col-md-4 col-sm-12">
@@ -111,7 +143,7 @@ include('../includes/header.php');
                                 <div class="form-group">
                                     <label for="referenceNumber">Reference Number</label>
                                     <input type="text"
-                                           value="<?= $transactionVoucher['referenceNumber']?>"
+                                           value="<?= $transactionVoucher['referenceNumber'] ?>"
                                            class="form-control" name="referenceNumber" id="referenceNumber" readonly>
                                 </div>
                             </div>
@@ -142,83 +174,99 @@ include('../includes/header.php');
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="firstApprover">First Approver</label>
-                                        <input type="text"
-                                               value="<?= $transactionVoucher['firstApprover']['firstName'] . ' ' . $transactionVoucher['firstApprover']['lastName'] ?>"
-                                               class="form-control" name="firstApprover" id="firstApprover" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="firstApprovedAt">First Approved At</label>
-                                        <input type="text" value="<?= $transactionVoucher['firstApprovedAt'] ?>"
-                                               class="form-control" name="firstApprovedAt" id="firstApprovedAt" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="firstApprovalStatus">Approval Status</label>
-                                        <input type="text" value="<?= $transactionVoucher['firstApprovalStatus'] ?>"
-                                               class="form-control font-weight-bold
-                                            <?php echo ($transactionVoucher['firstApprovalStatus'] == "PENDING") ? "bg-warning" : " " ?>
-                                            <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? "bg-danger" : " " ?>
-                                            <?php echo ($transactionVoucher['firstApprovalStatus'] == "APPROVED") ? "bg-success" : " " ?>"
-                                               name="firstApprovalStatus" id="firstApprovalStatus"
-                                               readonly>
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="firstApprover">First Approver</label>
+                                    <input type="text"
+                                           value="<?= $transactionVoucher['firstApprover']['firstName'] . ' ' . $transactionVoucher['firstApprover']['lastName'] ?>"
+                                           class="form-control" name="firstApprover" id="firstApprover" readonly>
                                 </div>
                             </div>
-
-                            <div class="row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? " " : "hidden" ?> >
-                                <div class="col-md-12 col-sm-12">
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="firstApprovedAt">First Approved At</label>
+                                    <input type="text" value="<?= $transactionVoucher['firstApprovedAt'] ?>"
+                                           class="form-control" name="firstApprovedAt" id="firstApprovedAt" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="firstApprovalStatus">Approval Status</label>
+                                    <input type="text" value="<?= $transactionVoucher['firstApprovalStatus'] ?>"
+                                           class="form-control font-weight-bold
+                                        <?php echo ($transactionVoucher['firstApprovalStatus'] == "PENDING") ? "bg-warning" : " " ?>
+                                        <?php echo ($transactionVoucher['firstApprovalStatus'] == "DECLINED") ? "bg-danger" : " " ?>
+                                        <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? "bg-secondary" : " " ?>
+                                        <?php echo ($transactionVoucher['firstApprovalStatus'] == "APPROVED") ? "bg-success" : " " ?>"
+                                           name="firstApprovalStatus" id="firstApprovalStatus"
+                                           readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        if ($transactionVoucher['firstApprovalStatus'] == "REVISE" || $transactionVoucher['firstApprovalStatus'] == "DECLINED") {
+                            echo '
+                            <div class="row">
+                                   <div class="col-md-12 col-sm-12">
                                     <div class="form-group">
-                                        <label for="firstApprover">Revise Comment</label>
+                                        <label for="firstApprover">' . ucfirst(strtolower($transactionVoucher['firstApprovalStatus'])) . ' Comment </label>
                                         <input
-                                                value="<?= $transactionVoucher['firstApprovalComment'] ?>"
-                                                class="form-control" name="firstApprover" id="firstApprover" readonly>
+                                            value="' . $transactionVoucher['firstApprovalComment'] . '"
+                                            class="form-control" name="firstApprover" id="firstApprover"
+                                            readonly>
                                     </div>
                                 </div>
                             </div>
+';}
+                        ?>
 
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="secondApprover">Second Approver</label>
+                                    <input type="text"
+                                           value="<?= $transactionVoucher['secondApprover']['firstName'] . ' ' . $transactionVoucher['secondApprover']['lastName'] ?>"
+                                           class="form-control" name="secondApprover" id="secondApprover" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="secondApprovedAt">Second Approved At</label>
+                                    <input type="text" value="<?= $transactionVoucher['secondApprovedAt'] ?>"
+                                           class="form-control" name="secondApprovedAt" id="secondApprovedAt" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="secondApprovalStatus">Second Approval Status</label>
+                                    <input type="text" value="<?= $transactionVoucher['secondApprovalStatus'] ?>"
+                                           class="form-control font-weight-bold
+                                        <?php echo ($transactionVoucher['secondApprovalStatus'] == "PENDING") ? "bg-warning" : " " ?>
+                                        <?php echo ($transactionVoucher['secondApprovalStatus'] == "REVISE") ? "bg-secondary" : " " ?>
+                                        <?php echo ($transactionVoucher['secondApprovalStatus'] == "DECLINED") ? "bg-danger" : " " ?>
+                                       <?php echo ($transactionVoucher['secondApprovalStatus'] == "APPROVED") ? "bg-success" : " " ?>"
+                                           name="secondApprovalStatus" id="secondApprovalStatus"
+                                           readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        if ($transactionVoucher['secondApprovalStatus'] == "REVISE" || $transactionVoucher['secondApprovalStatus'] == "DECLINED") {
+                            echo '
                             <div class="row">
-                                <div class="col-md-4 col-sm-12">
+                                   <div class="col-md-12 col-sm-12">
                                     <div class="form-group">
-                                        <label for="secondApprover">Second Approver</label>
-                                        <input type="text"
-                                               value="<?= $transactionVoucher['secondApprover']['firstName'] . ' ' . $transactionVoucher['secondApprover']['lastName'] ?>"
-                                               class="form-control" name="secondApprover" id="secondApprover" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="secondApprovedAt">Second Approved At</label>
-                                        <input type="text" value="<?= $transactionVoucher['secondApprovedAt'] ?>"
-                                               class="form-control" name="secondApprovedAt" id="secondApprovedAt" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="secondApprovalStatus">Second Approval Status</label>
-                                        <input type="text" value="<?= $transactionVoucher['secondApprovalStatus'] ?>" class="form-control font-weight-bold
-                                           <?php echo ($transactionVoucher['secondApprovalStatus'] == "PENDING") ? "bg-warning" : " " ?>
-                                           <?php echo ($transactionVoucher['secondApprovalStatus'] == "REVISE") ? "bg-danger" : " " ?>
-                                           <?php echo ($transactionVoucher['secondApprovalStatus'] == "APPROVED") ? "bg-success" : " " ?>"
-                                               name="secondApprovalStatus" id="secondApprovalStatus"
-                                               readonly>
+                                        <label for="secondApprovalStatus">' . ucfirst(strtolower($transactionVoucher['secondApprovalStatus'])) . ' Comment </label>
+                                        <input
+                                            value="' . $transactionVoucher['secondApprovalComment'] . '"
+                                            class="form-control" name="secondApprovalStatus" id="secondApprovalStatus"
+                                            readonly>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" <?php echo ($transactionVoucher['secondApprovalStatus'] == "REVISE") ? " " : "hidden" ?> >
-                                <div class="col-md-12 col-sm-12">
-                                    <div class="form-group">
-                                        <label for="secondApprovalStatus">Revise Comment</label>
-                                        <input value="<?= $transactionVoucher['secondApprovalComment'] ?>" class="form-control" name="secondApprovalStatus" id="secondApprovalStatus" readonly>
-                                    </div>
-                                </div>
-                            </div>
+';}
+                        ?>
 
                             <div class="row">
                                 <div class="col-md-4 col-sm-12">
@@ -396,96 +444,77 @@ include('../includes/header.php');
                                 </table>
                             </div>
 
-                            <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE") ? "hidden" : " " ?>>
-                                <div class="col-sm-6 col-md-6 col-form-label">
-                                    <input name="trans_id" value="<?= $transactionVoucher['id'] ?>" hidden="hidden">
-                                    <input name="approvalStatus" value="APPROVED" hidden="hidden">
-                                    <button type="submit" name="first_approve_trans" class="btn btn-success btn-block">Approve</button>
-                                </div>
-                                <div class="col-sm-6 col-md-6 col-form-label">
-                                    <button type="submit" name="revise_trans" class="btn btn-danger btn-block" id="reviseButton" data-toggle="modal" data-target="#Medium-modal">Revise</button>
-                                </div>
+                        <div class="form-group row">
+                            <?php
+                            if ($transactionVoucher['firstApprovalStatus'] == "PENDING" && $transactionVoucher['secondApprovalStatus'] == "PENDING") {
+                                echo '
+                            <div class="col-sm-3 col-md-3 col-form-label">
+                                <form method="post" action="">
+                                    <label for="id" hidden="hidden"></label>
+                                    <input id="id" name="id" value="' . $transactionVoucher['id'] . '" hidden="hidden">
+                                    <label for="status" hidden="hidden"></label>
+                                    <input id="status" name="status" value="APPROVED" hidden="hidden">
+                                    <label for="comment" hidden="hidden"></label>
+                                    <input id="comment" name="comment" value="APPROVED" hidden="hidden">
+                                    <button type="submit" class="btn btn-success btn-block" name="firstApprove01">Approve</button>
+                                </form>
                             </div>
-                            <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? " " : "hidden" ?>>
-                                <div class="col-sm-6 col-md-6 col-form-label">
-                                    <input name="trans_id" value="<?= $transactionVoucher['id'] ?>" hidden="hidden">
-                                    <input name="approvalStatus" value="APPROVED" hidden="hidden">
-                                    <button type="submit" name="first_approve_trans" class="btn btn-success btn-block">Approve</button>
-                                </div>
-                                <div class="col-sm-6 col-md-6 col-form-label">
-                                    <a type="button" class="btn btn-primary btn-block" href="cash_management.php?menu=main">Back</a>
-                                </div>
+                            <div class="col-sm-3 col-md-3 col-form-label">
+                                <button type="button" class="btn btn-warning btn-block" id="reviseButton" data-toggle="modal" data-target="#Revise-modal">Revise</button>
                             </div>
-                            <div class="form-group row" <?php echo ($transactionVoucher['firstApprovalStatus'] == "REVISE" || $transactionVoucher['firstApprovalStatus'] == "PENDING") ? "hidden" : "" ?>>
-                                <div class="col-sm-12 col-md-12 col-form-label">
-                                    <a type="button" class="btn btn-primary btn-block" href="cash_management.php?menu=main">Back</a>
-                                </div>
+                            <div class="col-sm-3 col-md-3 col-form-label">
+                                <button type="button" class="btn btn-danger btn-block" id="declineButton" data-toggle="modal" data-target="#Decline-modal">Decline</button>
                             </div>
+                            <div class="col-sm-3 col-md-3 col-form-label">
+                                     <a type="button" class="btn btn-secondary btn-block" href="cash_management.php?menu=main">
+                                     Back
+                                    </a>                                                                        
+                                </div>
+                            ';
+                            }
+                            if ($transactionVoucher['firstApprovalStatus'] == "REVISE" && $transactionVoucher['secondApprovalStatus'] == "PENDING") {
+                                echo '
+                                <div class="col-sm-3 col-md-3 col-form-label">
+                                    <form method="POST" action="">
+                                        <label for="id" hidden="hidden"></label>
+                                        <input id="id" name="id" value="' . $transactionVoucher['id'] . '" hidden="hidden">
+                                        <label for="status" hidden="hidden"></label>
+                                        <input id="status" name="status" value="APPROVED" hidden="hidden">
+                                        <label for="comment" hidden="hidden"></label>
+                                        <input id="comment" name="comment" value="APPROVED" hidden="hidden">
+                                        <button type="submit" class="btn btn-success btn-block" name="firstApprove01">Approve</button>
+                                    </form>
+                                </div>
+                                <div class="col-sm-3 col-md-3 col-form-label">
+                                <button type="button" class="btn btn-warning btn-block" id="reviseButton" data-toggle="modal" data-target="#Revise-modal">Revise</button>
+                            </div>
+                                <div class="col-sm-3 col-md-3 col-form-label">
+                                <button type="button" class="btn btn-danger btn-block" id="declineButton" data-toggle="modal" data-target="#Decline-modal">Decline</button>
+                            </div>
+                                <div class="col-sm-3 col-md-3 col-form-label">
+                                    <a type="button" class="btn btn-secondary btn-block" href="cash_management.php?menu=main">Back</a>
+                                </div>';
+                            }
+                            if ($transactionVoucher['firstApprovalStatus'] == "DECLINED" || $transactionVoucher['firstApprovalStatus'] == "APPROVED") {
+                                echo '<div class="col-sm-6 col-md-4 col-form-label">
+                                    <a type="button" class="btn btn-secondary btn-block" href="cash_management.php?menu=main">Back</a>
+                                </div>';
+                            }
+                            ?>
                         </div>
-                    </form>
-<!--                        <div class="form-group row" --><?php //echo ($transactionVoucher['firstApprovalStatus'] == "APPROVED" || $transactionVoucher['firstApprovalStatus'] == "REVISE") ? "hidden" : " " ?><!-->-->
-<!--                            <div class="col-sm-6 col-md-6 col-form-label">-->
-<!--                                <form method="post" action="">-->
-<!--                                    <label for="id" hidden="hidden"></label>-->
-<!--                                    <input id="id" name="id"    value="--><?php //= $transactionVoucher['id'] ?><!--" hidden="hidden">-->
-<!--                                    <label for="status" hidden="hidden"></label>-->
-<!--                                    <input id="status" name="status"  value="APPROVED" hidden="hidden">-->
-<!--                                    <label for="comment" hidden="hidden"></label>-->
-<!--                                    <input id="comment" name="comment" value="APPROVED" hidden="hidden">-->
-<!--                                    <button-->
-<!--                                            type="submit"-->
-<!--                                            class="btn btn-success btn-block"-->
-<!--                                            name="firstApprove01"-->
-<!--                                    >-->
-<!--                                        Approve-->
-<!--                                    </button>-->
-<!--                                </form>-->
-<!---->
-<!--                            </div>-->
-<!--                            <div class="col-sm-6 col-md-6 col-form-label">-->
-<!--                                <button type="button"-->
-<!--                                        class="btn btn-danger btn-block"-->
-<!--                                        id="reviseButton"-->
-<!--                                        data-toggle="modal"-->
-<!--                                        data-target="#Medium-modal"-->
-<!--                                >Revise-->
-<!--                                </button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!---->
-<!--                        <div class="form-group row" --><?php //echo ($transactionVoucher['firstApprovalStatus'] == "REVISE") ? " " : "hidden" ?><!-->-->
-<!--                            <div class="col-sm-6 col-md-6 col-form-label">-->
-<!--                                <form method="POST" action="">-->
-<!--                                    <label for="id" hidden="hidden"></label>-->
-<!--                                    <input id="id" name="id" value="--><?php //= $transactionVoucher['id'] ?><!--" hidden="hidden">-->
-<!--                                    <label for="status" hidden="hidden"></label>-->
-<!--                                    <input id="status" name="status" value="APPROVED" hidden="hidden">-->
-<!--                                    <label for="comment" hidden="hidden"></label>-->
-<!--                                    <input id="comment" name="comment" value="APPROVED" hidden="hidden">-->
-<!--                                    <button type="submit"-->
-<!--                                            class="btn btn-success btn-block"-->
-<!--                                            name="firstApprove01">-->
-<!--                                        Approve-->
-<!--                                    </button>-->
-<!--                                </form>-->
-<!--                            </div>-->
-<!--                            <div class="col-sm-6 col-md-6 col-form-label">-->
-<!--                                <a type="button" class="btn btn-primary btn-block" href="cash_management.php?menu=main">Back-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!---->
-<!--                        <div class="form-group row" --><?php //echo ($transactionVoucher['firstApprovalStatus'] == "REVISE" || $transactionVoucher['firstApprovalStatus'] == "PENDING") ? "hidden" : "" ?><!-->-->
-<!--                            <div class="col-sm-12 col-md-12 col-form-label">-->
-<!--                                <a type="button" class="btn btn-primary btn-block" href="cash_management.php?menu=main">Back-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-                    <!-- Form -->
-                    <div class="col-md-4 col-sm-12 mb-30">
-                        <div class="pd-20 card-box height-100-p">
-                            <div class="modal fade" id="Medium-modal" tabindex="-1" role="dialog">
+                    </div>
+
+                    <!-- Revise Form -->
+                    <div class="col-md-4 col-sm-12">
+                        <div class="height-100-p">
+                            <div
+                                    class="modal fade"
+                                    id="Revise-modal"
+                                    tabindex="-1"
+                                    role="dialog"
+                                    aria-labelledby="myLargeModalLabel"
+                                    aria-hidden="true"
+                            >
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -494,8 +523,10 @@ include('../includes/header.php');
                                         <div class="modal-body">
                                             <form method="POST" action="">
                                                 <label for="id" hidden="hidden"></label>
-                                                <input id="id" value="<?= $transactionVoucher['id']; ?>"
+                                                <input name="id" id="id" value="<?= $transactionVoucher['id']; ?>"
                                                        hidden="hidden">
+                                                <label for="status" hidden="hidden"></label>
+                                                <input name="status" id="status" value="REVISE" hidden="hidden">
                                                 <div class="row">
                                                     <div class="col-md-12 col-sm-12">
                                                         <div class="form-group">
@@ -511,7 +542,7 @@ include('../includes/header.php');
                                                 <div class="form-group row">
                                                     <div class="col-sm-6 col-md-6 col-form-label">
                                                         <button type="submit"
-                                                                class="btn btn-success btn-block"
+                                                                class="btn btn-warning btn-block"
                                                                 name="firstApprove01"
                                                         >
                                                             Revise
@@ -520,7 +551,77 @@ include('../includes/header.php');
                                                     <div class="col-sm-6 col-md-6 col-form-label">
                                                         <button type="button"
                                                                 id="cancelButton"
+                                                                class="btn btn-secondary btn-block"
+                                                                data-dismiss="modal">
+                                                            Cancel
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Decline Form -->
+                    <div class="col-md-4 col-sm-12">
+                        <div class="height-100-p">
+                            <div
+                                    class="modal fade"
+                                    id="Decline-modal"
+                                    tabindex="-1"
+                                    role="dialog"
+                                    aria-labelledby="myLargeModalLabel"
+                                    aria-hidden="true"
+                            >
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" id="myLargeModalLabel">
+                                                Decline Comment
+                                            </h4>
+                                            <button
+                                                    type="button"
+                                                    class="close"
+                                                    data-dismiss="modal"
+                                                    aria-hidden="true"
+                                            >
+                                                ×
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" action="">
+                                                <label for="id" hidden="hidden"></label>
+                                                <input name="id" id="id" value="<?= $transactionVoucher['id']; ?>"
+                                                       hidden="hidden">
+                                                <label for="status" hidden="hidden"></label>
+                                                <input name="status" id="status" value="DECLINED" hidden="hidden">
+                                                <div class="row">
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-group">
+                                                            <label for="comment">Comment</label>
+                                                            <textarea type="text"
+                                                                      class="form-control"
+                                                                      name="comment"
+                                                                      required
+                                                                      id="comment"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-6 col-md-6 col-form-label">
+                                                        <button type="submit"
                                                                 class="btn btn-danger btn-block"
+                                                                name="firstApprove01"
+                                                        >
+                                                            Decline
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-sm-6 col-md-6 col-form-label">
+                                                        <button type="button"
+                                                                id="cancelButton"
+                                                                class="btn btn-secondary btn-block"
                                                                 data-dismiss="modal">
                                                             Cancel
                                                         </button>

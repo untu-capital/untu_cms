@@ -59,56 +59,23 @@ include('../includes/header.php');
                     <div class="tab">
                         <ul class="nav nav-tabs customtab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#acc_balance" role="tab"
-                                   aria-selected="true">Account Balances</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#pending" role="tab"
-                                   aria-selected="false">Pending Transactions Vouchers</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#revise" role="tab"
-                                   aria-selected="false">Revise Transactions Vouchers</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#declined" role="tab"
-                                   aria-selected="false">Declined Transactions Vouchers</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#approved" role="tab"
-                                   aria-selected="false">Approved Transactions Vouchers</a>
+                                <a class="nav-link active" data-toggle="tab" href="#pending" role="tab"
+                                   aria-selected="true">Pending</a>
                             </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
+                            <div class="tab-pane fade show active" id="pending" role="tabpanel">
                                 <div class="pd-20">
-                                    <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
+                                    <?php $titleStatus="Pending"; $firstApprovalStatus = "PENDING"; include('../includes/tables/cash_management/bm_bulk_transaction_vouchers.php'); ?>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="pending" role="tabpanel">
-                                <?php $titleStatus="Pending"; $approvalStatus = "PENDING";
-                                include('../includes/tables/cash_management/board_transaction_vouchers.php'); ?>
-                            </div>
-                            <div class="tab-pane fade" id="approved" role="tabpanel">
-                                <?php $titleStatus="Approved"; $approvalStatus = "APPROVED";
-                                include('../includes/tables/cash_management/board_transaction_vouchers.php'); ?>
-                            </div>
-                            <div class="tab-pane fade" id="revise" role="tabpanel">
-                                <?php $titleStatus="Revise"; $approvalStatus = "REVISE";
-                                include('../includes/tables/cash_management/board_transaction_vouchers.php'); ?>
-                            </div>
-                            <div class="tab-pane fade" id="declined" role="tabpanel">
-                                <?php $titleStatus="Declined"; $approvalStatus = "DECLINED";
-                                include('../includes/tables/cash_management/board_transaction_vouchers.php'); ?>
-                            </div>
-
                         </div>
                     </div>
                 </div>
             </div>
 
-
-        <?php } ?>
+        <?php }
+        ?>
 
         <?php include('../includes/footer.php'); ?>
     </div>
@@ -124,6 +91,7 @@ include('../includes/header.php');
 
 <!-- js -->
 <script src="../src/plugins/highcharts-6.0.7/code/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
 <script src="../src/plugins/highcharts-6.0.7/code/highcharts-more.js"></script>
 <script src="../vendors/scripts/highchart-setting.js"></script>
 
@@ -148,10 +116,10 @@ include('../includes/header.php');
 <noscript
 >
     <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
-            height="0"
-            width="0"
-            style="display: none; visibility: hidden"
+        src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
     ></iframe
     >
 </noscript>

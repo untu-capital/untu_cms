@@ -67,12 +67,16 @@ include('../includes/header.php');
                                    aria-selected="false">Pending Transactions Vouchers</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#approved" role="tab"
-                                   aria-selected="false">Approved Transactions Vouchers</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#revise" role="tab"
                                    aria-selected="false">Revise Transactions Vouchers</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#declined" role="tab"
+                                   aria-selected="false">Declined Transactions Vouchers</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#approved" role="tab"
+                                   aria-selected="false">Approved Transactions Vouchers</a>
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -84,223 +88,32 @@ include('../includes/header.php');
                                 </div>
                             </div>
 
-                            <div class="tab-pane fade row" id="pending" role="tabpanel">
-                                <?php $approvalStatus = "PENDING"; include('../includes/tables/cash_management/bm_bulk_transaction_vouchers.php'); ?>
+                            <div class="tab-pane fade row show" id="pending" role="tabpanel">
+                                <div class="pd-20">
+                                    <?php $titleStatus="Pending"; $firstApprovalStatus = "PENDING"; include('../includes/tables/cash_management/bm_transaction_vouchers.php'); ?>
+                                </div>
                             </div>
-                            <div class="tab-pane fade" id="approved" role="tabpanel">
-                                <?php $approvalStatus = "APPROVED"; include('../includes/tables/cash_management/bm_transaction_vouchers.php'); ?>
+                            <div class="tab-pane fade show" id="approved" role="tabpanel">
+                                <div class="pd-20">
+                                    <?php  $titleStatus="Approved"; $firstApprovalStatus = "APPROVED"; include('../includes/tables/cash_management/bm_transaction_vouchers.php'); ?>
+                                </div>
                             </div>
-                            <div class="tab-pane fade" id="revise" role="tabpanel">
-                                <?php $approvalStatus = "REVISE"; include('../includes/tables/cash_management/bm_transaction_vouchers.php'); ?>
+                            <div class="tab-pane fade show" id="declined" role="tabpanel">
+                                <div class="pd-20">
+                                    <?php  $titleStatus="Declined"; $firstApprovalStatus = "DECLINED"; include('../includes/tables/cash_management/bm_transaction_vouchers.php'); ?>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade show" id="revise" role="tabpanel">
+                                <div class="pd-20">
+                                    <?php  $titleStatus="Revise"; $firstApprovalStatus = "REVISE"; include('../includes/tables/cash_management/bm_transaction_vouchers.php'); ?>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!--        --><?php //include('../includes/tables/users_table.php'); ?>
 
         <?php }
-        elseif ($_GET['menu'] == 'add_vault') {
-            ?>
-            <?php
-
-            ?>
-            <div class="pd-20 card-box mb-30">
-                <div class="clearfix">
-                    <div class="pull-left">
-                        <h4 class="text-blue h4">Add Vault</h4>
-                    </div>
-                </div>
-                <form method="POST" action="">
-                    <div class="form-group row">
-                        <label class="col-sm-12 col-md-2 col-form-label">Vault Account</label>
-                        <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="account" placeholder="Vault Account"
-                                   required/></div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-12 col-md-2 col-form-label">Vault Name</label>
-                        <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="name" placeholder="Vault Name" required/>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-12 col-md-2 col-form-label">Vault Type</label>
-                        <div class="col-sm-12 col-md-10">
-                            <select class="custom-select2 form-control" name="type" style="width: 100%; height: 38px">
-                                <optgroup label="Select Vault Type">
-                                    <option value="">Select Vault Type</option>
-                                    <option value="Petty Cash">Petty Cash</option>
-                                    <option value="Internal Vault">Internal Vault</option>
-                                    <option value="External Vault">External Vault</option>
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-12 col-md-2 col-form-label">Branch</label>
-                        <div class="col-sm-12 col-md-10">
-                            <select class="custom-select2 form-control" name="branch" style="width: 100%; height: 38px">
-                                <optgroup label="Branches">
-                                    <option value="">Select Branch</option>
-                                    <?php
-                                    $branches = branch();
-                                    foreach ($branches as $branch):?>
-                                        <option value="<?php echo $branch['id']; ?>"><?php echo $branch['branchName']; ?></option>
-                                        <!--                                    <option>Harare</option>-->
-                                    <?php endforeach; ?>
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-md-2 col-form-label">
-                            <button class="btn btn-success" type="submit" name="create_vault">Save</button>
-                        </div>
-                        <div class="col-sm-12 col-md-2 col-form-label">
-                            <a href="cash_management.php?menu=main" class="btn btn-primary">Cancel</a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-        <?php } elseif ($_GET['menu'] == 'update_vault') { ?>
-
-            <?php
-
-            $id = $_GET['vaultId'];
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/vault/get/" . $id);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $server_response = curl_exec($ch);
-
-            curl_close($ch);
-            $data = json_decode($server_response, true);
-            // Check if the JSON decoding was successful
-            if ($data !== null) {
-                $table = $data;
-
-            } else {
-                echo '<script>window.location.href = "cash_management.php?menu=main#vaults";</script>';
-                echo "Error decoding JSON data";
-            }
-
-            if (isset($_POST['vault'])) {
-                // API endpoint URL
-                $url = "http://localhost:7878/api/utg/cms/vault/update";
-                // Data to send in the POST request
-                $postData = array(
-                    'id' => $_POST['id'],
-                    'account' => $_POST['account'],
-                    'name' => $_POST['vaultName'],
-                    'type' => $_POST['type'],
-                    'branchId' => $_POST['branch'],
-                );
-
-                $data = json_encode($postData);
-                echo $data;
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HEADER, true);
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-
-                // Execute the POST request and store the response in a variable
-                $response = curl_exec($ch);
-
-                // Check for cURL errors
-                if (curl_errno($ch)) {
-                    echo 'Curl error: ' . curl_error($ch);
-                }
-                // Close cURL session
-                curl_close($ch);
-
-            }
-            ?>
-
-            <!-- Default Basic Forms Start -->
-            <div class="pd-20 card-box mb-30">
-                <div class="clearfix">
-                    <div class="pull-left">
-                        <h4 class="text-blue h4">Update Vault</h4>
-                    </div>
-                </div>
-                <form method="POST" action="cash_management.php?menu=update_vault">
-                    <input name="id" value="<?php echo $table['id'] ?>" hidden="hidden">
-
-                    <div class="form-group row">
-                        <label class="col-sm-12 col-md-2 col-form-label">Vault Account</label>
-                        <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="account" placeholder="Vault Account"
-                                   value="<?php echo $table['account'] ?>" required/>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-12 col-md-2 col-form-label">Vault Name</label>
-                        <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="vaultName" placeholder="Vault Account"
-                                   value="<?php echo $table['name'] ?>" required/>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-12 col-md-2 col-form-label">Vault Type</label>
-                        <div class="col-sm-12 col-md-10">
-                            <select
-                                    class="custom-select2 form-control"
-                                    name="type"
-                                    style="width: 100%; height: 38px"
-                            >
-                                <optgroup label="Types">
-                                    <option value="<?php echo $table['type'] ?>"><?php echo $table['type'] ?></option>
-                                    <option value="Petty Cash">Petty Cash</option>
-                                    <option value="Internal Vault">Internal Vault</option>
-                                    <option value="External Vault">External Vault</option>
-                                </optgroup>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-md-2 col-form-label">
-                            <button class="btn btn-success" type="submit" name="vault">Update</button>
-                        </div>
-                        <div class="col-sm-12 col-md-2 col-form-label">
-                            <a href="cash_management.php?menu=main" class="btn btn-primary">Cancel</a>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-            <!-- Default Basic Forms End -->
-
-        <?php } elseif ($_GET['menu'] == 'delete_vault') { ?>
-
-            <?php
-            $id = $_GET['vaultId'];
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/vault/delete/" . $id);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-
-            $server_response = curl_exec($ch);
-
-            curl_close($ch);
-            $data = json_decode($server_response, true);
-
-            if ($data !== null) {
-                $table = $data;
-
-            } else {
-                echo '<script>window.location.href = "cash_management.php?menu=main";</script>';
-                echo "Error decoding JSON data";
-            }
-            ?>
-
-        <?php }
-
         ?>
 
         <?php include('../includes/footer.php'); ?>

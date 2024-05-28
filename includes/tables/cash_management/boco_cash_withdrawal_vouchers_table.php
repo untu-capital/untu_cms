@@ -1,4 +1,3 @@
-<!-- table widget -->
 
 <div class="card-box mb-30">
     <div class="pd-20">
@@ -31,30 +30,73 @@
             </thead>
             <tbody>
             <?php
-            $voucher = cms_withdrawal_voucher($_SESSION['userId']);
+            $voucher = cms_withdrawal_voucher($_SESSION['userId'], $firstApprovalStatus, $secondApprovalStatus);
             foreach ($voucher as $row):?>
+                <!-- The Delete Modal-->
+                <div class="modal fade show" data-backdrop="static" id="deleteModal<?= htmlspecialchars($row["id"]) ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body text-center font-8">
+                                <h3 class="mb-20">
+                                    You are about to permanently delete this transaction voucher. This cannot be undone. Confirm to proceed.
+                                </h3>
+                                <div class="mb-30 text-center">
+                                    <img src="../vendors/images/caution-sign.png"  alt=""/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12 text-center row"> <!-- Full width column for button -->
+                                    <div class="input-group mb-3 d-flex justify-content-center">
+                                        <form action="" method="POST">
+                                            <input type="text" id="transactionId" name="transactionId" value="<?= htmlspecialchars($row["id"]) ?>">
+                                            <input type="submit" name="deleteTransactionVoucher" class="btn btn-danger" value="Confirm">
+                                        </form>
+                                        <a class="btn btn-secondary btn-lg ml-2" href="cash_management.php?menu=main">Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <tr>
                     <td><?= htmlspecialchars($row["applicationDate"]) ?></td>
                     <td><?= htmlspecialchars($row["reference"]) ?></td>
 
-                    <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["firstApprover"]['lastName'])." - " ?>
+                    <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["firstApprover"]['lastName']) . " - " ?>
 
                         <?php if ($row['firstApprovalStatus'] == "APPROVED") {
-                            echo "<label style='padding: 6px;' class='badge badge-success'>Approved</label>";
-                        } elseif ($row['firstApprovalStatus'] == "PENDING") {
-                            echo "<label style='padding: 6px;' class='badge badge-warning'>Pending</label>";
-                        } else {
-                            echo "<label style='padding: 6px;' class='badge badge-danger'>Reverted</label>";
-                        } ?></td>
+                            echo "<label style='padding: 6px;' class='badge badge-success'>APPROVED</label>";
+                        }
+                        if ($row['firstApprovalStatus'] == "PENDING") {
+                            echo "<label style='padding: 6px;' class='badge badge-warning'>PENDING</label>";
+                        }
+                        if ($row['firstApprovalStatus'] == "REVISE") {
+                            echo "<label style='padding: 6px;' class='badge badge-warning'>REVERTED</label>";
+                        }
+                        if ($row['firstApprovalStatus'] == "DECLINED") {
+                            echo "<label style='padding: 6px;' class='badge badge-danger'>DECLINED</label>";
+                        }
 
-                    <td><?= htmlspecialchars($row["secondApprover"]['firstName']) . " " . htmlspecialchars($row["secondApprover"]['lastName'])." - " ?>
-                    <?php if ($row['secondApprovalStatus'] == "APPROVED") {
-                            echo "<label style='padding: 6px;' class='badge badge-success'>Approved</label>";
-                        } elseif ($row['secondApprovalStatus'] == "REVISE") {
-                            echo "<label style='padding: 6px;' class='badge badge-danger'>Reverted</label>";
-                        } else {
-                            echo "<label style='padding: 6px;' class='badge badge-warning'>Pending</label>";
-                        } ?></td>
+                        ?>
+                    </td>
+
+                    <td>
+                        <?= htmlspecialchars($row["secondApprover"]['firstName']) . " " . htmlspecialchars($row["secondApprover"]['lastName']) . " - " ?>
+                        <?php if ($row['secondApprovalStatus'] == "APPROVED") {
+                            echo "<label style='padding: 6px;' class='badge badge-success'>APPROVED</label>";
+                        }
+                        if ($row['secondApprovalStatus'] == "PENDING") {
+                            echo "<label style='padding: 6px;' class='badge badge-warning'>PENDING</label>";
+                        }
+                        if ($row['secondApprovalStatus'] == "REVISE") {
+                            echo "<label style='padding: 6px;' class='badge badge-warning'>REVERTED</label>";
+                        }
+                        if ($row['secondApprovalStatus'] == "DECLINED") {
+                            echo "<label style='padding: 6px;' class='badge badge-danger'>DECLINED</label>";
+                        }
+                        ?>
+                    </td>
 
 
                     <td><?= '$' . number_format($row["amount"], 2)." (".htmlspecialchars($row["currency"]).")" ?></td>
@@ -74,14 +116,23 @@
                                 <i class="dw dw-more"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                <a class="dropdown-item" href="../boco/view_transaction_voucher.php?transactionId=<?= $row['id'] ?>"><i class="dw dw-eye"></i> View</a>
-                                <?php if ($row['secondApprovalStatus'] != "APPROVED") {
+                                <a class="dropdown-item"
+                                   href="../boco/view_transaction_voucher.php?transactionId=<?= $row['id'] ?>"><i
+                                            class="dw dw-eye"></i> View</a>
+                                <?php
+                                if ($row['secondApprovalStatus'] != "APPROVED") {
                                     $transId = $row['id'];
                                     echo "<a  class='dropdown-item' href='../boco/update_transaction_voucher.php?transactionId=$transId'><i class='dw dw-edit2'></i> Edit</a>";
-                                } ?>
-                                <button <?php echo ($row['secondApprovalStatus'] == "APPROVED") ? "hidden" : " " ?>
-                                        onclick='deleteTransaction(<?= $row['id']; ?>)' class='dropdown-item'><i class='dw dw-delete-3'></i> Delete
-                                </button>
+                                }
+                                ?>
+                                <?php
+                                if ($row['secondApprovalStatus'] != "APPROVED") {
+                                    echo '
+                                    <button id="deleteModal'. $row["id"] .'" data-toggle="modal" data-target="#deleteModal'. $row["id"] .'" class="dropdown-item">
+                                <i class="dw dw-delete-3"></i> Delete 
+                                </button>';
+                                }
+                                ?>
                             </div>
                         </div>
                     </td>

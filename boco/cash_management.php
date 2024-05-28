@@ -1,6 +1,6 @@
 <?php
 include('../session/session.php');
-include ('check_role.php');
+include('check_role.php');
 //include('charts_data.php');
 $nav_header = "Cash Management Dashboard";
 
@@ -47,6 +47,49 @@ include('../includes/header.php');
 <?php include('../includes/side-bar.php'); ?>
 <!-- /sidebar-left -->
 <div class="mobile-menu-overlay"></div>
+<!-- Start Modals-->
+<!-- Deleted Transaction Modal-->
+<div class="modal fade show" data-backdrop="static" id="deletedTransaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center font-18">
+                <h3 class="mb-20">Voucher deleted successfully!</h3>
+                <div class="mb-30 text-center">
+                    <img src="../vendors/images/success.png"  alt=""/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 text-center row"> <!-- Full width column for button -->
+                    <div class="input-group mb-3 d-flex justify-content-center">
+                        <a class="btn btn-secondary btn-lg ml-2" href="cash_management.php?menu=main">Dashboard</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Failed Transaction Modal  -->
+<div class="modal fade" data-backdrop="static" id="failedTransaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center font-18">
+                <h3 class="mb-20">Transaction failed!</h3>
+                <div class="mb-30 text-center">
+                    <img src="../vendors/images/caution-sign.png"  alt=""/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 text-center"> <!-- Full width column for button -->
+                    <div class="input-group mb-3 d-flex justify-content-center">
+                        <a class="btn btn-secondary btn-lg ml-2" href="cash_management.php?menu=main">Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modals-->
 
 <div class="main-container">
     <div class="pd-ltr-20">
@@ -72,6 +115,22 @@ include('../includes/header.php');
                                 <a class="nav-link" data-toggle="tab" href="#all_cash_trans" role="tab"
                                    aria-selected="false">All Cash Transaction</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#pending_transaction" role="tab"
+                                   aria-selected="false">Pending Transaction Voucher</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#revise_transaction" role="tab"
+                                   aria-selected="false">Revise Transaction Voucher</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#decline_transaction" role="tab"
+                                   aria-selected="false">Declined Transaction Voucher</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#approved_transaction" role="tab"
+                                   aria-selected="false">Approved Transaction Voucher</a>
+                            </li>
                         <?php endif; ?>
                     </ul>
                     <div class="tab-content">
@@ -90,11 +149,46 @@ include('../includes/header.php');
                             <?php if ($_SESSION['branch'] == "Head Office"): ?>
                                 <?php include('../includes/tables/cash_management/all_cash_withdrawal_vouchers_table.php'); ?>
                             <?php endif; ?>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
+                                <div class="pd-20">
+                                    <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade row" id="pending_transaction" role="tabpanel">
+                                <div class="pd-20">
+                                    <?php $firstApprovalStatus = "PENDING";
+                                    $secondApproval = "PENDING";
+                                    include('../includes/tables/cash_management/boco_cash_withdrawal_vouchers_table.php'); ?>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade row" id="revise_transaction" role="tabpanel">
+                                <div class="pd-20">
+                                    <?php $firstApprovalStatus = "REVISE";
+                                    $secondApproval = "REVISE";
+                                    include('../includes/tables/cash_management/boco_cash_withdrawal_vouchers_table.php'); ?>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade row" id="decline_transaction" role="tabpanel">
+                                <div class="pd-20">
+                                    <?php $firstApprovalStatus = "DECLINED";
+                                    $secondApproval = "DECLINED";
+                                    include('../includes/tables/cash_management/boco_cash_withdrawal_vouchers_table.php'); ?>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade row" id="approved_transaction" role="tabpanel">
+                                <div class="pd-20">
+                                    <?php $firstApprovalStatus = "APPROVED";
+                                    $secondApproval = "APPROVED";
+                                    include('../includes/tables/cash_management/boco_cash_withdrawal_vouchers_table.php'); ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
         <!-- JavaScript to handle timeouts -->
         <script>
@@ -259,6 +353,7 @@ include('../includes/header.php');
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Type</label>
                         <div class="col-sm-12 col-md-10">
                             <select
+                                    id="type"
                                     class="custom-select2 form-control"
                                     name="type"
                                     style="width: 100%; height: 38px"

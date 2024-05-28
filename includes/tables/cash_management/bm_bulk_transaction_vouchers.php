@@ -1,47 +1,49 @@
 <!-- table widget -->
 <div class="card-box mb-30">
     <!-- Start Modals-->
-    <!-- The Modal -->
-    <div class="modal" id="approvedTransactions">
-        <div class="modal-dialog modal-dialog-centered">
+    <!-- Approved Transaction Modal  -->
+    <div class="modal fade show" data-backdrop="static" id="approvedTransactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Transactions Status Changes</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="modal-body text-center font-18">
+                    <h3 class="mb-20">Transactions approved successfully!</h3>
+                    <div class="mb-30 text-center">
+                        <img src="../vendors/images/success.png"  alt=""/>
+                    </div>
                 </div>
-                <!-- Modal Body -->
-                <div class="modal-body">
-                    The transactions status has been change successfully.
-                </div>
+                <div class="row">
+                    <div class="col-sm-12 text-center row"> <!-- Full width column for button -->
+                        <div class="input-group mb-3 d-flex justify-content-center">
+                            <a class="btn btn-secondary btn-lg ml-2" href="cash_management.php?menu=main">Dashboard</a>
+                        </div>
+                    </div>
 
+                </div>
             </div>
         </div>
     </div>
-    <!-- The Modal -->
-    <div class="modal" id="failedTransactions">
-        <div class="modal-dialog modal-dialog-centered">
+    <!-- Failed Transaction Modal  -->
+    <div class="modal fade" data-backdrop="static" id="failedTransactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">Transaction Failed</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <div class="modal-body text-center font-18">
+                    <h3 class="mb-20">Transactions failed!</h3>
+                    <div class="mb-30 text-center">
+                        <img src="../vendors/images/caution-sign.png"  alt=""/>
+                    </div>
                 </div>
-                <!-- Modal Body -->
-                <div class="modal-body">
-                    Oops! Something went wrong. The transaction could not be saved. Please review all details and try
-                    again.
+                <div class="row">
+                    <div class="col-sm-12 text-center"> <!-- Full width column for button -->
+                        <div class="input-group mb-3 d-flex justify-content-center">
+                            <a class="btn btn-secondary btn-lg ml-2" href="cash_management.php?menu=pending">Try Again</a>
+                            <a class="btn btn-secondary btn-lg ml-2" href="cash_management.php?menu=main">Dashboard</a>
+                        </div>
+                    </div>
                 </div>
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Try Again</button>
-                </div>
-
             </div>
         </div>
     </div>
-    <!-- End Modals-->
-    <!-- The Modal -->
+    <!-- The Irreversible Modals-->
     <div class="modal" id="myModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -69,21 +71,19 @@
             </div>
         </div>
     </div>
+    <!-- End Modals-->
     <div class="pd-20">
         <div class="row">
-            <div class="col-9">
+            <div class="col-8">
                 <h4 class="text-blue h4">Pending Cash Transactions Vouchers</h4>
             </div>
-            <div class="col-3">
-                <!-- Button to Open the Modal -->
-                <button id="bulkFirstApproveModal" type="button" class="btn btn-success" data-toggle="modal"
-                        data-target="#myModal">
-                    Approve All
-                </button>
+            <div class="col-4">
+                <a class="btn-lg btn-block btn-secondary text-white text-center"
+                   href="./cash_management.php?menu=main"><i class="icon-copy bi"></i>Dashboard</a>
             </div>
         </div>
-    </div>
 
+    </div>
     <div class="pb-20">
         <table class="table hover table stripe data-table-export nowrap">
             <thead class="small">
@@ -107,7 +107,7 @@
             </thead>
             <tbody>
             <?php
-            $transactions = cms_withdrawal_voucher_by_firstApprover($_SESSION['userId'], $approvalStatus);
+            $transactions = cms_withdrawal_voucher_by_firstApprover($_SESSION['userId'], $firstApprovalStatus);
             foreach ($transactions as $row):?>
                 <tr>
                     <td>
@@ -118,21 +118,30 @@
                     <td><?= htmlspecialchars($row["reference"]) ?></td>
                     <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["firstApprover"]['lastName']) . " - " ?>
                         <?php if ($row['firstApprovalStatus'] == "APPROVED") {
-                            echo "<label style='padding: 6px;' class='badge badge-success'>Approved</label>";
-                        } elseif ($row['firstApprovalStatus'] == "PENDING") {
-                            echo "<label style='padding: 6px;' class='badge badge-warning'>Pending</label>";
-                        } else {
-                            echo "<label style='padding: 6px;' class='badge badge-danger'>Revise</label>";
-                        } ?></td>
+                            echo "<label style='padding: 6px;' class='badge badge-success'>APPROVED</label>";
+                        }
+                        if ($row['firstApprovalStatus'] == "PENDING") {
+                            echo "<label style='padding: 6px;' class='badge badge-warning'>PENDING</label>";
+                        }  if ($row['firstApprovalStatus'] == "REVISE") {
+                            echo "<label style='padding: 6px;' class='badge badge-secondary'>REVISE</label>";
+                        }
+                        if ($row['firstApprovalStatus'] == "DECLINED") {
+                            echo "<label style='padding: 6px;' class='badge badge-danger'>DECLINED</label>";
+                        }
+                        ?></td>
 
                     <td><?= htmlspecialchars($row["secondApprover"]['firstName']) . " " . htmlspecialchars($row["secondApprover"]['lastName']) . " - " ?>
                         <?php if ($row['secondApprovalStatus'] == "APPROVED") {
                             echo "<label style='padding: 6px;' class='badge badge-success'>Approved</label>";
-                        } elseif ($row['secondApprovalStatus'] == "REVISE") {
-                            echo "<label style='padding: 6px;' class='badge badge-danger'>Revise</label>";
-                        } else {
-                            echo "<label style='padding: 6px;' class='badge badge-warning'>Pending</label>";
-                        } ?></td>
+                        } if ($row['secondApprovalStatus'] == "REVISE") {
+                            echo "<label style='padding: 6px;' class='badge badge-secondary'>REVISE</label>";
+                        } if ($row['secondApprovalStatus'] == "PENDING") {
+                            echo "<label style='padding: 6px;' class='badge badge-warning'>PENDING</label>";
+                        }
+                        if ($row['secondApprovalStatus'] == "DECLINED") {
+                            echo "<label style='padding: 6px;' class='badge badge-danger'>DECLINED</label>";
+                        }
+                        ?></td>
 
 
                     <td><?= '$' . number_format($row["amount"], 2) . " (" . htmlspecialchars($row["currency"]) . ")" ?></td>
@@ -150,6 +159,13 @@
             <?php endforeach; ?>
             </tbody>
         </table>
+        <div class="col-3 mt-4">
+            <!-- Button to Open the Modal -->
+            <button id="bulkFirstApproveModal" type="button" class="btn btn-success" data-toggle="modal"
+                    data-target="#myModal">
+                Approve All
+            </button>
+        </div>
     </div>
 </div>
 <script>
@@ -178,7 +194,6 @@
     // Call updateObjectListInput() before submitting the form
     document.getElementById("bulkFirstApprove").addEventListener("submit", function (event) {
         updateObjectListInput();
-        console.log("Value ", document.getElementById("firstApproveListInput").value)
     });
 
     function hideFormIfEmpty() {
@@ -192,7 +207,6 @@
             modalButton.style.display = "block"; // Or set it to "inline-block", "flex", etc. depending on your layout
         }
     }
-
     // Call hideFormIfEmpty() initially to hide the form if the object list is empty
     hideFormIfEmpty();
 </script>

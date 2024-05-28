@@ -49,41 +49,45 @@ include('../includes/header.php');
 <!-- /sidebar-left -->
 <div class="mobile-menu-overlay"></div>
 <!-- Start Modals-->
-<!-- The Modal -->
-<div class="modal" id="updatedTransaction">
-    <div class="modal-dialog modal-dialog-centered">
+<!-- Saved Transaction Modal  -->
+<div class="modal fade show" data-backdrop="static" id="updatedTransaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Transaction updated</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="modal-body text-center font-18">
+                <h3 class="mb-20">Voucher updated successfully!</h3>
+                <div class="mb-30 text-center">
+                    <img src="../vendors/images/success.png"  alt=""/>
+                </div>
             </div>
-            <!-- Modal Body -->
-            <div class="modal-body">
-                The transaction has been updated successfully.
-            </div>
+            <div class="row">
+                <div class="col-sm-12 text-center row"> <!-- Full width column for button -->
+                    <div class="input-group mb-3 d-flex justify-content-center">
+                        <a class="btn btn-secondary btn-lg ml-2" href="cash_management.php?menu=main">Dashboard</a>
+                    </div>
+                </div>
 
+            </div>
         </div>
     </div>
 </div>
-<!-- The Modal -->
-<div class="modal" id="failedTransaction">
-    <div class="modal-dialog modal-dialog-centered">
+<!-- Failed Transaction Modal  -->
+<div class="modal fade" data-backdrop="static" id="failedTransaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Transaction Failed</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <div class="modal-body text-center font-18">
+                <h3 class="mb-20">Transaction failed!</h3>
+                <div class="mb-30 text-center">
+                    <img src="../vendors/images/caution-sign.png"  alt=""/>
+                </div>
             </div>
-            <!-- Modal Body -->
-            <div class="modal-body">
-                Oops! Something went wrong. The transaction could not be saved. Please review all details and try again.
+            <div class="row">
+                <div class="col-sm-12 text-center"> <!-- Full width column for button -->
+                    <div class="input-group mb-3 d-flex justify-content-center">
+                        <a class="btn btn-danger btn-lg mr-2" href="update_transaction_voucher.php?menu=main">Try Again</a>
+                        <a class="btn btn-secondary btn-lg ml-2" href="cash_management.php?menu=main">Dashboard</a>
+                    </div>
+                </div>
             </div>
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Try Again</button>
-            </div>
-
         </div>
     </div>
 </div>
