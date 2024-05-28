@@ -2,6 +2,7 @@
 <?php
 // include('../session/session.php');
 //include('../includes/controllers.php');
+$par = parameters();
 ?>
 <div class="card-box mb-30">
 	<div class="pd-20">
@@ -55,6 +56,7 @@
                         }
                         ?>
 				<tr>
+
                     <td><?php echo convertDateFormat($data['createdAt']); ?></td>
                     <td><?php echo $data['poNumber']; ?></td>
 					<td class="table-plus"><?php echo $data['poName']; ?>
@@ -62,26 +64,58 @@
 
 					<td><?php
 						$sup = suppliers("/" . $transaction['poSupplier']);
-						if ($sup['tax_id_no'] === null && $totalAmount > 1000) {
-                            $tax=0;
-							$discountedAmount = $totalAmount * 0.3;
-							echo "$ ".number_format($discountedAmount,'2','.',',');
-                        } else {
-							echo "$ ".number_format($tax,'2','.',',');
+						$par = parameters();
+						foreach ($par as $parrr)
+						{
+
+						if ($sup['taxClearance'] === 'No' && $totalAmount > $parrr['cumulative']) {
+
+
+
+								$discountedAmount = $totalAmount * $parrr['tax'] / 100;
+//								$discountedAmount = $totalAmount * 0.3;
+
+
+
+
+						$actualAmount = $totalAmount - $discountedAmount;
+						echo "$ ".number_format($actualAmount,'2','.',',');
+						} else {
+
+							echo "$ " . number_format($totalAmount, '2', '.', ',');
+
+						}
+
 						}
 						?>
 
 					</td>
-                    <td><?php
-                        $sup = suppliers("/" . $transaction['poSupplier']);
-                        if ($sup['tax_id_no'] === null && $totalAmount > 1000) {
-                            $discountedAmount = $totalAmount * 0.7;
-                            echo "$ ".number_format($discountedAmount,'2','.',',');
-                        } else {
-                            echo "$ ".number_format($totalAmount,'2','.',',');
-                        }
-                        ?>
-                    </td>
+					<td><?php
+						$sup = suppliers("/" . $transaction['poSupplier']);
+						$par = parameters();
+
+
+						if ($sup['taxClearance'] === 'No' && $totalAmount > 1000) {
+                            $tax=0;
+
+							foreach ($par as $parrr)
+							{
+
+								$discountedAmount = $totalAmount * $parrr['tax'] / 100;
+//								$discountedAmount = $totalAmount * 0.3;
+
+
+							}
+
+							echo "$ ".number_format($discountedAmount,'2','.',',');						} else {
+//                            echo $par['tax'];
+							echo "$ ".number_format($tax,'2','.',',');
+
+
+						}
+						?>
+
+					</td>
                     <td><?php echo $transactionCount; ?></td>
 					<td><?php $user = user($data['poApprover']);
                         echo $user['firstName']." ".$user['lastName']; ?></td>
