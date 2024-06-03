@@ -803,6 +803,15 @@ function po_user(){
     return $cms_user;
 }
 
+function cms_withdrawal_voucher_for_user($userId){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/transaction-voucher/all-by-initiator/$userId");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $cms_withdrawal_voucher_response = curl_exec($ch);
+    curl_close($ch);
+    return json_decode($cms_withdrawal_voucher_response, true);
+}
+
 function cms_withdrawal_voucher($userId, $firstApprovalStatus, $secondApprovalStatus)
 {
     $ch = curl_init();

@@ -305,16 +305,16 @@ include('../includes/header.php');
                                    aria-selected="false">Pending Trans Vouchers</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#approved" role="tab"
+                                   aria-selected="false">Approved Trans Vouchers</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#revise" role="tab"
                                    aria-selected="false">Revise Trans Vouchers</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#declined" role="tab"
                                    aria-selected="false">Declined Trans Vouchers</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#approved" role="tab"
-                                   aria-selected="false">Approved Trans Vouchers</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#po_payments" role="tab"
@@ -355,7 +355,7 @@ include('../includes/header.php');
 <!--                                    --><?php //include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
 <!--                                </div>-->
 <!--                            </div>-->
-                            <div class="tab-pane fade row" id="pending" role="tabpanel">
+                            <div class="tab-pane fade show active" id="pending" role="tabpanel">
                                 <?php $titleStatus="Pending"; $secondApprovalStatus = "PENDING"; include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
                             </div>
 
