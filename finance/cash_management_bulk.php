@@ -73,7 +73,10 @@ include('../includes/header.php');
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="pending" role="tabpanel">
                                 <div class="pd-20">
-                                    <?php $secondApprovalStatus = "PENDING"; include('../includes/tables/cash_management/finance_bulk_transaction_vouchers.php'); ?>
+                                    <?php
+                                        $secondApprovalStatus = "PENDING";
+                                        include('../includes/tables/cash_management/finance_bulk_transaction_vouchers.php');
+                                        ?>
                                 </div>
                             </div>
                         </div>

@@ -1,0 +1,1 @@
+http://localhost:7878/api/utg/musoni/getTransations/loanid/31443/transactionId/497215

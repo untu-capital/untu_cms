@@ -480,7 +480,7 @@ include('../includes/header.php');
                                             id="hreviseButton"
                                             data-target="#HOReviseModal"
                                         >
-                                       Revise
+                                       Revert
                                     </button>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-form-label">
@@ -530,7 +530,7 @@ include('../includes/header.php');
                                                 id="reviseButton"                                             
                                                 data-target="#ReviseModal"
                                         >
-                                            Revise
+                                            Revert
                                         </button>                                      
                                     </div>
                                     <div class="col-sm-3 col-md-3 col-form-label">
@@ -581,7 +581,7 @@ include('../includes/header.php');
                     </div>
                 </div>
 
-                <!-- Other Branches Revise Modal -->
+                <!-- Other Branches Revert Modal -->
                 <div class="col-md-4 col-sm-12 mb-2">
                     <div class="height-100-p">
                         <div class="modal fade" id="ReviseModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -609,7 +609,7 @@ include('../includes/header.php');
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-md-6 col-form-label">
-                                                    <button type="submit" class="btn btn-warning btn-block" name="secondApprove01">Revise</button>
+                                                    <button type="submit" class="btn btn-warning btn-block" name="secondApprove01">Revert</button>
                                                 </div>
                                                 <div class="col-sm-6 col-md-6 col-form-label">
                                                     <button type="button" class="btn btn-secondary btn-block" id="cancelButton" data-dismiss="modal">Cancel</button>
@@ -663,7 +663,7 @@ include('../includes/header.php');
                         </div>
                     </div>
                 </div>
-<!--               Head Office Revise Modal-->
+<!--               Head Office Revert Modal-->
                 <div class="col-md-4 col-sm-12 mb-2">
                     <div class="height-100-p">
                         <div class="modal fade" id="HOReviseModal" tabindex="-1" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -691,7 +691,7 @@ include('../includes/header.php');
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-6 col-md-6 col-form-label">
-                                                    <button type="submit" name="firstApprove01" class="btn btn-warning btn-block" id="firstApprove01">Revise</button>
+                                                    <button type="submit" name="firstApprove01" class="btn btn-warning btn-block" id="firstApprove01">Revert</button>
                                                 </div>
                                                 <div class="col-sm-6 col-md-6 col-form-label">
                                                     <button type="button" class="btn btn-secondary btn-block" id="cancelButton" data-dismiss="modal">Cancel</button>
