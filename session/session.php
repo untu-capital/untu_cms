@@ -1,6 +1,7 @@
 <?php 
   error_reporting(0);
 
+  include('constants/constants.php');
 
 require_once "controllerUserData.php"; 
 

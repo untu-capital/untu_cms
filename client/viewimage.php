@@ -1,19 +1,36 @@
-<?php	
-	
+<?php
+include ('../constants/constants.php');
+
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+if (isset($_GET['userid'])) {
+    $userid = $_GET['userid'];
+
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/ClientFileUpload/get/'.$_GET['userid'].'/DELETED');
-    // curl_setopt($ch, CURLOPT_URL, 'http://localhost:7878/api/utg/ClientFileUpload/get/61a98ded-d784-42ac-a88a-283cbba890cc');
+    curl_setopt($ch, CURLOPT_URL, $server_ip_address.'/api/utg/ClientFileUpload/get/' . $userid);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $server_response = curl_exec($ch);
     curl_close($ch);
+
     $client_file_uploads = json_decode($server_response, true);
 
-    foreach($client_file_uploads as $application):
-        
-        $arr[] = '{imagePath:'.$application['fileName'].'}';
+    $result = array();
+    foreach ($client_file_uploads as $application) {
+        // Ensure 'fileName' and 'fileDescription' are not null
+        if (isset($application['fileName']) && isset($application['fileDescription'])) {
+            $result[] = array(
+                'imagePath' => $application['fileName'],
+                'fileDescription' => $application['fileDescription']
+            );
+        }
+    }
 
-    endforeach;
-
-    print(json_encode($client_file_uploads));
-
+    header('Content-Type: application/json');
+    echo json_encode($result);
+} else {
+    echo json_encode(array('error' => 'User ID not provided'));
+}
 ?>

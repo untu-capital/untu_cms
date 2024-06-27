@@ -105,7 +105,14 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="credit_check" role="tabpanel">
+                    <div class="tab-pane fade mb-30 pd-20" id="credit_check" role="tabpanel">
+                        <?php if ($_SESSION['role'] == "ROLE_BOCO") { ?>
+                            <form method="post" action="">
+                                <input type="hidden" name="id" value="<?php echo isset($_GET['loan_id']) ? htmlspecialchars($_GET['loan_id']) : ''; ?>">
+                                <button type="submit" name="credit_check" class="btn btn-success btn-lg btn-block">Generate FCB Report</button>
+                            </form>
+                        <?php } ?>
+
                         <div class="table-responsive">
                             <table class=" table-striped" style="margin: 2%;">
                                 <colgroup>

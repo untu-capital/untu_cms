@@ -680,6 +680,37 @@ if(isset($_POST['loan_application'])){
     $decoded = json_decode($resp, true);
 }
 
+
+if (isset($_POST['credit_check'])){
+    $loanId = $_POST['id'];
+    sendCreditCheckedLoanRequest($loanId);
+}
+function sendCreditCheckedLoanRequest($loanId) {
+    $url = "http://localhost:7878/api/utg/credit_application/creditCheckedLoan/".$loanId;
+
+    $data = json_encode($data_array);
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+//    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($ch);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+    curl_close($ch);
+
+    if ($httpcode == 201) {
+        echo "Client loan updated successfully.";
+    } else {
+        echo "Error updating client loan. HTTP Code: " . $httpcode;
+    }
+
+    return $response;
+}
+
 if (isset($_POST['uploadxds'])) {
 
     $id = $_POST["loan_id"];
