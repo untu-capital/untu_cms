@@ -1,11 +1,10 @@
 <?php
-
-//    include('../../../includes/fpdf/fpdf.php');
+// include('../../../includes/fpdf/fpdf.php');
 ?>
 
 <div class="pd-20">
-    <button class="btn btn-lg btn-primary" type="submit" name="add_deal_note" id="showFormButton"
-            style="margin-bottom: 15px;">Create Deal Note
+    <button class="btn btn-lg btn-primary" type="submit" name="add_deal_note" id="showButton" style="margin-bottom: 15px;">
+        Create Deal Note
     </button>
     <div class="pd-20 card-box mb-30">
         <form action="" method="POST" id="myForm">
@@ -45,26 +44,17 @@
                 </div>
                 <div class="col-md-2 col-sm-12">
                     <div class="form-group">
-                        <button class="btn btn-primary btn-block" onclick="goBack()">Cancel</button>
+                        <button type="button" class="btn btn-primary btn-block" onclick="goBack()">Cancel</button>
                     </div>
                 </div>
             </div>
         </form>
 
         <script>
-            // Get references to the button and form
-            var showFormButton = document.getElementById("showFormButton");
-            var myForm = document.getElementById("myForm");
-
-            // Add a click event listener to the button
-            showFormButton.addEventListener("click", function () {
-                // Show the form by changing its display style
-                myForm.style.display = "block";
+            document.getElementById("showButton").addEventListener("click", function () {
+                document.getElementById("myForm").style.display = "block";
             });
-        </script>
 
-        <script>
-            // JavaScript function to go back to the previous page
             function goBack() {
                 window.history.back();
             }
@@ -75,7 +65,6 @@
     <table class="table hover table stripe multiple-select-row data-table-export nowrap">
         <thead>
         <tr>
-<!--            <th>ID</th>-->
             <th>Investor</th>
             <th>Amount Disbursed</th>
             <th>Start Date</th>
@@ -97,7 +86,6 @@
             ?>
 
             <tr>
-<!--                <td>--><?php //echo date('d-M-Y', strtotime($data['createdAt'])); ?><!--</td>-->
                 <td class="table-plus"><?php echo $data['counterParty'] . ' (' . $data['currency'] . ')'; ?></td>
                 <td class="table-plus"><?php echo '$ '.number_format($data['amount'], 2); ?></td>
                 <td class="table-plus"><?php echo $data['startDate']; ?></td>
@@ -108,21 +96,19 @@
                 <td class="table-plus"><?php echo $data['principal']; ?></td>
                 <td>
                     <?php if ($data['finance_signing'] == "SIGNED") { ?>
-                        <span class="badge badge-success" data-bgcolor="#2DB83D"
-                              data-color="#fff"><?php echo "Signed"; ?></span>
+                        <span class="badge badge-success" data-bgcolor="#2DB83D" data-color="#fff"><?php echo "Signed"; ?></span>
                     <?php } elseif ($data['finance_signing'] == "DECLINED"){ ?>
                         <span class="badge badge-danger" data-color="#fff"><?php echo "Deal Note Declined"; ?></span>
-                   <?php }else { ?>
+                    <?php } else { ?>
                         <span class="badge badge-warning" data-color="#fff"><?php echo "Waiting for Signature"; ?></span>
                     <?php } ?>
                 </td>
                 <td>
                     <?php if ($data['ceo_signing'] == "SIGNED") { ?>
-                        <span class="badge badge-success" data-bgcolor="#2DB83D"
-                              data-color="#fff"><?php echo "Signed"; ?></span>
+                        <span class="badge badge-success" data-bgcolor="#2DB83D" data-color="#fff"><?php echo "Signed"; ?></span>
                     <?php } elseif ($data['ceo_signing'] == "DECLINED"){ ?>
                         <span class="badge badge-danger" data-color="#fff"><?php echo "Deal Note Declined"; ?></span>
-                   <?php }else { ?>
+                    <?php } else { ?>
                         <span class="badge badge-warning" data-color="#fff"><?php echo "Waiting for Signature"; ?></span>
                     <?php } ?>
                 </td>
@@ -133,11 +119,9 @@
                     <?php endforeach; ?>
                 </td>
 
-
                 <td>
                     <div class="dropdown">
-                        <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#"
-                           role="button" data-toggle="dropdown">
+                        <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown">
                             <i class="dw dw-more"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">

@@ -1,12 +1,15 @@
 <?php
 
-    include('../session/session.php');
-    include ('check_role.php');
-    include('../includes/controllers.php');
-    include ('../controllers/treasury.php');
-    include('../includes/forms/treasury_management/deal_note_pdf.php');
-    include('../includes/forms/treasury_management/asset_deal_note_pdf.php');
-    $nav_header = "Treasury Management Dashboard";
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+include('../session/session.php');
+include ('check_role.php');
+include('../includes/controllers.php');
+include ('../controllers/treasury.php');
+include('../includes/forms/treasury_management/deal_note_pdf.php');
+include('../includes/forms/treasury_management/asset_deal_note_pdf.php');
+$nav_header = "Treasury Management Dashboard";
 
 //    include('../includes/fpdf/fpdf.php');
 
@@ -16,7 +19,7 @@
 <html >
 <!-- HTML HEAD -->
 <?php
-    include('../includes/header.php');
+include('../includes/header.php');
 ?>
 <!-- /HTML HEAD -->
 <body>
@@ -101,7 +104,6 @@
                                 </a>
                             </li>
 
-
                             <li class="nav-item">
                                 <a class="nav-link text-blue" data-toggle="tab" href="#reports" role="tab" aria-selected="false">
                                     Reports
@@ -114,6 +116,7 @@
                                     <?php include('../includes/dashboard/treasury/index.php'); ?>
                                 </div>
                             </div>
+
                             <div class="tab-pane fade row" id="user_access" role="tabpanel">
 
                                 <form method="post" action="">
@@ -202,17 +205,22 @@
                 </div>
             </div>
 
-        <?php } elseif ($_GET['menu'] == "download_deal_note") {
+        <?php }
+        elseif ($_GET['menu'] == "download_deal_note")
+        {
             include('../includes/forms/treasury_management/deal_note_pdf.php');
-         }
-         elseif ($_GET['menu'] == "download_asset_deal_note") {
+        }
+        elseif ($_GET['menu'] == "download_asset_deal_note")
+        {
             include('../includes/forms/treasury_management/asset_deal_note_pdf.php');
-         }
+        }
 
-        elseif ($_GET['menu'] == "view_statement") {?>
+        elseif ($_GET['menu'] == "view_statement")
+        {?>
             <?php include('../includes/forms/treasury_management/deal_note_statement.php');
         }
-        elseif ($_GET['menu'] == "view_asset_statement") {?>
+        elseif ($_GET['menu'] == "view_asset_statement")
+        {?>
             <?php include('../includes/forms/treasury_management/asset_deal_note_statement.php');
         }
 
@@ -416,7 +424,7 @@
 
         elseif ($_GET['menu'] == 'add_customer'){
             include('../includes/forms/treasury_management/create_customer.php');
-         }
+        }
         elseif ($_GET['menu'] == 'view_customer'){
         $data = customer_info($_GET['customerId']);
         ?>
@@ -756,7 +764,11 @@
 <script src="../vendors/scripts/datatable-setting.js"></script>
 
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0" style="display: none; visibility: hidden">
+
+    </iframe>
+</noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 </body>

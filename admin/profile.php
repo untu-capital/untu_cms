@@ -5,7 +5,7 @@
     $nav_header = "My Profile";
 
 	
-    function updateprofile($id, $firstname,$password, $lastname, $username, $email, $date, $gender, $phonenumber, $marital, $city, $surbab, $streetname,$streetnumber){
+    function updateprofile($id, $firstname,$password, $lastname, $username, $email, $date, $gender, $phonenumber, $marital, $city, $suburb, $streetname,$streetnumber){
 
         $url = "http://localhost:7878/api/utg/users/updateUser/".$id;
         $data_array = array(
@@ -14,11 +14,11 @@
 			'username' => $username,
 			'firstName' => $firstname,
 			'password' => $password,
-			'dateOfBirth' => $date,
+			'dirtOfBirth' => $date,
 			'gender' => $gender,
 			'maritalStatus' => $marital,
 			'city' => $city,
-			'surbub' => $surbab,
+			'surbub' => $suburb,
 			'streetName' => $streetname,
 			'streetNumber' => $streetnumber,
 			'contactDetail' => array(
@@ -82,14 +82,14 @@
 		$date = $_POST['date'];
 		$gender = $_POST['gender'];
 		$phonenumber = $_POST['phonenumber'];
-		$marital = $_POST['maritalstatus'];
+		$marital = $_POST['maritalStatus'];
 		$city = $_POST['city'];
-		$surbab = $_POST['surbab'];
+		$suburb = $_POST['suburb'];
 		$streetname = $_POST['streetname'];
 		$streetnumber = $_POST['streetnumber'];
 		$password = $_POST['password'];
 
-        updateprofile($id, $firstname,$password, $lastname, $username, $email, $date, $gender, $phonenumber, $marital, $city, $surbab, $streetname,$streetnumber);
+        updateprofile($id, $firstname,$password, $lastname, $username, $email, $date, $gender, $phonenumber, $marital, $city, $suburb, $streetname,$streetnumber);
     }
 
 
@@ -212,7 +212,7 @@
 										</li>
 										<li>
 											<span>Address:</span>
-											<?php echo $user['city']; ?> ,<?php echo $user['surbab']; ?><br />
+											<?php echo $user['city']; ?> ,<?php echo $user['suburb']; ?><br />
 											<?php echo $user['streetName']; ?>, <?php echo $user['streetNumber']; ?>
 										</li>
 									</ul>
@@ -948,9 +948,9 @@
 																	<input
 																		class="form-control form-control-lg"
 																		type="text"
-																		value="<?php echo $user['MaritalStatus']; ?>"
-																		name="maritalstatus"
-																		id="maritalstatus"
+																		value="<?php echo $user['maritalStatus']; ?>"
+																		name="maritalStatus"
+																		id="maritalStatus"
 
 																	/>
 																</div>
@@ -966,13 +966,13 @@
 																</div>
 
 																<div class="form-group">
-																	<label>Surbab</label>
+																	<label>Suburb</label>
 																	<input
 																		class="form-control form-control-lg"
 																		type="text"
-																		value="<?php echo  $user['surbab']; ?>"
-																		name="surbab"
-																		id="surbab"
+																		value="<?php echo  $user['suburb']; ?>"
+																		name="suburb"
+																		id="suburb"
 																	/>
 																</div>
 																<div class="form-group">

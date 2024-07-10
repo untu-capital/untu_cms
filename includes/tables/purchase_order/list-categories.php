@@ -1,20 +1,3 @@
-<?php
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/category/all");
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$server_response = curl_exec($ch);
-
-curl_close($ch);
-$data = json_decode($server_response, true);
-// Check if the JSON decoding was successful
-if ($data !== null) {
-    $table = $data;
-
-} else {
-    echo "Error decoding JSON data";
-}
-?>
-
             <!-- Export Datatable start -->
             <div class="card-box mb-30">
                 <div class="pd-20">
@@ -37,7 +20,10 @@ if ($data !== null) {
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($table as $row):?>
+                        <?php
+                            $list_cat = list_categories();
+                            foreach ($list_cat as $row):
+                                ?>
                             <tr>
                                 <td><?php echo date('d-M-Y', strtotime($row['createdAt'])) ;?></td>
                                 <td class="table-plus"><?php echo $row['name']; ?></td>

@@ -2,17 +2,18 @@
 include('../session/session.php');
 include('check_role.php');
 include('../includes/controllers.php');
+include('../controllers/puchase_order.php');
 $state = $_GET['state'];
 $nav_header = "Requisitions";
 
 $url = '';
-if ($state == 'progress') {
-    $url = '/loanStatus/ACCEPTED';
-} elseif ($state == 'reject') {
-    $url = '/loanStatus/REJECTED';
-} else {
-    $url;
-}
+//if ($state == 'progress') {
+//    $url = '/loanStatus/ACCEPTED';
+//} elseif ($state == 'reject') {
+//    $url = '/loanStatus/REJECTED';
+//} else {
+//    $url;
+//}
 $requisitionsUrl = "";
 
 ?>
