@@ -498,7 +498,7 @@
                         </a>
                         <ul class="submenu">
                             <!--                                    <li><a href="../faq.php">FAQ</a></li>-->
-                            <li><a href="../includes/profile.php">Profile</a></li>
+                            <li><a href="../admin/profile.php">Profile</a></li>
                             <li><a href="../pricing-table.php">Web Content</a></li>
                         </ul>
                     </li>

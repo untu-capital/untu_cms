@@ -17,8 +17,8 @@
         </thead>
         <tbody>
         <?php
-        $market_campaigns = get_tax_policies();
-        foreach($market_campaigns as $data):
+        $tax_policy = get_tax_policies();
+        foreach($tax_policy as $data):
 
             $end_date = htmlspecialchars($data["createdAt"]);
             $formatted_end_date = date("Y-m-d", strtotime($end_date));

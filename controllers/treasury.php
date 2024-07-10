@@ -7,28 +7,28 @@
 
 <?php
 
-function audit($userid, $activity, $branch) {
-    $data_array = array(
-        'userid'=> $userid,
-        'branch'=> $branch,
-        'role'=> $_SESSION['role'],
-        'activity'=> $activity,
-        'deviceInfo'=> $_SERVER['HTTP_USER_AGENT'],
-        'ipAddress'=> $_SERVER['REMOTE_ADDR']
-    );
-    $data = json_encode($data_array);
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/access_logs");
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true );
-    $resp = curl_exec($ch);
-    curl_close($ch);
-
-//    return "Log recorded successfully";
-}
+//function audit($userid, $activity, $branch) {
+//    $data_array = array(
+//        'userid'=> $userid,
+//        'branch'=> $branch,
+//        'role'=> $_SESSION['role'],
+//        'activity'=> $activity,
+//        'deviceInfo'=> $_SERVER['HTTP_USER_AGENT'],
+//        'ipAddress'=> $_SERVER['REMOTE_ADDR']
+//    );
+//    $data = json_encode($data_array);
+//    $ch = curl_init();
+//    curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/access_logs");
+//    curl_setopt($ch, CURLOPT_POST, true);
+//    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+//    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+//    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//    curl_setopt($ch, CURLOPT_HEADER, true );
+//    $resp = curl_exec($ch);
+//    curl_close($ch);
+//
+////    return "Log recorded successfully";
+//}
 
 
 
@@ -230,18 +230,14 @@ if ($_GET['menu'] == 'delete_customer'){
             'investedAmount' => $amount,
             'tenorInDays' => $tenure,
             'interest' => $interest_rate,
-
             'interestFrequency' => $interest_frequency,
             'revolving' => $revolving,
             'principalRepaymentType' => $principal_repayment,
             'interestRepaymentType' => $interest_repayment,
             'repaymentDates' => $repayment_date,
             'maturityDate' => $maturity_date,
-//            'principalAt' => $principal_at,
             'otherFeatures' => $other_features
         );
-
-
 
         $data = json_encode($data_array);
         $ch = curl_init();
@@ -250,34 +246,30 @@ if ($_GET['menu'] == 'delete_customer'){
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true );
+        curl_setopt($ch, CURLOPT_HEADER, true);
         $resp = curl_exec($ch);
 
-        // convert headers to array
+        if ($resp === false) {
+            $_SESSION['error'] = 'cURL error: ' . curl_error($ch);
+            header('location: treasury_management.php?menu=main');
+            exit();
+        }
+
         $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
         $headerStr = substr($resp, 0, $headerSize);
         $bodyStr = substr($resp, $headerSize);
-        $headers = headersToArray( $headerStr );
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
 
-        // Check HTTP status code
-        if (!curl_errno($ch)) {
-            switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-                case 200:
-                    $_SESSION['info'] = "Deal NOte Created Successfully";
-                    audit($_SESSION['userid'], "Deal NOte Created Successfully", $_SESSION['branch']);
-
-                    header('location: treasury_management.php?menu=main');
-                    break;
-                default:
-                    $_SESSION['error'] = 'Failed to Create Deal NOte';
-                    audit($_SESSION['userid'], "Failed to Create Deal NOte", $_SESSION['branch']);
-                    header('location: treasury_management.php?menu=main');
-            }
+        if ($http_code == 200) {
+            $_SESSION['info'] = "Deal Note Created Successfully";
+            audit($_SESSION['userid'], "Deal Note Created Successfully", $_SESSION['branch']);
         } else {
-            $_SESSION['error'] = 'Failed to Create Deal NOte.. Please try again!';
-            audit($_SESSION['userid'], "Failed to approved Transaction Voucher", $_SESSION['branch']);
-            header('location: treasury_management.php?menu=main');
+            $_SESSION['error'] = 'Failed to Create Deal Note';
+            audit($_SESSION['userid'], "Failed to Create Deal Note", $_SESSION['branch']);
         }
+        header('location: treasury_management.php?menu=main');
+
         curl_close($ch);
     }
 
@@ -318,7 +310,7 @@ if ($_GET['menu'] == 'delete_customer'){
 
         $url = "http://localhost:7272/api/treasury/dealnote/create";
         $data_array = array(
-            'counterParty' => $dnId,
+            'id' => $dnId,
         );
 
         $data = json_encode($data_array);
@@ -548,7 +540,7 @@ if (isset($_POST['create_asset_deal_note'])) {
 
     $url = "http://localhost:7272/api/treasury/assetDealnote/create";
     $data_array = array(
-        'counterParty' => $dnId,
+        'id' => $dnId,
     );
 
     $data = json_encode($data_array);

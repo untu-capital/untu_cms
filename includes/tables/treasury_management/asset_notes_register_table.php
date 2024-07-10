@@ -4,24 +4,25 @@
 ?>
 
 <div class="pd-20">
-    <button class="btn btn-lg btn-primary" type="submit" name="add_deal_note" id="showFormButton"
-            style="margin-bottom: 15px;">Create Deal Note
+    <button class="btn btn-lg btn-primary" type="submit" name="add_asset_deal_note" id="showAssetButton"
+            style="margin-bottom: 15px;">
+        Create Deal Note
     </button>
     <div class="pd-20 card-box mb-30">
-        <form action="" method="POST" id="myForm">
+        <form action="" method="POST" id="myAssetForm">
             <div class="clearfix">
                 <h4 class="text-blue h4">Generate Deal Note</h4>
             </div>
             <div class="row">
                 <div class="col-md-4 col-sm-12">
                     <div class="form-group">
-                        <label>Select Liability:</label>
+                        <label>Select Asset:</label>
                         <select class="custom-select2 form-control" name="liabilities" style="width: 100%; height: 38px">
                             <option value=""></option>
                             <?php
                             $deal_notes = asset_list();
                             foreach ($deal_notes as $data) {
-                                echo "<option value='$data[id]'>$data[counterpart] - $data[liabilityType] </option>";
+                                echo "<option value='$data[id]'>$data[counterpart] - $data[assetType] </option>";
                             }
                             ?>
                         </select>
@@ -40,7 +41,7 @@
             <div class="row">
                 <div class="col-md-2 col-sm-12">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block" value="auth" name="create_deal_note">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-block" value="auth" name="create_asset_deal_note">Submit</button>
                     </div>
                 </div>
                 <div class="col-md-2 col-sm-12">
@@ -53,13 +54,13 @@
 
         <script>
             // Get references to the button and form
-            var showFormButton = document.getElementById("showFormButton");
-            var myForm = document.getElementById("myForm");
+            var showAssetFormButton = document.getElementById("showAssetButton");
+            var myAssetForm = document.getElementById("myAssetForm");
 
             // Add a click event listener to the button
-            showFormButton.addEventListener("click", function () {
+            showAssetFormButton.addEventListener("click", function () {
                 // Show the form by changing its display style
-                myForm.style.display = "block";
+                myAssetForm.style.display = "block";
             });
         </script>
 

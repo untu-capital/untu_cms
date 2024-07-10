@@ -142,7 +142,6 @@ function curlreg($firstname, $lastname, $username, $email, $mobile, $password) {
         $_SESSION['errors'] = $val;
             audits($_SESSION['userid'], "User Registration Failed", $_SESSION['branch']);
         header('location: ../login_signup/register.php');
-
         break;
 
         case 401: # Unauthorixed - Bad credientials
@@ -153,12 +152,11 @@ function curlreg($firstname, $lastname, $username, $email, $mobile, $password) {
         break;
         default:
             $decoded = json_decode($bodyStr);
-            // foreach($decoded as $key => $val) {
-            // echo $key . ': ' . $val . '<br>';
-            // }
+             foreach($decoded as $key => $val) {
+             echo $key . ': ' . $val . '<br>';
+             }
         $_SESSION['error'] = 'Unexpected error, Please try again '. "\n";
-            audits($_SESSION['userid'], "User Registration Failed", $_SESSION['branch']);
-        // header('location: login.php#signup');
+            audits($firstname.' '.$firstname, "User Registration Failed", " ");
         }
     } else {
         $_SESSION['error'] = 'Login Failed'. "\n";

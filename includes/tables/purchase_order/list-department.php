@@ -1,18 +1,5 @@
 <?php
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/department/all");
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$server_response = curl_exec($ch);
 
-curl_close($ch);
-$data = json_decode($server_response, true);
-// Check if the JSON decoding was successful
-if ($data !== null) {
-    $table = $data;
-
-} else {
-    echo "Error decoding JSON data";
-}
 ?>
 
 
@@ -38,7 +25,9 @@ if ($data !== null) {
             </tr>
             </thead>
             <tbody>
-            <?php foreach ($table as $row):?>
+            <?php
+                $list_departments = list_department();
+                foreach ($list_departments as $row):?>
                 <tr>
                     <td class="table-plus"><?php echo $row['name']; ?></td>
                     <td>

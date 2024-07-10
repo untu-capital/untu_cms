@@ -29,7 +29,7 @@
                 <th>Date Created</th>
                 <th>Total Amount</th>
                 <th>Currency</th>
-                <th>Orignater</th>
+                <th>Originator</th>
                 <th>Category</th>
                 <th>Supplier</th>
                 <th>Requisition Approval</th>
@@ -40,23 +40,15 @@
             </thead>
             <tbody>
             <?php
-
-
-//            $req_trans = req_trans("/getByRequisitionId/" . $_GET['req_id']);
-//
-
-//            foreach ($req as $data):
-            $poTransactions = poTransactions();
-            foreach($poTransactions as $data):
-
+                $poTransactions = poTransactions();
+                foreach($poTransactions as $data):
                 $req = requisitions('/'.$data['poRequisitionId']);
-
                 ?>
 
                 <tr>
                     <td><?php echo $req['poNumber']; ?></td>
                     <td class="table-plus"><?php echo $data['poItem']; ?>
-                    <td><?php echo convertDateFormat($req['createdAt']); ?></td>
+                    <td><?php echo convertDateFormat(data['createdAt']); ?></td>
                     <td><?php echo "$ ".$data['poAmount'].".00"; ?></td>
                     <td><?php echo $data['poCurrency']; ?></td>
 <!--                    <td>--><?php //echo $req['userId']; ?><!--</td>-->
@@ -68,7 +60,6 @@
                         echo $user['firstName']." ".$user['lastName']; ?></td>
                     <td><?php $user = user($data['cmsApprover']);
                         echo $user['firstName']." ".$user['lastName']; ?></td>
-
 
                     <td>
                         <div class="dropdown">
@@ -83,6 +74,7 @@
                             </div>
                         </div>
                     </td>
+
                 </tr>
             <?php endforeach; ?>
             </tbody>
