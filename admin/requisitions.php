@@ -94,7 +94,7 @@ include('../includes/header.php');
                     <li class="nav-item">
                         <a class="nav-link text-blue" data-toggle="tab" href="#parameters" role="tab"
                            aria-selected="false">
-                            Parameters
+                            Tax Threshold
                         </a>
                     </li>
 
@@ -175,9 +175,9 @@ include('../includes/header.php');
                     <div class="tab-pane fade" id="branches" role="tabpanel">
                         <?php include('../includes/tables/business_sector_table.php'); ?>
                     </div>
-<!--                    <div class="tab-pane fade" id="reports" role="tabpanel">-->
-<!--                        --><?php //include('../includes/tables/purchase_order/report_table.php'); ?>
-<!--                    </div>-->
+                    <div class="tab-pane fade" id="reports" role="tabpanel">
+                        <?php include('../includes/tables/purchase_order/report_table.php'); ?>
+                    </div>
                     <div class="tab-pane fade" id="tax_policies" role="tabpanel">
                         <?php include('../includes/tables/purchase_order/tax_policies.php'); ?>
                     </div>
@@ -414,7 +414,6 @@ include('../includes/header.php');
                                 <optgroup>
                                     <option value="Yes" >Yes</option>
                                     <option value="No" >No</option>
-
                                 </optgroup>
                             </select>
                         </div>
