@@ -175,9 +175,9 @@ include('../includes/header.php');
                     <div class="tab-pane fade" id="branches" role="tabpanel">
                         <?php include('../includes/tables/business_sector_table.php'); ?>
                     </div>
-                    <div class="tab-pane fade" id="reports" role="tabpanel">
-                        <?php include('../includes/tables/purchase_order/report_table.php'); ?>
-                    </div>
+<!--                    <div class="tab-pane fade" id="reports" role="tabpanel">-->
+<!--                        --><?php //include('../includes/tables/purchase_order/report_table.php'); ?>
+<!--                    </div>-->
                     <div class="tab-pane fade" id="tax_policies" role="tabpanel">
                         <?php include('../includes/tables/purchase_order/tax_policies.php'); ?>
                     </div>
