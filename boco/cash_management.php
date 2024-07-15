@@ -200,10 +200,40 @@ include('../includes/header.php');
                     }
                 }, 10000); // Adjust timeout as needed (in milliseconds)
             </script>
-        <?php } elseif ($_GET['menu'] == 'add_vault') {
-        ?>
-        <?php
+        <?php }
 
+        elseif ($_GET['menu'] == "acc_bal") {?>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    if (urlParams.has('success')) {
+                        // Display a popup or alert message
+                        alert('Deleted successfully');
+                    }
+                });
+            </script>
+            <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                <div class="pd-20 card-box">
+                    <h5 class="h4 text-blue mb-20">Cash Management</h5>
+                    <div class="tab">
+                        <ul class="nav nav-tabs customtab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#acc_balance" role="tab" aria-selected="true">Account Balances</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
+                                <div class="pd-20">
+                                    <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <?php }
+        elseif ($_GET['menu'] == 'add_vault') {
         ?>
             <div class="pd-20 card-box mb-30">
                 <div class="clearfix">

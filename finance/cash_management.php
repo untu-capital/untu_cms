@@ -312,6 +312,7 @@ include('../includes/header.php');
                                 <a class="nav-link" data-toggle="tab" href="#revise" role="tab"
                                    aria-selected="false">Revise Trans Vouchers</a>
                             </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#declined" role="tab"
                                    aria-selected="false">Declined Trans Vouchers</a>
@@ -471,7 +472,8 @@ include('../includes/header.php');
                 </div>
             </div>
 
-        <?php } elseif ($_GET['menu'] == "acc_bal") {?>
+        <?php }
+        elseif ($_GET['menu'] == "acc_bal") {?>
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     const urlParams = new URLSearchParams(window.location.search);
