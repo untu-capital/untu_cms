@@ -146,7 +146,8 @@ include('../includes/header.php');
                     'address' => $_POST['address'],
                     'phone' => $_POST['phone'],
                     'contactPerson' => $_POST['contactPerson'],
-                    'comment' => $_POST['comment']
+                    'comment' => $_POST['comment'],
+                    'taxClearance' => $_POST['tax_clearance']
                 );
 
                 $data = json_encode($postData);
@@ -208,6 +209,17 @@ include('../includes/header.php');
                         <label class="col-sm-12 col-md-2 col-form-label">Telephone</label>
                         <div class="col-sm-12 col-md-10">
                             <input class="form-control" name="phone" placeholder="+263 700 000 000" type="tel" required/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-md-2 col-form-label">Tax Clearance</label>
+                        <div class="col-sm-12 col-md-10">
+                            <select class="custom-select2 form-control" name="tax_clearance" style="width: 100%; height: 38px">
+                                <optgroup>
+                                    <option value="Yes" >Yes</option>
+                                    <option value="No" >No</option>
+                                </optgroup>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group row">

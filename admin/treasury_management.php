@@ -193,13 +193,13 @@ include('../includes/header.php');
                                 <?php include('../includes/forms/treasury_management/amortization_form.php'); ?>
                             </div>
 
-                            <div class="tab-pane fade" id="dn_aprrover1" role="tabpanel">
-                                <?php include('../includes/tables/cms/authorisers_table.php'); ?>
-                            </div>
-
-                            <div class="tab-pane fade" id="dn_aprrover2" role="tabpanel">
-                                <?php include('../includes/tables/cms/authorisers_table.php'); ?>
-                            </div>
+<!--                            <div class="tab-pane fade" id="dn_aprrover1" role="tabpanel">-->
+<!--                                --><?php //include('../includes/tables/cms/authorisers_table.php'); ?>
+<!--                            </div>-->
+<!---->
+<!--                            <div class="tab-pane fade" id="dn_aprrover2" role="tabpanel">-->
+<!--                                --><?php //include('../includes/tables/cms/authorisers_table.php'); ?>
+<!--                            </div>-->
                         </div>
                     </div>
                 </div>
