@@ -170,9 +170,6 @@ include('../includes/header.php');
                             <div class="tab-pane fade" id="customer_info" role="tabpanel">
                                 <?php include('../includes/tables/treasury_management/customers.php'); ?>
                             </div>
-                            <div class="tab-pane fade" id="reports" role="tabpanel">
-                                <?php include('../includes/tables/cash_management/withdrawal_purposes.php'); ?>
-                            </div>
                             <div class="tab-pane fade" id="assets" role="tabpanel">
                                 <?php include('../includes/forms/treasury_management/create_asset.php'); ?>
                             </div>
@@ -193,13 +190,16 @@ include('../includes/header.php');
                                 <?php include('../includes/forms/treasury_management/amortization_form.php'); ?>
                             </div>
 
-<!--                            <div class="tab-pane fade" id="dn_aprrover1" role="tabpanel">-->
-<!--                                --><?php //include('../includes/tables/cms/authorisers_table.php'); ?>
-<!--                            </div>-->
-<!---->
-<!--                            <div class="tab-pane fade" id="dn_aprrover2" role="tabpanel">-->
-<!--                                --><?php //include('../includes/tables/cms/authorisers_table.php'); ?>
-<!--                            </div>-->
+                            <div class="tab-pane fade" id="dn_aprrover1" role="tabpanel">
+<!--                                --><?php //include('../includes/tables/treasury_management/authorisers_table.php'); ?>
+                            </div>
+
+                            <div class="tab-pane fade" id="dn_aprrover2" role="tabpanel">
+<!--                                --><?php //include('../includes/tables/treasury_management/authorisers_table.php'); ?>
+                            </div>
+                            <div class="tab-pane fade" id="reports" role="tabpanel">
+<!--                                --><?php //include('../includes/tables/treasury_management/.php'); ?>
+                            </div>
                         </div>
                     </div>
                 </div>

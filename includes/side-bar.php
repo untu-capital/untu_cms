@@ -125,6 +125,17 @@
                             </ul>
                         </li>
                     <?php } ?>
+                    <?php if ($_SESSION['tmsUser']['role'] != null){ ?>
+                        <li class="dropdown">
+                            <a href="javascript:;" class="dropdown-toggle">
+                                <span class="micon bi bi-cash-stack"></span><span class="mtext">Treasury Management</span>
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="treasury_management.php?menu=main">Dashboard</a></li>
+                                <li><a href="special_assets_tracker.php?menu=main">Special Assets</a></li>
+                            </ul>
+                        </li>
+                    <?php } ?>
                     <li class="dropdown">
                         <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-folder"></span
@@ -225,6 +236,18 @@
                             <ul class="submenu">
                                 <li><a href="cash_management.php?menu=main">Transactions</a></li>
                                 <li><a href="cash_management.php?menu=acc_bal">Account Balances</a></li>
+                            </ul>
+                        </li>
+                    <?php } ?>
+
+                    <?php if ($_SESSION['tmsUser']['role'] != null){ ?>
+                        <li class="dropdown">
+                            <a href="javascript:;" class="dropdown-toggle">
+                                <span class="micon bi bi-cash-stack"></span><span class="mtext">Treasury Management</span>
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="treasury_management.php?menu=main">Dashboard</a></li>
+                                <li><a href="special_assets_tracker.php?menu=main">Special Assets</a></li>
                             </ul>
                         </li>
                     <?php } ?>
@@ -338,6 +361,17 @@
                             <li><a href="pipeline_report.php">Pipeline Summary Report</a></li>
                         </ul>
                     </li>
+                    <?php if ($_SESSION['tmsUser']['role'] != null){ ?>
+                        <li class="dropdown">
+                            <a href="javascript:;" class="dropdown-toggle">
+                                <span class="micon bi bi-cash-stack"></span><span class="mtext">Treasury Management</span>
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="treasury_management.php?menu=main">Dashboard</a></li>
+                                <li><a href="special_assets_tracker.php?menu=main">Special Assets</a></li>
+                            </ul>
+                        </li>
+                    <?php } ?>
                     <li class="dropdown">
                         <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span
@@ -551,6 +585,18 @@
                             </ul>
                         </li>
                     <?php } ?>
+
+                    <?php if ($_SESSION['tmsUser']['role'] != null){ ?>
+                        <li class="dropdown">
+                            <a href="javascript:;" class="dropdown-toggle">
+                                <span class="micon bi bi-cash-stack"></span><span class="mtext">Treasury Management</span>
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="treasury_management.php?menu=main">Dashboard</a></li>
+                                <li><a href="special_assets_tracker.php?menu=main">Special Assets</a></li>
+                            </ul>
+                        </li>
+                    <?php } ?>
                     <li class="dropdown">
                         <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-folder"></span
@@ -622,10 +668,21 @@
                             <li><a href="signed_tickets.php">Signed Ticket(s)</a></li>
                         </ul>
                     </li>
+                    <?php if ($_SESSION['tmsUser']['role'] != null){ ?>
+                        <li class="dropdown">
+                            <a href="javascript:;" class="dropdown-toggle">
+                                <span class="micon bi bi-cash-stack"></span><span class="mtext">Treasury Management</span>
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="treasury_management.php?menu=main">Dashboard</a></li>
+                                <li><a href="special_assets_tracker.php?menu=main">Special Assets</a></li>
+                            </ul>
+                        </li>
+                    <?php } ?>
                     <li class="dropdown">
                         <a href="javascript:" class="dropdown-toggle">
-								<span class="micon bi bi-folder"></span
-                                ><span class="mtext">Pipeline Reporting</span>
+								<span class="micon bi bi-folder"></span>
+                            <span class="mtext">Pipeline Reporting</span>
                         </a>
                         <ul class="submenu">
                             <li><a href="branch_pipeline_report.php">Branch Reports</a></li>
@@ -866,6 +923,7 @@
                                 </a>
                                 <ul class="submenu">
                                     <li><a href="treasury_management.php?menu=main">Dashboard</a></li>
+                                    <li><a href="special_assets_tracker.php?menu=main">Special Assets</a></li>
                                 </ul>
                             </li>
                         <?php } ?>

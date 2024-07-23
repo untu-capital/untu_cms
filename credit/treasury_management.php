@@ -83,24 +83,24 @@
                                 </a>
                             </li>
 
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link text-blue" data-toggle="tab" href="#dn_aprrover1" role="tab" aria-selected="false" >-->
-<!--                                    Approve D. Note(1st)-->
-<!--                                </a>-->
-<!--                            </li>-->
+                            <li class="nav-item">
+                                <a class="nav-link text-blue" data-toggle="tab" href="#dn_aprrover1" role="tab" aria-selected="false" >
+                                    Approve D. Note(1st)
+                                </a>
+                            </li>
 
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link text-blue" data-toggle="tab" href="#dn_aprrover2" role="tab" aria-selected="false" >-->
-<!--                                    Approve D. Note(2nd)-->
-<!--                                </a>-->
-<!--                            </li>-->
+                            <li class="nav-item">
+                                <a class="nav-link text-blue" data-toggle="tab" href="#dn_aprrover2" role="tab" aria-selected="false" >
+                                    Approve D. Note(2nd)
+                                </a>
+                            </li>
 
 
-<!--                            <li class="nav-item">-->
-<!--                                <a class="nav-link text-blue" data-toggle="tab" href="#reports" role="tab" aria-selected="false">-->
-<!--                                    Reports-->
-<!--                                </a>-->
-<!--                            </li>-->
+                            <li class="nav-item">
+                                <a class="nav-link text-blue" data-toggle="tab" href="#reports" role="tab" aria-selected="false">
+                                    Reports
+                                </a>
+                            </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
@@ -161,6 +161,9 @@
                             <div class="tab-pane fade" id="customer_info" role="tabpanel">
                                 <?php include('../includes/tables/treasury_management/customers.php'); ?>
                             </div>
+                            <div class="tab-pane fade" id="reports" role="tabpanel">
+                                <?php include('../includes/tables/cash_management/withdrawal_purposes.php'); ?>
+                            </div>
                             <div class="tab-pane fade" id="assets" role="tabpanel">
                                 <?php include('../includes/forms/treasury_management/create_asset.php'); ?>
                             </div>
@@ -177,17 +180,13 @@
                                 <?php include('../includes/forms/treasury_management/amortization_form.php'); ?>
                             </div>
 
-<!--                            <div class="tab-pane fade" id="dn_aprrover1" role="tabpanel">-->
-<!--                                --><?php //include('../includes/tables/cms/authorisers_table.php'); ?>
-<!--                            </div>-->
+                            <div class="tab-pane fade" id="dn_aprrover1" role="tabpanel">
+                                <?php include('../includes/tables/cms/authorisers_table.php'); ?>
+                            </div>
 
-<!--                            <div class="tab-pane fade" id="dn_aprrover2" role="tabpanel">-->
-<!--                                --><?php //include('../includes/tables/cms/authorisers_table.php'); ?>
-<!--                            </div>-->
-
-<!--                            <div class="tab-pane fade" id="reports" role="tabpanel">-->
-<!--                                --><?php //include('../includes/tables/cash_management/withdrawal_purposes.php'); ?>
-<!--                            </div>-->
+                            <div class="tab-pane fade" id="dn_aprrover2" role="tabpanel">
+                                <?php include('../includes/tables/cms/authorisers_table.php'); ?>
+                            </div>
                         </div>
                     </div>
                 </div>
