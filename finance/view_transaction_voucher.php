@@ -502,8 +502,8 @@ include('../includes/header.php');
                             }
 //                            Second Approver
                             if(
-                                ($transactionVoucher['firstApprovalStatus'] === "APPROVED" && $transactionVoucher['secondApprovalStatus']=== 'PENDING')||
-                                ($transactionVoucher['firstApprovalStatus'] === "APPROVED" && $transactionVoucher['secondApprovalStatus']=== 'REVISE')
+                                ($transactionVoucher['firstApprovalStatus'] === "APPROVED" && $transactionVoucher['secondApprovalStatus']=== 'PENDING' && $transactionVoucher['secondApprovalStatus']=== $_SESSION['userid']) ||
+                                ($transactionVoucher['firstApprovalStatus'] === "APPROVED" && $transactionVoucher['secondApprovalStatus']=== 'REVISE' && $transactionVoucher['secondApprovalStatus']=== $_SESSION['userid'])
                             ){
                                 echo '
                                     <div class="col-sm-3 col-md-3 col-form-label">

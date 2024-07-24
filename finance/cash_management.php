@@ -357,15 +357,22 @@ include('../includes/header.php');
 <!--                                </div>-->
 <!--                            </div>-->
                             <div class="tab-pane fade show active" id="pending" role="tabpanel">
-                                <?php $titleStatus="Pending"; $secondApprovalStatus = "PENDING"; include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
+                                <?php $titleStatus="Pending";
+                                $secondApprovalStatus = "PENDING";
+                                include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
                             </div>
 
                             <div class="tab-pane fade" id="approved" role="tabpanel">
-                                <?php $titleStatus="Approved"; $secondApprovalStatus = "APPROVED"; include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
+                                <?php
+                                $titleStatus="Approved";
+                                $secondApprovalStatus = "APPROVED";
+                                include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
                             </div>
 
                             <div class="tab-pane fade" id="declined" role="tabpanel">
-                                <?php $titleStatus="Declined"; $secondApprovalStatus = "DECLINED"; include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
+                                <?php $titleStatus="Declined";
+                                $secondApprovalStatus = "DECLINED";
+                                include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
                             </div>
 
                             <div class="tab-pane fade" id="revise" role="tabpanel">
