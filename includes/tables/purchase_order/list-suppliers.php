@@ -36,7 +36,7 @@
                             <td><?php echo $row['address']; ?></td>
                             <td><?php echo $row['phone']; ?></td>
                             <td><?php echo $row['contactPerson']; ?></td>
-                            <td><?php echo $row['taxIdNo']; ?></td>
+                            <td><?php echo $row['taxClearance']; ?></td>
                             <td><?php echo $row['comment']; ?></td>
                             <td>
                                 <div class="dropdown">

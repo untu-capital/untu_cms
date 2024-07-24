@@ -66,7 +66,7 @@
                                                     endforeach;
                                                     $sup = suppliers("/" . $row['poSupplier']);
 
-                                                    if ($sup['taxIdNo'] === null && $totalAmount > 1000) {
+                                                    if ($sup['taxClearance'] === null && $totalAmount > 1000) {
 
                                                         $discountedAmount = $totalAmount * 0.3;
                                                         echo '<input type="text" class="form-control" name="req_amount" value="$ ' . number_format($discountedAmount, 2) . '" disabled />';

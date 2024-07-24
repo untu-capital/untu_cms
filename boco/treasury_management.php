@@ -54,9 +54,9 @@
                             <li class="nav-item">
                                 <a class="nav-link active" data-toggle="tab" href="#dashboard" role="tab" aria-selected="true">Dashboard</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#user_access" role="tab" aria-selected="false">User Access</a>
-                            </li>
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link" data-toggle="tab" href="#user_access" role="tab" aria-selected="false">User Access</a>-->
+<!--                            </li>-->
                             <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#customer_info" role="tab" aria-selected="false">Customer Info</a>
                             </li>
@@ -108,55 +108,55 @@
 <!--                                    --><?php //include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
                                 </div>
                             </div>
-                            <div class="tab-pane fade row" id="user_access" role="tabpanel">
-
-                                <form method="post" action="">
-                                    <div class="row">
-                                        <div class="pd-20 col-4">
-                                            <div class="form-group">
-                                                <br>
-                                                <label>Select User :</label>
-                                                <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="user" style="width: 100%; height: 38px">
-                                                    <optgroup label="Pick a user">
-                                                        <?php
-                                                        $users = untuStaff();
-                                                        foreach ($users as $user) {
-                                                            echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
-                                                        } ?>
-                                                    </optgroup>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="pd-20 col-4">
-                                            <div class="form-group">
-                                                <br>
-                                                <label>Select TMS Role :</label>
-                                                <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="role" style="width: 100%; height: 38px">
-                                                    <optgroup label="Assign Role">
-                                                        <option value="">Unassign Role</option>;
-                                                        <?php
-                                                        $roles = roles();
-                                                        foreach ($roles as $role) {
-                                                            echo "<option value='$role[id]'>$role[description] ($role[name])</option>";
-                                                        } ?>
-                                                    </optgroup>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="pd-20 col-4">
-                                            <div class="form-group">
-                                                <br>
-                                                <label> .</label>
-                                                <button type="submit" name="update_tms_role" class="btn btn-success btn-lg btn-block">Update Role</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-
-                                <?php include('../includes/tables/treasury_management/users_table.php'); ?>
-                            </div>
+<!--                            <div class="tab-pane fade row" id="user_access" role="tabpanel">-->
+<!---->
+<!--                                <form method="post" action="">-->
+<!--                                    <div class="row">-->
+<!--                                        <div class="pd-20 col-4">-->
+<!--                                            <div class="form-group">-->
+<!--                                                <br>-->
+<!--                                                <label>Select User :</label>-->
+<!--                                                <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="user" style="width: 100%; height: 38px">-->
+<!--                                                    <optgroup label="Pick a user">-->
+<!--                                                        --><?php
+//                                                        $users = untuStaff();
+//                                                        foreach ($users as $user) {
+//                                                            echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
+//                                                        } ?>
+<!--                                                    </optgroup>-->
+<!--                                                </select>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!---->
+<!--                                        <div class="pd-20 col-4">-->
+<!--                                            <div class="form-group">-->
+<!--                                                <br>-->
+<!--                                                <label>Select TMS Role :</label>-->
+<!--                                                <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="role" style="width: 100%; height: 38px">-->
+<!--                                                    <optgroup label="Assign Role">-->
+<!--                                                        <option value="">Unassign Role</option>;-->
+<!--                                                        --><?php
+//                                                        $roles = roles();
+//                                                        foreach ($roles as $role) {
+//                                                            echo "<option value='$role[id]'>$role[description] ($role[name])</option>";
+//                                                        } ?>
+<!--                                                    </optgroup>-->
+<!--                                                </select>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!---->
+<!--                                        <div class="pd-20 col-4">-->
+<!--                                            <div class="form-group">-->
+<!--                                                <br>-->
+<!--                                                <label> .</label>-->
+<!--                                                <button type="submit" name="update_tms_role" class="btn btn-success btn-lg btn-block">Update Role</button>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </form>-->
+<!---->
+<!--                                --><?php //include('../includes/tables/treasury_management/users_table.php'); ?>
+<!--                            </div>-->
 
                             <div class="tab-pane fade" id="customer_info" role="tabpanel">
                                 <?php include('../includes/tables/treasury_management/customers.php'); ?>
