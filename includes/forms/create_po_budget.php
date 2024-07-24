@@ -1,3 +1,64 @@
+<?php
+if (isset($_POST['create_budget'])) {
+    // API endpoint URL
+    $url = "http://localhost:7878/api/utg/pos/budget/save";
+
+    // Data to send in the POST request
+    $postData = array(
+        'category' => $_POST['category'],
+        'year' => $_POST['year'],
+        'month' => $_POST['month'],
+        'amount' => $_POST['amount'],
+        'january' => $_POST['january'],
+        'february' => $_POST['february'],
+        'march' => $_POST['march'],
+        'april' => $_POST['april'],
+        'may' => $_POST['may'],
+        'june' => $_POST['june'],
+        'july' => $_POST['july'],
+        'august' => $_POST['august'],
+        'september' => $_POST['september'],
+        'october' => $_POST['october'],
+        'november' => $_POST['november'],
+        'december' => $_POST['december'],
+    );
+
+    $data = json_encode($postData);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+
+    // Execute the POST request and store the response in a variable
+    $response = curl_exec($ch);
+
+    // Check for cURL errors
+    if (!curl_errno($ch)) {
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        switch ($http_code) {
+            case 201:  # OK redirect to dashboard
+                ?>
+                <script>
+                    $(function () {
+                        $("#myModal").modal();//if you want you can have a timeout to hide the window after x seconds
+                    });
+                </script>
+                <?php
+                break;
+            default:
+                $_SESSION['error'] = 'Not able to send application' . "\n";
+                header('location: requisitions.php?menu=main');
+        }
+    } else {
+        $_SESSION['error'] = 'Application failed.. Please try again!' . "\n";
+        header('location: requisitions.php?menu=main');
+    }
+    curl_close($ch);
+}
+?>
 
 <!-- Default Basic Forms Start -->
 <div class="pd-20 card-box mb-30">
@@ -53,7 +114,7 @@
             <div class="col-md-4 col-sm-12">
                 <div class="form-group">
                     <label>Total</label>
-                    <input type="number" class="form-control" name="total">
+                    <input type="number" class="form-control" name="amount">
                 </div>
             </div>
         </div>
@@ -139,7 +200,7 @@
         </div>
         <div class="form-group row">
             <div class="col-sm-12 col-md-2 col-form-label">
-                <button class="btn btn-success" type="submit" name="create_category">Save</button>
+                <button class="btn btn-success" type="submit" name="create_budget">Save</button>
             </div>
             <div class="col-sm-12 col-md-2 col-form-label">
                 <a href="requisitions.php?menu=main" class="btn btn-primary">Cancel</a>
@@ -148,5 +209,4 @@
     </form>
 </div>
 <!-- Default Basic Forms End -->
-
 

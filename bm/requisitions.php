@@ -609,7 +609,8 @@ include('../includes/header.php');
             </div>
             <!-- Default Basic Forms End -->
 
-        <?php } elseif ($_GET['menu'] == 'update_department') { ?>
+        <?php }
+        elseif ($_GET['menu'] == 'update_department') { ?>
 
             <?php
             $id = $_GET['id'];
@@ -751,7 +752,8 @@ include('../includes/header.php');
             </div>
             <!-- Default Basic Forms End -->
 
-        <?php } elseif ($_GET['menu'] == 'add_category') { ?>
+        <?php }
+        elseif ($_GET['menu'] == 'add_category') { ?>
 
             <?php
         if (isset($_POST['create'])) {
