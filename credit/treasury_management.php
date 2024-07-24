@@ -1,21 +1,21 @@
 <?php
 
-    include('../session/session.php');
-    include ('check_role.php');
-    include('../includes/controllers.php');
-    include ('../controllers/treasury.php');
-    include('../includes/forms/treasury_management/deal_note_pdf.php');
-    $nav_header = "Treasury Management Dashboard";
+include('../session/session.php');
+include('check_role.php');
+include('../includes/controllers.php');
+include('../controllers/treasury.php');
+include('../includes/forms/treasury_management/deal_note_pdf.php');
+$nav_header = "Treasury Management Dashboard";
 
 //    include('../includes/fpdf/fpdf.php');
 
 ?>
 
 <!DOCTYPE html>
-<html >
+<html>
 <!-- HTML HEAD -->
 <?php
-    include('../includes/header.php');
+include('../includes/header.php');
 ?>
 <!-- /HTML HEAD -->
 <body>
@@ -36,9 +36,9 @@
 
         <?php include('../includes/dashboard/topbar_widget.php'); ?>
 
-        <?php if ($_GET['menu'] == "main"){ ?>
+        <?php if ($_GET['menu'] == "main") { ?>
             <script>
-                document.addEventListener('DOMContentLoaded', function() {
+                document.addEventListener('DOMContentLoaded', function () {
                     const urlParams = new URLSearchParams(window.location.search);
                     if (urlParams.has('success')) {
                         // Display a popup or alert message
@@ -52,117 +52,120 @@
                     <div class="tab">
                         <ul class="nav nav-tabs customtab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#dashboard" role="tab" aria-selected="true">Dashboard</a>
+                                <a class="nav-link active" data-toggle="tab" href="#dashboard" role="tab"
+                                   aria-selected="true">Dashboard</a>
                             </li>
+                            <!--                            <li class="nav-item">-->
+                            <!--                                <a class="nav-link" data-toggle="tab" href="#user_access" role="tab" aria-selected="false">User Access</a>-->
+                            <!--                            </li>-->
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#user_access" role="tab" aria-selected="false">User Access</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#customer_info" role="tab" aria-selected="false">Customer Info</a>
+                                <a class="nav-link" data-toggle="tab" href="#customer_info" role="tab"
+                                   aria-selected="false">Customer Info</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-blue" data-toggle="tab" href="#liabilities" role="tab" aria-selected="false">
+                                <a class="nav-link text-blue" data-toggle="tab" href="#liabilities" role="tab"
+                                   aria-selected="false">
                                     Liabilities Info
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-blue" data-toggle="tab" href="#notes_register" role="tab" aria-selected="false">
+                                <a class="nav-link text-blue" data-toggle="tab" href="#notes_register" role="tab"
+                                   aria-selected="false">
                                     Notes Register (+Summary)
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-blue" data-toggle="tab" href="#amortization" role="tab" aria-selected="false">
+                                <a class="nav-link text-blue" data-toggle="tab" href="#amortization" role="tab"
+                                   aria-selected="false">
                                     Amortization
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-blue" data-toggle="tab" href="#assets" role="tab" aria-selected="false" >
+                                <a class="nav-link text-blue" data-toggle="tab" href="#assets" role="tab"
+                                   aria-selected="false">
                                     Assets Info
                                 </a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link text-blue" data-toggle="tab" href="#dn_aprrover1" role="tab" aria-selected="false" >
-                                    Approve D. Note(1st)
-                                </a>
-                            </li>
+                            <!--                            <li class="nav-item">-->
+                            <!--                                <a class="nav-link text-blue" data-toggle="tab" href="#dn_aprrover1" role="tab" aria-selected="false" >-->
+                            <!--                                    Approve D. Note(1st)-->
+                            <!--                                </a>-->
+                            <!--                            </li>-->
 
-                            <li class="nav-item">
-                                <a class="nav-link text-blue" data-toggle="tab" href="#dn_aprrover2" role="tab" aria-selected="false" >
-                                    Approve D. Note(2nd)
-                                </a>
-                            </li>
+                            <!--                            <li class="nav-item">-->
+                            <!--                                <a class="nav-link text-blue" data-toggle="tab" href="#dn_aprrover2" role="tab" aria-selected="false" >-->
+                            <!--                                    Approve D. Note(2nd)-->
+                            <!--                                </a>-->
+                            <!--                            </li>-->
 
 
-                            <li class="nav-item">
-                                <a class="nav-link text-blue" data-toggle="tab" href="#reports" role="tab" aria-selected="false">
-                                    Reports
-                                </a>
-                            </li>
+                            <!--                            <li class="nav-item">-->
+                            <!--                                <a class="nav-link text-blue" data-toggle="tab" href="#reports" role="tab" aria-selected="false">-->
+                            <!--                                    Reports-->
+                            <!--                                </a>-->
+                            <!--                            </li>-->
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
                                 <div class="pd-20">
-<!--                                    --><?php //include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
+                                    <!--                                    --><?php //include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
                                 </div>
                             </div>
-                            <div class="tab-pane fade row" id="user_access" role="tabpanel">
 
-                                <form method="post" action="">
-                                    <div class="row">
-                                        <div class="pd-20 col-4">
-                                            <div class="form-group">
-                                                <br>
-                                                <label>Select User :</label>
-                                                <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="user" style="width: 100%; height: 38px">
-                                                    <optgroup label="Pick a user">
-                                                        <?php
-                                                        $users = untuStaff();
-                                                        foreach ($users as $user) {
-                                                            echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
-                                                        } ?>
-                                                    </optgroup>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="pd-20 col-4">
-                                            <div class="form-group">
-                                                <br>
-                                                <label>Select TMS Role :</label>
-                                                <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="role" style="width: 100%; height: 38px">
-                                                    <optgroup label="Assign Role">
-                                                        <option value="">Unassign Role</option>;
-                                                        <?php
-                                                        $roles = roles();
-                                                        foreach ($roles as $role) {
-                                                            echo "<option value='$role[id]'>$role[description] ($role[name])</option>";
-                                                        } ?>
-                                                    </optgroup>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="pd-20 col-4">
-                                            <div class="form-group">
-                                                <br>
-                                                <label> .</label>
-                                                <button type="submit" name="update_tms_role" class="btn btn-success btn-lg btn-block">Update Role</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-
-                                <?php include('../includes/tables/treasury_management/users_table.php'); ?>
-                            </div>
+                            <!--                            <div class="tab-pane fade row" id="user_access" role="tabpanel">-->
+                            <!--                                <form method="post" action="">-->
+                            <!--                                    <div class="row">-->
+                            <!--                                        <div class="pd-20 col-4">-->
+                            <!--                                            <div class="form-group">-->
+                            <!--                                                <br>-->
+                            <!--                                                <label>Select User :</label>-->
+                            <!--                                                <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="user" style="width: 100%; height: 38px">-->
+                            <!--                                                    <optgroup label="Pick a user">-->
+                            <!--                                                        --><?php
+                            //                                                        $users = untuStaff();
+                            //                                                        foreach ($users as $user) {
+                            //                                                            echo "<option value='$user[id]'>$user[firstName] $user[lastName]</option>";
+                            //                                                        } ?>
+                            <!--                                                    </optgroup>-->
+                            <!--                                                </select>-->
+                            <!--                                            </div>-->
+                            <!--                                        </div>-->
+                            <!---->
+                            <!--                                        <div class="pd-20 col-4">-->
+                            <!--                                            <div class="form-group">-->
+                            <!--                                                <br>-->
+                            <!--                                                <label>Select TMS Role :</label>-->
+                            <!--                                                <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="role" style="width: 100%; height: 38px">-->
+                            <!--                                                    <optgroup label="Assign Role">-->
+                            <!--                                                        <option value="">Unassign Role</option>;-->
+                            <!--                                                        --><?php
+                            //                                                        $roles = roles();
+                            //                                                        foreach ($roles as $role) {
+                            //                                                            echo "<option value='$role[id]'>$role[description] ($role[name])</option>";
+                            //                                                        } ?>
+                            <!--                                                    </optgroup>-->
+                            <!--                                                </select>-->
+                            <!--                                            </div>-->
+                            <!--                                        </div>-->
+                            <!---->
+                            <!--                                        <div class="pd-20 col-4">-->
+                            <!--                                            <div class="form-group">-->
+                            <!--                                                <br>-->
+                            <!--                                                <label> .</label>-->
+                            <!--                                                <button type="submit" name="update_tms_role" class="btn btn-success btn-lg btn-block">Update Role</button>-->
+                            <!--                                            </div>-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
+                            <!--                                </form>-->
+                            <!---->
+                            <!--                                --><?php //include('../includes/tables/treasury_management/users_table.php'); ?>
+                            <!--                            </div>-->
 
                             <div class="tab-pane fade" id="customer_info" role="tabpanel">
                                 <?php include('../includes/tables/treasury_management/customers.php'); ?>
-                            </div>
-                            <div class="tab-pane fade" id="reports" role="tabpanel">
-                                <?php include('../includes/tables/cash_management/withdrawal_purposes.php'); ?>
                             </div>
                             <div class="tab-pane fade" id="assets" role="tabpanel">
                                 <?php include('../includes/forms/treasury_management/create_asset.php'); ?>
@@ -180,13 +183,17 @@
                                 <?php include('../includes/forms/treasury_management/amortization_form.php'); ?>
                             </div>
 
-                            <div class="tab-pane fade" id="dn_aprrover1" role="tabpanel">
-                                <?php include('../includes/tables/cms/authorisers_table.php'); ?>
-                            </div>
+                            <!--                            <div class="tab-pane fade" id="dn_aprrover1" role="tabpanel">-->
+                            <!--                                --><?php //include('../includes/tables/cms/authorisers_table.php'); ?>
+                            <!--                            </div>-->
 
-                            <div class="tab-pane fade" id="dn_aprrover2" role="tabpanel">
-                                <?php include('../includes/tables/cms/authorisers_table.php'); ?>
-                            </div>
+                            <!--                            <div class="tab-pane fade" id="dn_aprrover2" role="tabpanel">-->
+                            <!--                                --><?php //include('../includes/tables/cms/authorisers_table.php'); ?>
+                            <!--                            </div>-->
+
+                            <!--                            <div class="tab-pane fade" id="reports" role="tabpanel">-->
+                            <!--                                --><?php //include('../includes/tables/cash_management/withdrawal_purposes.php'); ?>
+                            <!--                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -194,13 +201,11 @@
 
         <?php } elseif ($_GET['menu'] == "download_deal_note") {
             include('../includes/forms/treasury_management/deal_note_pdf.php');
-         }
-
-        elseif ($_GET['menu'] == "view_statement") {?>
+        } elseif ($_GET['menu'] == "view_statement") { ?>
             <?php include('../includes/forms/treasury_management/deal_note_statement.php');
         }
 
-        elseif ($_GET['menu'] == "view_asset_statement") {?>
+        elseif ($_GET['menu'] == "view_asset_statement") { ?>
             <div class="invoice-wrap pd-30">
                 <div class="invoice-box">
                     <div class="invoice-header">
@@ -213,7 +218,7 @@
                             </div>
                             <div class="col text-center">
                                 <div class="logo" style="width: 60%; height: 60%">
-                                    <img src="../vendors/images/logo.PNG" alt="" class="mx-auto d-block" />
+                                    <img src="../vendors/images/logo.PNG" alt="" class="mx-auto d-block"/>
                                 </div>
                             </div>
 
@@ -251,7 +256,8 @@
                                 <div class="col-md-8">
                                     <div class="text-right">
                                         <p class="font-14 mb-5">06.11.2023</p>
-                                        <p class="font-14 mb-5"><strong class="weight-600">Gain Cash & Carry</strong></p>
+                                        <p class="font-14 mb-5"><strong class="weight-600">Gain Cash & Carry</strong>
+                                        </p>
                                         <p class="font-14 mb-5">USD</p>
                                     </div>
                                 </div>
@@ -288,7 +294,9 @@
                             <tr>
                                 <td class="table-plus"><strong class="weight-600">Closing Balance</strong></td>
                                 <td></td>
-                                <td><span class="weight-600" style="border-bottom: 3px double #000; display: inline-block;">50,851.65</span></td>
+                                <td><span class="weight-600"
+                                          style="border-bottom: 3px double #000; display: inline-block;">50,851.65</span>
+                                </td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -335,17 +343,19 @@
                                     -
                                 </p>
                                 <p class="font-14 mb-5 text-right">
-                                    <strong class="weight-600" style="border-bottom: 3px double #000; display: inline-block;">-</strong>
+                                    <strong class="weight-600"
+                                            style="border-bottom: 3px double #000; display: inline-block;">-</strong>
                                 </p>
                             </div>
                         </div>
 
 
                         <br>
-                        <p class="font-18 mb-5"><strong class="weight-600 text-red-50">Amortisation Schedule</strong></p>
+                        <p class="font-18 mb-5"><strong class="weight-600 text-red-50">Amortisation Schedule</strong>
+                        </p>
 
                         <div class="row">
-                            <div class="col-10" >
+                            <div class="col-10">
                                 <table class="table ">
                                     <thead>
                                     <tr class="invoice-desc-head">
@@ -398,9 +408,9 @@
             </div>
         <?php }
 
-        elseif ($_GET['menu'] == 'add_customer'){
+        elseif ($_GET['menu'] == 'add_customer') {
             include('../includes/forms/treasury_management/create_customer.php');
-         }
+        }
         elseif ($_GET['menu'] == 'view_customer'){
         $data = customer_info($_GET['customerId']);
         ?>
@@ -597,7 +607,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="address">Physical Address :</label>
-                                        <textarea id="address" name="address" rows="4" type="text" class="form-control"><?php echo $data['address'] ?? ''; ?></textarea>
+                                        <textarea id="address" name="address" rows="4" type="text"
+                                                  class="form-control"><?php echo $data['address'] ?? ''; ?></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -647,16 +658,20 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="BankAccountNumber">Account Number</label>
-                                        <input id="BankAccountNumber" name="BankAccountNumber" type="number" class="form-control" value="<?php echo $data['BankAccountNumber'] ?? ''; ?>"/>
+                                        <input id="BankAccountNumber" name="BankAccountNumber" type="number"
+                                               class="form-control"
+                                               value="<?php echo $data['BankAccountNumber'] ?? ''; ?>"/>
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-6">
                                             <label for="SwiftCode">Swift Code :</label>
-                                            <input id="SwiftCode" name="SwiftCode" class="form-control" type="text" value="<?php echo $data['SwiftCode'] ?? ''; ?>"/>
+                                            <input id="SwiftCode" name="SwiftCode" class="form-control" type="text"
+                                                   value="<?php echo $data['SwiftCode'] ?? ''; ?>"/>
                                         </div>
                                         <div class="form-group col-6">
                                             <label for="currency">Currency Denomination</label>
-                                            <select class="custom-select2 form-control" name="currency" autocomplete="off" style="width: 100%; height: 38px" >
+                                            <select class="custom-select2 form-control" name="currency"
+                                                    autocomplete="off" style="width: 100%; height: 38px">
                                                 <option value="USD">USD</option>
                                                 <option value="ZWL">ZWL</option>
                                             </select>
@@ -704,7 +719,7 @@
         <?php }
         ?>
 
-        <?php include('../includes/footer.php');?>
+        <?php include('../includes/footer.php'); ?>
     </div>
 </div>
 
@@ -740,7 +755,10 @@
 <script src="../vendors/scripts/datatable-setting.js"></script>
 
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0"
+            style="display: none; visibility: hidden"></iframe>
+</noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 </body>

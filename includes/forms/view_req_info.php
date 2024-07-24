@@ -65,14 +65,17 @@
                                                     foreach($req_trans as $row):
                                                     endforeach;
                                                     $sup = suppliers("/" . $row['poSupplier']);
+                                                    $par = parameters();
+                                                    foreach ($par as $parrr) {
 
-                                                    if ($sup['taxIdNo'] === null && $totalAmount > 1000) {
+                                                        if (($sup['taxClearance'] === null || $sup['taxClearance'] != 'Yes') && $totalAmount > $parrr['cumulative']) {
 
-                                                        $discountedAmount = $totalAmount * 0.3;
-                                                        echo '<input type="text" class="form-control" name="req_amount" value="$ ' . number_format($discountedAmount, 2) . '" disabled />';
-                                                    } else {
+                                                            $discountedAmount = $totalAmount * 0.3;
+                                                            echo '<input type="text" class="form-control" name="req_amount" value="$ ' . number_format($discountedAmount, 2) . '" disabled />';
+                                                        } else {
 
-                                                        echo '<input type="text" class="form-control" name="req_amount" value="$ ' . 0 . '" disabled />';
+                                                            echo '<input type="text" class="form-control" name="req_amount" value="$ ' . 0 . '" disabled />';
+                                                        }
                                                     }
                                                     ?>
                                                 </div>
