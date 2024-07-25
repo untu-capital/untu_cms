@@ -359,13 +359,86 @@ include('../includes/header.php');
                         </table>
                     </div>
 
-                    <div class="form-group row">
-                        <div class="col-sm-4 col-md-4 col-form-label">
-                            <a href="cash_management.php?menu=main" class="btn btn-secondary btn-block"
-                               id="withdrawalCashVoucherButton">Back
-                            </a>
+                        <div class="form-group row">
+                            <?php
+                            //                            First Approver
+                            if(
+                                ($transactionVoucher['firstApprovalStatus'] == "PENDING" && $transactionVoucher['secondApprovalStatus'] == "PENDING")||
+                                ($transactionVoucher['firstApprovalStatus'] == "REVISE" && $transactionVoucher['secondApprovalStatus'] == "PENDING")
+                            ){
+                                echo '
+                                <div class="col-sm-3 col-md-3 col-form-label">
+                                    <form method="post" action="">
+                                        <label for="id" hidden="hidden"></label>
+                                        <input id="id" name="id" value="' . $transactionVoucher['id'] . '" hidden="hidden">
+                                        <label for="status" hidden="hidden"></label>
+                                        <input id="status" name="status" value="APPROVED" hidden="hidden">
+                                        <label for="comment" hidden="hidden"></label>
+                                        <input id="comment" name="comment" value="APPROVED" hidden="hidden">                                    
+                                        <button type="submit"
+                                                name="firstApprove01"
+                                                class="btn btn-success btn-block"
+                                         >
+                                           Approve
+                                        </button>
+                                    </form>
+                                </div>
+                                <div class="col-sm-3 col-md-3 col-form-label">
+                                     <button type="button"
+                                            class="btn btn-warning btn-block"
+                                            data-toggle="modal"
+                                            id="hreviseButton"
+                                            data-target="#HOReviseModal"
+                                        >
+                                       Revert
+                                    </button>
+                                </div>
+                                <div class="col-sm-3 col-md-3 col-form-label">
+                                     <button type="button"
+                                            class="btn btn-danger btn-block"
+                                            data-toggle="modal"
+                                            id="hdeclineButton"
+                                            data-target="#HODeclineModal"
+                                        >
+                                        Decline
+                                    </button>
+                                </div>
+                                <div class="col-sm-3 col-md-3 col-form-label">
+                                     <a type="button" class="btn btn-secondary btn-block" href="cash_management.php?menu=main">
+                                     Back
+                                    </a>                                                                        
+                                </div>
+                                ';
+                            }
+
+                            //                            Declined Status
+                            if(
+                                ($transactionVoucher['firstApprovalStatus'] === "DECLINED"
+                                    || $transactionVoucher['secondApprovalStatus']=== 'DECLINED')
+                            ){
+                                echo '                                  
+                                     <div class="col-sm-3 col-md-3 col-form-label">
+                                     <a type="button" class="btn btn-secondary btn-block" href="cash_management.php?menu=main">
+                                     Back
+                                    </a>                                                                        
+                                </div>
+                                    ';
+                            }
+                            //                            Both Approved Status
+                            if(
+                                ($transactionVoucher['firstApprovalStatus'] === "APPROVED"
+                                    && $transactionVoucher['secondApprovalStatus']=== 'APPROVED')
+                            ){
+                                echo '                                  
+                                     <div class="col-sm-3 col-md-3 col-form-label">
+                                     <a type="button" class="btn btn-secondary btn-block" href="cash_management.php?menu=main">
+                                     Back
+                                    </a>                                                                        
+                                </div>
+                                    ';
+                            }
+                            ?>
                         </div>
-                    </div>
                     <!--                                    Javascript function to calculate the amount per denomination and total amount-->
                     <script>
                         async function getAllTransactionsDefault() {

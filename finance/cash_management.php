@@ -1,242 +1,240 @@
 <?php
-include('../session/session.php');
-include ('check_role.php');
-include('../includes/controllers.php');
-$nav_header = "Cash Management Dashboard";
 
-$state = $_GET['state'];
-$userId = $_SESSION['userId'];
-$branch = $_SESSION['branch'];
+    include('../session/session.php');
+    include ('check_role.php');
+    include('../includes/controllers.php');
+    $nav_header = "Cash Management Dashboard";
 
-if(isset($_POST['Branch'])){
-    $name = $_POST['name'];
-    $status = $_POST['status'];
-    $code = $_POST['code'];
-    $direction = $_POST['direction'];
-    $google = $_POST['google'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
-    $branchcode = $_POST['branchcode'];
-    $vault = $_POST['vault'];
+    $state = $_GET['state'];
+    $userId = $_SESSION['userId'];
+    $branch = $_SESSION['branch'];
 
-    $url = "http://localhost:7878/api/utg/branches/addBranch";
+    if(isset($_POST['Branch'])){
+        $name = $_POST['name'];
+        $status = $_POST['status'];
+        $code = $_POST['code'];
+        $direction = $_POST['direction'];
+        $google = $_POST['google'];
+        $phone = $_POST['phone'];
+        $address = $_POST['address'];
+        $branchcode = $_POST['branchcode'];
+        $vault = $_POST['vault'];
 
-    $data_array = array(
+        $url = "http://localhost:7878/api/utg/branches/addBranch";
 
-        'branchName'=> $name,
-        'branchStatus' => $status,
-        'branchAddress'=> $address,
-        'branchTellPhone' => $phone,
-        'googleMap'=> $google,
-        'direactionsLink' => $direction,
-        'code'=> $code,
-        'vaultAccountNumber'=> $vault,
-        'branchCode'=> $branchcode
+        $data_array = array(
 
-
-
-    );
-
-    $data = json_encode($data_array);
-
-    $ch = curl_init();
-
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true );
-
-    $resp = curl_exec($ch);
-
-    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    $headerStr = substr($resp, 0, $headerSize);
-    $bodyStr = substr($resp, $headerSize);
-
-    // Check HTTP status code
-    if (!curl_errno($ch)) {
-        // $_SESSION['info'] = "";
-        // $_SESSION['error'] = "";
-        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-            case 200:
-                header('Location: cash_management.php?menu=main');# OK redirect to dashboard
+            'branchName'=> $name,
+            'branchStatus' => $status,
+            'branchAddress'=> $address,
+            'branchTellPhone' => $phone,
+            'googleMap'=> $google,
+            'direactionsLink' => $direction,
+            'code'=> $code,
+            'vaultAccountNumber'=> $vault,
+            'branchCode'=> $branchcode
 
 
-                break;
-            case 400:  # Bad Request
-                $decoded = json_decode($bodyStr);
-                foreach($decoded as $key => $val) {
-                    //echo $key . ': ' . $val . '<br>';
-                }
-                // echo $val;
-                $_SESSION['error'] = "Failed. Please try again, ".$val;
-                header('location: cash_management.php?menu=main');
-                break;
 
-            case 401: # Unauthorixed - Bad credientials
-                $_SESSION['error'] = 'Application failed.. Please try again!';
-                header('location: cash_management.php?menu=main');
+        );
 
-                break;
-            default:
-                $_SESSION['error'] = 'Not able to create Category'. "\n";
-                header('location: cash_management.php?menu=main');
+        $data = json_encode($data_array);
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true );
+
+        $resp = curl_exec($ch);
+
+        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $headerStr = substr($resp, 0, $headerSize);
+        $bodyStr = substr($resp, $headerSize);
+
+        // Check HTTP status code
+        if (!curl_errno($ch)) {
+            // $_SESSION['info'] = "";
+            // $_SESSION['error'] = "";
+            switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+                case 200:
+                    header('Location: cash_management.php?menu=main');# OK redirect to dashboard
+
+
+                    break;
+                case 400:  # Bad Request
+                    $decoded = json_decode($bodyStr);
+                    foreach($decoded as $key => $val) {
+                        //echo $key . ': ' . $val . '<br>';
+                    }
+                    // echo $val;
+                    $_SESSION['error'] = "Failed. Please try again, ".$val;
+                    header('location: cash_management.php?menu=main');
+                    break;
+
+                case 401: # Unauthorixed - Bad credientials
+                    $_SESSION['error'] = 'Application failed.. Please try again!';
+                    header('location: cash_management.php?menu=main');
+
+                    break;
+                default:
+                    $_SESSION['error'] = 'Not able to create Category'. "\n";
+                    header('location: cash_management.php?menu=main');
+            }
+        } else {
+            $_SESSION['error'] = 'Application failed.. Please try again!'. "\n";
+            header('location: cash_management.php?menu=main');
+
         }
-    } else {
-        $_SESSION['error'] = 'Application failed.. Please try again!'. "\n";
-        header('location: cash_management.php?menu=main');
-
+        curl_close($ch);
     }
-    curl_close($ch);
-}
+
+    //UPDATE BRANCH
+    function updateBranch($id, $address, $phone,$status, $name, $code, $branchcode, $vault){
+
+        $url = "http://localhost:7878/api/utg/branches/update/".$id;
+        $data_array = array(
+            'branchName' => $name,
+            'branchAddress' => $address,
+            'branchTellPhone' => $phone,
+            'branchStatus' => $status,
+            'branchCode' => $branchcode,
+            'code' => $code,
+            'vaultAccountNumber' => $vault,
 
 
-//UPDATE BRANCH
-function updateBranch($id, $address, $phone,$status, $name, $code, $branchcode, $vault){
+        );
 
-    $url = "http://localhost:7878/api/utg/branches/update/".$id;
-    $data_array = array(
-        'branchName' => $name,
-        'branchAddress' => $address,
-        'branchTellPhone' => $phone,
-        'branchStatus' => $status,
-        'branchCode' => $branchcode,
-        'code' => $code,
-        'vaultAccountNumber' => $vault,
+        $data = json_encode($data_array);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        $resp = curl_exec($ch);
 
+        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $headerStr = substr($resp, 0, $headerSize);
+        $bodyStr = substr($resp, $headerSize);
 
-    );
+        // convert headers to array
+        $headers = headersToArray( $headerStr );
 
-    $data = json_encode($data_array);
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true);
-    $resp = curl_exec($ch);
-
-    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    $headerStr = substr($resp, 0, $headerSize);
-    $bodyStr = substr($resp, $headerSize);
-
-    // convert headers to array
-    $headers = headersToArray( $headerStr );
-
-    if (!curl_errno($ch)) {
-        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-            case 200:  # OK redirect to dashboard
-                $_SESSION['info'] = "Industry Updated Successfully!";
-                audit($_SESSION['userid'], "Updated Category! - ".$id, $_SESSION['branch']);
-                header('location: cash_management.php?menu=main');
-                break;
-            case 400:  # Bad Request
-                $decoded = json_decode($bodyStr);
-                foreach($decoded as $key => $val) {
-                    echo $key . ': ' . $val . '<br>';
-                }
-                echo $val;
-                $_SESSION['error'] = "Failed. Please try again, ".$val;
-                audit($_SESSION['userid'], "Failed to Update Branch! - ".$id, $_SESSION['branch']);
-                header('location: cash_management.php?menu=main');
-                break;
-            default:
-                $_SESSION['error'] = 'Could not update Branch '. "\n";
-                audit($_SESSION['userid'], "Failed to Update Branch! - ".$id, $_SESSION['branch']);
-                header('location: cash_management.php?menu=main');
+        if (!curl_errno($ch)) {
+            switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+                case 200:  # OK redirect to dashboard
+                    $_SESSION['info'] = "Industry Updated Successfully!";
+                    audit($_SESSION['userid'], "Updated Category! - ".$id, $_SESSION['branch']);
+                    header('location: cash_management.php?menu=main');
+                    break;
+                case 400:  # Bad Request
+                    $decoded = json_decode($bodyStr);
+                    foreach($decoded as $key => $val) {
+                        echo $key . ': ' . $val . '<br>';
+                    }
+                    echo $val;
+                    $_SESSION['error'] = "Failed. Please try again, ".$val;
+                    audit($_SESSION['userid'], "Failed to Update Branch! - ".$id, $_SESSION['branch']);
+                    header('location: cash_management.php?menu=main');
+                    break;
+                default:
+                    $_SESSION['error'] = 'Could not update Branch '. "\n";
+                    audit($_SESSION['userid'], "Failed to Update Branch! - ".$id, $_SESSION['branch']);
+                    header('location: cash_management.php?menu=main');
+            }
+        } else {
+            $_SESSION['error'] = 'Update failed.. Please try again!'. "\n";
+            audit($_SESSION['userid'], "Failed to Update Branch! - ".$id, $_SESSION['branch']);
+            header('location: cash_management.php?menu=main');
         }
-    } else {
-        $_SESSION['error'] = 'Update failed.. Please try again!'. "\n";
-        audit($_SESSION['userid'], "Failed to Update Branch! - ".$id, $_SESSION['branch']);
-        header('location: cash_management.php?menu=main');
+        curl_close($ch);
     }
-    curl_close($ch);
-}
-if(isset($_POST['edit'])) {
-    $id = $_POST['id'];
-    $name = $_POST['branchName'];
-    $status = $_POST['status'];
-    $address = $_POST['branchAddress'];
-    $phone = $_POST['branchTellPhone'];
-    $code = $_POST['code'];
-    $branchcode = $_POST['branchcode'];
-    $vault = $_POST['vault'];
+    if(isset($_POST['edit'])) {
+        $id = $_POST['id'];
+        $name = $_POST['branchName'];
+        $status = $_POST['status'];
+        $address = $_POST['branchAddress'];
+        $phone = $_POST['branchTellPhone'];
+        $code = $_POST['code'];
+        $branchcode = $_POST['branchcode'];
+        $vault = $_POST['vault'];
 
-    updateBranch($id, $address, $phone,$status, $name, $code, $branchcode, $vault);
-}
+        updateBranch($id, $address, $phone,$status, $name, $code, $branchcode, $vault);
+    }
 
-//update Authrities
-function updateAuthorities($id, $branch, $authlevel,$name){
+    //update Authrities
+    function updateAuthorities($id, $branch, $authlevel,$name){
 
-    echo $id;
-    echo
+        echo $id;
+        echo
 
-    $url = "http://localhost:7878/api/utg/cms/cms_authorisation/update/".$id;
-    $data_array = array(
-        'branchId' => $branch,
-        'authLevel' => $authlevel,
-        'userId' => $name,
+        $url = "http://localhost:7878/api/utg/cms/cms_authorisation/update/".$id;
+        $data_array = array(
+            'branchId' => $branch,
+            'authLevel' => $authlevel,
+            'userId' => $name,
 
-    );
+        );
 
-    $data = json_encode($data_array);
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true);
-    $resp = curl_exec($ch);
+        $data = json_encode($data_array);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        $resp = curl_exec($ch);
 
-    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    $headerStr = substr($resp, 0, $headerSize);
-    $bodyStr = substr($resp, $headerSize);
+        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $headerStr = substr($resp, 0, $headerSize);
+        $bodyStr = substr($resp, $headerSize);
 
-    // convert headers to array
-    $headers = headersToArray( $headerStr );
+        // convert headers to array
+        $headers = headersToArray( $headerStr );
 
-    if (!curl_errno($ch)) {
-        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-            case 200:  # OK redirect to dashboard
-                $_SESSION['info'] = "Authorisationd Updated Successfully!";
-                audit($_SESSION['userid'], "Updated Authorisation! - ".$id, $_SESSION['branch']);
-                header('location: cash_management.php?menu=main');
-                break;
-            case 400:  # Bad Request
-                $decoded = json_decode($bodyStr);
-                foreach($decoded as $key => $val) {
-                    echo $key . ': ' . $val . '<br>';
-                }
-                echo $val;
-                $_SESSION['error'] = "Failed. Please try again, ".$val;
-                audit($_SESSION['userid'], "Failed to Update Authorisation! - ".$id, $_SESSION['branch']);
-                header('location: cash_management.php?menu=main');
-                break;
-            default:
-                $_SESSION['error'] = 'Could not update Branch '. "\n";
-                audit($_SESSION['userid'], "Failed to Update Authorisation! - ".$id, $_SESSION['branch']);
-                header('location: cash_management.php?menu=main');
+        if (!curl_errno($ch)) {
+            switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+                case 200:  # OK redirect to dashboard
+                    $_SESSION['info'] = "Authorisationd Updated Successfully!";
+                    audit($_SESSION['userid'], "Updated Authorisation! - ".$id, $_SESSION['branch']);
+                    header('location: cash_management.php?menu=main');
+                    break;
+                case 400:  # Bad Request
+                    $decoded = json_decode($bodyStr);
+                    foreach($decoded as $key => $val) {
+                        echo $key . ': ' . $val . '<br>';
+                    }
+                    echo $val;
+                    $_SESSION['error'] = "Failed. Please try again, ".$val;
+                    audit($_SESSION['userid'], "Failed to Update Authorisation! - ".$id, $_SESSION['branch']);
+                    header('location: cash_management.php?menu=main');
+                    break;
+                default:
+                    $_SESSION['error'] = 'Could not update Branch '. "\n";
+                    audit($_SESSION['userid'], "Failed to Update Authorisation! - ".$id, $_SESSION['branch']);
+                    header('location: cash_management.php?menu=main');
+            }
+        } else {
+            $_SESSION['error'] = 'Update failed.. Please try again!'. "\n";
+            audit($_SESSION['userid'], "Failed to Update Authorisation! - ".$id, $_SESSION['branch']);
+            header('location: cash_management.php?menu=main');
         }
-    } else {
-        $_SESSION['error'] = 'Update failed.. Please try again!'. "\n";
-        audit($_SESSION['userid'], "Failed to Update Authorisation! - ".$id, $_SESSION['branch']);
-        header('location: cash_management.php?menu=main');
+        curl_close($ch);
     }
-    curl_close($ch);
-}
-if(isset($_POST['update_auth'])) {
-    $id = $_POST['id'];
-    $branch = $_POST['update_branch'];
-    $authlevel = $_POST['role'];
-    $name = $_POST['update_name'];
+    if(isset($_POST['update_auth'])) {
+        $id = $_POST['id'];
+        $branch = $_POST['update_branch'];
+        $authlevel = $_POST['role'];
+        $name = $_POST['update_name'];
 
-    updateAuthorities($id, $branch, $authlevel,$name);
-}
-
-
+        updateAuthorities($id, $branch, $authlevel,$name);
+    }
 
 ?>
 
