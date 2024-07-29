@@ -51,6 +51,7 @@ include('../includes/header.php');
                         Process Requisition(s)
                     </a>
                 </li>
+                <?php if ($_SESSION['branch'] == "Head Office") { ?>
                 <li class="nav-item">
                     <a class="nav-link text-blue" data-toggle="tab" href="#suppliers" role="tab" aria-selected="false">
                         Suppliers
@@ -61,7 +62,6 @@ include('../includes/header.php');
                         Categories
                     </a>
                 </li>
-                <?php if ($_SESSION['branch'] == "Head Office") { ?>
                 <li class="nav-item">
                     <a class="nav-link text-blue" data-toggle="tab" href="#parameters" role="tab"
                        aria-selected="false">

@@ -84,7 +84,7 @@
             <div class="col-md-4 col-sm-12">
                 <div class="form-group">
                     <label>Loan Amount *</label>
-                    <input type="number" name="loan" min = "1000" max = "250000" required class="form-control">
+                    <input type="number" name="loan" min = "1000" max = "500000" required class="form-control">
                 </div>
             </div>
             <div class="col-md-4 col-sm-12">
