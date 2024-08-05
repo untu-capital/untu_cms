@@ -22,7 +22,7 @@
                         <th class="table-plus datatable-nosort">Name</th>
                         <th>Date</th>
                         <th>Amount(USD)</th>
-                        <th>Amount(ZWL)</th>
+                        <th>Amount(ZIG)</th>
                     </tr>
                     </thead>
                     <tbody>

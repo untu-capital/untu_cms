@@ -57,7 +57,7 @@
                                 if ($row['currency'] === "1" || $row['currency'] === "001") {
                                     echo "USD";
                                 } else {
-                                    echo "ZWL";
+                                    echo "ZIG";
                                 }
                                 ?></td>
 

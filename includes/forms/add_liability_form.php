@@ -143,7 +143,7 @@ if(isset($_POST['Submit'])){
                         <select class="custom-select2 form-control" name="currency" id="currency" style="width: 100%; height: 38px" required>
                             <option value=null>Select Option</option>
                             <option value="USD">USD</option>
-                            <option value="ZWL">ZWL</option>
+                            <option value="ZIG">ZIG</option>
 
 
                         </select>

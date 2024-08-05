@@ -149,9 +149,9 @@ include ('check_role.php');
 												<label>Handed Over To</label>
 												<select class="custom-select2 form-control" name="legal" id="legal" style="width: 100%; height: 38px" required>
 													<option value=null>Collectors</option>
-													<option value="USD">Danziger</option>
-													<option value="ZWL">Nyamundanda</option>
-													<option value="ZWL">Branch</option>
+													<option value="DANZIGER">Danziger</option>
+													<option value="NYAMUNDANDA">Nyamundanda</option>
+													<option value="BRANCH">Branch</option>
 
 
 												</select>

@@ -33,8 +33,8 @@
                                         <label for="name">Counter :</label>
                                         <select id="type" class="form-select form-control"
                                                 aria-label="Default select example">
-                                            <option value="">USD</option>
-                                            <option value="2">ZWL</option>
+                                            <option value="USD">USD</option>
+                                            <option value="ZIG">ZIG</option>
                                         </select>
                                     </div>
                                 </div>
@@ -51,7 +51,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="zwlBankName">ZWL:</label>
+                                        <label for="zwlBankName">ZIG:</label>
                                         <input id="zwlBankName" name="zwlBankName" type="text" class="form-control"/>
                                     </div>
                                 </div>
@@ -85,7 +85,7 @@
                         <th>Currency</th>
                         <th>Date of Acquisition</th>
                         <th>Number of Shares</th>
-                        <th>Price Per Share (ZWL)</th>
+                        <th>Price Per Share (ZIG)</th>
                         <th>Transaction Cost</th>
                         <th>Acquisition</th>
                     </tr>

@@ -113,8 +113,8 @@ include('../includes/header.php');
                             <select onselect="validateFormOnSelect()" class="custom-select2 form-control" id="currency"
                                     name="currency" style="width: 100%; height: 38px">
 
-                                <option value="usd">USD</option>
-                                <option value="zwl">ZWL</option>
+                                <option value="USD">USD</option>
+                                <option value="ZIG">ZIG</option>
                             </select>
                             <div id="error-currency" class="none has-danger d-none">
                                 <div class="form-control-feedback">Please Select Currency!</div>

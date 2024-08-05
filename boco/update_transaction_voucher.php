@@ -157,8 +157,8 @@ include('../includes/header.php');
                                         style="width: 100%; height: 38px"
                                 >
 
-                                    <option value="usd">USD</option>
-                                    <option value="zwl">ZWL</option>
+                                    <option value="USD">USD</option>
+                                    <option value="ZIG">ZIG</option>
 
                                 </select></div>
                         </div>

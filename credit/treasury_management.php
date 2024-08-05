@@ -673,7 +673,7 @@ include('../includes/header.php');
                                             <select class="custom-select2 form-control" name="currency"
                                                     autocomplete="off" style="width: 100%; height: 38px">
                                                 <option value="USD">USD</option>
-                                                <option value="ZWL">ZWL</option>
+                                                <option value="ZIG">ZIG</option>
                                             </select>
                                         </div>
                                     </div>

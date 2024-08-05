@@ -166,7 +166,7 @@
                                     <div class="form-group">
                                         <select class="custom-select2 form-control" name="currency" required>
                                             <option value='USD'>USD</option>
-                                            <option value='ZWL'>ZWL</option>
+                                            <option value='ZIG'>ZIG</option>
                                         </select>
                                     </div>
                                 </td>
