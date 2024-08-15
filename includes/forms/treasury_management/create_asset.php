@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="form-group">
-                        <label>Type of Liability</label>
+                        <label>Type of Asset</label>
                         <select class="custom-select2 form-control" name="asset" id="asset" style="width: 100%; height: 38px" required>
                             <option value="MTN">MTN</option>
                             <option value="RECEIVABLE">Receivable</option>

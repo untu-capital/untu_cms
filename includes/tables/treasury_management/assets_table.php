@@ -9,7 +9,7 @@
         <thead>
         <tr>
             <th>Counterparty</th>
-            <th>Liability Type</th>
+            <th>Asset Type</th>
             <th>Interest</th>
             <th>Tenor In Days</th>
             <th>Invested Amount</th>
@@ -25,8 +25,8 @@
         </thead>
         <tbody>
         <?php
-        $liabilities = asset_list();
-        foreach ($liabilities as $data):
+        $assets = asset_list();
+        foreach ($assets as $data):
             ?>
             <tr>
                 <td class="table-plus"><?php echo $data['counterpart'].' ( '.$data['currencyDenomination'].' )'; ?></td>

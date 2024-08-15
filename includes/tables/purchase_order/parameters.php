@@ -1,13 +1,20 @@
-            <!-- Export Datatable start -->
+<?php
+    $parameters = parameters();
+    ?>
+
+
+<!-- Export Datatable start -->
             <div class="card-box mb-30">
                 <div class="pd-20">
                     <div class="row">
                         <div class="col-10">
                             <h4 class="text-blue h4">Parameters</h4>
                         </div>
+                        <?php if ($parameters == null){ ?>
                         <div class="col-2">
                             <a class="btn-lg btn-block btn-success text-white text-center" href="requisitions.php?menu=add_parameter"><i class="icon-copy bi bi-plus-lg"></i>Add Parameter</a>
                         </div>
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="pb-20">
@@ -22,7 +29,6 @@
                         </thead>
                         <tbody>
                         <?php
-                            $parameters = parameters();
                             foreach ($parameters as $row):
                                 ?>
                             <tr>

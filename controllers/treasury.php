@@ -12,73 +12,92 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-    if(isset($_POST['create_customer_info'])) {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $phoneNumber = $_POST['phoneNumber'];
-        $phoneNumberOther = $_POST['phoneNumberOther'];
-        $address = $_POST['address'];
-        $contactPersonName = $_POST['contactPersonName'];
-        $contactPersonJobTitle = $_POST['contactPersonJobTitle'];
-        $BankName = $_POST['BankName'];
-        $BankBranch = $_POST['BankBranch'];
-        $BankAccountNumber = $_POST['BankAccountNumber'];
-        $SwiftCode = $_POST['SwiftCode'];
-        $currency = $_POST['currency'];
+if (isset($_POST['create_customer_info'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phoneNumber = $_POST['phoneNumber'];
+    $phoneNumberOther = $_POST['phoneNumberOther'];
+    $address = $_POST['address'];
+    $contactPersonName = $_POST['contactPersonName'];
+    $contactPersonJobTitle = $_POST['contactPersonJobTitle'];
+    $contactPersonName2 = $_POST['contactPersonName2'];
+    $contactPersonJobTitle2 = $_POST['contactPersonJobTitle2'];
+    $BankName = $_POST['BankName'];
+    $BankBranch = $_POST['BankBranch'];
+    $BankAccountNumber = $_POST['BankAccountNumber'];
+    $SwiftCode = $_POST['SwiftCode'];
+    $currency = $_POST['currency'];
+    $BankName2 = $_POST['BankName2'];
+    $BankBranch2 = $_POST['BankBranch2'];
+    $BankAccountNumber2 = $_POST['BankAccountNumber2'];
+    $SwiftCode2 = $_POST['SwiftCode2'];
+    $currency2 = $_POST['currency2'];
 
-        $data_array = array(
-            'name' => $name,
-            'email' => $email,
-            'phoneNumber' => $phoneNumber,
-            'phoneNumberOther' => $phoneNumberOther,
-            'address' => $address,
-            'contactPersonName' => $contactPersonName,
-            'contactPersonJobTitle' => $contactPersonJobTitle,
-            'bankName' => $BankName,
-            'bankBranch' => $BankBranch,
-            'bankAccountNumber' => $BankAccountNumber,
-            'swiftCode' => $SwiftCode,
-            'currency' => $currency
-        );
+    $data_array = array(
+        'name' => $name,
+        'email' => $email,
+        'phoneNumber' => $phoneNumber,
+        'phoneNumberOther' => $phoneNumberOther,
+        'address' => $address,
+        'contactPersonName' => $contactPersonName,
+        'contactPersonJobTitle' => $contactPersonJobTitle,
+        'contactPersonName2' => $contactPersonName2,
+        'contactPersonJobTitle2' => $contactPersonJobTitle2,
+        'bankingDetails' => [
+            [
+                'bankName' => $BankName,
+                'bankBranch' => $BankBranch,
+                'bankAccountNumber' => $BankAccountNumber,
+                'swiftCode' => $SwiftCode,
+                'currency' => $currency
+            ],
+            [
+                'bankName' => $BankName2,
+                'bankBranch' => $BankBranch2,
+                'bankAccountNumber' => $BankAccountNumber2,
+                'swiftCode' => $SwiftCode2,
+                'currency' => $currency2
+            ]
+        ]
+    );
 
-        $data = json_encode($data_array);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://localhost:7272/api/treasury/customer-info/create");
-    //    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true );
-        $resp = curl_exec($ch);
+    $data = json_encode($data_array);
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:7272/api/treasury/customer-info/create");
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    $resp = curl_exec($ch);
 
-        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        $headerStr = substr($resp, 0, $headerSize);
-        $bodyStr = substr($resp, $headerSize);
+    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $headerStr = substr($resp, 0, $headerSize);
+    $bodyStr = substr($resp, $headerSize);
 
-        // convert headers to array
-        $headers = headersToArray( $headerStr );
+    // convert headers to array
+    $headers = headersToArray($headerStr);
 
-        if (!curl_errno($ch)) {
-            switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-                case 200:  # OK redirect to dashboard
-                    $_SESSION['info'] = "Customer Successfully created";
-                    audit($_SESSION['userid'], "Customer Info Successfully Created", $_SESSION['branch']);
-                    break;
-                default:
-                    $_SESSION['error'] = 'Could not create Customer';
-                    audit($_SESSION['userid'], "Could not create Customer", $_SESSION['branch']);
-            }
+    if (!curl_errno($ch)) {
+        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+            case 200:  # OK redirect to dashboard
+                $_SESSION['info'] = "Customer Successfully created";
+                audit($_SESSION['userid'], "Customer Info Successfully Created", $_SESSION['branch']);
+                break;
+            default:
+                $_SESSION['error'] = 'Could not create Customer';
+                audit($_SESSION['userid'], "Could not create Customer", $_SESSION['branch']);
         }
-        else {
-            $_SESSION['error'] = 'Could not create Customer info'. "\n";
-            audit($_SESSION['userid'], "Could not create Customer info", $_SESSION['branch']);
-        }
-        curl_close($ch);
-
+    } else {
+        $_SESSION['error'] = 'Could not create Customer info' . "\n";
+        audit($_SESSION['userid'], "Could not create Customer info", $_SESSION['branch']);
     }
+    curl_close($ch);
+}
 
-    function customer_list(){
+
+
+function customer_list(){
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, 'http://localhost:7272/api/treasury/customer-info');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -738,7 +757,7 @@ if(isset($_POST['create_equity'])) {
         switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
             case 200 :
                 $_SESSION['info'] = "Equity Created Successfully";
-                audit($_SESSION['userid'], " Created Equity Successfully", $_SESSION['branch']);
+//                audit($_SESSION['userid'], " Created Equity Successfully", $_SESSION['branch']);
 
                 header('Location: special_assets_tracker.php?menu=main');
                 break;

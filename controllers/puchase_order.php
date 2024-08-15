@@ -46,7 +46,7 @@ function parameters(){
     if ($data !== null) {
         return $data;
     } else {
-        return "Error decoding JSON data";
+        return null;
     }
 }
 

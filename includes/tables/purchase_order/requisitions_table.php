@@ -14,9 +14,11 @@
                     ?>
                 </h4>
             </div>
-            <div class="col-2">
-                <a class="btn-lg btn-block btn-success text-white text-center" href="requisitions.php?menu=add_requisition"><i class="icon-copy bi bi-plus-lg"></i>Create Requisition</a>
-            </div>
+            <?php if ($_SESSION['role'] == "ROLE_BOCO"){ ?>
+                <div class="col-2">
+                    <a class="btn-lg btn-block btn-success text-white text-center" href="requisitions.php?menu=add_requisition"><i class="icon-copy bi bi-plus-lg"></i>Create Requisition</a>
+                </div>
+            <?php } ?>
         </div>
 	</div>
 	<div class="pb-20">

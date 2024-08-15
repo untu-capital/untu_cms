@@ -75,13 +75,13 @@ include('../includes/header.php');
         <?php if ($_GET['menu'] == 'main'){?>
         <div class="tab">
             <ul class="nav nav-pills" role="tablist">
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link active text-blue" data-toggle="tab" href="#myrequisitions" role="tab" aria-selected="true" >-->
+<!--                        My Requisitions-->
+<!--                    </a>-->
+<!--                </li>-->
                 <li class="nav-item">
-                    <a class="nav-link active text-blue" data-toggle="tab" href="#myrequisitions" role="tab" aria-selected="true" >
-                        My Requisitions
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#requisitions" role="tab" aria-selected="true" >
+                    <a class="nav-link text-blue active" data-toggle="tab" href="#requisitions" role="tab" aria-selected="true" >
                         Incoming Requisitions
                     </a>
                 </li>
@@ -136,11 +136,11 @@ include('../includes/header.php');
 
             </ul>
             <div class="tab-content">
-                <div class="tab-pane fade show active" id="myrequisitions" role="tabpanel">
-                    <?php $requisitionsUrl = "/userid/".$_SESSION['userId'];
-                        include('../includes/tables/purchase_order/requisitions_table.php'); ?>
-                </div>
-                <div class="tab-pane fade" id="requisitions" role="tabpanel">
+<!--                <div class="tab-pane fade show active" id="myrequisitions" role="tabpanel">-->
+<!--                    --><?php //$requisitionsUrl = "/userid/".$_SESSION['userId'];
+//                        include('../includes/tables/purchase_order/requisitions_table.php'); ?>
+<!--                </div>-->
+                <div class="tab-pane fade show active" id="requisitions" role="tabpanel">
                     <?php  $requisitionsUrl = "/approverId/".$_SESSION['userId'];
                         include('../includes/tables/purchase_order/requisitions_table.php'); ?>
                 </div>

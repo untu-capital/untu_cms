@@ -86,13 +86,13 @@ include('../includes/header.php');
                                     Calculate Acquisition
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-blue" data-toggle="tab" href="#short_term_placements"
-                                   role="tab"
-                                   aria-selected="false">
-                                    Short Term Placements
-                                </a>
-                            </li>
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link text-blue" data-toggle="tab" href="#short_term_placements"-->
+<!--                                   role="tab"-->
+<!--                                   aria-selected="false">-->
+<!--                                    Short Term Placements-->
+<!--                                </a>-->
+<!--                            </li>-->
                             <li class="nav-item">
                                 <a class="nav-link text-blue" data-toggle="tab" href="#expected_loan_repayments"
                                    role="tab"

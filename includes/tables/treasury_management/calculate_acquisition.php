@@ -66,11 +66,11 @@
                         </section>
                         <div class="form-group row">
                             <div class="col-sm-12 col-md-2 col-form-label">
-                                <button class="btn btn-success" type="submit" name="create_customer_info">Calculate
+                                <button class="btn btn-success" type="submit" name="calculate_acquisition">Calculate
                                 </button>
                             </div>
                             <div class="col-sm-12 col-md-2 col-form-label">
-                                <button class="btn btn-primary" type="submit" name="create_customer_info">Reset</button>
+                                <button class="btn btn-primary" type="submit" name="reset_acquisition">Reset</button>
                             </div>
                         </div>
                     </form>

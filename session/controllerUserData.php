@@ -55,7 +55,7 @@ function audits($userid, $activity, $branch) {
     $data_array = array(
         'userid'=> $userid,
         'branch'=> $branch,
-        'role'=> $_SESSION['role'],
+        'role' => $_SESSION['role'] ?? "",
         'activity'=> $activity,
         'deviceInfo'=> $_SERVER['HTTP_USER_AGENT'],
         'ipAddress'=> $_SERVER['REMOTE_ADDR']

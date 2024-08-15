@@ -193,7 +193,8 @@
                 </div>
             </div>
 
-        <?php } elseif ($_GET['menu'] == "download_deal_note") {
+        <?php }
+        elseif ($_GET['menu'] == "download_deal_note") {
             include('../includes/forms/treasury_management/deal_note_pdf.php');
          }
 
