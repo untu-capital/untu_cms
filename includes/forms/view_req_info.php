@@ -276,7 +276,7 @@
                             <select name="approvers[]" class="custom-select2 form-control" multiple="multiple" style="width: 100%">
                                 <optgroup label="Choose Approvers">
                                     <?php
-                                    $users = users();
+                                    $users = po_user();
                                     $req_approvers = requisitions('/'.$_GET['req_id']);
                                     foreach ($users as $user) {
                                         $userId = $user['id'];
