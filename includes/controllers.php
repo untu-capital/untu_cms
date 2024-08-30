@@ -336,11 +336,11 @@ function convertDateFormat($dateString) {
     return $dateTime->format('d-M-Y');
 }
 
-function sendEmail($receipient, $subject, $message, $user){
+function sendEmail($receipient, $subject, $message){
 
-    $url = "http://localhost:7878/api/utg/credit_application/sendBulkEmail";
+    $url = "http://localhost:7878/api/utg/credit_application/sendEmail";
     $data_array = array(
-        'recipients' => "randakelvin@gmail.com",
+        'recipient' => "randakelvin@gmail.com",
         'subject' => "Test email body",
         'message' => "Test email message."
     );
@@ -648,8 +648,50 @@ if(isset($_POST['loan_application'])){
         switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
             case 201:  # OK redirect to dashboard
                 audits($_SESSION['userid'], "Client Loan Application successful", $_SESSION['branch']);
+//                sendEmail("subject", "message", "user");
                 $data = loans('/loanFileId/'.$loanFileId);
                 $loanId = $data["id"];
+
+
+                // ################## ------------------------------ send email to BOCOS ------------------------------------ #######################
+
+                 $ch = curl_init();
+
+                 curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:7878/api/utg/users/roleAndBranch/BackOfficeCreditOfficer/'.$branchName);
+                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                 $resp = curl_exec($ch);
+                 curl_close($ch);
+                 $boco = json_decode($resp, true);
+                 foreach ($boco as $bocos):
+
+                     $recipientName = $bocos['firstName'];
+                     $recipientEmail = $bocos['contactDetail']['emailAddress'];
+
+                     $url = "http://127.0.0.1:7878/api/utg/credit_application/newClientloanEmail/".$recipientName.'/'.$recipientEmail;
+
+                     $data_array = array(
+                         'recipientName' => $recipientName,
+                         'recipientEmail' => $recipientEmail
+                     );
+
+                     $data = json_encode($data_array);
+                     $ch = curl_init();
+
+                     curl_setopt($ch, CURLOPT_URL, $url);
+                     curl_setopt($ch, CURLOPT_POST, true);
+                     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+                     curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                     curl_setopt($ch, CURLOPT_HEADER, true );
+                     $resp = curl_exec($ch);
+
+                     curl_close($ch);
+
+                 endforeach;
+
+// ################## ------------------------------ End send email to BOCOS ------------------------------------ #######################
+
+
 
                 echo "<script>alert('Application sent successfully. You can now upload the required documents.');</script>";
                 echo "<script>window.location.href = 'kyc_documents.php';</script>";

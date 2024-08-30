@@ -185,7 +185,6 @@ if(isset($_POST['markAsDone'])){
     $loDate = date("Y-m-d H:i:s");
     $pipelineStatus = "loan_officer_check_loan";
 
-
     updateLoanAssessmentStatus($id, $assessment_status, $fullName, $loDate, $pipelineStatus, $userId);
 }
 ?>
