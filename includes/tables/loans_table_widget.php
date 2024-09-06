@@ -61,7 +61,7 @@
 
                 <?php
                 $loans = loans($url);
-                $recordsPerPage = 10; // Adjust the number of records per page as needed
+                $recordsPerPage = 100; // Adjust the number of records per page as needed
                 $totalRecords = count($loans);
                 $totalPages = ceil($totalRecords / $recordsPerPage);
 
@@ -137,7 +137,7 @@
         <div class="pagination">
             <div class="btn-group mb-15">
                 <?php
-                $segmentSize = 5; // Number of pages per segment
+                $segmentSize = 8; // Number of pages per segment
                 $start = max(1, $currentPage - floor($segmentSize / 2));
                 $end = min($start + $segmentSize - 1, $totalPages);
 

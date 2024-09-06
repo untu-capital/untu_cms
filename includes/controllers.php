@@ -4164,8 +4164,10 @@ function cmsAuditTrail(){
 
 if(isset($_POST['add_trans_voucher'])) {
     $url = "http://localhost:7878/api/utg/cms/transaction-voucher/initiate";
+
     $data_array = array(
         'initiator' => $_POST['initiator'],
+        'applicationDate' => date('Y-m-d', strtotime($_POST['applicationDate'])),
         'currency' => $_POST['currency'],
         'amount' => $_POST['amount'],
         'fromVault' => $_POST['fromVault'],

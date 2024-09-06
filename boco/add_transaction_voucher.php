@@ -316,7 +316,7 @@ include('../includes/header.php');
                                 <input type="number" min="0" step="1"  class="form-control"
                                        id="denomination100"
                                        name="denomination100"
-                                       oninput="calculateValue()" required>
+                                       oninput="calculateValue()" >
                             </th>
                             <th scope="row">
                                 <label for="denomination100T" hidden="hidden"></label>
@@ -331,7 +331,7 @@ include('../includes/header.php');
                                 <input  type="number" min="0" step="1"  class="form-control"
                                        id="denomination50"
                                        name="denomination50"
-                                       oninput="calculateValue()" required>
+                                       oninput="calculateValue()" >
                             </th>
                             <th scope="row">
                                 <label for="denomination50T" hidden="hidden"></label>
@@ -346,7 +346,7 @@ include('../includes/header.php');
                                 <input  type="number"  min="0" step="1" class="form-control"
                                        id="denomination20"
                                        name="denomination20"
-                                       oninput="calculateValue()" required>
+                                       oninput="calculateValue()" >
                             </th>
                             <th scope="row">
                                 <label for="denomination20T" hidden="hidden"></label>
@@ -361,7 +361,7 @@ include('../includes/header.php');
                                 <input  type="number" min="0" step="1" class="form-control"
                                        id="denomination10"
                                        name="denomination10"
-                                       oninput="calculateValue()" required>
+                                       oninput="calculateValue()" >
                             </th>
                             <th scope="row">
                                 <label for="denomination10T" hidden="hidden"></label>
@@ -376,7 +376,7 @@ include('../includes/header.php');
                                 <input  type="number" min="0" step="1" class="form-control"
                                        id="denomination5"
                                        name="denomination5"
-                                       oninput="calculateValue()" required>
+                                       oninput="calculateValue()" >
                             </th>
                             <th scope="row">
                                 <label for="denomination5T" hidden="hidden"></label>
@@ -391,7 +391,7 @@ include('../includes/header.php');
                                 <input  type="number" min="0" step="1" class="form-control"
                                        id="denomination2"
                                        name="denomination2"
-                                       oninput="calculateValue()" required>
+                                       oninput="calculateValue()" >
                             </th>
                             <th scope="row">
                                 <label for="denomination2T" hidden="hidden"></label>
@@ -406,7 +406,7 @@ include('../includes/header.php');
                                 <input  type="number" min="0" step="1" class="form-control"
                                        id="denomination1"
                                        name="denomination1"
-                                       oninput="calculateValue()"  required>
+                                       oninput="calculateValue()"  >
                             </th>
                             <th scope="row">
                                 <label for="denomination1T" hidden="hidden"></label>
@@ -421,7 +421,7 @@ include('../includes/header.php');
                                 <input  type="number" min="0" step="1" class="form-control"
                                        id="denominationCents"
                                        name="denominationCents"
-                                       oninput="calculateValue()"  required>
+                                       oninput="calculateValue()"  >
                             </th>
                             <th scope="row">
                                 <label for="denominationCentsT" hidden="hidden"></label>
