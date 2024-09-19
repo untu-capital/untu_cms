@@ -526,6 +526,12 @@
                                 ><span class="mtext">Events Calendar</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="performing_clients.php" class="dropdown-toggle no-arrow">
+								<span class="micon bi bi-calendar4-week"></span
+                                ><span class="mtext">Performing Clients</span>
+                        </a>
+                    </li>
                     <li class="dropdown">
                         <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-gear"></span

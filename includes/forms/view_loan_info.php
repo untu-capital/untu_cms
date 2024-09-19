@@ -109,7 +109,8 @@
                         <?php if ($_SESSION['role'] == "ROLE_BOCO") { ?>
                             <form method="post" action="">
                                 <input type="hidden" name="id" value="<?php echo isset($_GET['loan_id']) ? htmlspecialchars($_GET['loan_id']) : ''; ?>">
-                                <button type="submit" name="credit_check" class="btn btn-success btn-lg btn-block">Generate FCB Report</button>
+                                <input type="hidden" name="national_id" value="<?php echo isset($loans["idNumber"]) ? htmlspecialchars($loans["idNumber"]) : ''; ?>">
+                                <button type="submit" name="credit_check" class="btn btn-success btn-lg btn-block">Generate FCB & XDS Reports</button>
                             </form>
                         <?php } ?>
 
@@ -311,9 +312,16 @@
                                 </table>
                             </div>
                         </div>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
 
                         <?php if ($_SESSION['role'] == "ROLE_BOCO"){?>
-                            <a class="list-group-item text-blue"><center><b>ATTACH XDS REPORT</b></center></a>
+                            <a class="list-group-item text-white" style="background-color: #f52437"><center><b>CLIENT XDS REPORT</b></center></a>
+                            <br>
+
+                            <?php include('../includes/tables/credit_analytics/xds_report.php') ?>
                             <br>
 
                             <?php $xds_files = xds_files($_GET['loan_id']); ?>
@@ -1310,7 +1318,7 @@
                                         </select>
                                     </td>
 
-                                    <td><input class="form-control" type="number" step="0.1" name="txtCashHandlingFee" placeholder="" min=0 max=2></td>
+                                    <td><input class="form-control" type="number" step="0.1" name="txtCashHandlingFee" placeholder="" min=0></td>
                                     <td><input class="form-control" type="number" step="0.1" name="txtRepaymentAmount" required></td>
                                     <td><select class="custom-select2 form-control" name="txtProduct" autocomplete="off" style="width: 100%; height: 38px" required >
                                             <option value="CTF">CTF</option>
@@ -1953,7 +1961,7 @@
                                             <option value="fixed balance">fixed balance</option>
                                         </select></td>
 
-                                    <td><input class="form-control" type="number" step="0.1" name="txtCashHandlingFee" placeholder="" min=0 max=2></td>
+                                    <td><input class="form-control" type="number" step="0.1" name="txtCashHandlingFee" placeholder="" min=0></td>
                                     <td><input class="form-control" type="number" step="0.1" name="txtRepaymentAmount" required></td>
                                     <td><select class="btn btn-clipboard" name="txtProduct" autocomplete="off" placeholder="" >
                                             <option value="CTF">CTF</option>

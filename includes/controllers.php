@@ -725,7 +725,12 @@ if(isset($_POST['loan_application'])){
 
 if (isset($_POST['credit_check'])){
     $loanId = $_POST['id'];
+    $nationalId = $_POST['national_id'];
+
     sendCreditCheckedLoanRequest($loanId);
+//    saveConsumerData($nationalId);
+
+    echo 'Request processed successfully.';
 }
 
 function sendCreditCheckedLoanRequest($loanId) {
@@ -752,6 +757,33 @@ function sendCreditCheckedLoanRequest($loanId) {
     }
 
     return $response;
+}
+
+function saveConsumerData($nationalId){
+
+// URL to send the POST request to
+    $url = 'http://localhost:8100/xds/consumer?nationalId=' . $nationalId;
+
+// Data to send in the POST request
+    $data = array('nationalId' => $nationalId);
+
+    $ch = curl_init($url);
+
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return the response as a string
+    curl_setopt($ch, CURLOPT_POST, true);           // Use POST method
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data)); // Set POST data
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); // Set content type
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        echo 'cURL error: ' . curl_error($ch);
+    } else {
+        // Display the response
+        echo 'Response: ' . $response;
+    }
+
+    curl_close($ch);
 }
 
 if (isset($_POST['uploadxds'])) {
@@ -1753,7 +1785,7 @@ function boco_check_application($upadateLoanStatus, $loanId, $userId, $comment, 
 
                     $ch = curl_init();
                     $messageText = str_replace(' ', '%20', "Dear ".$loan['firstName'].", We are currently reviewing your application.");
-                    curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:7878/api/utg/sms/single/0'.$loan['phoneNumber'].'/'.$messageText);
+                    curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:7878/api/utg/sms/single/'.$loan['phoneNumber'].'/'.$messageText);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     $resp = curl_exec($ch);
                     curl_close($ch);
@@ -2382,7 +2414,7 @@ function updateBocoSignature($checked,$userId ,$bocoSignature){
 
                     $ch = curl_init();
                     $messageText = str_replace(' ', '%20', "Dear ".$loan['firstName'].", We are pleased to advise that your loan application has been approved and our customer service desk will get in touch with you to guide you on the next steps.");
-                    curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:7878/api/utg/sms/single/0'.$loan['phoneNumber'].'/'.$messageText);
+                    curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1:7878/api/utg/sms/single/'.$loan['phoneNumber'].'/'.$messageText);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     $resp = curl_exec($ch);
                     curl_close($ch);
