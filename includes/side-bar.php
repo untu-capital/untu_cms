@@ -490,6 +490,18 @@
                                     <li><a href="special_assets_tracker.php?menu=main">Special Assets</a></li>
                                 </ul>
                             </li>
+                        <li class="dropdown">
+                            <a href="javascript:" class="dropdown-toggle">
+                                    <span class="micon bi bi-table"></span
+                                    ><span class="mtext">Credit Analytics</span>
+                            </a>
+                            <ul class="submenu">
+                                <li>
+                                    <a href="http://13.246.85.3:4200/credit/loan-applications/pending" target="_blank">Client Eligibility</a>
+                                </li>
+                                <!--                            <li><a href="signed_tickets.php">Signed Ticket(s)</a></li>-->
+                            </ul>
+                        </li>
                             <li class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle">
                                     <span class="micon bi bi-cash-coin"></span><span class="mtext">Recoveries Tracker</span>
@@ -652,6 +664,18 @@
                             <li><a href="loan_applications.php?state=all">All Applications</a></li>
                             <li><a href="loan_applications.php?state=progress">Applications In Progress</a></li>
                             <li><a href="loan_applications.php?state=reject">Rejected Applications</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:" class="dropdown-toggle">
+								<span class="micon bi bi-table"></span
+                                ><span class="mtext">Credit Analytics</span>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="http://13.246.85.3:4200/credit/loan-applications/pending" target="_blank">Client Eligibility</a>
+                            </li>
+<!--                            <li><a href="signed_tickets.php">Signed Ticket(s)</a></li>-->
                         </ul>
                     </li>
                     <li class="dropdown">
