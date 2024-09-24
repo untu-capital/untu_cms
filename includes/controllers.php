@@ -727,8 +727,9 @@ if (isset($_POST['credit_check'])){
     $loanId = $_POST['id'];
     $nationalId = $_POST['national_id'];
 
-    sendCreditCheckedLoanRequest($loanId);
-//    saveConsumerData($nationalId);
+
+//    sendCreditCheckedLoanRequest($loanId);
+    saveConsumerData($nationalId);
 
     echo 'Request processed successfully.';
 }
@@ -759,23 +760,21 @@ function sendCreditCheckedLoanRequest($loanId) {
     return $response;
 }
 
-function saveConsumerData($nationalId){
+function saveConsumerData($nationalId) {
+    // URL with the national ID in the query string
+    $url = 'http://localhost:8100/xds/consumer?nationalId=' . urlencode($nationalId);
 
-// URL to send the POST request to
-    $url = 'http://localhost:8100/xds/consumer?nationalId=' . $nationalId;
-
-// Data to send in the POST request
-    $data = array('nationalId' => $nationalId);
-
+    // Initialize cURL
     $ch = curl_init($url);
 
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return the response as a string
-    curl_setopt($ch, CURLOPT_POST, true);           // Use POST method
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data)); // Set POST data
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); // Set content type
+    // Set cURL options
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  // Return the response as a string
+    curl_setopt($ch, CURLOPT_HTTPGET, true);         // Use GET method
 
+    // Execute the cURL request and capture the response
     $response = curl_exec($ch);
 
+    // Check for cURL errors
     if (curl_errno($ch)) {
         echo 'cURL error: ' . curl_error($ch);
     } else {
@@ -783,8 +782,10 @@ function saveConsumerData($nationalId){
         echo 'Response: ' . $response;
     }
 
+    // Close cURL session
     curl_close($ch);
 }
+
 
 if (isset($_POST['uploadxds'])) {
 

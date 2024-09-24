@@ -656,6 +656,18 @@
                     </li>
                     <li class="dropdown">
                         <a href="javascript:" class="dropdown-toggle">
+								<span class="micon bi bi-table"></span
+                                ><span class="mtext">Credit Analytics</span>
+                        </a>
+                        <ul class="submenu">
+                            <li>
+                                <a href="http://13.246.85.3:4200/credit/loan-applications/pending" target="_blank">Client Eligibility</a>
+                            </li>
+<!--                            <li><a href="signed_tickets.php">Signed Ticket(s)</a></li>-->
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:" class="dropdown-toggle">
 								<span class="micon bi bi-layout-text-window-reverse"></span
                                 ><span class="mtext">MCC Scheduling</span>
                         </a>
