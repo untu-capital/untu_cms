@@ -957,6 +957,18 @@
                                 </ul>
                             </li>
                         <?php } ?>
+
+                        <?php if ($_SESSION['branch'] == "Head Office") { ?>
+                            <li class="dropdown">
+                                <a href="javascript:" class="dropdown-toggle">
+                                    <span class="micon bi bi-cash-coin"></span><span class="mtext">Interim Statements</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="interim_statements.php?menu=statement">Client Statement</a></li>
+                                    <li><a href="interim_statements.php?menu=reports">Calc Matured Interests</a></li>
+                                </ul>
+                            </li>
+                        <?php } ?>
                         <li>
                             <a href="events_calendar.php" class="dropdown-toggle no-arrow">
 								<span class="micon bi bi-calendar4-week"></span

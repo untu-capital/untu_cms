@@ -50,7 +50,14 @@ include ('check_role.php');
                 <!-- powerBi widget -->
                 <div class="card-box pd-20 height-100-p mb-30">
                     <div class="row align-items-center">
-                        <iframe class="card-body" title="credit_loans" width="1140" height="515" src="https://app.powerbi.com/reportEmbed?reportId=de0def08-11a1-48a7-84de-6a985f030144&autoAuth=true&ctid=66d250cc-d4c9-4aa7-beec-9a10acf3be25" frameborder="0" allowFullScreen="true"></iframe>
+<!--                        <iframe class="card-body" title="credit_loans" width="1140" height="515" src="https://app.powerbi.com/reportEmbed?reportId=de0def08-11a1-48a7-84de-6a985f030144&autoAuth=true&ctid=66d250cc-d4c9-4aa7-beec-9a10acf3be25" frameborder="0" allowFullScreen="true"></iframe>-->
+                        <iframe
+                                src="http://localhost:3000/public/dashboard/92d8721b-5168-4c92-aac7-69f94bf1b23b"
+                                frameborder="0"
+                                width=100%
+                                height=800
+                                allowtransparency
+                        ></iframe>
                     </div>
                 </div>
 

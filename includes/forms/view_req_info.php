@@ -170,7 +170,7 @@
                                         </select>
                                     </div>
                                 </td>
-                                <td><input class="form-control" type="number" name="amount" required></td>
+                                <td><input class="form-control" type="number" step="0.01" name="amount" required></td>
                                 <td>
                                     <input class="form-control" type="hidden" name="req_id" value="<?php echo $_GET['req_id'] ?>" required>
                                     <button class="btn btn-outline-success" type="submit" id="add" name="add_req_trans" ><i class="icon-copy bi bi-plus-lg"></i></button>
