@@ -131,7 +131,7 @@ include('../includes/header.php');
                     <div class="col-md-4 col-sm-12">
                         <div class="form-group">
                             <label for="amount">Amount</label>
-                            <input type="number" min="0" step="1" class="form-control" name="amount" required oninput="calculateValue()"
+                            <input type="number" min="0" step="0.01" class="form-control" name="amount" required oninput="calculateValue()"
                                    id="amount">
                         </div>
                     </div>

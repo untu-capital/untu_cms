@@ -157,6 +157,18 @@
                             <li><a href="client_retention.php">Client Retention</a></li>
                         </ul>
                     </li>
+
+                    <?php if ($_SESSION['branch'] == "Head Office") { ?>
+                        <li class="dropdown">
+                            <a href="javascript:" class="dropdown-toggle">
+                                <span class="micon bi bi-cash-coin"></span><span class="mtext">Interim Statements</span>
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="interim_statements.php?menu=statement">Client Statement</a></li>
+                                <li><a href="interim_statements.php?menu=reports">Calc Matured Interests</a></li>
+                            </ul>
+                        </li>
+                    <?php } ?>
                     <li>
                         <a href="events_calendar.php" class="dropdown-toggle no-arrow">
 								<span class="micon bi bi-calendar4-week"></span
@@ -248,6 +260,17 @@
                             <ul class="submenu">
                                 <li><a href="treasury_management.php?menu=main">Dashboard</a></li>
                                 <li><a href="special_assets_tracker.php?menu=main">Special Assets</a></li>
+                            </ul>
+                        </li>
+                    <?php } ?>
+                    <?php if ($_SESSION['branch'] == "Head Office") { ?>
+                        <li class="dropdown">
+                            <a href="javascript:" class="dropdown-toggle">
+                                <span class="micon bi bi-cash-coin"></span><span class="mtext">Interim Statements</span>
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="interim_statements.php?menu=statement">Client Statement</a></li>
+                                <li><a href="interim_statements.php?menu=reports">Calc Matured Interests</a></li>
                             </ul>
                         </li>
                     <?php } ?>
@@ -954,6 +977,18 @@
                                 <ul class="submenu">
                                     <li><a href="treasury_management.php?menu=main">Dashboard</a></li>
                                     <li><a href="special_assets_tracker.php?menu=main">Special Assets</a></li>
+                                </ul>
+                            </li>
+                        <?php } ?>
+
+                        <?php if ($_SESSION['branch'] == "Head Office") { ?>
+                            <li class="dropdown">
+                                <a href="javascript:" class="dropdown-toggle">
+                                    <span class="micon bi bi-cash-coin"></span><span class="mtext">Interim Statements</span>
+                                </a>
+                                <ul class="submenu">
+                                    <li><a href="interim_statements.php?menu=statement">Client Statement</a></li>
+                                    <li><a href="interim_statements.php?menu=reports">Calc Matured Interests</a></li>
                                 </ul>
                             </li>
                         <?php } ?>

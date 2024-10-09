@@ -2,7 +2,7 @@
 include('../session/session.php');
 include ('check_role.php');
 	include('charts_data.php');
-	$nav_header = "Users List";
+	$nav_header = "Clients Interim Statements";
 
 	include('../includes/controllers.php');	
 	
@@ -14,6 +14,7 @@ include ('check_role.php');
 	<?php 
 		include('../includes/header.php');
 	?>
+
 	<!-- /HTML HEAD -->
 	<body>
 		<!-- Top NavBar -->
@@ -32,9 +33,8 @@ include ('check_role.php');
 					
 				<?php include('../includes/dashboard/topbar_widget.php'); ?>
 					
-				<?php //include('../includes/dashboard/welcome_widget.php'); ?>
 
-				<?php include('../includes/tables/users_table.php'); ?>
+				<?php include('../includes/forms/interim_statements/clients_statement.php'); ?>
 
 				<?php include('../includes/footer.php');?>
 			</div>
