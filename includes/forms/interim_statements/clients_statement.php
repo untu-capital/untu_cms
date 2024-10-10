@@ -29,7 +29,7 @@
             const accNumber = document.getElementById("acc_number").value;
 
             if (accNumber) {
-                const url = `http://13.246.85.3:7878/api/utg/settlements/generateStyledStatementPdf/loanId/${accNumber}`;
+                const url = `http://localhost:7878/api/utg/settlements/generateStyledStatementPdf/loanId/${accNumber}`;
                 window.open(url, '_blank');  // Open in a new tab
             } else {
                 alert("Please enter a loan account number.");
@@ -42,7 +42,7 @@
 
     <?php
     function get_transaction_report($start_date, $end_date) {
-        $url = "http://13.246.85.3:7878/api/utg/settlements/generateMaturedInterestsReport/$start_date/$end_date";
+        $url = "http://localhost:7878/api/utg/settlements/generateMaturedInterestsReport/$start_date/$end_date";
 
         // Initialize cURL session
         $ch = curl_init();
