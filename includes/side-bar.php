@@ -331,7 +331,7 @@
                     </li>
                 </ul>
 
-					<?php } elseif ($check_role == "ROLE_OP"){?>
+            <?php } elseif ($check_role == "ROLE_OP"){?>
 
                 <ul id="accordion-menu">
                     <li class="dropdown">
@@ -408,29 +408,37 @@
                     </li>
                     <li class="dropdown">
                         <a href="javascript:" class="dropdown-toggle">
-                            <span class="micon bi bi-folder"></span
-                            ><span class="mtext">Clients Database</span>
-                                </a>
-                                <ul class="submenu">
-                                    <li><a href="clients_dataset.php?menu=main">Available List</a></li>
-                                    <li><a href="clients_dataset.php?menu=assigned">Assigned Clients</a></li>
-                                </ul>
-                            </li>
+                            <span class="micon bi bi-folder"></span>
+                            <span class="mtext">Clients Database</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="clients_dataset.php?menu=main">Available List</a></li>
+                            <li><a href="clients_dataset.php?menu=assigned">Assigned Clients</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:" class="dropdown-toggle">
+                            <span class="micon bi bi-cash-coin"></span><span class="mtext">Interim Statements</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="interim_statements.php?menu=statement">Client Statement</a></li>
+                            <li><a href="interim_statements.php?menu=reports">Calc Matured Interests</a></li>
+                        </ul>
+                    </li>
 
+                    <li class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle">
+                            <span class="micon bi bi-cash-coin"></span><span class="mtext">Recoveries Tracker</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="recoveries_tracker.php?menu=main">Dashboard</a></li>
+                        </ul>
+                    </li>
 
-                            <li class="dropdown">
-                                <a href="javascript:;" class="dropdown-toggle">
-                                    <span class="micon bi bi-cash-coin"></span><span class="mtext">Recoveries Tracker</span>
-                                </a>
-                                <ul class="submenu">
-                                    <li><a href="recoveries_tracker.php?menu=main">Dashboard</a></li>
-                                </ul>
-                            </li>
-
-						<li>
-							<a href="events_calendar.php" class="dropdown-toggle no-arrow">
-								<span class="micon bi bi-calendar4-week"></span
-                                ><span class="mtext">Events Calendar</span>
+                    <li>
+                        <a href="events_calendar.php" class="dropdown-toggle no-arrow">
+                            <span class="micon bi bi-calendar4-week"></span>
+                            <span class="mtext">Events Calendar</span>
                         </a>
                     </li>
                     <li class="dropdown">
@@ -533,6 +541,16 @@
                                     <li><a href="recoveries_tracker.php?menu=main">Dashboard</a></li>
                                 </ul>
                             </li>
+
+                    <li class="dropdown">
+                        <a href="javascript:" class="dropdown-toggle">
+                            <span class="micon bi bi-cash-coin"></span><span class="mtext">Interim Statements</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="interim_statements.php?menu=statement">Client Statement</a></li>
+                            <li><a href="interim_statements.php?menu=reports">Calc Matured Interests</a></li>
+                        </ul>
+                    </li>
                             <li class="dropdown">
                                 <a href="javascript:;" class="dropdown-toggle">
 								<span class="micon bi bi-textarea-resize"></span
@@ -751,6 +769,15 @@
                             <li><a href="campaign_and_marketing.php?menu=main">Campaign and Marketing</a></li>
                             <li><a href="lead_management.php">Lead Management</a></li>
                             <li><a href="client_retention.php">Client Retention</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="javascript:" class="dropdown-toggle">
+                            <span class="micon bi bi-cash-coin"></span><span class="mtext">Interim Statements</span>
+                        </a>
+                        <ul class="submenu">
+                            <li><a href="interim_statements.php?menu=statement">Client Statement</a></li>
+                            <li><a href="interim_statements.php?menu=reports">Calc Matured Interests</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
