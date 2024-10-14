@@ -1,20 +1,3 @@
-<?php
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/supplier/all");
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$server_response = curl_exec($ch);
-
-curl_close($ch);
-$data = json_decode($server_response, true);
-// Check if the JSON decoding was successful
-if ($data !== null) {
-    $table = $data;
-
-} else {
-    echo "Error decoding JSON data";
-}
-?>
-
     <div class="pd-ltr-20 xs-pd-20-10">
         <div class="min-height-200px">
 
@@ -38,17 +21,22 @@ if ($data !== null) {
                             <th>Address</th>
                             <th>Phone</th>
                             <th>Contact Person</th>
+                            <th>Tax Clearance</th>
                             <th>Comment</th>
                             <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($table as $row):?>
+                        <?php
+                            $list = list_suppliers();
+                            foreach ($list as $row):
+                            ?>
                         <tr>
                             <td class="table-plus"><?php echo $row['name']; ?></td>
                             <td><?php echo $row['address']; ?></td>
                             <td><?php echo $row['phone']; ?></td>
                             <td><?php echo $row['contactPerson']; ?></td>
+                            <td><?php echo $row['taxClearance']; ?></td>
                             <td><?php echo $row['comment']; ?></td>
                             <td>
                                 <div class="dropdown">

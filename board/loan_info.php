@@ -2,6 +2,7 @@
 	include('../session/session.php');
 include ('check_role.php');
 	include('../includes/controllers.php');
+include('../controllers/credit_analytics.php');
 	$nav_header = "Application Details";
 ?>
 

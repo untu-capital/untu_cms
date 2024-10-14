@@ -54,7 +54,12 @@ include ('check_role.php');
 					
 				<?php include('../includes/dashboard/lead_summary_widget.php'); ?>
 
-				<?php include('../includes/tables/signed_tickets_table.php'); ?>
+                <?php if($_SESSION['role'] == 'ROLE_BOCO' && $_SESSION['branch'] = "Head Office"){
+                    $sign_ticket = '/finSignature/Signed';
+                    include('../includes/tables/all_signed_tickets_table.php');
+                } else {
+                    include('../includes/tables/signed_tickets_table.php');
+                } ?>
 
 				<?php include('../includes/footer.php');?>
 			</div>

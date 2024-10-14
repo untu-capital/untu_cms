@@ -20,7 +20,7 @@ $(".tab-wizard2").steps({
 	transitionEffect: "fade",
 	titleTemplate: '<span class="step">#index#</span> <span class="info">#title#</span>',
 	labels: {
-		finish: "Submit",
+		finish: "",
 		next: "Next",
 		previous: "Previous",
 	},

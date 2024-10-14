@@ -33,8 +33,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="phoneNumberOther">Phone Number (other) :</label>
-                            <input id="phoneNumberOther" name="phoneNumberOther" type="text"
-                                   class="form-control"/>
+                            <input id="phoneNumberOther" name="phoneNumberOther" type="text" class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -42,8 +41,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="address">Physical Address :</label>
-                            <textarea id="address" name="address" rows="4" type="text"
-                                      class="form-control"></textarea>
+                            <textarea id="address" name="address" rows="4" type="text" class="form-control"></textarea>
                         </div>
                     </div>
                 </div>
@@ -55,15 +53,27 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="contactPersonName">Full Name:</label>
-                            <input id="contactPersonName" name="contactPersonName" type="text"
-                                   class="form-control"/>
+                            <input id="contactPersonName" name="contactPersonName" type="text" class="form-control"/>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="contactPersonJobTitle">Job Title :</label>
-                            <input id="contactPersonJobTitle" name="contactPersonJobTitle" type="text"
-                                   class="form-control"/>
+                            <input id="contactPersonJobTitle" name="contactPersonJobTitle" type="text" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="contactPersonName2">Full Name (2nd):</label>
+                            <input id="contactPersonName2" name="contactPersonName2" type="text" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="contactPersonJobTitle2">Job Title (2nd) :</label>
+                            <input id="contactPersonJobTitle2" name="contactPersonJobTitle2" type="text" class="form-control"/>
                         </div>
                     </div>
                 </div>
@@ -79,15 +89,13 @@
                         </div>
                         <div class="form-group">
                             <label for="BankBranch">Branch</label>
-                            <input id="BankBranch" name="BankBranch" type="text"
-                                   class="form-control"/>
+                            <input id="BankBranch" name="BankBranch" type="text" class="form-control"/>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="BankAccountNumber">Account Number</label>
-                            <input id="BankAccountNumber" name="BankAccountNumber" type="number"
-                                   class="form-control"/>
+                            <input id="BankAccountNumber" name="BankAccountNumber" type="number" class="form-control"/>
                         </div>
                         <div class="row">
                             <div class="form-group col-6">
@@ -96,9 +104,42 @@
                             </div>
                             <div class="form-group col-6">
                                 <label for="currency">Currency Denomination</label>
-                                <select class="custom-select2 form-control" name="currency" autocomplete="off" style="width: 100%; height: 38px" >
+                                <select class="custom-select2 form-control" name="currency" autocomplete="off" style="width: 100%; height: 38px">
                                     <option value="USD">USD</option>
-                                    <option value="ZWL">ZWL</option>
+                                    <option value="ZIG">ZIG</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Second Banking Details -->
+                <h5>Banking Details (2nd)</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="BankName2">Bank Name (2nd):</label>
+                            <input id="BankName2" name="BankName2" type="text" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="BankBranch2">Branch (2nd)</label>
+                            <input id="BankBranch2" name="BankBranch2" type="text" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="BankAccountNumber2">Account Number (2nd)</label>
+                            <input id="BankAccountNumber2" name="BankAccountNumber2" type="number" class="form-control"/>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label for="SwiftCode2">Swift Code (2nd) :</label>
+                                <input id="SwiftCode2" name="SwiftCode2" class="form-control" type="text"/>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="currency2">Currency Denomination (2nd)</label>
+                                <select class="custom-select2 form-control" name="currency2" autocomplete="off" style="width: 100%; height: 38px">
+                                    <option value="USD">USD</option>
+                                    <option value="ZIG">ZIG</option>
                                 </select>
                             </div>
                         </div>

@@ -2,6 +2,7 @@
 	include('../session/session.php');
 include ('check_role.php');
 	include('../includes/controllers.php');
+	include('../controllers/credit_analytics.php');
 	$nav_header = "Application Details";
 
     if(isset($_POST['assign_lo'])) {
@@ -184,7 +185,6 @@ if(isset($_POST['markAsDone'])){
     $fullName = $_POST['fullName'];
     $loDate = date("Y-m-d H:i:s");
     $pipelineStatus = "loan_officer_check_loan";
-
 
     updateLoanAssessmentStatus($id, $assessment_status, $fullName, $loDate, $pipelineStatus, $userId);
 }

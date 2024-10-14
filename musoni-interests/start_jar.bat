@@ -1,0 +1,1 @@
+java -jar "C:\xampp\htdocs\UntuCMS\musoni\musoni-endpoints-0.0.1-SNAPSHOT.jar"

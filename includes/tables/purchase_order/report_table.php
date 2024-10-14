@@ -25,64 +25,52 @@
             <thead>
             <tr>
                 <th>PO Number</th>
-                <th>PO Iterm</th>
+                <th>Requisition name</th>
+                <th>Item</th>
                 <th>Date Created</th>
-                <th>Total Amount</th>
+                <th>Amount</th>
                 <th>Currency</th>
-                <th>Orignater</th>
+                <th>Originator</th>
                 <th>Category</th>
                 <th>Supplier</th>
                 <th>Requisition Approval</th>
                 <th>Finance Approval</th>
-
-                <th class="datatable-nosort"></th>
             </tr>
             </thead>
             <tbody>
             <?php
-
-
-//            $req_trans = req_trans("/getByRequisitionId/" . $_GET['req_id']);
-//
-
-//            foreach ($req as $data):
-            $poTransactions = poTransactions();
-            foreach($poTransactions as $data):
-
-                $req = requisitions('/'.$data['poRequisitionId']);
-
+                $poTransactions = poTransactions();
+                foreach($poTransactions as $data):
                 ?>
 
                 <tr>
-                    <td><?php echo $req['poNumber']; ?></td>
+                    <td><?php echo $data['poNumber']; ?></td>
+                    <td><?php echo $data['poRequisitionName']; ?></td>
                     <td class="table-plus"><?php echo $data['poItem']; ?>
-                    <td><?php echo convertDateFormat($req['createdAt']); ?></td>
-                    <td><?php echo "$ ".$data['poAmount'].".00"; ?></td>
+                    <td><?php echo convertDateFormat($data['createdAt']); ?></td>
+                    <td><?php echo "$ ".number_format($data['poAmount'],2,'.',','); ?></td>
                     <td><?php echo $data['poCurrency']; ?></td>
-<!--                    <td>--><?php //echo $req['userId']; ?><!--</td>-->
-                    <td><?php $user =user($req['userId']); echo $user['firstName']." ".$user['lastName']; ?></td>
+                    <td><?php echo $data['poOriginator']; ?></td>
 
                     <td><?php echo $data['poCategory']; ?></td>
                     <td><?php echo $data['poSupplier']; ?></td>
-                    <td><?php $user = user($data['poApprover']);
-                        echo $user['firstName']." ".$user['lastName']; ?></td>
-                    <td><?php $user = user($data['cmsApprover']);
-                        echo $user['firstName']." ".$user['lastName']; ?></td>
+                    <td><?php echo $data['poApprover']; ?></td>
+                    <td><?php echo $data['cmsApprover']; ?></td>
 
-
-                    <td>
-                        <div class="dropdown">
-                            <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a>
-                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                <?php if ($_SESSION['role'] == "ROLE_BOARD" || $_SESSION['role'] == "ROLE_FIN" && $data['poStatus'] == "PENDING APPROVAL"){ ?>
+<!--                    <td>-->
+<!--                        <div class="dropdown">-->
+<!--                            <a class="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="dw dw-more"></i></a>-->
+<!--                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">-->
+<!--                                --><?php //if ($_SESSION['role'] == "ROLE_BOARD" || $_SESSION['role'] == "ROLE_FIN" && $data['poStatus'] == "PENDING APPROVAL"){ ?>
                                     <!--                                    <a class="dropdown-item" href="cash_management.php?menu=approve&id=--><?php //=$data["id"] ?><!--" ><i class="dw dw-edit2"></i> View/(Approve)</a>-->
-                                    <a class="dropdown-item" href="req_info.php?menu=req&req_id=<?php echo $data['id']; ?>"><i class="dw dw-eye"></i> View</a>
-                                <?php } else{ ?>
-                                    <a class="dropdown-item" href="req_info.php?menu=req&req_id=<?php echo $data['id']; ?>"><i class="dw dw-eye"></i> View</a>
-                                <?php } ?>
-                            </div>
-                        </div>
-                    </td>
+<!--                                    <a class="dropdown-item" href="req_info.php?menu=req&req_id=--><?php //echo $data['id']; ?><!--"><i class="dw dw-eye"></i> View</a>-->
+<!--                                --><?php //} else{ ?>
+<!--                                    <a class="dropdown-item" href="req_info.php?menu=req&req_id=--><?php //echo $data['id']; ?><!--"><i class="dw dw-eye"></i> View</a>-->
+<!--                                --><?php //} ?>
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </td>-->
+
                 </tr>
             <?php endforeach; ?>
             </tbody>

@@ -30,7 +30,7 @@ if (isset($_GET['generate_deal_note'])) {
             $this->SetFont('Arial', 'B', 15);
 
             $deal_note = deal_note($_GET['id']);
-            $this->Cell(0, 20, 'Deal Note for '.$deal_note['counterParty'], 0, 1, 'C');
+            $this->Cell(0, 20, 'Deal Note for '.$deal_note['liabilityType'], 0, 1, 'C');
         }
 
 //        function footer()

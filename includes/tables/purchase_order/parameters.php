@@ -1,30 +1,20 @@
 <?php
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/pos/parameter/all");
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$server_response = curl_exec($ch);
+    $parameters = parameters();
+    ?>
 
-curl_close($ch);
-$data = json_decode($server_response, true);
-// Check if the JSON decoding was successful
-if ($data !== null) {
-    $table = $data;
 
-} else {
-    echo "Error decoding JSON data";
-}
-?>
-
-            <!-- Export Datatable start -->
+<!-- Export Datatable start -->
             <div class="card-box mb-30">
                 <div class="pd-20">
                     <div class="row">
                         <div class="col-10">
                             <h4 class="text-blue h4">Parameters</h4>
                         </div>
+                        <?php if ($parameters == null){ ?>
                         <div class="col-2">
                             <a class="btn-lg btn-block btn-success text-white text-center" href="requisitions.php?menu=add_parameter"><i class="icon-copy bi bi-plus-lg"></i>Add Parameter</a>
                         </div>
+                        <?php } ?>
                     </div>
                 </div>
                 <div class="pb-20">
@@ -38,7 +28,9 @@ if ($data !== null) {
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($table as $row):?>
+                        <?php
+                            foreach ($parameters as $row):
+                                ?>
                             <tr>
 
                                 <td class="table-plus"><?php echo $row['tax']; ?></td>

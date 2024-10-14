@@ -69,7 +69,7 @@
                 <div class="col-md-3 col-sm-12">
                     <div class="form-group">
                         <label>Start Date: <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
-                                <input class="form-control date-picker" placeholder="Select Start Date" type="text" name="start_date" required readonly/>
+                                <input class="form-control date-picker" placeholder="Select Start Date" type="text" name="start_date" required/>
                     </div>
                 </div>
             </div>
@@ -82,7 +82,7 @@
                                 style="width: 100%; height: 38px" required>
 <!--                            <option value=null>Select Option</option>-->
                             <option value="USD">USD</option>
-                            <option value="ZWL">ZWL</option>
+                            <option value="ZIG">ZiG</option>
                         </select>
                     </div>
                 </div>
@@ -97,7 +97,7 @@
 
                 <div class="col-md-2 col-sm-12">
                     <div class="form-group">
-                        <label>Tenor (months):<i class="mdi mdi-subdirectory-arrow-left:"></i></label>
+                        <label>Tenor (days):<i class="mdi mdi-subdirectory-arrow-left:"></i></label>
                         <input class="form-control" type="number" name="tenure">
                     </div>
                 </div>
@@ -130,7 +130,6 @@
 
 
             </div>
-
 
             <div class="row">
                 <div class="col-md-3 col-sm-12">
@@ -170,20 +169,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-4 col-sm-12">
-                    <div class="form-group">
-                        <label>Principal At: <i class="mdi mdi-subdirectory-arrow-left:"></i></label>
-                        <select class="custom-select2 form-control" name="principal_at" style="width: 100%; height: 38px">
-                            <option value=null>Select Option</option>
-                            <option value="MONTHLY">Monthly</option>
-                            <option value="QUARTERLY">Quarterly</option>
-                            <option value="MATURITY">Bullet payment at Maturity</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-2">
 
-                </div>
                 <div class="col-md-6 col-sm-12">
                     <div class="form-group">
                         <p><strong class="weight-600">Other Features</strong></p>
@@ -205,3 +191,12 @@
 <div class="pd-20 card-box mb-30">
     <?php include('../includes/tables/treasury_management/liabilities_table.php'); ?>
 </div>
+
+
+
+
+
+
+
+
+

@@ -8,6 +8,7 @@
     <table class="table hover table stripe multiple-select-row data-table-export nowrap">
         <thead>
         <tr>
+            <th>Counterparty</th>
             <th>Liability Type</th>
             <th>Interest</th>
             <th>Tenor In Days</th>
@@ -28,6 +29,7 @@
         foreach ($liabilities as $data):
             ?>
             <tr>
+                <td class="table-plus"><?php echo $data['counterpart']; ?></td>
                 <td class="table-plus"><?php echo $data['liabilityType'].' ( '.$data['currencyDenomination'].' )'; ?></td>
                 <td class="table-plus"><?php echo $data['interest'].' %'; ?></td>
                 <td class="table-plus"><?php echo $data['tenorInDays']; ?></td>
@@ -55,9 +57,9 @@
                             <i class="dw dw-more"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                            <a class="dropdown-item" href="treasury_management.php?menu=download_deal_note&id=<?= $data["id"] ?>&generate_deal_note=true"><i class="dw dw-download"></i>Download D.N</a>
-                            <a class="dropdown-item" href="treasury_management.php?menu=view_statement&id=<?= $data["id"] ?>"><i class="dw dw-view"></i>View Statement</a>
-                            <a class="dropdown-item" href="treasury_management.php?menu=sign_deal_note&id=<?= $data["id"] ?>"><i class="dw dw-writing"></i> Sign Deal Note</a>
+<!--                            <a class="dropdown-item" href="treasury_management.php?menu=download_deal_note&id=--><?php //= $data["id"] ?><!--&generate_deal_note=true"><i class="dw dw-download"></i>Download D.N</a>-->
+<!--                            <a class="dropdown-item" href="treasury_management.php?menu=view_statement&id=--><?php //= $data["id"] ?><!--"><i class="dw dw-view"></i>View Statement</a>-->
+<!--                            <a class="dropdown-item" href="treasury_management.php?menu=sign_deal_note&id=--><?php //= $data["id"] ?><!--"><i class="dw dw-writing"></i> Sign Deal Note</a>-->
                         </div>
                     </div>
                 </td>

@@ -1,247 +1,245 @@
 <?php
-include('../session/session.php');
-include ('check_role.php');
-include('../includes/controllers.php');
-$nav_header = "Cash Management Dashboard";
 
-$state = $_GET['state'];
-$userId = $_SESSION['userId'];
-$branch = $_SESSION['branch'];
+    include('../session/session.php');
+    include ('check_role.php');
+    include('../includes/controllers.php');
+    $nav_header = "Cash Management Dashboard";
 
-if(isset($_POST['Branch'])){
-    $name = $_POST['name'];
-    $status = $_POST['status'];
-    $code = $_POST['code'];
-    $direction = $_POST['direction'];
-    $google = $_POST['google'];
-    $phone = $_POST['phone'];
-    $address = $_POST['address'];
-    $branchcode = $_POST['branchcode'];
-    $vault = $_POST['vault'];
+    $state = $_GET['state'];
+    $userId = $_SESSION['userId'];
+    $branch = $_SESSION['branch'];
 
-    $url = "http://localhost:7878/api/utg/branches/addBranch";
+    if(isset($_POST['Branch'])){
+        $name = $_POST['name'];
+        $status = $_POST['status'];
+        $code = $_POST['code'];
+        $direction = $_POST['direction'];
+        $google = $_POST['google'];
+        $phone = $_POST['phone'];
+        $address = $_POST['address'];
+        $branchcode = $_POST['branchcode'];
+        $vault = $_POST['vault'];
 
-    $data_array = array(
+        $url = "http://localhost:7878/api/utg/branches/addBranch";
 
-        'branchName'=> $name,
-        'branchStatus' => $status,
-        'branchAddress'=> $address,
-        'branchTellPhone' => $phone,
-        'googleMap'=> $google,
-        'direactionsLink' => $direction,
-        'code'=> $code,
-        'vaultAccountNumber'=> $vault,
-        'branchCode'=> $branchcode
+        $data_array = array(
 
-
-
-    );
-
-    $data = json_encode($data_array);
-
-    $ch = curl_init();
-
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true );
-
-    $resp = curl_exec($ch);
-
-    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    $headerStr = substr($resp, 0, $headerSize);
-    $bodyStr = substr($resp, $headerSize);
-
-    // Check HTTP status code
-    if (!curl_errno($ch)) {
-        // $_SESSION['info'] = "";
-        // $_SESSION['error'] = "";
-        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-            case 200:
-                header('Location: cash_management.php?menu=main');# OK redirect to dashboard
+            'branchName'=> $name,
+            'branchStatus' => $status,
+            'branchAddress'=> $address,
+            'branchTellPhone' => $phone,
+            'googleMap'=> $google,
+            'direactionsLink' => $direction,
+            'code'=> $code,
+            'vaultAccountNumber'=> $vault,
+            'branchCode'=> $branchcode
 
 
-                break;
-            case 400:  # Bad Request
-                $decoded = json_decode($bodyStr);
-                foreach($decoded as $key => $val) {
-                    //echo $key . ': ' . $val . '<br>';
-                }
-                // echo $val;
-                $_SESSION['error'] = "Failed. Please try again, ".$val;
-                header('location: cash_management.php?menu=main');
-                break;
 
-            case 401: # Unauthorixed - Bad credientials
-                $_SESSION['error'] = 'Application failed.. Please try again!';
-                header('location: cash_management.php?menu=main');
+        );
 
-                break;
-            default:
-                $_SESSION['error'] = 'Not able to create Category'. "\n";
-                header('location: cash_management.php?menu=main');
+        $data = json_encode($data_array);
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true );
+
+        $resp = curl_exec($ch);
+
+        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $headerStr = substr($resp, 0, $headerSize);
+        $bodyStr = substr($resp, $headerSize);
+
+        // Check HTTP status code
+        if (!curl_errno($ch)) {
+            // $_SESSION['info'] = "";
+            // $_SESSION['error'] = "";
+            switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+                case 200:
+                    header('Location: cash_management.php?menu=main');# OK redirect to dashboard
+
+
+                    break;
+                case 400:  # Bad Request
+                    $decoded = json_decode($bodyStr);
+                    foreach($decoded as $key => $val) {
+                        //echo $key . ': ' . $val . '<br>';
+                    }
+                    // echo $val;
+                    $_SESSION['error'] = "Failed. Please try again, ".$val;
+                    header('location: cash_management.php?menu=main');
+                    break;
+
+                case 401: # Unauthorixed - Bad credientials
+                    $_SESSION['error'] = 'Application failed.. Please try again!';
+                    header('location: cash_management.php?menu=main');
+
+                    break;
+                default:
+                    $_SESSION['error'] = 'Not able to create Category'. "\n";
+                    header('location: cash_management.php?menu=main');
+            }
+        } else {
+            $_SESSION['error'] = 'Application failed.. Please try again!'. "\n";
+            header('location: cash_management.php?menu=main');
+
         }
-    } else {
-        $_SESSION['error'] = 'Application failed.. Please try again!'. "\n";
-        header('location: cash_management.php?menu=main');
-
+        curl_close($ch);
     }
-    curl_close($ch);
-}
+
+    //UPDATE BRANCH
+    function updateBranch($id, $address, $phone,$status, $name, $code, $branchcode, $vault){
+
+        $url = "http://localhost:7878/api/utg/branches/update/".$id;
+        $data_array = array(
+            'branchName' => $name,
+            'branchAddress' => $address,
+            'branchTellPhone' => $phone,
+            'branchStatus' => $status,
+            'branchCode' => $branchcode,
+            'code' => $code,
+            'vaultAccountNumber' => $vault,
 
 
-//UPDATE BRANCH
-function updateBranch($id, $address, $phone,$status, $name, $code, $branchcode, $vault){
+        );
 
-    $url = "http://localhost:7878/api/utg/branches/update/".$id;
-    $data_array = array(
-        'branchName' => $name,
-        'branchAddress' => $address,
-        'branchTellPhone' => $phone,
-        'branchStatus' => $status,
-        'branchCode' => $branchcode,
-        'code' => $code,
-        'vaultAccountNumber' => $vault,
+        $data = json_encode($data_array);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        $resp = curl_exec($ch);
 
+        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $headerStr = substr($resp, 0, $headerSize);
+        $bodyStr = substr($resp, $headerSize);
 
-    );
+        // convert headers to array
+        $headers = headersToArray( $headerStr );
 
-    $data = json_encode($data_array);
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true);
-    $resp = curl_exec($ch);
-
-    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    $headerStr = substr($resp, 0, $headerSize);
-    $bodyStr = substr($resp, $headerSize);
-
-    // convert headers to array
-    $headers = headersToArray( $headerStr );
-
-    if (!curl_errno($ch)) {
-        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-            case 200:  # OK redirect to dashboard
-                $_SESSION['info'] = "Industry Updated Successfully!";
-                audit($_SESSION['userid'], "Updated Category! - ".$id, $_SESSION['branch']);
-                header('location: cash_management.php?menu=main');
-                break;
-            case 400:  # Bad Request
-                $decoded = json_decode($bodyStr);
-                foreach($decoded as $key => $val) {
-                    echo $key . ': ' . $val . '<br>';
-                }
-                echo $val;
-                $_SESSION['error'] = "Failed. Please try again, ".$val;
-                audit($_SESSION['userid'], "Failed to Update Branch! - ".$id, $_SESSION['branch']);
-                header('location: cash_management.php?menu=main');
-                break;
-            default:
-                $_SESSION['error'] = 'Could not update Branch '. "\n";
-                audit($_SESSION['userid'], "Failed to Update Branch! - ".$id, $_SESSION['branch']);
-                header('location: cash_management.php?menu=main');
+        if (!curl_errno($ch)) {
+            switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+                case 200:  # OK redirect to dashboard
+                    $_SESSION['info'] = "Industry Updated Successfully!";
+                    audit($_SESSION['userid'], "Updated Category! - ".$id, $_SESSION['branch']);
+                    header('location: cash_management.php?menu=main');
+                    break;
+                case 400:  # Bad Request
+                    $decoded = json_decode($bodyStr);
+                    foreach($decoded as $key => $val) {
+                        echo $key . ': ' . $val . '<br>';
+                    }
+                    echo $val;
+                    $_SESSION['error'] = "Failed. Please try again, ".$val;
+                    audit($_SESSION['userid'], "Failed to Update Branch! - ".$id, $_SESSION['branch']);
+                    header('location: cash_management.php?menu=main');
+                    break;
+                default:
+                    $_SESSION['error'] = 'Could not update Branch '. "\n";
+                    audit($_SESSION['userid'], "Failed to Update Branch! - ".$id, $_SESSION['branch']);
+                    header('location: cash_management.php?menu=main');
+            }
+        } else {
+            $_SESSION['error'] = 'Update failed.. Please try again!'. "\n";
+            audit($_SESSION['userid'], "Failed to Update Branch! - ".$id, $_SESSION['branch']);
+            header('location: cash_management.php?menu=main');
         }
-    } else {
-        $_SESSION['error'] = 'Update failed.. Please try again!'. "\n";
-        audit($_SESSION['userid'], "Failed to Update Branch! - ".$id, $_SESSION['branch']);
-        header('location: cash_management.php?menu=main');
+        curl_close($ch);
     }
-    curl_close($ch);
-}
-if(isset($_POST['edit'])) {
-    $id = $_POST['id'];
-    $name = $_POST['branchName'];
-    $status = $_POST['status'];
-    $address = $_POST['branchAddress'];
-    $phone = $_POST['branchTellPhone'];
-    $code = $_POST['code'];
-    $branchcode = $_POST['branchcode'];
-    $vault = $_POST['vault'];
+    if(isset($_POST['edit'])) {
+        $id = $_POST['id'];
+        $name = $_POST['branchName'];
+        $status = $_POST['status'];
+        $address = $_POST['branchAddress'];
+        $phone = $_POST['branchTellPhone'];
+        $code = $_POST['code'];
+        $branchcode = $_POST['branchcode'];
+        $vault = $_POST['vault'];
 
-    updateBranch($id, $address, $phone,$status, $name, $code, $branchcode, $vault);
-}
+        updateBranch($id, $address, $phone,$status, $name, $code, $branchcode, $vault);
+    }
 
-//update Authrities
-function updateAuthorities($id, $branch, $authlevel,$name){
+    //update Authrities
+    function updateAuthorities($id, $branch, $authlevel,$name){
 
-    echo $id;
-    echo
+        echo $id;
+        echo
 
-    $url = "http://localhost:7878/api/utg/cms/cms_authorisation/update/".$id;
-    $data_array = array(
-        'branchId' => $branch,
-        'authLevel' => $authlevel,
-        'userId' => $name,
+        $url = "http://localhost:7878/api/utg/cms/cms_authorisation/update/".$id;
+        $data_array = array(
+            'branchId' => $branch,
+            'authLevel' => $authlevel,
+            'userId' => $name,
 
-    );
+        );
 
-    $data = json_encode($data_array);
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true);
-    $resp = curl_exec($ch);
+        $data = json_encode($data_array);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        $resp = curl_exec($ch);
 
-    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    $headerStr = substr($resp, 0, $headerSize);
-    $bodyStr = substr($resp, $headerSize);
+        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $headerStr = substr($resp, 0, $headerSize);
+        $bodyStr = substr($resp, $headerSize);
 
-    // convert headers to array
-    $headers = headersToArray( $headerStr );
+        // convert headers to array
+        $headers = headersToArray( $headerStr );
 
-    if (!curl_errno($ch)) {
-        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-            case 200:  # OK redirect to dashboard
-                $_SESSION['info'] = "Authorisationd Updated Successfully!";
-                audit($_SESSION['userid'], "Updated Authorisation! - ".$id, $_SESSION['branch']);
-                header('location: cash_management.php?menu=main');
-                break;
-            case 400:  # Bad Request
-                $decoded = json_decode($bodyStr);
-                foreach($decoded as $key => $val) {
-                    echo $key . ': ' . $val . '<br>';
-                }
-                echo $val;
-                $_SESSION['error'] = "Failed. Please try again, ".$val;
-                audit($_SESSION['userid'], "Failed to Update Authorisation! - ".$id, $_SESSION['branch']);
-                header('location: cash_management.php?menu=main');
-                break;
-            default:
-                $_SESSION['error'] = 'Could not update Branch '. "\n";
-                audit($_SESSION['userid'], "Failed to Update Authorisation! - ".$id, $_SESSION['branch']);
-                header('location: cash_management.php?menu=main');
+        if (!curl_errno($ch)) {
+            switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+                case 200:  # OK redirect to dashboard
+                    $_SESSION['info'] = "Authorisationd Updated Successfully!";
+                    audit($_SESSION['userid'], "Updated Authorisation! - ".$id, $_SESSION['branch']);
+                    header('location: cash_management.php?menu=main');
+                    break;
+                case 400:  # Bad Request
+                    $decoded = json_decode($bodyStr);
+                    foreach($decoded as $key => $val) {
+                        echo $key . ': ' . $val . '<br>';
+                    }
+                    echo $val;
+                    $_SESSION['error'] = "Failed. Please try again, ".$val;
+                    audit($_SESSION['userid'], "Failed to Update Authorisation! - ".$id, $_SESSION['branch']);
+                    header('location: cash_management.php?menu=main');
+                    break;
+                default:
+                    $_SESSION['error'] = 'Could not update Branch '. "\n";
+                    audit($_SESSION['userid'], "Failed to Update Authorisation! - ".$id, $_SESSION['branch']);
+                    header('location: cash_management.php?menu=main');
+            }
+        } else {
+            $_SESSION['error'] = 'Update failed.. Please try again!'. "\n";
+            audit($_SESSION['userid'], "Failed to Update Authorisation! - ".$id, $_SESSION['branch']);
+            header('location: cash_management.php?menu=main');
         }
-    } else {
-        $_SESSION['error'] = 'Update failed.. Please try again!'. "\n";
-        audit($_SESSION['userid'], "Failed to Update Authorisation! - ".$id, $_SESSION['branch']);
-        header('location: cash_management.php?menu=main');
+        curl_close($ch);
     }
-    curl_close($ch);
-}
-if(isset($_POST['update_auth'])) {
-    $id = $_POST['id'];
-    $branch = $_POST['update_branch'];
-    $authlevel = $_POST['role'];
-    $name = $_POST['update_name'];
+    if(isset($_POST['update_auth'])) {
+        $id = $_POST['id'];
+        $branch = $_POST['update_branch'];
+        $authlevel = $_POST['role'];
+        $name = $_POST['update_name'];
 
-    updateAuthorities($id, $branch, $authlevel,$name);
-}
-
-
+        updateAuthorities($id, $branch, $authlevel,$name);
+    }
 
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="">
 
 <style>
     /* Styles for the popup message */
@@ -296,12 +294,12 @@ include('../includes/header.php');
                     <h5 class="h4 text-blue mb-20">Cash Management</h5>
                     <div class="tab">
                         <ul class="nav nav-tabs customtab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#acc_balance" role="tab" aria-selected="true">Account Balances</a>
-                            </li>
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link active" data-toggle="tab" href="#acc_balance" role="tab" aria-selected="true">Account Balances</a>-->
+<!--                            </li>-->
 
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#pending" role="tab"
+                                <a class="nav-link active" data-toggle="tab" href="#pending" role="tab"
                                    aria-selected="false">Pending Trans Vouchers</a>
                             </li>
                             <li class="nav-item">
@@ -314,6 +312,10 @@ include('../includes/header.php');
                             </li>
 
                             <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#declined" role="tab"
+                                   aria-selected="false">Declined Trans Vouchers</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" data-toggle="tab" href="#po_payments" role="tab"
                                    aria-selected="false">P.O Payments</a>
                             </li>
@@ -321,7 +323,6 @@ include('../includes/header.php');
 <!--                            <li class="nav-item">-->
 <!--                                <a class="nav-link" data-toggle="tab" href="#cash_receipts" role="tab" aria-selected="false">Cash Receipts (Musoni - Pastel)</a>-->
 <!--                            </li>-->
-<!---->
 <!--                            <li class="nav-item">-->
 <!--                                <a class="nav-link text-blue" data-toggle="tab" href="#cash_trans_voucher" role="tab" aria-selected="false">-->
 <!--                                    Cash Transactions Voucher-->
@@ -348,20 +349,32 @@ include('../includes/header.php');
                             </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
-                                <div class="pd-20">
-                                    <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
-                                </div>
+<!--                            <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">-->
+<!--                                <div class="pd-20">-->
+<!--                                    --><?php //include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
+<!--                                </div>-->
+<!--                            </div>-->
+                            <div class="tab-pane fade show active" id="pending" role="tabpanel">
+                                <?php $titleStatus="Pending";
+                                $secondApprovalStatus = "PENDING";
+                                include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
                             </div>
 
-                            <div class="tab-pane fade row" id="pending" role="tabpanel">
-                                <?php $approvalStatus = "PENDING"; include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
-                            </div>
                             <div class="tab-pane fade" id="approved" role="tabpanel">
-                                <?php $approvalStatus = "APPROVED"; include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
+                                <?php
+                                $titleStatus="Approved";
+                                $secondApprovalStatus = "APPROVED";
+                                include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
                             </div>
+
+                            <div class="tab-pane fade" id="declined" role="tabpanel">
+                                <?php $titleStatus="Declined";
+                                $secondApprovalStatus = "DECLINED";
+                                include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
+                            </div>
+
                             <div class="tab-pane fade" id="revise" role="tabpanel">
-                                <?php $approvalStatus = "REVISE"; include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
+                                <?php $titleStatus="Revise"; $secondApprovalStatus = "REVISE"; include('../includes/tables/cash_management/finance_transaction_vouchers.php'); ?>
                             </div>
 
                             <div class="tab-pane fade" id="po_payments" role="tabpanel">
@@ -416,7 +429,6 @@ include('../includes/header.php');
                                                     <option value="Petty Cash">Petty Cash</option>
                                                     <option value="Internal Vault">Internal Vault</option>
                                                     <option value="External Vault">External Vault</option>
-                                                    </optgroup>
                                                 </select>
                                             </div>
                                         </div>
@@ -459,6 +471,37 @@ include('../includes/header.php');
 
                             <div class="tab-pane fade" id="authorisers" role="tabpanel">
                                 <?php include('../includes/tables/cms/authorisers_table.php'); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <?php }
+        elseif ($_GET['menu'] == "acc_bal") {?>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    if (urlParams.has('success')) {
+                        // Display a popup or alert message
+                        alert('Deleted successfully');
+                    }
+                });
+            </script>
+            <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                <div class="pd-20 card-box">
+                    <h5 class="h4 text-blue mb-20">Cash Management</h5>
+                    <div class="tab">
+                        <ul class="nav nav-tabs customtab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#acc_balance" role="tab" aria-selected="true">Account Balances</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
+                                <div class="pd-20">
+                                    <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -733,7 +776,7 @@ include('../includes/header.php');
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Account</label>
                         <div class="col-sm-12 col-md-10">
-                            <input class="form-control" type="text" name="account" placeholder="Vault Account" required/></div>
+                            <input  id="account" class="form-control" type="text" name="account" placeholder="Vault Account" required/></div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Name</label>

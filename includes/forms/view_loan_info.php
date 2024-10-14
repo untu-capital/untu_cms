@@ -105,7 +105,15 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="credit_check" role="tabpanel">
+                    <div class="tab-pane fade mb-30 pd-20" id="credit_check" role="tabpanel">
+                        <?php if ($_SESSION['role'] == "ROLE_BOCO") { ?>
+                            <form method="post" action="">
+                                <input type="hidden" name="id" value="<?php echo isset($_GET['loan_id']) ? htmlspecialchars($_GET['loan_id']) : ''; ?>">
+                                <input type="hidden" name="national_id" value="<?php echo isset($loans["idNumber"]) ? htmlspecialchars($loans["idNumber"]) : ''; ?>">
+                                <button type="submit" name="credit_check" class="btn btn-success btn-lg btn-block">Generate FCB & XDS Reports</button>
+                            </form>
+                        <?php } ?>
+
                         <div class="table-responsive">
                             <table class=" table-striped" style="margin: 2%;">
                                 <colgroup>
@@ -304,9 +312,16 @@
                                 </table>
                             </div>
                         </div>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
 
                         <?php if ($_SESSION['role'] == "ROLE_BOCO"){?>
-                            <a class="list-group-item text-blue"><center><b>ATTACH XDS REPORT</b></center></a>
+                            <a class="list-group-item text-white" style="background-color: #f52437"><center><b>CLIENT XDS REPORT</b></center></a>
+                            <br>
+
+                            <?php include('../includes/tables/credit_analytics/xds_report.php') ?>
                             <br>
 
                             <?php $xds_files = xds_files($_GET['loan_id']); ?>
@@ -1277,7 +1292,7 @@
                                     <!-- <td><input class="btn" type="button" id="delete" name="delete" value="delete" required></td> -->
                                 </tr>
                                 <tr>
-                                    <td><input class="form-control" type="text" name="txtLoanAmount"  min=0 required></td>
+                                    <td><input class="form-control" type="number" step="0.1" name="txtLoanAmount"  min=0 required></td>
                                     <td>
                                         <input class="form-control" type="number" placeholder="Enter months" name="txtTenure" required>
 <!--                                        <select class="custom-select2 form-control" style="width: 100%; height: 38px" name="txtTenure" autocomplete="off" >-->
@@ -1296,14 +1311,15 @@
 <!--                                            <option value="12">12 months</option>-->
 <!--                                        </select>-->
                                     </td>
-                                    <td><input class="form-control" type="text" name="txtInterestRate"  min=0 required></td>
+                                    <td><input class="form-control" type="number" step="0.1" name="txtInterestRate"  min=0 required></td>
                                     <td><select class="custom-select2 form-control" name="txtBasis" autocomplete="off" style="width: 100%; height: 38px" required>
                                             <option value="reducing balance">reducing balance</option>
                                             <option value="flat interest rate">Flat Interest Rate</option>
-                                        </select></td>
+                                        </select>
+                                    </td>
 
-                                    <td><input class="form-control" type="text" name="txtCashHandlingFee" placeholder="" min=0 max=2></td>
-                                    <td><input class="form-control" type="text" name="txtRepaymentAmount" required></td>
+                                    <td><input class="form-control" type="number" step="0.1" name="txtCashHandlingFee" placeholder="" min=0></td>
+                                    <td><input class="form-control" type="number" step="0.1" name="txtRepaymentAmount" required></td>
                                     <td><select class="custom-select2 form-control" name="txtProduct" autocomplete="off" style="width: 100%; height: 38px" required >
                                             <option value="CTF">CTF</option>
                                         </select></td>
@@ -1313,7 +1329,10 @@
                                         </select>
                                     </td>
 
-                                    <td><input class="form-control" type="text" name="txtUpfrontFee" required></td>
+                                    <td>
+                                        <input class="form-control" type="number" step="0.1" name="txtUpfrontFee" min="0" required>
+                                    </td>
+
                                 </tr>
 
                             </table>
@@ -1917,7 +1936,7 @@
                                     <!-- <td><input class="btn" type="button" id="delete" name="delete" value="delete" required></td> -->
                                 </tr>
                                 <tr>
-                                    <td><input class="form-control" type="text" name="txtLoanAmount"  min=0 required></td>
+                                    <td><input class="form-control" type="number" step="0.1" name="txtLoanAmount"  min=0 required></td>
                                     <td>
                                         <input class="form-control" type="number" placeholder="Enter months" autocomplete="off" name="txtTenure" required>
 <!--                                        <select class="btn btn-clipboard" name="txtTenure" placeholder="" >-->
@@ -1936,14 +1955,14 @@
 <!--                                            <option value="12">12 months</option>-->
 <!--                                        </select>-->
                                     </td>
-                                    <td><input class="form-control" type="text" name="txtInterestRate"  min=0 required></td>
+                                    <td><input class="form-control" type="number" step="0.1" name="txtInterestRate"  min=0 required></td>
                                     <td><select class="btn btn-clipboard" name="txtBasis" autocomplete="off" placeholder="" >
                                             <option value="reducing balance">reducing balance</option>
                                             <option value="fixed balance">fixed balance</option>
                                         </select></td>
 
-                                    <td><input class="form-control" type="text" name="txtCashHandlingFee" placeholder="" min=0 max=2></td>
-                                    <td><input class="form-control" type="text" name="txtRepaymentAmount" required></td>
+                                    <td><input class="form-control" type="number" step="0.1" name="txtCashHandlingFee" placeholder="" min=0></td>
+                                    <td><input class="form-control" type="number" step="0.1" name="txtRepaymentAmount" required></td>
                                     <td><select class="btn btn-clipboard" name="txtProduct" autocomplete="off" placeholder="" >
                                             <option value="CTF">CTF</option>
                                         </select></td>
@@ -1953,7 +1972,7 @@
                                         </select>
                                     </td>
 
-                                    <td><input class="form-control" type="text" name="txtUpfrontFee" required></td>
+                                    <td><input class="form-control" type="number" step="0.1" name="txtUpfrontFee" required></td>
                                 </tr>
 
                             </table>
@@ -2436,16 +2455,16 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <a class="list-group-item"><b>Client Name</b>: <?= $loans["firstName"] ?> <?= $loans["lastName"] ?></a>
-                                        <a class="list-group-item"><b>Loan Amount ($)</b>: <input class="form-control" type="text" name="meetingLoanAmount" autocomplete="off" value="<?php echo $loans['meetingLoanAmount']; ?>" required></a>
-                                        <a class="list-group-item"><b>Less Fees ($)</b>: <input class="form-control" type="text" name="lessFees" autocomplete="off" value="<?php echo $loans['lessFees']; ?>" required></a>
-                                        <a class="list-group-item"><b>Application Fee ($)</b>: <input class="form-control" type="text" name="applicationFee" autocomplete="off" value="<?php echo $loans['applicationFee']; ?>" required></a>
+                                        <a class="list-group-item"><b>Loan Amount ($)</b>: <input class="form-control" type="number" step="0.1" name="meetingLoanAmount" autocomplete="off" value="<?php echo $loans['meetingLoanAmount']; ?>" required></a>
+                                        <a class="list-group-item"><b>Less Fees ($)</b>: <input class="form-control" type="number" step="0.1" name="lessFees" autocomplete="off" value="<?php echo $loans['lessFees']; ?>" required></a>
+                                        <a class="list-group-item"><b>Application Fee ($)</b>: <input class="form-control" type="number" step="0.1" name="applicationFee" autocomplete="off" value="<?php echo $loans['applicationFee']; ?>" required></a>
                                         <br/>
                                     </div>
 
                                     <div class="col-md-4">
-                                        <a class="list-group-item"><b>Cash Handling Fees ($)</b>: <input class="form-control" type="text" name="meetingCashHandlingFee" autocomplete="off" value="<?php echo $loans['meetingCashHandlingFee']; ?>" required></a>
-                                        <a class="list-group-item"><b>Interest Rate (%)</b>: <input class="form-control" type="text" name="meetingInterestRate" autocomplete="off" value="<?php echo $loans['meetingInterestRate']; ?>" required> </a>
-                                        <a class="list-group-item"><b>Repayment Amount ($)</b>:<input class="form-control" type="text" name="meetingRepaymentAmount" autocomplete="off" value="<?php echo $loans['meetingRepaymentAmount']; ?>" required></a>
+                                        <a class="list-group-item"><b>Cash Handling Fees ($)</b>: <input class="form-control" type="number" step="0.1" name="meetingCashHandlingFee" autocomplete="off" value="<?php echo $loans['meetingCashHandlingFee']; ?>" required></a>
+                                        <a class="list-group-item"><b>Interest Rate (%)</b>: <input class="form-control" type="number" step="0.1" name="meetingInterestRate" autocomplete="off" value="<?php echo $loans['meetingInterestRate']; ?>" required> </a>
+                                        <a class="list-group-item"><b>Repayment Amount ($)</b>:<input class="form-control" type="number" step="0.1" name="meetingRepaymentAmount" autocomplete="off" value="<?php echo $loans['meetingRepaymentAmount']; ?>" required></a>
                                         <a class="list-group-item"><b>Loan Officer</b>: <?= $loans["processedBy"] ?></a>
                                     </div>
                                     <div class="col-md-4">
@@ -2454,7 +2473,7 @@
                                         <a class="list-group-item"><b>Tenure (months)</b>: <input class="form-control" type="number" name="meetingTenure" autocomplete="off" value="<?php echo $loans['meetingTenure']; ?>" required></a>
                                         <a class="list-group-item"><b>Product</b>: <?= $loans["meetingProduct"] ?></a>
                                         <a class="list-group-item"><b>R/N</b>: <?= $loans["meetingRN"] ?></a>
-                                        <a class="list-group-item"><b>Upfront Fees (%)</b>: <input class="form-control" type="text" name="meetingUpfrontFee" autocomplete="off" value="<?php echo $loans['meetingUpfrontFee']; ?>"></a>
+                                        <a class="list-group-item"><b>Upfront Fees (%)</b>: <input class="form-control" ttype="number" step="0.1" name="meetingUpfrontFee" autocomplete="off" value="<?php echo $loans['meetingUpfrontFee']; ?>"></a>
                                     </div>
                                 </div>
                                 <!--                                <div class="row">-->

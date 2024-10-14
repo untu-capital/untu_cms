@@ -58,7 +58,7 @@ $req = req_trans("/getById/".$_GET['trans_id']);
                         <select class="custom-select2 form-control" name="currency" id="currency"  autocomplete="off" required style="width: 100%">
                             <option value="<?php echo $req['poCurrency'] ?>"><?php echo $req['poCurrency'] ?></option>
                             <option value="USD">USD</option>
-                            <option value="ZWL">ZWL</option>
+                            <option value="ZIG">ZIG</option>
                         </select>
                     </div>
                 </div>

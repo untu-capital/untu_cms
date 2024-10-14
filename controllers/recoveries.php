@@ -4,7 +4,7 @@
 
 function musoni_recoveries(){
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8080/api/treasury/recoveries/getRecoveries');
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8080/api/recovery/recoveries/getRecoveries');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $disbursements_response = curl_exec($ch);
     curl_close($ch);
@@ -21,7 +21,7 @@ function musoni_recoveries(){
 
 function musoni_recovery_by_id($recoveryId){
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8080/api/treasury/recoveries/getRecoveryById/'.$recoveryId);
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8080/api/recovery/recoveries/getRecoveryById/'.$recoveryId);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $disbursements_response = curl_exec($ch);
     curl_close($ch);
@@ -36,7 +36,7 @@ function musoni_recovery_by_id($recoveryId){
 
 function get_next_steps($loanId){
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8080/api/treasury/recoveries/getNextSteps/'.$loanId);
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8080/api/recovery/recoveries/getNextSteps/'.$loanId);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $disbursements_response = curl_exec($ch);
     curl_close($ch);
@@ -52,7 +52,7 @@ function get_next_steps($loanId){
 
 function last_saved_action_plan($loanId){
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8080/api/treasury/recoveries/last-saved-action-plan/'.$loanId);
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8080/api/recovery/recoveries/last-saved-action-plan/'.$loanId);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $disbursements_response = curl_exec($ch);
     curl_close($ch);
@@ -77,7 +77,7 @@ function get_repayments($recoveryId){
 
     // Initialize cURL session
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8080/api/treasury/recoveries/getRepayments');
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8080/api/recovery/recoveries/getRepayments');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Content-Type: application/json',
@@ -123,7 +123,7 @@ function get_repayments($recoveryId){
 
 //function get_repayments(){
 //    $ch = curl_init();
-//    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8080/api/treasury/recoveries/getRepayments');
+//    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8080/api/recovery/recoveries/getRepayments');
 //    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 //    $disbursements_response = curl_exec($ch);
 //    curl_close($ch);
@@ -138,7 +138,7 @@ function get_repayments($recoveryId){
 
 function recovery_actionPlans($recoveryId){
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8080/api/treasury/recoveries/getActionPlanById/'.$recoveryId);
+    curl_setopt($ch, CURLOPT_URL, 'http://localhost:8080/api/recovery/recoveries/getActionPlanById/'.$recoveryId);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $disbursements_response = curl_exec($ch);
     curl_close($ch);
@@ -179,7 +179,7 @@ if(isset($_POST['set_recovery_actions'])) {
 
     $data = json_encode($data_array);
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/api/treasury/recoveries/saveActionPlan");
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/api/recovery/recoveries/saveActionPlan");
 //    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -214,3 +214,132 @@ if(isset($_POST['set_recovery_actions'])) {
     }
     curl_close($ch);
 }
+
+
+
+function generateExcel($recoveryLoans) {
+    // URL of your API endpoint
+    $url = 'http://localhost:8080/api/recovery/recoveries/generateExcel';
+
+    // Convert array to JSON
+    $jsonPayload = json_encode($recoveryLoans);
+
+    // Initialize cURL session
+    $ch = curl_init($url);
+
+    // Set cURL options
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonPayload);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($jsonPayload)
+    ));
+
+    // Execute cURL request
+    $response = curl_exec($ch);
+
+    // Check for errors
+    if($response === false) {
+        echo 'cURL Error: ' . curl_error($ch);
+    }
+
+    // Close cURL session
+    curl_close($ch);
+
+    return $response;
+}
+
+// Example usage:
+//$recoveryLoans = array(
+//    array(
+//        "loanId" => 29592,
+//        "office" => "Main Branch",
+//        "loanOfficer" => "John Doe",
+//        "clientName" => "Alice Smith",
+//        "amount" => 5000.0,
+//        "principal" => 4500.0,
+//        "totalDue" => 5500.0,
+//        "daysInArrears" => 30,
+//        "daysSincePayment" => 15,
+//        "lastTransactionDate" => "2024-04-10",
+//        "lastTransactionAmount" => 200.0
+//    )
+//);
+
+if(isset($_POST['exportcsv'])) {
+
+    $selectedRows = $_POST['selectedRows'];
+
+    // Initialize $recoveryLoans array
+    $recoveryLoans = [];
+
+    // Loop through selected rows to populate $recoveryLoans array
+    foreach ($selectedRows as $selectedRow) {
+        $recoveryLoans[] = json_decode($selectedRow, true);
+    }
+
+    // Generate the Excel data
+    $response = generateExcel($recoveryLoans);
+
+    // Convert JSON response to associative array
+    $responseArray = json_decode($response, true);
+
+    // Modify the column headings to capitalize them
+    $columnHeadings = [
+        'Loan Id',
+        'Office',
+        'Loan Officer',
+        'Client Name',
+        'Amount',
+        'Principal',
+        'Total Due',
+        'Days In Arrears',
+        'Days Since Payment',
+        'Cause Of Arrears',
+        'Agreed Action Points',
+        'Comments',
+        'Agreed Amount',
+        'Legal Entity',
+        'Status',
+        'Movement Amount',
+        'Timeline',
+        'Next Timeline',
+        'Previous Timeline',
+        'Stage'
+    ];
+
+
+
+    // Create a new CSV file
+    $csvFile = fopen('recovery_info.csv', 'w');
+
+    // Write column headings to the file, capitalizing them
+    fputcsv($csvFile, array_map('ucfirst', $columnHeadings));
+
+    // Write data rows to the file
+    foreach ($responseArray as $data) {
+        fputcsv($csvFile, $data);
+    }
+
+    // Close the CSV file
+    fclose($csvFile);
+
+    // Set headers for download
+    header('Content-Type: application/csv');
+    header('Content-Disposition: attachment;filename="recovery_info.csv"');
+    header('Cache-Control: max-age=0');
+
+    // Output the file contents
+    readfile('recovery_info.csv');
+
+    // Remove the file after output
+    unlink('recovery_info.csv');
+
+    // Stop script execution to prevent any additional output
+    exit;
+}
+
+
+
+

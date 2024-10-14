@@ -1,11 +1,15 @@
 <?php
 
-    include('../session/session.php');
-    include ('check_role.php');
-    include('../includes/controllers.php');
-    include ('../controllers/treasury.php');
-    include('../includes/forms/treasury_management/deal_note_pdf.php');
-    $nav_header = "Treasury Management Dashboard";
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+include('../session/session.php');
+include ('check_role.php');
+include('../includes/controllers.php');
+include ('../controllers/treasury.php');
+include('../includes/forms/treasury_management/deal_note_pdf.php');
+include('../includes/forms/treasury_management/asset_deal_note_pdf.php');
+$nav_header = "Treasury Management Dashboard";
 
 //    include('../includes/fpdf/fpdf.php');
 
@@ -15,7 +19,7 @@
 <html >
 <!-- HTML HEAD -->
 <?php
-    include('../includes/header.php');
+include('../includes/header.php');
 ?>
 <!-- /HTML HEAD -->
 <body>
@@ -82,6 +86,11 @@
                                     Assets Info
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-blue" data-toggle="tab" href="#asset_notes_register" role="tab" aria-selected="false">
+                                    Asset Notes Register
+                                </a>
+                            </li>
 
                             <li class="nav-item">
                                 <a class="nav-link text-blue" data-toggle="tab" href="#dn_aprrover1" role="tab" aria-selected="false" >
@@ -95,7 +104,6 @@
                                 </a>
                             </li>
 
-
                             <li class="nav-item">
                                 <a class="nav-link text-blue" data-toggle="tab" href="#reports" role="tab" aria-selected="false">
                                     Reports
@@ -105,9 +113,10 @@
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="dashboard" role="tabpanel">
                                 <div class="pd-20">
-<!--                                    --><?php //include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
+                                    <?php include('../includes/dashboard/treasury/index.php'); ?>
                                 </div>
                             </div>
+
                             <div class="tab-pane fade row" id="user_access" role="tabpanel">
 
                                 <form method="post" action="">
@@ -161,15 +170,16 @@
                             <div class="tab-pane fade" id="customer_info" role="tabpanel">
                                 <?php include('../includes/tables/treasury_management/customers.php'); ?>
                             </div>
-                            <div class="tab-pane fade" id="reports" role="tabpanel">
-                                <?php include('../includes/tables/cash_management/withdrawal_purposes.php'); ?>
-                            </div>
                             <div class="tab-pane fade" id="assets" role="tabpanel">
                                 <?php include('../includes/forms/treasury_management/create_asset.php'); ?>
                             </div>
 
                             <div class="tab-pane fade" id="liabilities" role="tabpanel">
                                 <?php include('../includes/forms/treasury_management/create_liability.php'); ?>
+                            </div>
+
+                            <div class="tab-pane fade" id="asset_notes_register" role="tabpanel">
+                                <?php include('../includes/tables/treasury_management/asset_notes_register_table.php'); ?>
                             </div>
 
                             <div class="tab-pane fade" id="notes_register" role="tabpanel">
@@ -181,23 +191,37 @@
                             </div>
 
                             <div class="tab-pane fade" id="dn_aprrover1" role="tabpanel">
-                                <?php include('../includes/tables/cms/authorisers_table.php'); ?>
+<!--                                --><?php //include('../includes/tables/treasury_management/authorisers_table.php'); ?>
                             </div>
 
                             <div class="tab-pane fade" id="dn_aprrover2" role="tabpanel">
-                                <?php include('../includes/tables/cms/authorisers_table.php'); ?>
+<!--                                --><?php //include('../includes/tables/treasury_management/authorisers_table.php'); ?>
+                            </div>
+                            <div class="tab-pane fade" id="reports" role="tabpanel">
+<!--                                --><?php //include('../includes/tables/treasury_management/.php'); ?>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-        <?php } elseif ($_GET['menu'] == "download_deal_note") {
+        <?php }
+        elseif ($_GET['menu'] == "download_deal_note")
+        {
             include('../includes/forms/treasury_management/deal_note_pdf.php');
-         }
+        }
+        elseif ($_GET['menu'] == "download_asset_deal_note")
+        {
+            include('../includes/forms/treasury_management/asset_deal_note_pdf.php');
+        }
 
-        elseif ($_GET['menu'] == "view_statement") {?>
+        elseif ($_GET['menu'] == "view_statement")
+        {?>
             <?php include('../includes/forms/treasury_management/deal_note_statement.php');
+        }
+        elseif ($_GET['menu'] == "view_asset_statement")
+        {?>
+            <?php include('../includes/forms/treasury_management/asset_deal_note_statement.php');
         }
 
         elseif ($_GET['menu'] == "view_asset_statement") {?>
@@ -400,7 +424,7 @@
 
         elseif ($_GET['menu'] == 'add_customer'){
             include('../includes/forms/treasury_management/create_customer.php');
-         }
+        }
         elseif ($_GET['menu'] == 'view_customer'){
         $data = customer_info($_GET['customerId']);
         ?>
@@ -658,7 +682,7 @@
                                             <label for="currency">Currency Denomination</label>
                                             <select class="custom-select2 form-control" name="currency" autocomplete="off" style="width: 100%; height: 38px" >
                                                 <option value="USD">USD</option>
-                                                <option value="ZWL">ZWL</option>
+                                                <option value="ZIG">ZIG</option>
                                             </select>
                                         </div>
                                     </div>
@@ -726,9 +750,7 @@
 <script src="../src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 <script src="../src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 <script src="../vendors/scripts/dashboard.js"></script>
-<!--<script src="../vendors/scripts/dashboard.js"></script>-->
-
-<script src="../vendors/scripts/dashboard2.js"></script>
+<!--<script src="../vendors/scripts/dashboard2.js"></script>-->
 
 <!-- buttons for Export datatable -->
 <script src="../src/plugins/datatables/js/dataTables.buttons.min.js"></script>
@@ -742,7 +764,11 @@
 <script src="../vendors/scripts/datatable-setting.js"></script>
 
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NXZMQSS" height="0" width="0" style="display: none; visibility: hidden">
+
+    </iframe>
+</noscript>
 <!-- End Google Tag Manager (noscript) -->
 
 </body>

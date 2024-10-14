@@ -13,12 +13,12 @@
             </div>
         </div>
     </div>
-
     <div class="pb-20">
-            <table class="table hover table stripe multiple-select-row data-table-export nowrap">
+        <table class="table hover table stripe multiple-select-row data-table-export nowrap">
             <thead class="small">
             <tr>
-                <th>Application No</th>
+                <th>Application Date</th>
+                <th>Reference No</th>
                 <th>First Approver</th>
                 <th>Second Approver</th>
                 <th>Amount</th>
@@ -31,12 +31,13 @@
             </thead>
             <tbody>
             <?php
-            $voucher = cms_withdrawal_voucher($_SESSION['userId']);
+            $voucher = cms_withdrawal_voucher_for_user($_SESSION['userId']);
             foreach ($voucher as $row):?>
                 <tr>
-                    <td><?= htmlspecialchars($row["applicationNo"]) ?></td>
+                    <td><?= htmlspecialchars($row["applicationDate"]) ?></td>
+                    <td><?= htmlspecialchars($row["reference"]) ?></td>
 
-                    <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["firstApprover"]['lastName'])." - " ?>
+                    <td><?= htmlspecialchars($row["firstApprover"]['firstName']) . " " . htmlspecialchars($row["firstApprover"]['lastName']) . " - " ?>
 
                         <?php if ($row['firstApprovalStatus'] == "APPROVED") {
                             echo "<label style='padding: 6px;' class='badge badge-success'>Approved</label>";
@@ -46,8 +47,8 @@
                             echo "<label style='padding: 6px;' class='badge badge-danger'>Reverted</label>";
                         } ?></td>
 
-                    <td><?= htmlspecialchars($row["secondApprover"]['firstName']) . " " . htmlspecialchars($row["secondApprover"]['lastName'])." - " ?>
-                    <?php if ($row['secondApprovalStatus'] == "APPROVED") {
+                    <td><?= htmlspecialchars($row["secondApprover"]['firstName']) . " " . htmlspecialchars($row["secondApprover"]['lastName']) . " - " ?>
+                        <?php if ($row['secondApprovalStatus'] == "APPROVED") {
                             echo "<label style='padding: 6px;' class='badge badge-success'>Approved</label>";
                         } elseif ($row['secondApprovalStatus'] == "REVISE") {
                             echo "<label style='padding: 6px;' class='badge badge-danger'>Reverted</label>";
@@ -56,8 +57,10 @@
                         } ?></td>
 
 
-                    <td><?= '$' . number_format($row["amount"], 2)." (".htmlspecialchars($row["currency"]).")" ?></td>
-                    <td><?= htmlspecialchars($row["withdrawalPurpose"]) ?></td>
+                    <td><?= '$' . number_format($row["amount"], 2) . " (" . htmlspecialchars($row["currency"]) . ")" ?></td>
+                    <td><?php
+                        $purpose = withdrawal_purposes($row["withdrawalPurpose"]);
+                        echo($purpose['name']); ?></td>
                     <td><?= htmlspecialchars($row["fromVault"]["name"]) ?></td>
                     <td><?= htmlspecialchars($row["toVault"]["name"]) ?></td>
                     <td>
@@ -71,13 +74,16 @@
                                 <i class="dw dw-more"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-                                <a class="dropdown-item" href="../boco/view_transaction_voucher.php?transactionId=<?= $row['id'] ?>"><i class="dw dw-eye"></i> View</a>
+                                <a class="dropdown-item"
+                                   href="../boco/view_transaction_voucher.php?transactionId=<?= $row['id'] ?>"><i
+                                            class="dw dw-eye"></i> View</a>
                                 <?php if ($row['secondApprovalStatus'] != "APPROVED") {
                                     $transId = $row['id'];
                                     echo "<a  class='dropdown-item' href='../boco/update_transaction_voucher.php?transactionId=$transId'><i class='dw dw-edit2'></i> Edit</a>";
                                 } ?>
                                 <button <?php echo ($row['secondApprovalStatus'] == "APPROVED") ? "hidden" : " " ?>
-                                        onclick='deleteTransaction(<?= $row['id']; ?>)' class='dropdown-item'><i class='dw dw-delete-3'></i> Delete
+                                        onclick='deleteTransaction(<?= $row['id']; ?>)' class='dropdown-item'><i
+                                            class='dw dw-delete-3'></i> Delete
                                 </button>
                             </div>
                         </div>

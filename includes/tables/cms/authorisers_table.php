@@ -9,85 +9,82 @@
 
 <?php
 
-$errors = array();
+    $errors = array();
 
+    if(isset($_POST['auth'])){
+        $branch = $_POST['branch'];
+        $auth = $_POST['role'];
+        $name = $_POST['name'];
 
-if(isset($_POST['auth'])){
-    $branch = $_POST['branch'];
-    $auth = $_POST['role'];
-    $name = $_POST['name'];
+        $url = "http://localhost:7878/api/utg/cms/cms_authorisation/addAuthorisation";
 
-    $url = "http://localhost:7878/api/utg/cms/cms_authorisation/addAuthorisation";
+        $data_array = array(
+            'branchName' => $branch,
+            'branchId' => $branch,
+            'authLevel' => $auth,
+            'userId'=> $name,
 
-    $data_array = array(
-        'branchName' => $branch,
-        'branchId' => $branch,
-        'authLevel' => $auth,
-        'userId'=> $name,
+        );
 
-    );
+        $data = json_encode($data_array);
 
-    $data = json_encode($data_array);
+        $ch = curl_init();
 
-    $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true );
 
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HEADER, true );
+        $resp = curl_exec($ch);
 
-    $resp = curl_exec($ch);
+        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $headerStr = substr($resp, 0, $headerSize);
+        $bodyStr = substr($resp, $headerSize);
 
-    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-    $headerStr = substr($resp, 0, $headerSize);
-    $bodyStr = substr($resp, $headerSize);
+        // Check HTTP status code
+        if (!curl_errno($ch)) {
+            // $_SESSION['info'] = "";
+            // $_SESSION['error'] = "";
+            switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
+                case 200:  # OK redirect to dashboard
+                    ?>        <script>
+                    $(function() {
+                        $("#myModal").modal();//if you want you can have a timeout to hide the window after x seconds
+                    });
+                </script>
+                    <?php
 
-    // Check HTTP status code
-    if (!curl_errno($ch)) {
-        // $_SESSION['info'] = "";
-        // $_SESSION['error'] = "";
-        switch ($http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE)) {
-            case 200:  # OK redirect to dashboard
-                ?>        <script>
-                $(function() {
-                    $("#myModal").modal();//if you want you can have a timeout to hide the window after x seconds
-                });
-            </script>
-                <?php
+                    break;
+                case 400:  # Bad Request
+                    $decoded = json_decode($bodyStr);
+                    foreach($decoded as $key => $val) {
+                        //echo $key . ': ' . $val . '<br>';
+                    }
+                    // echo $val;
+                    $_SESSION['error'] = "Failed. Please try again, ".$val;
+                    header('location: cash_management.php?menu=main');
+                    break;
 
-                break;
-            case 400:  # Bad Request
-                $decoded = json_decode($bodyStr);
-                foreach($decoded as $key => $val) {
-                    //echo $key . ': ' . $val . '<br>';
-                }
-                // echo $val;
-                $_SESSION['error'] = "Failed. Please try again, ".$val;
-                header('location: cash_management.php?menu=main');
-                break;
+                case 401: # Unauthorixed - Bad credientials
+                    $_SESSION['error'] = 'Application failed.. Please try again!';
+                    header('location: cash_management.php?menu=main');
 
-            case 401: # Unauthorixed - Bad credientials
-                $_SESSION['error'] = 'Application failed.. Please try again!';
-                header('location: cash_management.php?menu=main');
+                    break;
+                default:
+                    $_SESSION['error'] = 'Not able to create Category'. "\n";
+                    header('location: cash_management.php?menu=main');
+            }
+        } else {
+            $_SESSION['error'] = 'Application failed.. Please try again!'. "\n";
+            header('location: cash_management.php?menu=main');
 
-                break;
-            default:
-                $_SESSION['error'] = 'Not able to create Category'. "\n";
-                header('location: cash_management.php?menu=main');
         }
-    } else {
-        $_SESSION['error'] = 'Application failed.. Please try again!'. "\n";
-        header('location: cash_management.php?menu=main');
-
+        curl_close($ch);
     }
-    curl_close($ch);
-}
 
 ?>
-
-
 
 
 <div class="pd-20">
@@ -163,8 +160,6 @@ if(isset($_POST['auth'])){
                 </div>
 
         </form>
-
-
 
         <script>
             // Get references to the button and form

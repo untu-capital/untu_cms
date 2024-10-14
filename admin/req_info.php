@@ -2,6 +2,7 @@
 	include('../session/session.php');
 include ('check_role.php');
 	include('../includes/controllers.php');
+	include('../controllers/puchase_order.php');
 	$nav_header = "Purchase Order Details";
 ?>
 

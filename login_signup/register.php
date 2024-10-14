@@ -87,7 +87,7 @@
                                                 </div>
                                             </div>
 										</div>
-                                        <button class="form-control btn-default btn-outline-primary" type="submit" name="signup"><b>Signup</b></button>
+                                        <button class="form-control btn-default btn-primary" type="submit" name="signup"><b>Signup</b></button>
                                     </section>
 
 									<!-- Step 3 -->

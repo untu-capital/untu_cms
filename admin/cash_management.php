@@ -87,6 +87,7 @@ if(isset($_POST['Branch'])){
     curl_close($ch);
 }
 
+
 //UPDATE BRANCH
 function updateBranch($id, $address, $phone,$status, $name, $code, $branchcode, $vault){
 
@@ -231,10 +232,28 @@ if(isset($_POST['update_auth'])) {
     updateAuthorities($id, $branch, $authlevel,$name);
 }
 
+
+
 ?>
 
 <!DOCTYPE html>
-<html >
+<html>
+
+<style>
+    /* Styles for the popup message */
+    .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #ffffff;
+        padding: 20px;
+        border: 1px solid #ccc;
+        box-shadow: 0px 0px 10px #000;
+        z-index: 9999;
+    }
+</style>
 <!-- HTML HEAD -->
 <?php
 include('../includes/header.php');
@@ -304,11 +323,6 @@ include('../includes/header.php');
                                     Audit Trail
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-blue" data-toggle="tab" href="#withdrawal_purpose" role="tab" aria-selected="false">
-                                    Transaction Purpose
-                                </a>
-                            </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
@@ -323,8 +337,8 @@ include('../includes/header.php');
                                         <div class="pd-20 col-4">
                                             <div class="form-group">
                                                 <br>
-                                                <label>Select User :</label>
-                                                <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="user" style="width: 100%; height: 38px">
+                                                <label for="user">Select User :</label>
+                                                <select id="usser" class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="user" style="width: 100%; height: 38px">
                                                     <optgroup label="Pick a user">
                                                         <?php
                                                         $users = untuStaff();
@@ -339,8 +353,8 @@ include('../includes/header.php');
                                         <div class="pd-20 col-4">
                                             <div class="form-group">
                                                 <br>
-                                                <label>Select CMS Role :</label>
-                                                <select class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="role" style="width: 100%; height: 38px">
+                                                <label for="role">Select CMS Role :</label>
+                                                <select id="role" class="custom-select2 form-control" data-style="btn-outline-primary" data-size="5" name="role" style="width: 100%; height: 38px">
                                                     <optgroup label="Assign Role">
                                                         <option value="">Unassign Role</option>;
                                                         <?php
@@ -427,9 +441,9 @@ include('../includes/header.php');
                                 </form>
                                 <?php include('../includes/tables/cms_permissions_table.php'); ?>
                             </div>
-                            <div class="tab-pane fade" id="withdrawal_purpose" role="tabpanel">
-                                <?php include('../includes/tables/cash_management/withdrawal_purposes.php'); ?>
-                            </div>
+
+
+
                             <div class="tab-pane fade" id="vaults" role="tabpanel">
                                 <?php include('../includes/tables/cash_management/list_vaults.php'); ?>
                             </div>
@@ -443,6 +457,38 @@ include('../includes/header.php');
 
                             <div class="tab-pane fade" id="authorisers" role="tabpanel">
                                 <?php include('../includes/tables/cms/authorisers_table.php'); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <?php }
+
+        elseif ($_GET['menu'] == "acc_bal") {?>
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    if (urlParams.has('success')) {
+                        // Display a popup or alert message
+                        alert('Deleted successfully');
+                    }
+                });
+            </script>
+            <div class="col-lg-12 col-md-12 col-sm-12 mb-30">
+                <div class="pd-20 card-box">
+                    <h5 class="h4 text-blue mb-20">Cash Management</h5>
+                    <div class="tab">
+                        <ul class="nav nav-tabs customtab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#acc_balance" role="tab" aria-selected="true">Account Balances</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="acc_balance" role="tabpanel">
+                                <div class="pd-20">
+                                    <?php include('../includes/dashboard/cms_acc_balance_widget.php'); ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -754,8 +800,7 @@ include('../includes/header.php');
                 </div>
             </div>
 
-        <?php }
-        elseif ($_GET['menu'] == 'add_vault'){?>
+        <?php }elseif ($_GET['menu'] == 'add_vault'){?>
             <div class="pd-20 card-box mb-30">
                 <div class="clearfix">
                     <div class="pull-left">
@@ -772,6 +817,11 @@ include('../includes/header.php');
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Name</label>
                         <div class="col-sm-12 col-md-10">
                             <input class="form-control" type="text" name="name" placeholder="Vault Name" required/></div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-md-2 col-form-label">Vault Code</label>
+                        <div class="col-sm-12 col-md-10">
+                            <input class="form-control" type="text" name="code" placeholder="Vault Code" required/></div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Type</label>
@@ -804,32 +854,7 @@ include('../includes/header.php');
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-12 col-md-2 col-form-label">
-                            <button class="btn btn-success" type="submit" name="create_vault">Save</button>
-                        </div>
-                        <div class="col-sm-12 col-md-2 col-form-label">
-                            <a href="cash_management.php?menu=main" class="btn btn-primary">Cancel</a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-        <?php }
-        elseif ($_GET['menu'] == 'add_withdrawal_purpose'){?>
-            <div class="pd-20 card-box mb-30">
-                <div class="clearfix">
-                    <div class="pull-left">
-                        <h4 class="text-blue h4">Add Transaction Purpose</h4>
-                    </div>
-                </div>
-                <form method="POST" action="">
-                    <div class="form-group row">
-                        <label for="name" class="col-sm-12 col-md-2 col-form-label">Transaction Purpose</label>
-                        <div class="col-sm-12 col-md-10">
-                            <input id="name" class="form-control" type="text" name="name" placeholder="Transaction Purpose" required/></div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-md-2 col-form-label">
-                            <button class="btn btn-success" type="submit" name="create_withdrawal_purpose">Save</button>
+                            <button class="btn btn-success" type="submit" name="create_vault">Create Vault</button>
                         </div>
                         <div class="col-sm-12 col-md-2 col-form-label">
                             <a href="cash_management.php?menu=main" class="btn btn-primary">Cancel</a>
@@ -860,41 +885,7 @@ include('../includes/header.php');
                 echo "Error decoding JSON data";
             }
 
-            if (isset($_POST['vault'])) {
-                // API endpoint URL
-                $url = "http://localhost:7878/api/utg/cms/vault/update";
-                // Data to send in the POST request
-                $postData = array(
-                    'id' => $_POST['id'],
-                    'account' => $_POST['account'],
-                    'name' => $_POST['vaultName'],
-                    'type' => $_POST['type'],
-                    'branchId' => $_POST['branch'],
-                );
 
-                $data = json_encode($postData);
-                echo $data;
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HEADER, true);
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-
-                // Execute the POST request and store the response in a variable
-                $response = curl_exec($ch);
-
-                // Check for cURL errors
-                if (curl_errno($ch)) {
-                    echo 'Curl error: ' . curl_error($ch);
-                }
-                // Close cURL session
-                curl_close($ch);
-
-
-            }
             ?>
 
             <!-- Default Basic Forms Start -->
@@ -917,6 +908,12 @@ include('../includes/header.php');
                         <label class="col-sm-12 col-md-2 col-form-label">Vault Name</label>
                         <div class="col-sm-12 col-md-10">
                             <input class="form-control" type="text" name="vaultName" placeholder="Vault Account" value="<?php echo $table['name'] ?>" required/>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-12 col-md-2 col-form-label">Vault Code</label>
+                        <div class="col-sm-12 col-md-10">
+                            <input class="form-control" type="text" name="code" placeholder="Vault Account" value="<?php echo $table['code'] ?>" required/>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -955,92 +952,7 @@ include('../includes/header.php');
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-12 col-md-2 col-form-label">
-                            <button class="btn btn-success" type="submit" name="vault">Update</button>
-                        </div>
-                        <div class="col-sm-12 col-md-2 col-form-label">
-                            <a href="cash_management.php?menu=main" class="btn btn-primary">Cancel</a>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-            <!-- Default Basic Forms End -->
-
-        <?php }
-        elseif ($_GET['menu'] == 'update_withdrawal_purpose'){ ?>
-
-            <?php
-            $id = $_GET['purposeId'];
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/transaction-purpose/" . $id);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            $server_response = curl_exec($ch);
-
-            curl_close($ch);
-            $data = json_decode($server_response, true);
-            // Check if the JSON decoding was successful
-            if ($data !== null) {
-                $table = $data;
-            }
-            else {
-                echo '<script>window.location.href = "cash_management.php?menu=main";</script>';
-                echo "Error decoding JSON data";
-            }
-
-            if (isset($_POST['update_purpose'])) {
-                // API endpoint URLsad
-                $url = "http://localhost:7878/api/utg/cms/transaction-purpose/update";
-                // Data to send in the POST request
-                $postData = array(
-                    'id' => $_POST['id'],
-                    'name' => $_POST['name'],
-                );
-
-                $data = json_encode($postData);
-                echo $data;
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json"));
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_HEADER, true);
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-
-                // Execute the POST request and store the response in a variable
-                $response = curl_exec($ch);
-
-                // Check for cURL errors
-                if (curl_errno($ch)) {
-                    echo 'Curl error: ' . curl_error($ch);
-                }
-                // Close cURL session
-                curl_close($ch);
-
-
-            }
-            ?>
-
-            <!-- Default Basic Forms Start -->
-            <div class="pd-20 card-box mb-30">
-                <div class="clearfix">
-                    <div class="pull-left">
-                        <h4 class="text-blue h4">Update Transaction Purpose</h4>
-                    </div>
-                </div>
-                <form method="POST" action="cash_management.php?menu=update_withdrawal_purpose">
-                    <label for="id" hidden="hidden"></label>
-                    <input name="id" id="id" value="<?php echo $table['id'] ?>" hidden="hidden">
-
-                    <div class="form-group row">
-                        <label for="name" class="col-sm-12 col-md-2 col-form-label">Transaction Purpose</label>
-                        <div class="col-sm-12 col-md-10">
-                            <input id="name" class="form-control" type="text" name="name" placeholder="Name" value="<?php echo $table['name'] ?>" required/>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12 col-md-2 col-form-label">
-                            <button class="btn btn-success" type="submit" name="update_purpose">Update</button>
+                            <button class="btn btn-success" type="submit" name="update_vault">Update</button>
                         </div>
                         <div class="col-sm-12 col-md-2 col-form-label">
                             <a href="cash_management.php?menu=main" class="btn btn-primary">Cancel</a>
@@ -1058,30 +970,6 @@ include('../includes/header.php');
             $id = $_GET['vaultId'];
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/vault/delete/". $id);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-
-            $server_response = curl_exec($ch);
-
-            curl_close($ch);
-            $data = json_decode($server_response, true);
-
-            if ($data !== null) {
-                $table = $data;
-
-            } else {
-                echo '<script>window.location.href = "cash_management.php?menu=main";</script>';
-                echo "Error decoding JSON data";
-            }
-            ?>
-
-        <?php }
-        elseif ($_GET['menu'] == 'delete_transaction_purpose'){ ?>
-
-            <?php
-            $id = $_GET['purposeId'];
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "http://localhost:7878/api/utg/cms/transaction-purpose/". $id);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
 
