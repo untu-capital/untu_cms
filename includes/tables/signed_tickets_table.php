@@ -210,7 +210,7 @@
                     <?php } else{?>
                         <td><?php if($ticket[$xxSignature] == "Signed" ){
                                 echo "<label style='padding: 7px;' class='badge badge-success'>Ticket Signed</label>";}
-                            elseif($ticket[$xxSignature] == "Declined") {echo "<label style='padding: 7px;' class='badge badge-primary'>Ticket Awaiting Corrections</label>";}
+                            elseif($ticket[$xxSignature] == "Declined") {echo "<label style='padding: 7px;' class='badge badge-dark'>Ticket Declined</label>";}
                             else{echo "<label style='padding: 7px;' class='badge badge-warning'>Waiting for Signature</label>";}?>
                         </td>
                     <?php }?>
